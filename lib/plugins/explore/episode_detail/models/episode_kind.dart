@@ -1,0 +1,1 @@
+enum EpisodeKind { high, low }

@@ -1,0 +1,1 @@
+enum PollingMode { foreground, background }

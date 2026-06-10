@@ -1,0 +1,1 @@
+enum DataSourceKind { xdripLocal, nightscout }
