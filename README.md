@@ -6,13 +6,11 @@ SmartXDrip is a companion app for CGM review, analysis, and local helper reminde
 
 SmartXDrip does not replace either project. xDrip+ and Nightscout remain the source of truth for CGM data. SmartXDrip reads from the user's configured source and adds a focused workspace for daily review, historical context, statistics, insights, episode review, and local alerting experiments.
 
-## Watch the demo
+## Watch the demo videos
 
-Before installing the APK, you can watch the main walkthrough video to see the current preview features:
+Before installing the APK, you can watch the walkthrough videos to see the current preview features:
 
-[![Watch the SmartXDrip demo](https://img.youtube.com/vi/UfjxgaeEwZA/hqdefault.jpg)](https://www.youtube.com/watch?v=UfjxgaeEwZA)
-
-Then watch the full v0.1.0 playlist:
+**[Watch the main SmartXDrip v0.1.0 walkthrough video on YouTube](https://www.youtube.com/watch?v=UfjxgaeEwZA)**
 
 **[Watch the SmartXDrip v0.1.0 demo playlist on YouTube](https://www.youtube.com/watch?v=QZl0NSckXYI&list=PLKDhx_9jUu-74px9PGC62dwRQwsXWhLxi)**
 
