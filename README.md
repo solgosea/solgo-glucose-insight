@@ -66,6 +66,13 @@ SmartXDrip can use xDrip+ Local or Nightscout as data sources.
 
 For xDrip+ Local setup, see the [xDrip+ Local Connection Guide](docs/xdrip-local-connection-guide.md).
 
+## FAQ
+
+Have questions about local xDrip+ data, Nightscout, widget sizes, delta
+differences, or whether SmartXDrip replaces xDrip+?
+
+See the [SmartXDrip FAQ](docs/faq.md).
+
 ## Architecture Direction
 
 SmartXDrip is being built as a plugin + host companion platform around xDrip+
