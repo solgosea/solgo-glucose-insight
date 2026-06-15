@@ -1,6 +1,6 @@
-# SmartXDrip Community Preview
+# Solgo Insight Community Preview
 
-SmartXDrip is an open-source companion app for people who already use
+Solgo Insight is an open-source companion app for people who already use
 [xDrip+](https://github.com/NightscoutFoundation/xDrip) and
 [Nightscout](https://github.com/nightscout/cgm-remote-monitor).
 
@@ -8,10 +8,17 @@ This preview focuses on making existing CGM data easier to review, understand,
 and discuss with the community. It does not replace xDrip+, Nightscout, a CGM
 manufacturer app, or medical advice.
 
+> Previously published as SmartXDrip Community Preview. The project has been
+> renamed to Solgo Insight to make it clearer that this is an independent
+> companion app, not an official xDrip+ project, fork, or replacement.
+
 ## Download
 
 **Android APK:**  
-https://github.com/solgosea/smartxdrip-community-preview/releases/download/v0.2.0-community-preview/smartxdrip-community-preview-v0.2.0-android.apk
+https://github.com/solgosea/solgo-glucose-insight/releases/download/v0.2.0-community-preview/smartxdrip-community-preview-v0.2.0-android.apk
+
+The v0.2.0 APK file name still uses the previous preview naming. Future release
+assets will use the Solgo Insight naming.
 
 ## What's New in v0.2.0
 
@@ -27,15 +34,15 @@ https://github.com/solgosea/smartxdrip-community-preview/releases/download/v0.2.
 
 | Home features | Target range |
 | --- | --- |
-| <img src="docs/assets/release/v0.2.0/home-overview-sync-status.png" alt="SmartXDrip Home overview and sync status" width="360"> | <img src="docs/assets/release/v0.2.0/target-range-settings.png" alt="SmartXDrip target range settings" width="360"> |
+| <img src="docs/assets/release/v0.2.0/home-overview-sync-status.png" alt="Solgo Insight Home overview and sync status" width="360"> | <img src="docs/assets/release/v0.2.0/target-range-settings.png" alt="Solgo Insight target range settings" width="360"> |
 
 | Widget entry | Configure widgets |
 | --- | --- |
-| <img src="docs/assets/release/v0.2.0/glance-widget-entry.png" alt="SmartXDrip Glance widget entry" width="360"> | <img src="docs/assets/release/v0.2.0/glance-widget-configuration.png" alt="SmartXDrip Glance widget configuration" width="360"> |
+| <img src="docs/assets/release/v0.2.0/glance-widget-entry.png" alt="Solgo Insight Glance widget entry" width="360"> | <img src="docs/assets/release/v0.2.0/glance-widget-configuration.png" alt="Solgo Insight Glance widget configuration" width="360"> |
 
 | Add widget | Persistent notification |
 | --- | --- |
-| <img src="docs/assets/release/v0.2.0/android-add-glance-widget.png" alt="Add SmartXDrip Glance widget on Android" width="360"> | <img src="docs/assets/release/v0.2.0/persistent-notification-preview.png" alt="SmartXDrip persistent notification preview" width="360"> |
+| <img src="docs/assets/release/v0.2.0/android-add-glance-widget.png" alt="Add Solgo Insight Glance widget on Android" width="360"> | <img src="docs/assets/release/v0.2.0/persistent-notification-preview.png" alt="Solgo Insight persistent notification preview" width="360"> |
 
 ## Demo
 
@@ -62,20 +69,20 @@ More features will be added step by step based on community feedback.
 
 ## Data Source Setup
 
-SmartXDrip can use xDrip+ Local or Nightscout as data sources.
+Solgo Insight can use xDrip+ Local or Nightscout as data sources.
 
 For xDrip+ Local setup, see the [xDrip+ Local Connection Guide](docs/xdrip-local-connection-guide.md).
 
 ## FAQ
 
 Have questions about local xDrip+ data, Nightscout, widget sizes, delta
-differences, or whether SmartXDrip replaces xDrip+?
+differences, or whether Solgo Insight replaces xDrip+?
 
-See the [SmartXDrip FAQ](docs/faq.md).
+See the [Solgo Insight FAQ](docs/faq.md).
 
 ## Architecture Direction
 
-SmartXDrip is being built as a plugin + host companion platform around xDrip+
+Solgo Insight is being built as a plugin + host companion platform around xDrip+
 and Nightscout data.
 
 The app separates the host shell, feature plugins, shared runtime services, and
@@ -101,7 +108,7 @@ For more details, see [Architecture Notes](docs/architecture.md).
 
 ## Medical Disclaimer
 
-SmartXDrip is not a medical device. It is for personal data review, education,
+Solgo Insight is not a medical device. It is for personal data review, education,
 and community feedback. Do not make treatment decisions based only on this app.
 Always follow your care plan and consult qualified healthcare professionals.
 
