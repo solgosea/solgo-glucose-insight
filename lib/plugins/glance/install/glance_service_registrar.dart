@@ -1,4 +1,5 @@
 import 'package:smart_xdrip/application/subject/active_subject_service.dart';
+import 'package:smart_xdrip/application/floating_surface/floating_surface_service.dart';
 import 'package:smart_xdrip/data/local/glucose_database.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/plugin_platform/install/plugin_install_context.dart';
@@ -8,9 +9,12 @@ import '../application/glance_persistent_notification_service.dart';
 import '../application/glance_runtime_coordinator.dart';
 import '../application/glance_snapshot_service.dart';
 import '../application/glance_widget_config_service.dart';
+import '../application/floating/floating_glance_runtime_coordinator.dart';
+import '../application/floating/floating_glance_service.dart';
 import '../application/runtime/glance_runtime_refresh_pipeline.dart';
 import '../data/platform/glance_widget_platform_bridge.dart';
 import '../data/platform/method_channel_glance_widget_bridge.dart';
+import '../data/sqlite/sqlite_floating_glance_settings_repository.dart';
 import '../data/sqlite/sqlite_glance_settings_repository.dart';
 import '../data/sqlite/sqlite_glance_widget_config_repository.dart';
 import 'glance_service_bundle.dart';
@@ -32,9 +36,18 @@ class GlanceServiceRegistrar {
     final settingsRepository = SqliteGlanceSettingsRepository(
       databaseProvider: () => database.db,
     );
-    const widgetBridge = MethodChannelGlanceWidgetBridge();
+    final floatingSettingsRepository = SqliteFloatingGlanceSettingsRepository(
+      databaseProvider: () => database.db,
+    );
+    final widgetBridge = MethodChannelGlanceWidgetBridge(
+      settingsProvider: settingsRepository.get,
+    );
     final notificationService = GlancePersistentNotificationService(
       settingsRepository: settingsRepository,
+    );
+    final floatingService = FloatingGlanceService(
+      settingsRepository: floatingSettingsRepository,
+      surfaceService: context.services.get<FloatingSurfaceService>(),
     );
     final widgetConfigService = GlanceWidgetConfigService(
       repository: widgetConfigRepository,
@@ -45,6 +58,9 @@ class GlanceServiceRegistrar {
     final refreshPipeline = GlanceRuntimeRefreshPipeline(
       widgetConfigService: widgetConfigService,
       notificationService: notificationService,
+      floatingCoordinator: FloatingGlanceRuntimeCoordinator(
+        service: floatingService,
+      ),
     );
     final runtimeCoordinator = GlanceRuntimeCoordinator(
       refreshPipeline: refreshPipeline,
@@ -53,8 +69,10 @@ class GlanceServiceRegistrar {
       snapshotService: snapshotService,
       widgetConfigRepository: widgetConfigRepository,
       settingsRepository: settingsRepository,
+      floatingSettingsRepository: floatingSettingsRepository,
       widgetBridge: widgetBridge,
       notificationService: notificationService,
+      floatingService: floatingService,
       widgetConfigService: widgetConfigService,
       navigationActionResolver: const GlanceNavigationActionResolver(),
       runtimeCoordinator: runtimeCoordinator,
@@ -71,10 +89,14 @@ class GlanceServiceRegistrar {
     context.services.register<SqliteGlanceSettingsRepository>(
       bundle.settingsRepository,
     );
+    context.services.register<SqliteFloatingGlanceSettingsRepository>(
+      bundle.floatingSettingsRepository,
+    );
     context.services.register<GlanceWidgetPlatformBridge>(bundle.widgetBridge);
     context.services.register<GlancePersistentNotificationService>(
       bundle.notificationService,
     );
+    context.services.register<FloatingGlanceService>(bundle.floatingService);
     context.services.register<GlanceWidgetConfigService>(
       bundle.widgetConfigService,
     );

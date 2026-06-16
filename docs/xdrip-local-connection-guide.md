@@ -1,16 +1,16 @@
 # xDrip+ Local Connection Guide
 
-SmartXDrip can read glucose data from the local xDrip+ web service.
+Solgo Insight can read glucose data from the local xDrip+ web service.
 
-This is useful when you already use xDrip+ as your local CGM data hub and want SmartXDrip to review, analyze, and display the data without requiring Nightscout as the first path.
+This is useful when you already use xDrip+ as your local CGM data hub and want Solgo Insight to review, analyze, and display the data without requiring Nightscout as the first path.
 
 ## Before You Start
 
 - xDrip+ should already be receiving glucose data.
-- SmartXDrip and xDrip+ should be installed on the Android device you want to use.
+- Solgo Insight and xDrip+ should be installed on the Android device you want to use.
 - This guide uses the xDrip+ local web service path.
 
-SmartXDrip does not replace xDrip+. xDrip+ remains responsible for CGM collection and its own alert workflow.
+Solgo Insight does not replace xDrip+. xDrip+ remains responsible for CGM collection and its own alert workflow.
 
 ## Step 1: Open xDrip+ Settings
 
@@ -28,7 +28,7 @@ Scroll down in xDrip+ settings and open **Inter-app settings**.
 
 In **Inter-app settings**, enable **xDrip Web Service**.
 
-This allows compatible apps such as SmartXDrip to read glucose data from xDrip+ locally.
+This allows compatible apps such as Solgo Insight to read glucose data from xDrip+ locally.
 
 <img src="assets/guides/xdrip-local/03-enable-xdrip-web-service.png" alt="Enable xDrip Web Service in xDrip+ inter-app settings" width="420">
 
@@ -40,11 +40,11 @@ For many same-device setups, enabling **xDrip Web Service** is the first setting
 
 Only enable **Open Web Service** if your setup requires access from another device or your local configuration needs it. This option may allow connections beyond the current device, so it has security and privacy implications.
 
-## Then Connect in SmartXDrip
+## Then Connect in Solgo Insight
 
 After enabling the xDrip+ web service:
 
-1. Open SmartXDrip.
+1. Open Solgo Insight.
 2. Go to **Data Source**.
 3. Choose **xDrip+ Local**.
 4. Test the connection.

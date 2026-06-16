@@ -1,18 +1,20 @@
-import 'package:smart_xdrip/application/insight/default_insight_templates.dart';
-import 'package:smart_xdrip/application/insight/insight_template_renderer.dart';
-import 'package:smart_xdrip/application/insight/insight_template_selector.dart';
-import 'package:smart_xdrip/domain/analysis/analysis_module_code.dart';
-import 'package:smart_xdrip/domain/insight/insight_fact_bundle.dart';
-import 'package:smart_xdrip/domain/insight/insight_slot_code.dart';
+import 'package:smart_xdrip/application/plugin_text/plugin_text_renderer.dart';
+import 'package:smart_xdrip/application/plugin_text/plugin_text_template_selector.dart';
 import 'package:smart_xdrip/domain/insight/insight_type_code.dart';
 
+import '../data/seed/statistics_default_text_templates.dart';
+import '../domain/text/statistics_text_slot.dart';
+import '../domain/text/statistics_text_type.dart';
+
 class StatisticsAgpTextRenderer {
-  final InsightTemplateSelector selector;
-  final InsightTemplateRenderer renderer;
+  final PluginTextTemplateSelector selector;
+  final PluginTextRenderer renderer;
 
   const StatisticsAgpTextRenderer({
-    this.selector = const InsightTemplateSelector(),
-    this.renderer = const InsightTemplateRenderer(),
+    this.selector = const PluginTextTemplateSelector(),
+    this.renderer = const PluginTextRenderer(
+      templates: StatisticsDefaultTextTemplates.all,
+    ),
   });
 
   String renderEmpty() {
@@ -38,16 +40,26 @@ class StatisticsAgpTextRenderer {
     required InsightTypeCode type,
     required Map<String, Object?> facts,
   }) {
-    final bundle = InsightFactBundle(
-      module: AnalysisModuleCode.insights,
-      slot: InsightSlotCode.agpSummary,
-      type: type,
+    final textType = _textTypeFor(type);
+    final template = selector.select(
+      templates: StatisticsDefaultTextTemplates.all,
+      slot: StatisticsTextSlot.agpSummary,
+      type: textType,
       facts: facts,
     );
-    final template = selector.select(bundle, DefaultInsightTemplates.all);
     if (template == null) {
       throw StateError('Missing statistics AGP template for ${type.code}');
     }
-    return renderer.render(template, facts).body;
+    return renderer.render(template.key, facts).body;
+  }
+
+  String _textTypeFor(InsightTypeCode type) {
+    return switch (type) {
+      InsightTypeCode.agpNoData => StatisticsTextType.agpNoData,
+      InsightTypeCode.agpDawnRise => StatisticsTextType.agpDawnRise,
+      InsightTypeCode.agpMedianPeak => StatisticsTextType.agpMedianPeak,
+      InsightTypeCode.agpVariability => StatisticsTextType.agpVariability,
+      _ => throw StateError('Unsupported statistics AGP type ${type.code}'),
+    };
   }
 }

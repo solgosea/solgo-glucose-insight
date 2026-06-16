@@ -59,7 +59,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           }
           return StatisticsBody(
             viewModel: viewModel,
-            onPeriodChanged: _controller.selectPeriod,
+            onPeriodChanged: _controller.selectWindow,
           );
         },
       ),

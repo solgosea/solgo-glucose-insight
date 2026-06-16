@@ -35,6 +35,10 @@ import '../../application/foreground_reconcile/foreground_reconcile_platform.dar
 import '../../application/foreground_reconcile/foreground_reconcile_policy.dart';
 import '../../application/foreground_reconcile/foreground_reconcile_step_registry.dart';
 import '../../application/foreground_reconcile/steps/callback_foreground_reconcile_step.dart';
+import '../../application/floating_surface/floating_surface_permission_service.dart';
+import '../../application/floating_surface/floating_surface_registry.dart';
+import '../../application/floating_surface/floating_surface_runtime_coordinator.dart';
+import '../../application/floating_surface/floating_surface_service.dart';
 import '../../application/insight/insight_generation_service.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_registrar.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_result.dart';
@@ -73,6 +77,8 @@ import '../../alerting/suppression/alert_suppression_policy_registry.dart';
 import '../../domain/data_source_runtime/data_source_runtime_snapshot.dart';
 import '../../data/local/glucose_database.dart';
 import '../../data/local/settings_store.dart';
+import '../../data/platform/floating_surface/floating_surface_platform_bridge.dart';
+import '../../data/platform/floating_surface/method_channel_floating_surface_bridge.dart';
 import '../../data/repositories/glucose_repository_impl.dart';
 import '../../domain/entities/app_settings.dart';
 import '../../domain/data_source/data_source_connection_snapshot.dart';
@@ -741,6 +747,23 @@ class AppContainer extends ChangeNotifier {
     );
     pluginServices.register<FlutterBackgroundServiceAdapter>(
       backgroundServiceAdapter,
+    );
+    final floatingSurfaceRegistry = FloatingSurfaceRegistry();
+    const floatingSurfaceBridge = MethodChannelFloatingSurfaceBridge();
+    final floatingSurfaceService = FloatingSurfaceService(
+      registry: floatingSurfaceRegistry,
+      bridge: floatingSurfaceBridge,
+    );
+    pluginServices.register<FloatingSurfaceRegistry>(floatingSurfaceRegistry);
+    pluginServices.register<FloatingSurfacePlatformBridge>(
+      floatingSurfaceBridge,
+    );
+    pluginServices.register<FloatingSurfaceService>(floatingSurfaceService);
+    pluginServices.register<FloatingSurfacePermissionService>(
+      FloatingSurfacePermissionService(service: floatingSurfaceService),
+    );
+    pluginServices.register<FloatingSurfaceRuntimeCoordinator>(
+      FloatingSurfaceRuntimeCoordinator(service: floatingSurfaceService),
     );
     pluginServices.register<Listenable>(this);
     pluginServices.register<AppSettings Function()>(() => settings);

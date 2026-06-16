@@ -19,4 +19,4 @@ Out of scope: theoretical issues with no practical impact, issues in dependencie
 
 ## Data handling note
 
-SmartXDrip stores all glucose data locally on-device and transmits it only to the URLs the user explicitly configures. It has no backend and no telemetry.
+Solgo Insight stores all glucose data locally on-device and transmits it only to the URLs the user explicitly configures. It has no backend and no telemetry.

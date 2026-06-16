@@ -3,6 +3,7 @@ import 'package:smart_xdrip/plugin_platform/composition/plugin_placement_spec.da
 import 'package:flutter/material.dart';
 
 import 'package:smart_xdrip/application/plugin_host/app_host_services.dart';
+import 'package:smart_xdrip/data/local/glucose_database.dart';
 import 'package:smart_xdrip/plugin_platform/contracts/plugin_data_requirement.dart';
 import 'package:smart_xdrip/plugin_platform/contracts/plugin_entry.dart';
 import 'package:smart_xdrip/plugin_platform/contracts/plugin_id.dart';
@@ -14,6 +15,10 @@ import 'package:smart_xdrip/plugin_platform/install/plugin_install_context.dart'
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_start_policy.dart';
 import 'application/statistics_host_services.dart';
 import 'application/statistics_snapshot_preheater.dart';
+import 'application/text/statistics_text_template_installer.dart';
+import 'data/schema/statistics_template_schema_contributor.dart';
+import 'data/sqlite/sqlite_statistics_template_repository.dart';
+import 'data/sqlite/statistics_template_repository.dart';
 import 'pages/statistics_page.dart';
 import 'runtime/statistics_plugin_runtime.dart';
 import 'runtime/statistics_runtime_cache.dart';
@@ -71,6 +76,14 @@ class StatisticsPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.registerSchema(const StatisticsTemplateSchemaContributor());
+    final database = context.services.get<GlucoseDatabase>();
+    final templateRepository = SqliteStatisticsTemplateRepository(
+      databaseProvider: () => database.db,
+    );
+    final textTemplateInstaller = StatisticsTextTemplateInstaller(
+      repository: templateRepository,
+    );
     final host = context.services.get<AppHostServices>();
     final hostServices = StatisticsHostServices(
       changeSignal: host.changeSignal,
@@ -83,6 +96,11 @@ class StatisticsPlugin extends SmartFeaturePlugin {
       preheater: StatisticsSnapshotPreheater(
         hostServices: hostServices,
       ),
+      textTemplateInstaller: textTemplateInstaller,
+    );
+    context.services.register<StatisticsTemplateRepository>(templateRepository);
+    context.services.register<StatisticsTextTemplateInstaller>(
+      textTemplateInstaller,
     );
     context.services.register<StatisticsHostServices>(hostServices);
     context.services.register<StatisticsRuntimeCache>(cache);

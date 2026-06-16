@@ -49,5 +49,5 @@
         android:textColor="#4D7264"
         android:textSize="10sp" />
     <TextView android:id="@+id/glance_alt_value" android:layout_width="0dp" android:layout_height="0dp" android:text="--" android:visibility="gone" />
-    <TextView android:id="@+id/glance_source" android:layout_width="0dp" android:layout_height="0dp" android:text="SmartXDrip" android:visibility="gone" />
+    <TextView android:id="@+id/glance_source" android:layout_width="0dp" android:layout_height="0dp" android:text="Solgo Insight" android:visibility="gone" />
 </LinearLayout>

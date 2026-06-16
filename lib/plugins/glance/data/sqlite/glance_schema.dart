@@ -29,10 +29,64 @@ class GlanceSchema {
         id INTEGER PRIMARY KEY CHECK (id = 1),
         enabled INTEGER NOT NULL,
         privacy_mode TEXT NOT NULL,
+        lock_screen_mode TEXT NOT NULL DEFAULT 'full_value',
+        aod_friendly_enabled INTEGER NOT NULL DEFAULT 1,
+        notification_display_mode TEXT NOT NULL DEFAULT 'full_value',
+        external_surfaces_defaulted INTEGER NOT NULL DEFAULT 0,
         quick_actions_enabled INTEGER NOT NULL,
         low_battery_mode INTEGER NOT NULL,
         updated_at_ms INTEGER NOT NULL
       )
     ''');
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.notificationSettings,
+      'lock_screen_mode',
+      "TEXT NOT NULL DEFAULT 'full_value'",
+    );
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.notificationSettings,
+      'aod_friendly_enabled',
+      'INTEGER NOT NULL DEFAULT 1',
+    );
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.notificationSettings,
+      'notification_display_mode',
+      "TEXT NOT NULL DEFAULT 'full_value'",
+    );
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.notificationSettings,
+      'external_surfaces_defaulted',
+      'INTEGER NOT NULL DEFAULT 0',
+    );
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${GlanceTables.floatingSettings} (
+        id INTEGER PRIMARY KEY CHECK (id = 1),
+        mode TEXT NOT NULL,
+        display_style TEXT NOT NULL,
+        position_x REAL NOT NULL,
+        position_y REAL NOT NULL,
+        collapsed INTEGER NOT NULL,
+        updated_at_ms INTEGER NOT NULL
+      )
+    ''');
+  }
+
+  Future<void> _addColumnIfMissing(
+    Database database,
+    String table,
+    String column,
+    String definition,
+  ) async {
+    final rows = await database.rawQuery('PRAGMA table_info($table)');
+    final exists = rows.any((row) => row['name'] == column);
+    if (!exists) {
+      await database.execute(
+        'ALTER TABLE $table ADD COLUMN $column $definition',
+      );
+    }
   }
 }

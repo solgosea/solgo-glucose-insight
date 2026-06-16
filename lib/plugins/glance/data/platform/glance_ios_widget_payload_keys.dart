@@ -22,4 +22,11 @@ class GlanceIosWidgetPayloadKeys {
   static const showMiniGraph = 'showMiniGraph';
   static const showAlternateUnit = 'showAlternateUnit';
   static const tapAction = 'tapAction';
+  static const displayMode = 'displayMode';
+  static const lockScreenMode = 'lockScreenMode';
+  static const aodFriendlyEnabled = 'aodFriendlyEnabled';
+  static const isStale = 'isStale';
+  static const hasReading = 'hasReading';
+  static const privacyText = 'privacyText';
+  static const rangeLabel = 'rangeLabel';
 }

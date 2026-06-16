@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:smart_xdrip/application/analysis/analysis_facade.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/presentation/common/widgets/charts/agp_chart.dart';
+import '../domain/statistics_analysis_window_id.dart';
 
 enum StatisticsDeltaTone { up, down, flat }
 
 class StatisticsViewModel {
-  final int selectedPeriod;
+  final StatisticsAnalysisWindowId selectedWindowId;
   final List<StatisticsPeriodOptionViewModel> periodOptions;
   final String metricsHeader;
   final List<StatisticsMetricCardViewModel> metrics;
@@ -15,7 +16,7 @@ class StatisticsViewModel {
   final StatisticsHeatmapViewModel heatmap;
 
   const StatisticsViewModel({
-    required this.selectedPeriod,
+    required this.selectedWindowId,
     required this.periodOptions,
     required this.metricsHeader,
     required this.metrics,
@@ -26,12 +27,12 @@ class StatisticsViewModel {
 }
 
 class StatisticsPeriodOptionViewModel {
-  final int days;
+  final StatisticsAnalysisWindowId id;
   final String label;
   final bool selected;
 
   const StatisticsPeriodOptionViewModel({
-    required this.days,
+    required this.id,
     required this.label,
     required this.selected,
   });
@@ -103,6 +104,7 @@ class StatisticsExtremeCellViewModel {
 
 class StatisticsAgpViewModel {
   final String title;
+  final String guidanceText;
   final List<AnalysisAgpSlot> slots;
   final GlucoseUnit unit;
   final double lowThreshold;
@@ -112,6 +114,7 @@ class StatisticsAgpViewModel {
 
   const StatisticsAgpViewModel({
     required this.title,
+    this.guidanceText = '',
     required this.slots,
     required this.unit,
     required this.lowThreshold,

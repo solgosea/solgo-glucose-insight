@@ -1,11 +1,13 @@
+import '../domain/statistics_analysis_window_id.dart';
+
 class StatisticsPeriodQuery {
   final String subjectId;
-  final int periodDays;
+  final StatisticsAnalysisWindowId windowId;
 
   const StatisticsPeriodQuery({
     required this.subjectId,
-    required this.periodDays,
+    required this.windowId,
   });
 
-  String get cacheKey => '$subjectId:${periodDays}d';
+  String get cacheKey => '$subjectId:${windowId.code}';
 }

@@ -81,7 +81,7 @@ class _SmartXDripAppState extends State<SmartXDripApp>
         ),
       ],
       child: MaterialApp.router(
-        title: 'SmartXDrip',
+        title: 'Solgo Insight',
         theme: AppTheme.dark,
         routerConfig: _router,
         debugShowCheckedModeBanner: false,

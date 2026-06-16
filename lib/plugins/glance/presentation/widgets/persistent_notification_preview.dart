@@ -48,7 +48,7 @@ class PersistentNotificationPreview extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  privateMode ? 'Glucose data available' : 'SmartXDrip',
+                  privateMode ? 'Glucose data available' : 'Solgo Insight',
                   style: GlanceTheme.mono.copyWith(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w800,

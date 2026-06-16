@@ -18,7 +18,7 @@ class GlanceSnapshotBuilder {
     required GlucoseReading? latest,
     required List<GlucoseReading> trendReadings,
     required DateTime now,
-    String sourceLabel = 'SmartXDrip',
+    String sourceLabel = 'Solgo Insight',
   }) {
     final display =
         latest == null ? null : formatter.value(latest.value, settings.unit);

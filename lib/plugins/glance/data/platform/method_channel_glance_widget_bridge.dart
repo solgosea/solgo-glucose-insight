@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../application/render/glance_render_payload_builder.dart';
 import '../../domain/glance_snapshot.dart';
 import '../../domain/render/glance_render_payload.dart';
+import '../sqlite/sqlite_glance_settings_repository.dart';
 import '../sqlite/sqlite_glance_widget_config_repository.dart';
 import 'glance_android_widget_payload_mapper.dart';
 import 'glance_ios_widget_payload_mapper.dart';
@@ -14,6 +15,7 @@ class MethodChannelGlanceWidgetBridge implements GlanceWidgetPlatformBridge {
   final GlanceRenderPayloadBuilder payloadBuilder;
   final GlanceAndroidWidgetPayloadMapper androidPayloadMapper;
   final GlanceIosWidgetPayloadMapper iosPayloadMapper;
+  final Future<GlanceNotificationSettings> Function()? settingsProvider;
   final TargetPlatform? platform;
 
   const MethodChannelGlanceWidgetBridge({
@@ -21,6 +23,7 @@ class MethodChannelGlanceWidgetBridge implements GlanceWidgetPlatformBridge {
     this.payloadBuilder = const GlanceRenderPayloadBuilder(),
     this.androidPayloadMapper = const GlanceAndroidWidgetPayloadMapper(),
     this.iosPayloadMapper = const GlanceIosWidgetPayloadMapper(),
+    this.settingsProvider,
     this.platform,
   });
 
@@ -40,7 +43,7 @@ class MethodChannelGlanceWidgetBridge implements GlanceWidgetPlatformBridge {
     final payload = payloadBuilder.build(config: config, snapshot: snapshot);
     await channel.invokeMethod<void>(
       'publishSnapshot',
-      _snapshotArguments(payload),
+      await _snapshotArguments(payload),
     );
   }
 
@@ -53,7 +56,7 @@ class MethodChannelGlanceWidgetBridge implements GlanceWidgetPlatformBridge {
     final payload = payloadBuilder.build(config: config, snapshot: snapshot);
     await channel.invokeMethod<void>(
       'publishConfig',
-      _configArguments(payload),
+      await _configArguments(payload),
     );
   }
 
@@ -66,7 +69,7 @@ class MethodChannelGlanceWidgetBridge implements GlanceWidgetPlatformBridge {
     final payload = payloadBuilder.build(config: config, snapshot: snapshot);
     await channel.invokeMethod<void>(
       'updateAll',
-      _snapshotArguments(payload),
+      await _snapshotArguments(payload),
     );
   }
 
@@ -77,23 +80,41 @@ class MethodChannelGlanceWidgetBridge implements GlanceWidgetPlatformBridge {
   ) async {
     if (!isSupported) return;
     final payload = payloadBuilder.build(config: config, snapshot: snapshot);
+    final configArguments = await _configArguments(payload);
+    final snapshotArguments = await _snapshotArguments(payload);
     await channel.invokeMethod<void>('updateWidget', {
-      'config': _configArguments(payload),
-      'snapshot': _snapshotArguments(payload),
+      'config': configArguments,
+      'snapshot': snapshotArguments,
     });
   }
 
-  Map<String, Object?> _snapshotArguments(GlanceRenderPayload payload) {
+  Future<Map<String, Object?>> _snapshotArguments(
+    GlanceRenderPayload payload,
+  ) async {
     if (_currentPlatform == TargetPlatform.iOS) {
-      return iosPayloadMapper.sharedPayload(payload);
+      return iosPayloadMapper.sharedPayload(
+        payload,
+        settings: await _settings(),
+      );
     }
     return androidPayloadMapper.snapshot(payload);
   }
 
-  Map<String, Object?> _configArguments(GlanceRenderPayload payload) {
+  Future<Map<String, Object?>> _configArguments(
+    GlanceRenderPayload payload,
+  ) async {
     if (_currentPlatform == TargetPlatform.iOS) {
-      return iosPayloadMapper.sharedPayload(payload);
+      return iosPayloadMapper.sharedPayload(
+        payload,
+        settings: await _settings(),
+      );
     }
     return androidPayloadMapper.config(payload);
+  }
+
+  Future<GlanceNotificationSettings> _settings() async {
+    final provider = settingsProvider;
+    if (provider == null) return const GlanceNotificationSettings();
+    return provider();
   }
 }

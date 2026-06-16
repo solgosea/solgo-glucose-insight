@@ -80,7 +80,7 @@ void smartXdripBackgroundServiceOnStart(ServiceInstance service) async {
     } catch (error) {
       if (service is AndroidServiceInstance) {
         await service.setForegroundNotificationInfo(
-          title: 'SmartXDrip sync',
+          title: 'Solgo Insight sync',
           content: 'Sync failed. Will retry automatically.',
         );
       }

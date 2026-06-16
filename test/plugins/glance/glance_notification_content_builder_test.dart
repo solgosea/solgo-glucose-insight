@@ -25,7 +25,7 @@ void main() {
       privacyMode: GlanceNotificationPrivacyMode.full,
     );
 
-    expect(content.title, 'SmartXDrip');
+    expect(content.title, 'Solgo Insight');
     expect(content.body, contains(snapshot.valueLabel));
     expect(content.body, contains(snapshot.unitLabel));
     expect(content.body, contains(snapshot.deltaLabel));

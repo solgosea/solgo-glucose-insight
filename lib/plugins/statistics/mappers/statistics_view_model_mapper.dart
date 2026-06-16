@@ -8,30 +8,35 @@ import 'package:smart_xdrip/engine/detection/dawn_phenomenon_detector.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/widgets/charts/agp_chart.dart';
 import '../analysis/statistics_agp_text_renderer.dart';
+import '../application/statistics_window_reader.dart';
+import '../domain/statistics_analysis_window.dart';
+import '../domain/statistics_analysis_window_catalog.dart';
+import '../domain/statistics_analysis_window_id.dart';
 import '../models/statistics_view_model.dart';
 
 class StatisticsViewModelMapper {
-  static const _periods = [7, 14, 30, 90];
   static const _veryHighColor = Color(0xFFA03030);
   final GlucoseUnitFormatService glucoseFormatter;
   final GlucoseThresholdFormatService thresholdFormatter;
   final StatisticsAgpTextRenderer agpTextRenderer;
+  final StatisticsWindowReader windowReader;
 
   const StatisticsViewModelMapper({
     this.glucoseFormatter = const GlucoseUnitFormatService(),
     this.thresholdFormatter = const GlucoseThresholdFormatService(),
     this.agpTextRenderer = const StatisticsAgpTextRenderer(),
+    this.windowReader = const StatisticsWindowReader(),
   });
 
   StatisticsViewModel map({
     required AnalysisFacade facade,
-    required int selectedPeriod,
+    required StatisticsAnalysisWindowId selectedWindowId,
   }) {
-    final readings = facade.readingsForLastDays(selectedPeriod);
-    final previousReadings = facade.readingsForLastDays(
-      selectedPeriod,
-      now: _previousAnchor(facade, selectedPeriod),
-    );
+    final selectedWindow =
+        StatisticsAnalysisWindowCatalog.byId(selectedWindowId);
+    final readings = windowReader.readingsForWindow(facade, selectedWindow);
+    final previousReadings =
+        windowReader.previousReadingsForWindow(facade, selectedWindow);
     final tir = facade.tirForReadings(readings);
     final previousTir = facade.tirForReadings(previousReadings);
     final agpSlots = facade.agpForReadings(readings);
@@ -39,21 +44,21 @@ class StatisticsViewModelMapper {
     final settings = facade.settings;
 
     return StatisticsViewModel(
-      selectedPeriod: selectedPeriod,
-      periodOptions: _periods
+      selectedWindowId: selectedWindow.id,
+      periodOptions: StatisticsAnalysisWindowCatalog.all
           .map(
-            (days) => StatisticsPeriodOptionViewModel(
-              days: days,
-              label: '${days}d',
-              selected: days == selectedPeriod,
+            (window) => StatisticsPeriodOptionViewModel(
+              id: window.id,
+              label: window.label,
+              selected: window.id == selectedWindow.id,
             ),
           )
           .toList(),
-      metricsHeader: 'KEY METRICS - LAST $selectedPeriod DAYS',
-      metrics: _metrics(tir, previousTir, selectedPeriod, settings),
+      metricsHeader: 'KEY METRICS - ${selectedWindow.headerLabel}',
+      metrics: _metrics(tir, previousTir, selectedWindow, settings),
       tirBreakdown: _tirBreakdown(tir, settings),
       agp: _agp(
-        period: selectedPeriod,
+        window: selectedWindow,
         readings: readings,
         slots: agpSlots,
         facade: facade,
@@ -63,16 +68,10 @@ class StatisticsViewModelMapper {
     );
   }
 
-  DateTime? _previousAnchor(AnalysisFacade facade, int selectedPeriod) {
-    final latest = facade.latestReading?.timestamp;
-    if (latest == null) return null;
-    return latest.subtract(Duration(days: selectedPeriod));
-  }
-
   List<StatisticsMetricCardViewModel> _metrics(
     AnalysisTirResult current,
     AnalysisTirResult previous,
-    int period,
+    StatisticsAnalysisWindow window,
     AppSettings settings,
   ) {
     final tirColor = current.tir >= 70
@@ -99,7 +98,7 @@ class StatisticsViewModelMapper {
         unit: thresholdFormatter.targetRange(settings),
         deltaText: _deltaText(
           current.tir - previous.tir,
-          suffix: '% vs prev ${period}d',
+          suffix: '% vs prev ${window.label}',
         ),
         deltaTone: _tone(current.tir - previous.tir, higherIsBetter: true),
       ),
@@ -191,7 +190,7 @@ class StatisticsViewModelMapper {
   }
 
   StatisticsAgpViewModel _agp({
-    required int period,
+    required StatisticsAnalysisWindow window,
     required List<GlucoseReading> readings,
     required List<AnalysisAgpSlot> slots,
     required AnalysisFacade facade,
@@ -199,7 +198,10 @@ class StatisticsViewModelMapper {
   }) {
     final dawn = _dawnAnalysis(readings);
     return StatisticsAgpViewModel(
-      title: 'AGP - Ambulatory Glucose Profile - $period-day pattern',
+      title: 'AGP - Ambulatory Glucose Profile - ${window.label} pattern',
+      guidanceText: window.isAgpRecommended
+          ? ''
+          : 'AGP is more meaningful with 7+ days of data.',
       slots: slots,
       unit: settings.unit,
       lowThreshold: settings.lowThreshold,

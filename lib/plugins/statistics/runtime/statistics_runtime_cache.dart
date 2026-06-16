@@ -1,4 +1,5 @@
 import '../application/statistics_period_query.dart';
+import '../domain/statistics_analysis_window_id.dart';
 import '../models/statistics_view_model.dart';
 
 class StatisticsRuntimeSnapshot {
@@ -37,12 +38,12 @@ class StatisticsRuntimeCache {
 
   StatisticsViewModel? freshViewModel({
     required String subjectId,
-    required int periodDays,
+    required StatisticsAnalysisWindowId windowId,
   }) {
     if (_stale) return null;
     final query = StatisticsPeriodQuery(
       subjectId: subjectId,
-      periodDays: periodDays,
+      windowId: windowId,
     );
     return _snapshots[query.cacheKey]?.viewModel;
   }

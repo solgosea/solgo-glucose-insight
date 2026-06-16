@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../domain/statistics_analysis_window_id.dart';
 import '../models/statistics_view_model.dart';
 
 class StatisticsPeriodTabs extends StatelessWidget {
   final List<StatisticsPeriodOptionViewModel> periods;
-  final ValueChanged<int> onChanged;
+  final ValueChanged<StatisticsAnalysisWindowId> onChanged;
 
   const StatisticsPeriodTabs({
     super.key,
@@ -16,19 +17,20 @@ class StatisticsPeriodTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 22),
-      child: Row(
-        children: [
-          for (var i = 0; i < periods.length; i++) ...[
-            Expanded(
-              child: _TabButton(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            for (var i = 0; i < periods.length; i++) ...[
+              _TabButton(
                 label: periods[i].label,
                 active: periods[i].selected,
-                onTap: () => onChanged(periods[i].days),
+                onTap: () => onChanged(periods[i].id),
               ),
-            ),
-            if (i < periods.length - 1) const SizedBox(width: 6),
+              if (i < periods.length - 1) const SizedBox(width: 8),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -50,6 +52,7 @@ class _TabButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: 56,
         padding: const EdgeInsets.symmetric(vertical: 8),
         alignment: Alignment.center,
         decoration: BoxDecoration(

@@ -7,6 +7,7 @@ import 'package:smart_xdrip/domain/entities/glucose_reading.dart';
 import 'package:smart_xdrip/domain/glucose_trend/glucose_trend_visual_mapper.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/sync_status/sync_status_view_model.dart';
+import '../application/home_metric_window_policy.dart';
 import '../models/home_chart_range.dart';
 import '../models/home_glucose_summary_view_model.dart';
 import '../models/home_stat_card_view_model.dart';
@@ -17,11 +18,13 @@ class HomeViewModelMapper {
   final GlucoseUnitFormatService glucoseFormatter;
   final GlucoseThresholdFormatService thresholdFormatter;
   final GlucoseTrendVisualMapper trendVisualMapper;
+  final HomeMetricWindowPolicy metricWindowPolicy;
 
   const HomeViewModelMapper({
     this.glucoseFormatter = const GlucoseUnitFormatService(),
     this.thresholdFormatter = const GlucoseThresholdFormatService(),
     this.trendVisualMapper = const GlucoseTrendVisualMapper(),
+    this.metricWindowPolicy = const HomeMetricWindowPolicy(),
   });
 
   HomeViewModel map({
@@ -34,9 +37,9 @@ class HomeViewModelMapper {
     final latest = facade.latestReading ??
         GlucoseReading(timestamp: DateTime.now(), value: 0);
     final chartReadings = facade.readingsForLastHours(selectedRange.hours);
-    final tir24h = facade.tirForReadings(facade.readingsForLastHours(24));
-    final cv7d = facade.averageCvForLastDays(7) ??
-        facade.tirForReadings(facade.readingsForLastDays(7)).cv;
+    final summaryWindow = metricWindowPolicy.timeInRange;
+    final summaryReadings = facade.readingsForLastHours(summaryWindow.hours);
+    final summaryTir = facade.tirForReadings(summaryReadings);
     final generated = facade.insightBodiesFor(AnalysisModuleCode.insights);
     final insightText = generated.isNotEmpty
         ? generated.first
@@ -52,8 +55,8 @@ class HomeViewModelMapper {
       unit: unit,
       lowThreshold: settings.lowThreshold,
       highThreshold: settings.highThreshold,
-      stats: _stats(tir24h: tir24h, cv7d: cv7d, unit: unit),
-      tir: _tir(tir24h, settings),
+      stats: _stats(summaryTir: summaryTir, unit: unit),
+      tir: _tir(summaryTir, settings),
       insightText: insightText,
     );
   }
@@ -81,30 +84,33 @@ class HomeViewModelMapper {
   }
 
   List<HomeStatCardViewModel> _stats({
-    required AnalysisTirResult tir24h,
-    required double cv7d,
+    required AnalysisTirResult summaryTir,
     required GlucoseUnit unit,
   }) {
-    final tirColor = tir24h.tir < 70 ? AppColors.amber : AppColors.green;
-    final cvColor = cv7d < 36 ? AppColors.green : AppColors.amber;
-    final mean = glucoseFormatter.value(tir24h.mean, unit);
+    final averageWindow = metricWindowPolicy.average;
+    final tirWindow = metricWindowPolicy.timeInRange;
+    final cvWindow = metricWindowPolicy.coefficientOfVariation;
+    final cv = summaryTir.cv;
+    final tirColor = summaryTir.tir < 70 ? AppColors.amber : AppColors.green;
+    final cvColor = cv < 36 ? AppColors.green : AppColors.amber;
+    final mean = glucoseFormatter.value(summaryTir.mean, unit);
 
     return [
       HomeStatCardViewModel(
-        label: 'Avg 24h',
+        label: 'Avg ${averageWindow.labelSuffix}',
         value: mean.valueLabel,
         valueColor: AppColors.green,
         unit: mean.unitLabel,
       ),
       HomeStatCardViewModel(
-        label: 'TIR 24h',
-        value: '${tir24h.tir.toStringAsFixed(0)}%',
+        label: 'TIR ${tirWindow.labelSuffix}',
+        value: '${summaryTir.tir.toStringAsFixed(0)}%',
         valueColor: tirColor,
         unit: 'in range',
       ),
       HomeStatCardViewModel(
-        label: 'CV 7d',
-        value: '${cv7d.toStringAsFixed(0)}%',
+        label: 'CV ${cvWindow.labelSuffix}',
+        value: '${cv.toStringAsFixed(0)}%',
         valueColor: cvColor,
         unit: 'stable',
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../data/sqlite/sqlite_glance_settings_repository.dart';
+import '../domain/glance_lock_screen_mode.dart';
 import '../domain/glance_snapshot.dart';
 import 'notification/glance_notification_channel_service.dart';
 import 'notification/glance_notification_channels.dart';
@@ -66,6 +67,8 @@ class GlancePersistentNotificationService {
     final content = contentBuilder.build(
       snapshot: snapshot,
       privacyMode: settings.privacyMode,
+      displayMode: settings.notificationDisplayMode,
+      aodFriendly: settings.aodFriendlyEnabled,
     );
     await plugin.show(
       notificationId,
@@ -85,7 +88,9 @@ class GlancePersistentNotificationService {
           playSound: false,
           enableVibration: false,
           category: AndroidNotificationCategory.status,
-          visibility: content.visibility,
+          visibility: settings.lockScreenMode == GlanceLockScreenMode.off
+              ? NotificationVisibility.secret
+              : content.visibility,
         ),
       ),
     );

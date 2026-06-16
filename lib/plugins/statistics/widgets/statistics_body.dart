@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../domain/statistics_analysis_window_id.dart';
 import '../models/statistics_view_model.dart';
 import 'statistics_agp_card.dart';
 import 'statistics_header.dart';
@@ -10,7 +11,7 @@ import 'statistics_tir_breakdown_card.dart';
 
 class StatisticsBody extends StatelessWidget {
   final StatisticsViewModel viewModel;
-  final ValueChanged<int> onPeriodChanged;
+  final ValueChanged<StatisticsAnalysisWindowId> onPeriodChanged;
 
   const StatisticsBody({
     super.key,

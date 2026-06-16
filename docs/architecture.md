@@ -1,12 +1,12 @@
-# SmartXDrip Architecture Notes
+# Solgo Insight Architecture Notes
 
-SmartXDrip is being built as an open-source companion platform around xDrip+ and Nightscout data.
+Solgo Insight is being built as an open-source companion platform around xDrip+ and Nightscout data.
 
 The goal is not only to provide a few screens on top of CGM data. The goal is to build a maintainable architecture where features can evolve based on real user feedback without turning the app into a tightly coupled collection of screens.
 
 ## Architecture Direction
 
-SmartXDrip is moving toward a **plugin + host architecture**.
+Solgo Insight is moving toward a **plugin + host architecture**.
 
 The host app provides the shared foundation:
 
@@ -37,7 +37,7 @@ This structure is intended to keep feature boundaries clear while allowing the p
 
 ## Why Plugin + Host
 
-SmartXDrip is expected to evolve through community feedback.
+Solgo Insight is expected to evolve through community feedback.
 
 Some features may become core. Some may remain experimental. Some may only make sense for certain workflows or release profiles.
 
@@ -177,7 +177,7 @@ This layer is where the app talks to the operating system, local database, and c
 
 ## Runtime Design
 
-SmartXDrip needs to handle glucose data across several situations:
+Solgo Insight needs to handle glucose data across several situations:
 
 - App is open
 - App resumes from background
@@ -260,7 +260,7 @@ For example:
 
 ## Data Source Design
 
-SmartXDrip currently focuses on data users already collect through xDrip+ and Nightscout.
+Solgo Insight currently focuses on data users already collect through xDrip+ and Nightscout.
 
 Supported preview sources:
 
@@ -300,11 +300,11 @@ The alerting architecture is separated into:
 
 The reason for this separation is that alert behavior needs to be cautious, testable, and configurable.
 
-SmartXDrip should not introduce aggressive alert behavior without careful review and user feedback.
+Solgo Insight should not introduce aggressive alert behavior without careful review and user feedback.
 
 ## Analysis and Insight Design
 
-SmartXDrip separates analysis from presentation.
+Solgo Insight separates analysis from presentation.
 
 The analysis pipeline works with structured glucose data and produces facts or snapshots.
 
@@ -346,7 +346,7 @@ This is intentional. The goal is to keep the public code aligned with what users
 
 ## Engineering Principles
 
-SmartXDrip is being built with several practical engineering principles.
+Solgo Insight is being built with several practical engineering principles.
 
 ### Keep User-Facing Scope Clear
 
@@ -372,7 +372,7 @@ The app should make freshness, delay, stale data, and source status understandab
 
 ### Build for Feedback
 
-SmartXDrip is still early.
+Solgo Insight is still early.
 
 The architecture should make it possible to respond to community feedback without requiring the whole app to be rewritten for every new feature.
 
@@ -382,4 +382,4 @@ v0.2.0 is an Android-first community preview.
 
 The architecture is still evolving, but the current direction is clear:
 
-**SmartXDrip is becoming a plugin-based companion platform around xDrip+ and Nightscout data, focused on review, insight, quick-glance access, and user-driven feature evolution.**
+**Solgo Insight is becoming a plugin-based companion platform around xDrip+ and Nightscout data, focused on review, insight, quick-glance access, and user-driven feature evolution.**

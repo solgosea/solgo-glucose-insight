@@ -5,6 +5,7 @@ import 'package:smart_xdrip/application/analysis/analysis_session_store.dart';
 import 'package:smart_xdrip/domain/analysis/analysis_snapshot.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/domain/entities/glucose_reading.dart';
+import 'package:smart_xdrip/plugins/statistics/domain/statistics_analysis_window_id.dart';
 import 'package:smart_xdrip/plugins/statistics/mappers/statistics_view_model_mapper.dart';
 
 void main() {
@@ -33,7 +34,7 @@ void main() {
 
     final viewModel = const StatisticsViewModelMapper().map(
       facade: AnalysisFacade.current(),
-      selectedPeriod: 14,
+      selectedWindowId: StatisticsAnalysisWindowId.last14Days,
     );
 
     expect(viewModel.agp.note, contains('04:00-07:00'));

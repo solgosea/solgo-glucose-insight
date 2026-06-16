@@ -46,7 +46,7 @@ class GlanceWidgetSnapshotStore(private val context: Context) {
                 "latestReadingAtMs",
                 (snapshot["latestReadingAtMs"] as? Number)?.toLong() ?: 0L
             )
-            .putString("sourceLabel", snapshot["sourceLabel"] as? String ?: "SmartXDrip")
+            .putString("sourceLabel", snapshot["sourceLabel"] as? String ?: "Solgo Insight")
             .putString("rangeState", snapshot["rangeState"] as? String ?: "unknown")
             .putFloat("targetLowMmol", (snapshot["targetLowMmol"] as? Number)?.toFloat() ?: 3.9f)
             .putFloat("targetHighMmol", (snapshot["targetHighMmol"] as? Number)?.toFloat() ?: 10.0f)
@@ -82,7 +82,7 @@ class GlanceWidgetSnapshotStore(private val context: Context) {
                 prefs.getLong("latestReadingAtMs", 0L),
                 fallbackFreshness
             ),
-            sourceLabel = prefs.getString("sourceLabel", "SmartXDrip") ?: "SmartXDrip",
+            sourceLabel = prefs.getString("sourceLabel", "Solgo Insight") ?: "Solgo Insight",
             rangeState = prefs.getString("rangeState", "unknown") ?: "unknown",
             targetLowMmol = prefs.getFloat("targetLowMmol", 3.9f),
             targetHighMmol = prefs.getFloat("targetHighMmol", 10.0f),

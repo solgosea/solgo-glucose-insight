@@ -52,7 +52,6 @@ class GlancePluginRuntime implements PluginRuntime {
   Future<void> stop(PluginRuntimeContext context) async {
     await _subscription?.cancel();
     _subscription = null;
-    await notificationService.cancel();
   }
 
   bool _shouldRefresh(PluginRuntimeEventType type) {

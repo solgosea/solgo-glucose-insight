@@ -6,8 +6,11 @@ import '../../../plugin_platform/runtime/contracts/plugin_runtime_capability.dar
 import '../../../plugin_platform/runtime/contracts/plugin_runtime_context.dart';
 import '../../../plugin_platform/runtime/events/plugin_runtime_event.dart';
 import '../../../plugin_platform/runtime/events/plugin_runtime_event_type.dart';
+import '../domain/statistics_analysis_window_id.dart';
 import '../application/statistics_runtime_refresh_policy.dart';
 import '../application/statistics_snapshot_preheater.dart';
+import '../application/statistics_window_policy.dart';
+import '../application/text/statistics_text_template_installer.dart';
 import 'statistics_runtime_cache.dart';
 
 class StatisticsPluginRuntime implements PluginRuntime {
@@ -16,17 +19,20 @@ class StatisticsPluginRuntime implements PluginRuntime {
   final StatisticsRuntimeCache cache;
   final StatisticsSnapshotPreheater preheater;
   final StatisticsRuntimeRefreshPolicy refreshPolicy;
-  final int defaultPeriodDays;
+  final StatisticsTextTemplateInstaller? textTemplateInstaller;
+  final StatisticsWindowPolicy windowPolicy;
 
   StreamSubscription<PluginRuntimeEvent>? _subscription;
   bool _preheating = false;
-  late int _lastRequestedPeriodDays = defaultPeriodDays;
+  late StatisticsAnalysisWindowId _lastRequestedWindowId =
+      windowPolicy.defaultWindowId;
 
   StatisticsPluginRuntime({
     required this.cache,
     required this.preheater,
+    this.textTemplateInstaller,
     this.refreshPolicy = const StatisticsRuntimeRefreshPolicy(),
-    this.defaultPeriodDays = 14,
+    this.windowPolicy = const StatisticsWindowPolicy(),
   });
 
   @override
@@ -37,6 +43,7 @@ class StatisticsPluginRuntime implements PluginRuntime {
 
   @override
   Future<void> start(PluginRuntimeContext context) async {
+    await textTemplateInstaller?.ensureInstalled();
     _subscription ??= context.eventBus.events.listen((event) {
       if (refreshPolicy.shouldRefresh(event.type)) {
         cache.markStale(event.type.name);
@@ -64,11 +71,11 @@ class StatisticsPluginRuntime implements PluginRuntime {
     _subscription = null;
   }
 
-  Future<StatisticsRuntimeSnapshot?> preheatPeriod({
-    required int periodDays,
+  Future<StatisticsRuntimeSnapshot?> preheatWindow({
+    required StatisticsAnalysisWindowId windowId,
   }) async {
-    _lastRequestedPeriodDays = periodDays;
-    final snapshot = await preheater.preheat(periodDays: periodDays);
+    _lastRequestedWindowId = windowId;
+    final snapshot = await preheater.preheat(windowId: windowId);
     cache.put(snapshot);
     return snapshot;
   }
@@ -81,8 +88,8 @@ class StatisticsPluginRuntime implements PluginRuntime {
     if (!cache.stale && cache.snapshots.isNotEmpty) return;
     _preheating = true;
     try {
-      final snapshot = await preheatPeriod(
-        periodDays: _lastRequestedPeriodDays,
+      final snapshot = await preheatWindow(
+        windowId: _lastRequestedWindowId,
       );
       context.eventBus.publish(
         PluginRuntimeEvent(
@@ -93,7 +100,7 @@ class StatisticsPluginRuntime implements PluginRuntime {
             'name': 'statistics.preheated',
             'reason': reason,
             'subjectId': snapshot?.query.subjectId,
-            'periodDays': snapshot?.query.periodDays,
+            'windowId': snapshot?.query.windowId.code,
           },
         ),
       );

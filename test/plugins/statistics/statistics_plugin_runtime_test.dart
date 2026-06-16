@@ -11,6 +11,7 @@ import 'package:smart_xdrip/plugin_platform/runtime/events/plugin_runtime_event_
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugins/statistics/application/statistics_host_services.dart';
 import 'package:smart_xdrip/plugins/statistics/application/statistics_snapshot_preheater.dart';
+import 'package:smart_xdrip/plugins/statistics/domain/statistics_analysis_window_id.dart';
 import 'package:smart_xdrip/plugins/statistics/runtime/statistics_plugin_runtime.dart';
 import 'package:smart_xdrip/plugins/statistics/runtime/statistics_runtime_cache.dart';
 
@@ -39,10 +40,15 @@ void main() {
 
     expect(cache.stale, isFalse);
     expect(cache.snapshots.single.query.subjectId, 'self');
-    expect(cache.snapshots.single.query.periodDays, 14);
-    expect(cache.snapshots.single.viewModel.selectedPeriod, 14);
+    expect(cache.snapshots.single.query.windowId,
+        StatisticsAnalysisWindowId.last14Days);
+    expect(cache.snapshots.single.viewModel.selectedWindowId,
+        StatisticsAnalysisWindowId.last14Days);
     expect(
-      cache.freshViewModel(subjectId: 'self', periodDays: 14),
+      cache.freshViewModel(
+        subjectId: 'self',
+        windowId: StatisticsAnalysisWindowId.last14Days,
+      ),
       isNotNull,
     );
   });
@@ -90,7 +96,7 @@ void main() {
     expect(cache.staleReason, isNull);
   });
 
-  test('statistics runtime can preheat another period on demand', () async {
+  test('statistics runtime can preheat another window on demand', () async {
     final now = DateTime(2026, 6, 6, 12);
     _seedAnalysisStore(now);
     final cache = StatisticsRuntimeCache();
@@ -102,12 +108,20 @@ void main() {
       ),
     );
 
-    final snapshot = await runtime.preheatPeriod(periodDays: 30);
+    final snapshot = await runtime.preheatWindow(
+      windowId: StatisticsAnalysisWindowId.last30Days,
+    );
 
-    expect(snapshot?.query.periodDays, 30);
-    expect(snapshot?.viewModel.selectedPeriod, 30);
+    expect(snapshot?.query.windowId, StatisticsAnalysisWindowId.last30Days);
     expect(
-      cache.freshViewModel(subjectId: 'self', periodDays: 30),
+      snapshot?.viewModel.selectedWindowId,
+      StatisticsAnalysisWindowId.last30Days,
+    );
+    expect(
+      cache.freshViewModel(
+        subjectId: 'self',
+        windowId: StatisticsAnalysisWindowId.last30Days,
+      ),
       isNotNull,
     );
   });
