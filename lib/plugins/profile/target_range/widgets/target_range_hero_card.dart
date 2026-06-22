@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../application/glucose_unit/glucose_unit_format_service.dart';
 import '../../../../../domain/entities/app_settings.dart';
 import '../../../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/profile_l10n.dart';
 import '../target_range_value_policy.dart';
 
 class TargetRangeHeroCard extends StatelessWidget {
@@ -19,6 +20,7 @@ class TargetRangeHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     final range = formatter.range(draft.lowMmol, draft.highMmol, unit);
     final spread = formatter.value(draft.highMmol - draft.lowMmol, unit);
     return Container(
@@ -44,9 +46,9 @@ class TargetRangeHeroCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'IN-RANGE TARGET',
-                  style: TextStyle(
+                Text(
+                  l10n.targetRangeInRangeTarget,
+                  style: const TextStyle(
                     fontFamily: 'JetBrainsMono',
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
@@ -110,7 +112,7 @@ class TargetRangeHeroCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'spread',
+                  l10n.targetRangeSpread,
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 8.5,

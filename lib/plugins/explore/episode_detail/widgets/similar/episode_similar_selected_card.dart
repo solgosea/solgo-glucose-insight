@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 
 class EpisodeSimilarSelectedCard extends StatelessWidget {
@@ -22,6 +23,7 @@ class EpisodeSimilarSelectedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Container(
       margin: const EdgeInsets.only(top: 12),
       padding: const EdgeInsets.all(12),
@@ -96,7 +98,7 @@ class EpisodeSimilarSelectedCard extends StatelessWidget {
           Row(
             children: [
               _Metric(
-                label: 'Value',
+                label: l10n.value,
                 value: selection.valueText,
                 textColor: textColor,
                 mutedColor: mutedColor,
@@ -104,7 +106,7 @@ class EpisodeSimilarSelectedCard extends StatelessWidget {
               ),
               const SizedBox(width: 7),
               _Metric(
-                label: 'Duration',
+                label: l10n.duration,
                 value: selection.durationText,
                 textColor: textColor,
                 mutedColor: mutedColor,
@@ -112,7 +114,7 @@ class EpisodeSimilarSelectedCard extends StatelessWidget {
               ),
               const SizedBox(width: 7),
               _Metric(
-                label: 'Recovery',
+                label: l10n.recovery,
                 value: selection.recoveryText,
                 textColor: textColor,
                 mutedColor: mutedColor,

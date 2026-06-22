@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/widgets/charts/glucose_line_chart.dart';
+import '../application/i18n/history_l10n.dart';
 import '../models/history_view_model.dart';
 import 'history_curve_legend.dart';
 
@@ -38,9 +39,9 @@ class _HistoryCurveCardState extends State<HistoryCurveCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  '24-HOUR CURVE',
-                  style: TextStyle(
+                Text(
+                  context.historyL10n.curveTitle,
+                  style: const TextStyle(
                     fontFamily: 'JetBrainsMono',
                     fontSize: 10,
                     fontWeight: FontWeight.w700,

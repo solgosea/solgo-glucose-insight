@@ -1,0 +1,10 @@
+﻿{
+    "@@locale":  "zh",
+    "pluginTitle":  "高血糖事件",
+    "pluginSubtitle":  "回顾高血糖事件和模式。",
+    "pluginDescription":  "回顾高血糖事件和模式。",
+    "pluginReportTitle":  "高血糖事件报告",
+    "pluginLoading":  "加载中",
+    "pluginNoData":  "暂无可用数据。",
+    "pluginUnavailable":  "不可用"
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../application/i18n/home_l10n.dart';
+import '../application/i18n/home_range_l10n.dart';
 import '../models/home_chart_range.dart';
 
 class HomeRangeSelector extends StatelessWidget {
@@ -16,6 +18,7 @@ class HomeRangeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.homeL10n;
     return Row(
       children: ranges.map((range) {
         final selected = selectedRange == range;
@@ -33,7 +36,7 @@ class HomeRangeSelector extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7),
               ),
               child: Text(
-                range.label,
+                l10n.rangeLabel(range),
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 10,

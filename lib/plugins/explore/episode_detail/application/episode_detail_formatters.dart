@@ -1,57 +1,30 @@
 import '../../../../domain/entities/app_settings.dart';
+import '../../../../application/i18n/localized_date_time_formatter.dart';
 
 class EpisodeDetailFormatters {
   const EpisodeDetailFormatters._();
 
-  static String hm(DateTime time) =>
-      '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  static String hm(DateTime time, {String? localeName}) =>
+      LocalizedDateTimeFormatter(localeName ?? 'en').time(time);
 
-  static String range(DateTime start, DateTime end) =>
-      '${hm(start)} - ${hm(end)}';
+  static String range(DateTime start, DateTime end, {String? localeName}) =>
+      '${hm(start, localeName: localeName)} - ${hm(end, localeName: localeName)}';
 
-  static String headerDate(DateTime time) {
-    const months = [
-      '',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[time.month]} ${time.day}, ${time.year}';
+  static String headerDate(DateTime time, {String? localeName}) =>
+      LocalizedDateTimeFormatter(localeName ?? 'en').dateFull(time);
+
+  static String headerEpisodeRange(
+    DateTime start,
+    DateTime? end, {
+    String? localeName,
+  }) {
+    final date = shortDate(start, localeName: localeName);
+    if (end == null) return '$date · ${hm(start, localeName: localeName)}';
+    return '$date · ${range(start, end, localeName: localeName)}';
   }
 
-  static String headerEpisodeRange(DateTime start, DateTime? end) {
-    final date = shortDate(start);
-    if (end == null) return '$date · ${hm(start)}';
-    return '$date · ${range(start, end)}';
-  }
-
-  static String shortDate(DateTime time) {
-    const months = [
-      '',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[time.month]} ${time.day}';
-  }
+  static String shortDate(DateTime time, {String? localeName}) =>
+      LocalizedDateTimeFormatter(localeName ?? 'en').dateShort(time);
 
   static String rate(
     double? rate, {

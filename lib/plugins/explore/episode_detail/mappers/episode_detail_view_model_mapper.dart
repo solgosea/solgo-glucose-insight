@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/application/glucose_unit/glucose_unit_format_service.dart';
+import 'package:smart_xdrip/application/plugin_text/plugin_text_render_context.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/domain/entities/glucose_event.dart';
 import 'package:smart_xdrip/domain/entities/glucose_reading.dart';
@@ -9,6 +10,7 @@ import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/widgets/charts/glucose_line_chart.dart';
 
 import '../application/episode_detail_formatters.dart';
+import '../application/i18n/episode_detail_l10n_resolver.dart';
 import '../application/text/episode_detail_text_renderer.dart';
 import '../application/text/high_episode_text_builders.dart';
 import '../application/text/low_episode_text_builders.dart';
@@ -25,6 +27,7 @@ import '../domain/episode_similar_match.dart';
 import '../domain/text/episode_detail_text_slot.dart';
 import '../domain/text/episode_detail_text_type.dart';
 import '../engine/episode_detail_engine_output.dart';
+import '../l10n/generated/episode_detail_localizations.dart';
 import '../models/episode_detail_view_model.dart';
 import '../models/episode_kind.dart';
 import '../shared/episode_pattern_card.dart';
@@ -45,6 +48,7 @@ class EpisodeDetailViewModelMapper {
   final LowEpisodeContextTextBuilder lowContextTextBuilder;
   final LowEpisodeRepeatTextBuilder lowRepeatTextBuilder;
   final LowEpisodeReliabilityTextBuilder lowReliabilityTextBuilder;
+  final EpisodeDetailLocalizations? l10n;
 
   const EpisodeDetailViewModelMapper({
     this.glucoseFormatter = const GlucoseUnitFormatService(),
@@ -62,9 +66,17 @@ class EpisodeDetailViewModelMapper {
     this.lowContextTextBuilder = const LowEpisodeContextTextBuilder(),
     this.lowRepeatTextBuilder = const LowEpisodeRepeatTextBuilder(),
     this.lowReliabilityTextBuilder = const LowEpisodeReliabilityTextBuilder(),
+    this.l10n,
   });
 
+  EpisodeDetailLocalizations get _strings =>
+      l10n ?? EpisodeDetailL10nResolver.fallback;
+
+  PluginTextRenderContext get _textContext =>
+      PluginTextRenderContext(locale: _strings.localeName);
+
   EpisodeDetailViewModel map(EpisodeDetailEngineOutput output) {
+    final strings = _strings;
     final focus = output.focus;
     if (focus == null || output.window == null || output.chartSection == null) {
       return _empty(output);
@@ -86,7 +98,7 @@ class EpisodeDetailViewModelMapper {
     final area = _episodeArea(focus, extreme, duration, high, output.settings);
 
     final hero = EpisodeHeroViewModel(
-      valueLabel: high ? 'Peak Value' : 'Nadir Value',
+      valueLabel: high ? strings.peakValue : strings.nadirValue,
       valueText: glucoseFormatter.value(extreme, unit).valueLabel,
       valueUnit: glucoseFormatter.unitLabel(unit),
       valueColor: themeColor,
@@ -95,7 +107,7 @@ class EpisodeDetailViewModelMapper {
         focus.time,
         chart.episodeEndTime,
       ),
-      onsetRateLabel: high ? 'Onset rate' : 'Descent rate',
+      onsetRateLabel: high ? strings.onsetRate : strings.descentRate,
       onsetRateText: EpisodeDetailFormatters.rate(
         rate,
         unit: unit,
@@ -107,7 +119,7 @@ class EpisodeDetailViewModelMapper {
         unit: unit,
         forcePositive: !high && recoveryRate >= 0,
       ),
-      areaLabel: high ? 'Area above target' : 'Area below target',
+      areaLabel: high ? strings.areaAboveTarget : strings.areaBelowTarget,
       areaText: glucoseFormatter.area(area.abs(), unit).fullLabel,
       areaColor: themeColor,
       heroBg: themeColor.withOpacity(0.06),
@@ -118,8 +130,8 @@ class EpisodeDetailViewModelMapper {
     return EpisodeDetailViewModel(
       kind: output.query.kind,
       statusTime: EpisodeDetailFormatters.hm(focus.time),
-      title: output.headerSection.title,
-      subtitle: EpisodeDetailFormatters.headerEpisodeRange(
+      title: _episodeTitle(output.query.kind),
+      subtitle: _headerEpisodeRange(
         focus.time,
         focus.endTime,
       ),
@@ -145,7 +157,9 @@ class EpisodeDetailViewModelMapper {
       contextRows: const [],
       pattern: null,
       severity: null,
-      similarHeader: output.similarSection.title,
+      similarHeader: strings.similarEpisodesPastDays(
+        output.similarSection.windowDays,
+      ),
       similarCards: const [],
       similarChart: _similarChart(output, high: high, unit: unit),
       disclaimer: _detailText(high ? 'highDisclaimer' : 'lowDisclaimer'),
@@ -173,8 +187,8 @@ class EpisodeDetailViewModelMapper {
     return EpisodeDetailViewModel(
       kind: output.query.kind,
       statusTime: '',
-      title: output.headerSection.title,
-      subtitle: output.headerSection.emptySubtitle,
+      title: _episodeTitle(output.query.kind),
+      subtitle: _emptySubtitle(output),
       hero: null,
       chart: null,
       contextRows: const [],
@@ -199,8 +213,16 @@ class EpisodeDetailViewModelMapper {
     return HighEpisodeSummaryViewModel(
       priorityLabel: _priorityLabel(burden.priority),
       priorityColor: _priorityColor(burden.priority),
-      title: summaryTextBuilder.title(burden.priority, facts),
-      subtitle: summaryTextBuilder.subtitle(burden.priority, facts),
+      title: summaryTextBuilder.title(
+        burden.priority,
+        facts,
+        context: _textContext,
+      ),
+      subtitle: summaryTextBuilder.subtitle(
+        burden.priority,
+        facts,
+        context: _textContext,
+      ),
       peakText: glucoseFormatter.value(burden.peakMmol, unit).fullLabel,
       durationText: '${burden.durationMinutes} min',
       recoveryTimeText: _recoveryTimeText(recovery?.recoveryTime),
@@ -212,33 +234,38 @@ class EpisodeDetailViewModelMapper {
     if (burden == null) return null;
     final unit = output.settings.unit;
     return HighEpisodeBurdenViewModel(
-      note: burdenTextBuilder.note(burden.priority, _highFacts(output)),
+      note: burdenTextBuilder.note(
+        burden.priority,
+        _highFacts(output),
+        context: _textContext,
+      ),
       metrics: [
         HighEpisodeBurdenMetricViewModel(
-          label: 'Peak',
+          label: _strings.peak,
           value: glucoseFormatter.value(burden.peakMmol, unit).fullLabel,
-          note:
-              '+${glucoseFormatter.value(burden.peakOverThresholdMmol, unit).fullLabel} over target',
+          note: _strings.overTarget(
+            '+${glucoseFormatter.value(burden.peakOverThresholdMmol, unit).fullLabel}',
+          ),
           accent: AppColors.rose,
         ),
         HighEpisodeBurdenMetricViewModel(
-          label: 'Duration',
+          label: _strings.duration,
           value: '${burden.durationMinutes} min',
-          note: 'Time above target',
+          note: _strings.timeAboveRange,
           accent: AppColors.amber,
         ),
         HighEpisodeBurdenMetricViewModel(
-          label: 'Exposure',
+          label: _strings.exposure,
           value: glucoseFormatter.area(burden.areaAboveTarget, unit).fullLabel,
-          note: 'Area above target',
+          note: _strings.areaAboveTarget,
           accent: AppColors.rose,
         ),
         HighEpisodeBurdenMetricViewModel(
-          label: 'Recovery',
+          label: _strings.recovery,
           value: burden.recoveryMinutes == null
-              ? 'Not visible'
+              ? _strings.notVisible
               : '${burden.recoveryMinutes}m',
-          note: 'Return toward range',
+          note: _strings.returnTowardRange,
           accent: AppColors.green,
         ),
       ],
@@ -261,7 +288,7 @@ class EpisodeDetailViewModelMapper {
     final steps = [
       HighEpisodeLifecycleStep(
         code: 'B',
-        label: 'Baseline',
+        label: _strings.baseline,
         value: _compactRangeText(
           lowMmol: baselineLow,
           highMmol: baselineHigh,
@@ -271,25 +298,25 @@ class EpisodeDetailViewModelMapper {
       ),
       HighEpisodeLifecycleStep(
         code: 'R',
-        label: 'Rise',
+        label: _strings.rise,
         value: _compactRateText(riseRate, unit),
         tone: HighEpisodeLifecycleStepTone.warning,
       ),
       HighEpisodeLifecycleStep(
         code: 'P',
-        label: 'Peak',
+        label: _strings.peak,
         value: glucoseFormatter.value(burden.peakMmol, unit).valueLabel,
         tone: HighEpisodeLifecycleStepTone.hot,
       ),
       HighEpisodeLifecycleStep(
         code: 'D',
-        label: 'Duration',
+        label: _strings.duration,
         value: '${burden.durationMinutes} min',
         tone: HighEpisodeLifecycleStepTone.warning,
       ),
       HighEpisodeLifecycleStep(
         code: 'OK',
-        label: 'Recovery',
+        label: _strings.recovery,
         value: _recoveryTimeText(recovery?.recoveryTime),
         tone: HighEpisodeLifecycleStepTone.recovered,
       ),
@@ -313,8 +340,16 @@ class EpisodeDetailViewModelMapper {
     if (driver == null) return null;
     final facts = _highFacts(output);
     return HighEpisodeDriverViewModel(
-      title: driverTextBuilder.title(driver.type, facts),
-      body: driverTextBuilder.body(driver.type, facts),
+      title: driverTextBuilder.title(
+        driver.type,
+        facts,
+        context: _textContext,
+      ),
+      body: driverTextBuilder.body(
+        driver.type,
+        facts,
+        context: _textContext,
+      ),
       driverLabel: _driverLabel(driver.type),
       peakScore: driver.peakScore,
       durationScore: math.max(driver.durationScore, driver.areaScore),
@@ -345,25 +380,25 @@ class EpisodeDetailViewModelMapper {
         ? glucoseFormatter
             .range(context.baselineLowMmol!, context.baselineHighMmol!, unit)
             .fullLabel
-        : 'Unknown';
+        : _strings.unknown;
     final leadUpSlope = context.leadUpSlope;
     final stableLeadUp = leadUpSlope == null || leadUpSlope.abs() < 0.04;
     final cv = context.variabilityCv;
     final variableWindow = cv != null && cv >= 30;
     return HighEpisodeContextViewModel(
-      note: contextTextBuilder.note(_highFacts(output)),
+      note: contextTextBuilder.note(_highFacts(output), context: _textContext),
       metrics: [
         HighEpisodeContextMetricViewModel(
-          label: 'Peak vs usual daily peak',
-          value: 'Today $peakLabel',
+          label: _strings.peakVsUsualDailyPeak,
+          value: '${_strings.current} $peakLabel',
           detail: usualPeakRange == null
-              ? 'Baseline unavailable'
-              : 'baseline $usualPeakRange',
+              ? _strings.baselineUnavailable
+              : _strings.baselineValue(usualPeakRange),
           badgeLabel: usualPeakRange == null
-              ? 'Unknown'
+              ? _strings.unknown
               : aboveUsual
-                  ? 'Above'
-                  : 'Within',
+                  ? _strings.above
+                  : _strings.within,
           badgeColor: usualPeakRange == null
               ? AppColors.amber
               : aboveUsual
@@ -371,15 +406,15 @@ class EpisodeDetailViewModelMapper {
                   : AppColors.green,
         ),
         HighEpisodeContextMetricViewModel(
-          label: 'Pre-onset baseline',
+          label: _strings.preOnsetBaseline,
           value:
               EpisodeDetailFormatters.range(window.start, window.preMidpoint),
           detail: baselineRange,
           badgeLabel: hasBaseline
               ? stableLeadUp
-                  ? 'Stable'
-                  : 'Rising'
-              : 'Unknown',
+                  ? _strings.stable
+                  : _strings.rising
+              : _strings.unknown,
           badgeColor: hasBaseline
               ? stableLeadUp
                   ? AppColors.green
@@ -388,19 +423,24 @@ class EpisodeDetailViewModelMapper {
         ),
         HighEpisodeContextMetricViewModel(
           label: context.variabilityLabel == null
-              ? 'Time-window variability'
-              : '${context.variabilityLabel} variability',
+              ? _strings.timeWindowVariability
+              : _strings.variabilityLabel(
+                  _periodVariabilityLabel(context.variabilityLabel!),
+                ),
           value:
               context.variabilityWindowText ?? '${output.focus!.time.hour}:00',
           detail: cv == null
-              ? 'Not enough history'
-              : 'CV ${cv.toStringAsFixed(0)}% · rank ${context.variabilityRank ?? '-'}'
-                  '/${context.variabilityTotal ?? '-'}',
+              ? _strings.notEnoughHistory
+              : _strings.cvRank(
+                  cv.toStringAsFixed(0),
+                  context.variabilityRank ?? '-',
+                  context.variabilityTotal ?? '-',
+                ),
           badgeLabel: cv == null
-              ? 'Unknown'
+              ? _strings.unknown
               : variableWindow
-                  ? 'Variable'
-                  : 'Stable',
+                  ? _strings.variable
+                  : _strings.stable,
           badgeColor: cv == null
               ? AppColors.amber
               : variableWindow
@@ -414,14 +454,33 @@ class EpisodeDetailViewModelMapper {
   HighEpisodeRepeatViewModel? _highRepeat(EpisodeDetailEngineOutput output) {
     final repeat = output.highRepeat;
     if (repeat == null) return null;
+    final blockLabel = _timeBlockLabel(repeat.chartDataset.dominantBlockLabel);
+    final rangeSuffix = repeat.chartDataset.dominantRangeLabel == null
+        ? ''
+        : ' (${repeat.chartDataset.dominantRangeLabel})';
     final facts = {
       'count': repeat.count,
-      'range': repeat.range ?? 'the same part of day',
+      'range': repeat.range ?? _strings.samePartOfDay,
+      'windowDays': repeat.chartDataset.windowDays,
+      'blockLabel': blockLabel,
+      'rangeSuffix': rangeSuffix,
     };
     return HighEpisodeRepeatViewModel(
-      title: repeatTextBuilder.title(repeat.type, facts),
-      body: repeatTextBuilder.body(repeat.type, facts),
-      hint: repeatTextBuilder.hint(repeat.type, facts),
+      title: repeatTextBuilder.title(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
+      body: repeatTextBuilder.body(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
+      hint: repeatTextBuilder.hint(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
       bigStat: repeat.bigStat,
       indicators: repeat.indicators
           .map(
@@ -431,18 +490,21 @@ class EpisodeDetailViewModelMapper {
             ),
           )
           .toList(),
-      windowLabel: 'Past ${repeat.chartDataset.windowDays} days',
+      windowLabel: _strings.pastDays(repeat.chartDataset.windowDays),
       summaryStat: repeat.bigStat,
       summaryLabel: repeat.count == 1
-          ? 'day with repeated highs'
-          : 'days with repeated highs',
+          ? _strings.dayWithRepeatedHighs
+          : _strings.daysWithRepeatedHighs,
       clusterTitle: repeat.count == 0
-          ? 'No clear repeat'
-          : '${repeat.chartDataset.dominantBlockLabel} cluster',
+          ? _strings.noClearRepeat
+          : _strings.clusterTitle(blockLabel),
       clusterBody: repeat.count == 0
-          ? repeatTextBuilder.body(repeat.type, facts)
-          : 'Most repeated highs are visible around ${repeat.chartDataset.dominantBlockLabel.toLowerCase()}'
-              '${repeat.chartDataset.dominantRangeLabel == null ? '' : ' (${repeat.chartDataset.dominantRangeLabel})'}.',
+          ? repeatTextBuilder.body(
+              repeat.type,
+              facts,
+              context: _textContext,
+            )
+          : _strings.repeatedHighsAround(blockLabel, rangeSuffix),
       dayMarks: repeat.chartDataset.dayMarks
           .map(
             (mark) => EpisodeRepeatDayMarkViewModel(
@@ -456,7 +518,7 @@ class EpisodeDetailViewModelMapper {
       timeBlocks: repeat.chartDataset.timeBlockBuckets
           .map(
             (bucket) => EpisodeRepeatTimeBlockViewModel(
-              label: bucket.label,
+              label: _timeBlockLabel(bucket.label),
               count: bucket.count,
               normalizedHeight: bucket.normalizedHeight,
               isDominant: bucket.isDominant,
@@ -464,7 +526,11 @@ class EpisodeDetailViewModelMapper {
             ),
           )
           .toList(),
-      takeaway: repeat.chartDataset.takeaway,
+      takeaway: repeatTextBuilder.takeaway(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
     );
   }
 
@@ -477,19 +543,22 @@ class EpisodeDetailViewModelMapper {
       confidenceLabel: _confidenceLabel(reliability.confidence),
       confidenceColor: _confidenceColor(reliability.confidence),
       note: reliabilityTextBuilder.note(
-          reliability.confidence, _highFacts(output)),
+        reliability.confidence,
+        _highFacts(output),
+        context: _textContext,
+      ),
       metrics: [
         HighEpisodeContextMetricViewModel(
-          label: 'Readings',
+          label: _strings.readings,
           value: '${reliability.readingsInWindow}',
-          detail: 'In visible window',
+          detail: _strings.visibleInWindow,
           progress: (reliability.readingsInWindow / 48).clamp(0.0, 1.0),
           accent: AppColors.green,
         ),
         HighEpisodeContextMetricViewModel(
-          label: 'Largest gap',
+          label: _strings.largestGap,
           value: '${reliability.largestGapMinutes} min',
-          detail: 'Between readings',
+          detail: _strings.betweenReadings,
           progress: (1 - (reliability.largestGapMinutes / 60)).clamp(0.0, 1.0),
           accent: reliability.largestGapMinutes <= 15
               ? AppColors.blue
@@ -498,13 +567,13 @@ class EpisodeDetailViewModelMapper {
                   : AppColors.rose,
         ),
         HighEpisodeContextMetricViewModel(
-          label: 'Coverage',
+          label: _strings.coverage,
           value: reliability.hasPeakCoverage && reliability.hasRecoveryCoverage
-              ? 'Peak + recovery'
+              ? _strings.peakRecovery
               : reliability.hasPeakCoverage
-                  ? 'Peak only'
-                  : 'Partial',
-          detail: 'Data confidence',
+                  ? _strings.peakOnly
+                  : _strings.partial,
+          detail: _strings.dataConfidence,
           progress:
               reliability.hasPeakCoverage && reliability.hasRecoveryCoverage
                   ? 0.9
@@ -529,8 +598,16 @@ class EpisodeDetailViewModelMapper {
     return LowEpisodeSummaryViewModel(
       priorityLabel: _lowPriorityLabel(burden.priority),
       priorityColor: _lowPriorityColor(burden.priority),
-      title: lowSummaryTextBuilder.title(burden.priority, facts),
-      subtitle: lowSummaryTextBuilder.subtitle(burden.priority, facts),
+      title: lowSummaryTextBuilder.title(
+        burden.priority,
+        facts,
+        context: _textContext,
+      ),
+      subtitle: lowSummaryTextBuilder.subtitle(
+        burden.priority,
+        facts,
+        context: _textContext,
+      ),
       nadirText: glucoseFormatter.value(burden.nadirMmol, unit).fullLabel,
       durationText: '${burden.durationMinutes} min',
       recoveryTimeText: _recoveryTimeText(recovery?.recoveryTime),
@@ -542,36 +619,40 @@ class EpisodeDetailViewModelMapper {
     if (burden == null) return null;
     final unit = output.settings.unit;
     return LowEpisodeBurdenViewModel(
-      note: lowBurdenTextBuilder.note(burden.priority, _lowFacts(output)),
+      note: lowBurdenTextBuilder.note(
+        burden.priority,
+        _lowFacts(output),
+        context: _textContext,
+      ),
       metrics: [
         LowEpisodeBurdenMetricViewModel(
-          label: 'Nadir gap',
+          label: _strings.nadirGap,
           value:
               '-${glucoseFormatter.value(burden.nadirBelowThresholdMmol, unit).valueLabel}',
-          note: 'Below low threshold',
+          note: _strings.belowLowThreshold,
           accent: AppColors.blue,
         ),
         LowEpisodeBurdenMetricViewModel(
-          label: 'Area',
+          label: _strings.area,
           value: glucoseFormatter.area(burden.areaBelowTarget, unit).fullLabel,
-          note: 'Area below target',
+          note: _strings.areaBelowTarget,
           accent: AppColors.amber,
         ),
         LowEpisodeBurdenMetricViewModel(
-          label: 'Drop/min',
+          label: _strings.dropPerMinute,
           value: EpisodeDetailFormatters.rate(
             -burden.descentRateMmolPerMin.abs(),
             unit: unit,
           ),
-          note: 'Lead-up descent',
+          note: _strings.leadUpDescent,
           accent: AppColors.blue,
         ),
         LowEpisodeBurdenMetricViewModel(
-          label: 'Recovered',
+          label: _strings.recovered,
           value: burden.recoveryMinutes == null
-              ? 'Not visible'
+              ? _strings.notVisible
               : '${burden.recoveryMinutes}m',
-          note: 'Return toward range',
+          note: _strings.returnTowardRange,
           accent: AppColors.green,
         ),
       ],
@@ -594,7 +675,7 @@ class EpisodeDetailViewModelMapper {
     final steps = [
       LowEpisodeLifecycleStep(
         code: 'B',
-        label: 'Baseline',
+        label: _strings.baseline,
         value: _compactRangeText(
           lowMmol: baselineLow,
           highMmol: baselineHigh,
@@ -604,25 +685,25 @@ class EpisodeDetailViewModelMapper {
       ),
       LowEpisodeLifecycleStep(
         code: 'D',
-        label: 'Descent',
+        label: _strings.descent,
         value: _compactRateText(descentRate, unit),
         tone: LowEpisodeLifecycleStepTone.warning,
       ),
       LowEpisodeLifecycleStep(
         code: 'N',
-        label: 'Nadir',
+        label: _strings.nadir,
         value: glucoseFormatter.value(burden.nadirMmol, unit).valueLabel,
         tone: LowEpisodeLifecycleStepTone.low,
       ),
       LowEpisodeLifecycleStep(
         code: 'T',
-        label: 'Low time',
+        label: _strings.lowTime,
         value: '${burden.durationMinutes} min',
         tone: LowEpisodeLifecycleStepTone.warning,
       ),
       LowEpisodeLifecycleStep(
         code: 'OK',
-        label: 'Recovery',
+        label: _strings.recovery,
         value: _recoveryTimeText(recovery?.recoveryTime),
         tone: LowEpisodeLifecycleStepTone.recovered,
       ),
@@ -646,8 +727,16 @@ class EpisodeDetailViewModelMapper {
     if (driver == null) return null;
     final facts = _lowFacts(output);
     return LowEpisodeDriverViewModel(
-      title: lowDriverTextBuilder.title(driver.type, facts),
-      body: lowDriverTextBuilder.body(driver.type, facts),
+      title: lowDriverTextBuilder.title(
+        driver.type,
+        facts,
+        context: _textContext,
+      ),
+      body: lowDriverTextBuilder.body(
+        driver.type,
+        facts,
+        context: _textContext,
+      ),
       driverLabel: _lowDriverLabel(driver.type),
       nadirScore: driver.nadirScore,
       durationScore: math.max(driver.durationScore, driver.areaScore),
@@ -666,8 +755,13 @@ class EpisodeDetailViewModelMapper {
       qualityLabel: _lowRecoveryQualityLabel(recovery.quality),
       qualityColor: _lowRecoveryQualityColor(recovery.quality),
       recoveryTimeText: _recoveryTimeText(recovery.recoveryTime),
-      recoveryMinutesText: minutes == null ? 'Not visible' : '${minutes}m',
-      note: lowRecoveryTextBuilder.note(recovery.quality, _lowFacts(output)),
+      recoveryMinutesText:
+          minutes == null ? _strings.notVisible : '${minutes}m',
+      note: lowRecoveryTextBuilder.note(
+        recovery.quality,
+        _lowFacts(output),
+        context: _textContext,
+      ),
     );
   }
 
@@ -693,33 +787,34 @@ class EpisodeDetailViewModelMapper {
         ? glucoseFormatter
             .range(context.baselineLowMmol!, context.baselineHighMmol!, unit)
             .fullLabel
-        : 'Unknown';
+        : _strings.unknown;
     final leadUpSlope = context.leadUpSlope;
     final fastDrop = leadUpSlope != null && leadUpSlope.abs() >= 0.06;
     final slopeLabel =
         (context.variabilityLabel ?? '').toLowerCase().contains('overnight')
-            ? 'Overnight slope'
-            : 'Daytime slope';
+            ? _strings.overnightSlope
+            : _strings.daytimeSlope;
     final currentSlope = leadUpSlope == null
-        ? 'Unknown'
+        ? _strings.unknown
         : _compactRateText(-leadUpSlope.abs(), unit);
     final usualSlope = context.typicalSlope == null
-        ? 'usual unavailable'
-        : 'usual ${_compactRateText(context.typicalSlope, unit)}';
+        ? _strings.usualUnavailable
+        : _strings.usualRate(_compactRateText(context.typicalSlope, unit));
     return LowEpisodeContextViewModel(
-      note: lowContextTextBuilder.note(_lowFacts(output)),
+      note:
+          lowContextTextBuilder.note(_lowFacts(output), context: _textContext),
       metrics: [
         HighEpisodeContextMetricViewModel(
-          label: 'Nadir vs usual daily nadir',
-          value: 'Today $nadirLabel',
+          label: _strings.nadirVsUsualDailyNadir,
+          value: '${_strings.current} $nadirLabel',
           detail: usualNadirRange == null
-              ? 'Baseline unavailable'
-              : 'baseline $usualNadirRange',
+              ? _strings.baselineUnavailable
+              : _strings.baselineValue(usualNadirRange),
           badgeLabel: usualNadirRange == null
-              ? 'Unknown'
+              ? _strings.unknown
               : belowUsual
-                  ? 'Lower'
-                  : 'Within',
+                  ? _strings.lower
+                  : _strings.within,
           badgeColor: usualNadirRange == null
               ? AppColors.amber
               : belowUsual
@@ -727,15 +822,15 @@ class EpisodeDetailViewModelMapper {
                   : AppColors.green,
         ),
         HighEpisodeContextMetricViewModel(
-          label: 'Pre-episode baseline',
+          label: _strings.preEpisodeBaseline,
           value:
               EpisodeDetailFormatters.range(window.start, window.preMidpoint),
           detail: baselineRange,
           badgeLabel: hasBaseline
               ? fastDrop
-                  ? 'Dropping'
-                  : 'Stable'
-              : 'Unknown',
+                  ? _strings.dropping
+                  : _strings.stable
+              : _strings.unknown,
           badgeColor: hasBaseline
               ? fastDrop
                   ? AppColors.amber
@@ -747,10 +842,10 @@ class EpisodeDetailViewModelMapper {
           value: currentSlope,
           detail: usualSlope,
           badgeLabel: leadUpSlope == null
-              ? 'Unknown'
+              ? _strings.unknown
               : fastDrop
-                  ? 'Fast'
-                  : 'Typical',
+                  ? _strings.fast
+                  : _strings.typical,
           badgeColor: leadUpSlope == null
               ? AppColors.amber
               : fastDrop
@@ -764,14 +859,33 @@ class EpisodeDetailViewModelMapper {
   LowEpisodeRepeatViewModel? _lowRepeat(EpisodeDetailEngineOutput output) {
     final repeat = output.lowRepeat;
     if (repeat == null) return null;
+    final blockLabel = _timeBlockLabel(repeat.chartDataset.dominantBlockLabel);
+    final rangeSuffix = repeat.chartDataset.dominantRangeLabel == null
+        ? ''
+        : ' (${repeat.chartDataset.dominantRangeLabel})';
     final facts = {
       'count': repeat.count,
-      'range': repeat.range ?? 'the same part of day',
+      'range': repeat.range ?? _strings.samePartOfDay,
+      'windowDays': repeat.chartDataset.windowDays,
+      'blockLabel': blockLabel,
+      'rangeSuffix': rangeSuffix,
     };
     return LowEpisodeRepeatViewModel(
-      title: lowRepeatTextBuilder.title(repeat.type, facts),
-      body: lowRepeatTextBuilder.body(repeat.type, facts),
-      hint: lowRepeatTextBuilder.hint(repeat.type, facts),
+      title: lowRepeatTextBuilder.title(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
+      body: lowRepeatTextBuilder.body(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
+      hint: lowRepeatTextBuilder.hint(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
       bigStat: repeat.bigStat,
       indicators: repeat.indicators
           .map(
@@ -781,18 +895,21 @@ class EpisodeDetailViewModelMapper {
             ),
           )
           .toList(),
-      windowLabel: 'Past ${repeat.chartDataset.windowDays} days',
+      windowLabel: _strings.pastDays(repeat.chartDataset.windowDays),
       summaryStat: repeat.bigStat,
       summaryLabel: repeat.count == 1
-          ? 'day with repeated lows'
-          : 'days with repeated lows',
+          ? _strings.dayWithRepeatedLows
+          : _strings.daysWithRepeatedLows,
       clusterTitle: repeat.count == 0
-          ? 'No clear repeat'
-          : '${repeat.chartDataset.dominantBlockLabel} cluster',
+          ? _strings.noClearRepeat
+          : _strings.clusterTitle(blockLabel),
       clusterBody: repeat.count == 0
-          ? lowRepeatTextBuilder.body(repeat.type, facts)
-          : 'Most repeated lows are visible around ${repeat.chartDataset.dominantBlockLabel.toLowerCase()}'
-              '${repeat.chartDataset.dominantRangeLabel == null ? '' : ' (${repeat.chartDataset.dominantRangeLabel})'}.',
+          ? lowRepeatTextBuilder.body(
+              repeat.type,
+              facts,
+              context: _textContext,
+            )
+          : _strings.repeatedLowsAround(blockLabel, rangeSuffix),
       dayMarks: repeat.chartDataset.dayMarks
           .map(
             (mark) => EpisodeRepeatDayMarkViewModel(
@@ -806,7 +923,7 @@ class EpisodeDetailViewModelMapper {
       timeBlocks: repeat.chartDataset.timeBlockBuckets
           .map(
             (bucket) => EpisodeRepeatTimeBlockViewModel(
-              label: bucket.label,
+              label: _timeBlockLabel(bucket.label),
               count: bucket.count,
               normalizedHeight: bucket.normalizedHeight,
               isDominant: bucket.isDominant,
@@ -814,7 +931,11 @@ class EpisodeDetailViewModelMapper {
             ),
           )
           .toList(),
-      takeaway: repeat.chartDataset.takeaway,
+      takeaway: lowRepeatTextBuilder.takeaway(
+        repeat.type,
+        facts,
+        context: _textContext,
+      ),
     );
   }
 
@@ -829,19 +950,20 @@ class EpisodeDetailViewModelMapper {
       note: lowReliabilityTextBuilder.note(
         reliability.confidence,
         _lowFacts(output),
+        context: _textContext,
       ),
       metrics: [
         HighEpisodeContextMetricViewModel(
-          label: 'Readings',
+          label: _strings.readings,
           value: '${reliability.readingsInWindow}',
-          detail: 'In visible window',
+          detail: _strings.visibleInWindow,
           progress: (reliability.readingsInWindow / 48).clamp(0.0, 1.0),
           accent: AppColors.green,
         ),
         HighEpisodeContextMetricViewModel(
-          label: 'Largest gap',
+          label: _strings.largestGap,
           value: '${reliability.largestGapMinutes} min',
-          detail: 'Between readings',
+          detail: _strings.betweenReadings,
           progress: (1 - (reliability.largestGapMinutes / 60)).clamp(0.0, 1.0),
           accent: reliability.largestGapMinutes <= 15
               ? AppColors.blue
@@ -850,13 +972,13 @@ class EpisodeDetailViewModelMapper {
                   : AppColors.rose,
         ),
         HighEpisodeContextMetricViewModel(
-          label: 'Coverage',
+          label: _strings.coverage,
           value: reliability.hasNadirCoverage && reliability.hasRecoveryCoverage
-              ? 'Nadir + recovery'
+              ? _strings.nadirRecovery
               : reliability.hasNadirCoverage
-                  ? 'Nadir only'
-                  : 'Partial',
-          detail: 'Data confidence',
+                  ? _strings.nadirOnly
+                  : _strings.partial,
+          detail: _strings.dataConfidence,
           progress:
               reliability.hasNadirCoverage && reliability.hasRecoveryCoverage
                   ? 0.9
@@ -895,27 +1017,31 @@ class EpisodeDetailViewModelMapper {
         durations.isEmpty ? null : durations[durations.length ~/ 2];
     final medianValue = values.isEmpty ? null : values[values.length ~/ 2];
     final cluster = selected == null
-        ? 'No cluster'
+        ? _strings.noCluster
         : _timeClusterLabel(selected.match.event.time);
 
     return EpisodeSimilarChartViewModel(
-      title: 'Similar episodes',
-      trailing: 'Past ${section.windowDays} days',
-      valueAxisLabel: high ? 'Peak glucose' : 'Nadir glucose',
+      title: _strings.similarEpisodes,
+      trailing: _strings.pastDays(section.windowDays),
+      valueAxisLabel: high ? _strings.peakGlucose : _strings.nadirGlucose,
       chips: [
-        '$matchCount similar',
+        _strings.similarCount(matchCount),
         cluster,
-        medianDuration == null ? 'No median' : '${medianDuration}m median',
+        medianDuration == null
+            ? _strings.noMedian
+            : _strings.minutesMedian(medianDuration),
         medianValue == null
-            ? 'No median value'
-            : '${glucoseFormatter.value(medianValue, unit).valueLabel} median',
+            ? _strings.noMedianValue
+            : _strings.valueMedian(
+                glucoseFormatter.value(medianValue, unit).valueLabel,
+              ),
       ],
       points: section.points
           .map(
             (point) => EpisodeSimilarChartPointViewModel(
               id: point.id,
               time: point.time,
-              dateLabel: EpisodeDetailFormatters.shortDate(point.time),
+              dateLabel: _shortDate(point.time),
               timeLabel: EpisodeDetailFormatters.hm(point.time),
               valueText:
                   glucoseFormatter.value(point.valueMmol, unit).fullLabel,
@@ -936,10 +1062,13 @@ class EpisodeDetailViewModelMapper {
       selected: selected == null
           ? null
           : EpisodeSimilarSelectionViewModel(
-              dateLabel:
-                  'Selected · ${EpisodeDetailFormatters.shortDate(selected.match.event.time)}',
-              title:
-                  '${_rangeOrTime(selected.match.event)} · ${high ? 'high' : 'low'} episode',
+              dateLabel: _strings.selectedDate(
+                _shortDate(selected.match.event.time),
+              ),
+              title: _strings.selectedEpisode(
+                _rangeOrTime(selected.match.event),
+                high ? _strings.high : _strings.low,
+              ),
               description: selected.reason,
               matchLabel: _similarMatchLabel(selected.match.label),
               valueText: glucoseFormatter
@@ -947,13 +1076,14 @@ class EpisodeDetailViewModelMapper {
                   .valueLabel,
               durationText: '${selected.match.durationMinutes}m',
               recoveryText: selected.match.event.endTime == null
-                  ? 'Not visible'
+                  ? _strings.notVisible
                   : EpisodeDetailFormatters.hm(selected.match.event.endTime!),
               badgeColor: AppColors.green,
             ),
-      emptyText: 'No similar episodes were found in the past 30 days.',
-      note:
-          'Slide across the chart to snap to the nearest episode. X-axis is time of day, Y-axis is ${high ? 'peak' : 'nadir'} glucose, and bubble size reflects duration.',
+      emptyText: _strings.similarEmptyPast30,
+      note: _strings.similarChartNote(
+        high ? _strings.driverPeak : _strings.driverNadir,
+      ),
     );
   }
 
@@ -973,20 +1103,53 @@ class EpisodeDetailViewModelMapper {
   String _similarMatchLabel(EpisodeSimilarMatchLabel label) {
     switch (label) {
       case EpisodeSimilarMatchLabel.verySimilar:
-        return 'Very similar';
+        return _strings.similarVerySimilar;
       case EpisodeSimilarMatchLabel.similar:
-        return 'Similar';
+        return _strings.similarSimilar;
       case EpisodeSimilarMatchLabel.looseMatch:
-        return 'Loose match';
+        return _strings.similarLooseMatch;
     }
   }
 
   String _timeClusterLabel(DateTime time) {
     final hour = time.hour;
-    if (hour < 6) return 'Night cluster';
-    if (hour < 12) return 'AM cluster';
-    if (hour < 18) return 'PM cluster';
-    return 'Evening cluster';
+    if (hour < 6) return _strings.clusterNight;
+    if (hour < 12) return _strings.clusterAm;
+    if (hour < 18) return _strings.clusterPm;
+    return _strings.clusterEvening;
+  }
+
+  String _timeBlockLabel(String label) {
+    switch (label.toLowerCase()) {
+      case 'night':
+        return _strings.timeBlockNight;
+      case 'dawn':
+        return _strings.timeBlockDawn;
+      case 'morning':
+        return _strings.timeBlockMorning;
+      case 'afternoon':
+        return _strings.timeBlockAfternoon;
+      case 'evening':
+        return _strings.timeBlockEvening;
+      default:
+        return label;
+    }
+  }
+
+  String _periodVariabilityLabel(String label) {
+    switch (label.toLowerCase()) {
+      case 'overnight':
+      case 'night':
+        return _strings.timeBlockNight;
+      case 'morning':
+        return _strings.timeBlockMorning;
+      case 'afternoon':
+        return _strings.timeBlockAfternoon;
+      case 'evening':
+        return _strings.timeBlockEvening;
+      default:
+        return label;
+    }
   }
 
   String _rangeOrTime(GlucoseEvent event) {
@@ -999,14 +1162,15 @@ class EpisodeDetailViewModelMapper {
     final driver = output.highDriver;
     final unit = output.settings.unit;
     return {
-      'driverLabel':
-          driver == null ? 'mixed signals' : _driverLabel(driver.type),
+      'driverLabel': driver == null
+          ? _strings.driverMixedSignals
+          : _driverLabel(driver.type),
       'peakLabel': burden == null
-          ? 'unknown'
+          ? _strings.unknown
           : glucoseFormatter.value(burden.peakMmol, unit).fullLabel,
       'durationMinutes': burden?.durationMinutes ?? 0,
       'areaLabel': burden == null
-          ? 'unknown'
+          ? _strings.unknown
           : glucoseFormatter.area(burden.areaAboveTarget, unit).fullLabel,
     };
   }
@@ -1016,19 +1180,20 @@ class EpisodeDetailViewModelMapper {
     final driver = output.lowDriver;
     final unit = output.settings.unit;
     return {
-      'driverLabel':
-          driver == null ? 'mixed signals' : _lowDriverLabel(driver.type),
+      'driverLabel': driver == null
+          ? _strings.driverMixedSignals
+          : _lowDriverLabel(driver.type),
       'nadirLabel': burden == null
-          ? 'unknown'
+          ? _strings.unknown
           : glucoseFormatter.value(burden.nadirMmol, unit).fullLabel,
       'durationMinutes': burden?.durationMinutes ?? 0,
       'areaLabel': burden == null
-          ? 'unknown'
+          ? _strings.unknown
           : glucoseFormatter.area(burden.areaBelowTarget, unit).fullLabel,
       'lowThresholdLabel':
           glucoseFormatter.value(output.settings.lowThreshold, unit).fullLabel,
       'recoveryLabel': output.lowRecovery?.recoveryMinutes == null
-          ? 'not visible'
+          ? _strings.notVisible
           : '${output.lowRecovery!.recoveryMinutes} min',
     };
   }
@@ -1038,21 +1203,82 @@ class EpisodeDetailViewModelMapper {
       slot: EpisodeDetailTextSlot.detail,
       type: EpisodeDetailTextType.detail(name),
       facts: facts,
+      context: _textContext,
     );
   }
 
   String _focusedMissingText(EpisodeDetailEngineOutput output) {
-    final kindLabel = output.query.kind == EpisodeKind.high ? 'high' : 'low';
+    final kindLabel =
+        output.query.kind == EpisodeKind.high ? _strings.high : _strings.low;
     final focus = output.query.focus;
     final time = focus == null
         ? ''
-        : ' for ${EpisodeDetailFormatters.hm(focus.eventTime)}';
-    return 'No matching $kindLabel episode found$time.';
+        : _strings.focusedMissingTime(
+            EpisodeDetailFormatters.hm(focus.eventTime),
+          );
+    return _strings.focusedMissingEpisode(kindLabel, time);
   }
 
   String _recoveryTimeText(DateTime? recoveryTime) {
-    if (recoveryTime == null) return 'Not visible';
+    if (recoveryTime == null) return _strings.notVisible;
     return EpisodeDetailFormatters.hm(recoveryTime);
+  }
+
+  String _episodeTitle(EpisodeKind kind) => kind == EpisodeKind.high
+      ? _strings.highEpisodeTitle
+      : _strings.lowEpisodeTitle;
+
+  String _emptySubtitle(EpisodeDetailEngineOutput output) {
+    final high = output.query.kind == EpisodeKind.high;
+    if (output.query.isFocused) {
+      return high
+          ? _strings.noMatchingHighEpisode
+          : _strings.noMatchingLowEpisode;
+    }
+    return high ? _strings.noRecentHighEpisode : _strings.noRecentLowEpisode;
+  }
+
+  String _headerEpisodeRange(DateTime start, DateTime? end) {
+    final date = _shortDate(start);
+    if (end == null) return '$date · ${EpisodeDetailFormatters.hm(start)}';
+    return '$date · ${EpisodeDetailFormatters.range(start, end)}';
+  }
+
+  String _shortDate(DateTime value) {
+    if (_strings.localeName.startsWith('zh')) {
+      return '${value.month}月${value.day}日';
+    }
+    return '${_shortMonth(value.month)} ${value.day}';
+  }
+
+  String _shortMonth(int month) {
+    switch (month) {
+      case 1:
+        return _strings.monthJan;
+      case 2:
+        return _strings.monthFeb;
+      case 3:
+        return _strings.monthMar;
+      case 4:
+        return _strings.monthApr;
+      case 5:
+        return _strings.monthMay;
+      case 6:
+        return _strings.monthJun;
+      case 7:
+        return _strings.monthJul;
+      case 8:
+        return _strings.monthAug;
+      case 9:
+        return _strings.monthSep;
+      case 10:
+        return _strings.monthOct;
+      case 11:
+        return _strings.monthNov;
+      case 12:
+        return _strings.monthDec;
+    }
+    return '$month';
   }
 
   String _compactRangeText({
@@ -1060,13 +1286,15 @@ class EpisodeDetailViewModelMapper {
     required double? highMmol,
     required GlucoseUnit unit,
   }) {
-    if (lowMmol == null || highMmol == null) return 'Unknown';
+    if (lowMmol == null || highMmol == null) return _strings.unknown;
     final range = glucoseFormatter.range(lowMmol, highMmol, unit);
     return '${range.lowLabel}-${range.highLabel}';
   }
 
   String _compactRateText(double? rateMmolPerMin, GlucoseUnit unit) {
-    if (rateMmolPerMin == null || rateMmolPerMin.isNaN) return 'Unknown';
+    if (rateMmolPerMin == null || rateMmolPerMin.isNaN) {
+      return _strings.unknown;
+    }
     final rate = glucoseFormatter.rate(rateMmolPerMin, unit);
     return '${rate.valueLabel}/min';
   }
@@ -1110,11 +1338,11 @@ class EpisodeDetailViewModelMapper {
   String _priorityLabel(HighEpisodeReviewPriority priority) {
     switch (priority) {
       case HighEpisodeReviewPriority.info:
-        return 'Info';
+        return _strings.priorityInfo;
       case HighEpisodeReviewPriority.notable:
-        return 'Notable';
+        return _strings.priorityNotable;
       case HighEpisodeReviewPriority.important:
-        return 'Important';
+        return _strings.priorityImportant;
     }
   }
 
@@ -1132,17 +1360,17 @@ class EpisodeDetailViewModelMapper {
   String _driverLabel(HighEpisodeDriverType type) {
     switch (type) {
       case HighEpisodeDriverType.peak:
-        return 'peak';
+        return _strings.driverPeak;
       case HighEpisodeDriverType.duration:
-        return 'duration';
+        return _strings.driverDuration;
       case HighEpisodeDriverType.fastRise:
-        return 'fast rise';
+        return _strings.driverFastRise;
       case HighEpisodeDriverType.slowRecovery:
-        return 'slow recovery';
+        return _strings.driverSlowRecovery;
       case HighEpisodeDriverType.repeatPattern:
-        return 'repeat timing';
+        return _strings.driverRepeatTiming;
       case HighEpisodeDriverType.mixed:
-        return 'mixed signals';
+        return _strings.driverMixedSignals;
     }
   }
 
@@ -1162,11 +1390,11 @@ class EpisodeDetailViewModelMapper {
   String _confidenceLabel(EpisodeDataConfidence confidence) {
     switch (confidence) {
       case EpisodeDataConfidence.high:
-        return 'High confidence';
+        return _strings.confidenceHigh;
       case EpisodeDataConfidence.medium:
-        return 'Medium confidence';
+        return _strings.confidenceMedium;
       case EpisodeDataConfidence.low:
-        return 'Low confidence';
+        return _strings.confidenceLow;
     }
   }
 
@@ -1184,11 +1412,11 @@ class EpisodeDetailViewModelMapper {
   String _lowPriorityLabel(LowEpisodeReviewPriority priority) {
     switch (priority) {
       case LowEpisodeReviewPriority.info:
-        return 'Info';
+        return _strings.priorityInfo;
       case LowEpisodeReviewPriority.notable:
-        return 'Notable';
+        return _strings.priorityNotable;
       case LowEpisodeReviewPriority.important:
-        return 'Important';
+        return _strings.priorityImportant;
     }
   }
 
@@ -1206,19 +1434,19 @@ class EpisodeDetailViewModelMapper {
   String _lowDriverLabel(LowEpisodeDriverType type) {
     switch (type) {
       case LowEpisodeDriverType.nadir:
-        return 'nadir';
+        return _strings.driverNadir;
       case LowEpisodeDriverType.duration:
-        return 'duration';
+        return _strings.driverDuration;
       case LowEpisodeDriverType.fastDescent:
-        return 'fast descent';
+        return _strings.driverFastDescent;
       case LowEpisodeDriverType.slowRecovery:
-        return 'slow recovery';
+        return _strings.driverSlowRecovery;
       case LowEpisodeDriverType.nocturnalTiming:
-        return 'nocturnal timing';
+        return _strings.driverNocturnalTiming;
       case LowEpisodeDriverType.repeatPattern:
-        return 'repeat timing';
+        return _strings.driverRepeatTiming;
       case LowEpisodeDriverType.mixed:
-        return 'mixed signals';
+        return _strings.driverMixedSignals;
     }
   }
 
@@ -1238,13 +1466,13 @@ class EpisodeDetailViewModelMapper {
   String _lowRecoveryQualityLabel(LowEpisodeRecoveryQuality quality) {
     switch (quality) {
       case LowEpisodeRecoveryQuality.quick:
-        return 'Quick';
+        return _strings.recoveryQuick;
       case LowEpisodeRecoveryQuality.gradual:
-        return 'Gradual';
+        return _strings.recoveryGradual;
       case LowEpisodeRecoveryQuality.slow:
-        return 'Slow';
+        return _strings.recoverySlow;
       case LowEpisodeRecoveryQuality.unknown:
-        return 'Unknown';
+        return _strings.unknown;
     }
   }
 
@@ -1262,20 +1490,6 @@ class EpisodeDetailViewModelMapper {
   }
 
   String _repeatDayLabel(DateTime value) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[value.month - 1]} ${value.day}';
+    return _shortDate(value);
   }
 }

@@ -1,36 +1,42 @@
 import '../models/report_section.dart';
+import '../l10n/generated/report_localizations.dart';
+import 'i18n/report_l10n_resolver.dart';
 
 class ReportDefaultSections {
-  static const values = [
-    ReportSectionToggle(
-      key: ReportSectionKey.keyMetrics,
-      title: 'Key Metrics',
-      subtitle: 'TIR, average, wear, CV and GMI',
-      enabled: true,
-    ),
-    ReportSectionToggle(
-      key: ReportSectionKey.agpChart,
-      title: 'AGP Chart',
-      subtitle: '24-hour percentile overlay',
-      enabled: true,
-    ),
-    ReportSectionToggle(
-      key: ReportSectionKey.dailyCurves,
-      title: 'Daily Curves',
-      subtitle: 'Last 14 days with sparse-data marks',
-      enabled: true,
-    ),
-    ReportSectionToggle(
-      key: ReportSectionKey.periodAnalysis,
-      title: 'Period Analysis',
-      subtitle: 'Add day-part pattern summary',
-      enabled: false,
-    ),
-    ReportSectionToggle(
-      key: ReportSectionKey.episodesSummary,
-      title: 'Episodes Summary',
-      subtitle: 'Add low/high episode counts',
-      enabled: false,
-    ),
-  ];
+  static final values = localized(ReportL10nResolver.fallback);
+
+  static List<ReportSectionToggle> localized(ReportLocalizations l10n) {
+    return [
+      ReportSectionToggle(
+        key: ReportSectionKey.keyMetrics,
+        title: l10n.toggleKeyMetricsTitle,
+        subtitle: l10n.toggleKeyMetricsSubtitle,
+        enabled: true,
+      ),
+      ReportSectionToggle(
+        key: ReportSectionKey.agpChart,
+        title: l10n.toggleAgpChartTitle,
+        subtitle: l10n.toggleAgpChartSubtitle,
+        enabled: true,
+      ),
+      ReportSectionToggle(
+        key: ReportSectionKey.dailyCurves,
+        title: l10n.toggleDailyCurvesTitle,
+        subtitle: l10n.toggleDailyCurvesSubtitle,
+        enabled: true,
+      ),
+      ReportSectionToggle(
+        key: ReportSectionKey.periodAnalysis,
+        title: l10n.togglePeriodAnalysisTitle,
+        subtitle: l10n.togglePeriodAnalysisSubtitle,
+        enabled: false,
+      ),
+      ReportSectionToggle(
+        key: ReportSectionKey.episodesSummary,
+        title: l10n.toggleEpisodesSummaryTitle,
+        subtitle: l10n.toggleEpisodesSummarySubtitle,
+        enabled: false,
+      ),
+    ];
+  }
 }

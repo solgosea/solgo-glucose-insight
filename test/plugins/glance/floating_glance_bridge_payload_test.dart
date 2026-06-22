@@ -40,7 +40,7 @@ void main() {
     expect(segment.kind.code, 'glucose');
     expect(segment.primaryText, '7.2 mmol/L');
     expect(segment.secondaryText, 'TIR 78%');
-    expect(segment.metaText, 'just now');
+    expect(segment.metaText, '0m');
     expect(segment.data['valueLabel'], '7.2');
     expect(segment.data['unitLabel'], 'mmol/L');
     expect(segment.data['deltaLabel'], '+0.2');
@@ -50,5 +50,8 @@ void main() {
     expect(segment.data['targetLowMmol'], 3.9);
     expect(segment.data['targetHighMmol'], 10);
     expect(segment.data['sparklinePoints'], hasLength(2));
+    expect(segment.data['sizePreset'], 'medium');
+    expect(segment.data['formFactor'], 'pill');
+    expect(segment.data['presetSource'], 'automatic');
   });
 }

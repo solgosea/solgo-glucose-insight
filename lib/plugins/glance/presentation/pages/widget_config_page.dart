@@ -9,6 +9,7 @@ import '../../../../domain/entities/app_settings.dart';
 import '../../../../plugin_platform/services/plugin_service_registry.dart';
 import '../../application/glance_snapshot_service.dart';
 import '../../application/glance_widget_config_service.dart';
+import '../../application/i18n/glance_l10n.dart';
 import '../../data/sqlite/sqlite_glance_widget_config_repository.dart';
 import '../../domain/glance_snapshot.dart';
 import '../../domain/widget_background_style.dart';
@@ -52,6 +53,7 @@ class _WidgetConfigPageState extends State<WidgetConfigPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.glanceL10n;
     return Scaffold(
       backgroundColor: GlanceTheme.bg,
       appBar: AppBar(
@@ -121,7 +123,7 @@ class _WidgetConfigPageState extends State<WidgetConfigPage> {
                     controller.update(config.copyWith(fontSize: value)),
               ),
               const SizedBox(height: 20),
-              _Label('Graph range'),
+              _Label(l10n.glanceWidgetGraphRange),
               GlanceSegmentedOption(
                 values: GlanceWidgetGraphRange.values,
                 selected: config.graphRange,
@@ -130,37 +132,37 @@ class _WidgetConfigPageState extends State<WidgetConfigPage> {
                     controller.update(config.copyWith(graphRange: value)),
               ),
               const SizedBox(height: 20),
-              _Label('Show on widget'),
+              _Label(l10n.glanceWidgetShowOnWidget),
               _SwitchRow(
-                label: 'Trend arrow',
+                label: l10n.glanceWidgetTrendArrow,
                 value: config.showTrendArrow,
                 onChanged: (value) => controller.update(
                   config.copyWith(showTrendArrow: value),
                 ),
               ),
               _SwitchRow(
-                label: 'Delta',
+                label: l10n.glanceWidgetDelta,
                 value: config.showDelta,
                 onChanged: (value) => controller.update(
                   config.copyWith(showDelta: value),
                 ),
               ),
               _SwitchRow(
-                label: 'Last updated',
+                label: l10n.glanceWidgetLastUpdated,
                 value: config.showLastUpdated,
                 onChanged: (value) => controller.update(
                   config.copyWith(showLastUpdated: value),
                 ),
               ),
               _SwitchRow(
-                label: 'Mini graph',
+                label: l10n.glanceWidgetMiniGraph,
                 value: config.showMiniGraph,
                 onChanged: (value) => controller.update(
                   config.copyWith(showMiniGraph: value),
                 ),
               ),
               const SizedBox(height: 20),
-              _Label('Tap action'),
+              _Label(l10n.glanceWidgetTapAction),
               GlanceSegmentedOption(
                 values: GlanceWidgetTapAction.values,
                 selected: config.tapAction,
@@ -180,7 +182,7 @@ class _WidgetConfigPageState extends State<WidgetConfigPage> {
                   if (!context.mounted) return;
                   _showWidgetSavedToast(context);
                 },
-                child: const Text('Add widget'),
+                child: Text(l10n.glanceWidgetAddWidget),
               ),
             ],
           );

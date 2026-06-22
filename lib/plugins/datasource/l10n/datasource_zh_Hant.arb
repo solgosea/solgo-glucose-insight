@@ -1,0 +1,23 @@
+﻿{
+    "@@locale":  "zh_Hant",
+    "pluginTitle":  "資料來源",
+    "pluginSubtitle":  "設定 xDrip+ Local 和 Nightscout 資料來源。",
+    "pluginDescription":  "設定 xDrip+ Local 和 Nightscout 資料來源。",
+    "pluginReportTitle":  "資料來源報告",
+    "pluginLoading":  "載入中",
+    "pluginNoData":  "暫無可用資料。",
+    "pluginUnavailable":  "不可用",
+    "nightscoutUpdateConnection": "更新連線",
+    "nightscoutApiTitle": "Nightscout API",
+    "nightscoutUpdateSubtitle": "在下方更新站點 URL 或存取權杖。",
+    "nightscoutSetupSubtitle": "輸入你的 Nightscout 站點 URL，可選填寫存取權杖。",
+    "nightscoutSiteUrl": "站點 URL",
+    "nightscoutUrlHint": "https://your-site.herokuapp.com",
+    "nightscoutAccessToken": "存取權杖",
+    "nightscoutOptional": "可選",
+    "nightscoutTesting": "正在測試...",
+    "nightscoutTestAndConnect": "測試並連線",
+    "nightscoutEnterUrl": "請輸入 Nightscout URL 後繼續",
+    "nightscoutTestingConnection": "正在測試連線...",
+    "nightscoutConnectedSyncing": "已連線，正在同步"
+}

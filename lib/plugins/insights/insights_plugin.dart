@@ -12,18 +12,21 @@ import 'application/insights_snapshot_preheater.dart';
 import 'pages/insights_page.dart';
 import 'runtime/insights_plugin_runtime.dart';
 import 'runtime/insights_runtime_cache.dart';
+import 'application/i18n/insights_l10n_resolver.dart';
 
 class InsightsPlugin extends SmartFeaturePlugin {
   const InsightsPlugin();
+
+  static final _strings = InsightsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('analysis.insights');
 
   @override
-  String get title => 'Insights';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Narrative daily and weekly glucose insights.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;

@@ -6,19 +6,22 @@ import '../../plugin_platform/contracts/plugin_id.dart';
 import '../../plugin_platform/contracts/plugin_placement.dart';
 import '../../plugin_platform/contracts/plugin_release_stage.dart';
 import '../../plugin_platform/contracts/plugin_route.dart';
-import '../../plugin_platform/contracts/smart_feature_plugin.dart';
+import '../../plugin_platform/contracts/smart_feature_plugin.dart';
+import 'application/i18n/background_l10n_resolver.dart';
 
 class GlucoseSyncTaskPlugin extends SmartFeaturePlugin {
   const GlucoseSyncTaskPlugin();
+
+  static final _strings = BackgroundL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('background.glucose_sync');
 
   @override
-  String get title => 'Glucose Sync';
+  String get title => _strings.glucoseSyncTitle;
 
   @override
-  String get description => 'Synchronizes glucose readings from active source.';
+  String get description => _strings.glucoseSyncDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -39,7 +42,7 @@ class GlucoseSyncTaskPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.backgroundTask'),
           renderKey: 'glucose.sync',
-          title: 'Glucose Sync',
+          title: _strings.glucoseSyncTitle,
           order: 20,
           dataRequirements: dataRequirements,
         ),
@@ -47,10 +50,10 @@ class GlucoseSyncTaskPlugin extends SmartFeaturePlugin {
 
   @override
   BackgroundTaskPluginEntry get backgroundTaskEntry =>
-      const BackgroundTaskPluginEntry(
+      BackgroundTaskPluginEntry(
         taskKey: 'glucose.sync',
-        title: 'Glucose Sync',
-        description: 'Fetch, normalize, and persist source glucose readings.',
+        title: _strings.glucoseSyncTitle,
+        description: _strings.glucoseSyncSubtitle,
         interval: Duration(minutes: 5),
         foregroundService: true,
         order: 20,

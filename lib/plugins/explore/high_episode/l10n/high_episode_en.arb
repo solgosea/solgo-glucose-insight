@@ -1,0 +1,10 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "High Episode",
+    "pluginSubtitle":  "Review high glucose episodes and patterns.",
+    "pluginDescription":  "Review high glucose episodes and patterns.",
+    "pluginReportTitle":  "High Episode Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable"
+}

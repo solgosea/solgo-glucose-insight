@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_xdrip/application/glucose_unit/glucose_unit_format_service.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 
+import '../../application/i18n/profile_l10n_resolver.dart';
+import '../../l10n/generated/profile_localizations.dart';
 import 'target_range_profile_view_model.dart';
 
 class TargetRangeProfileViewModelMapper {
@@ -11,7 +13,11 @@ class TargetRangeProfileViewModelMapper {
     this.glucoseFormatter = const GlucoseUnitFormatService(),
   });
 
-  TargetRangeProfileViewModel map(AppSettings settings) {
+  TargetRangeProfileViewModel map(
+    AppSettings settings, {
+    ProfileLocalizations? l10n,
+  }) {
+    final strings = l10n ?? ProfileL10nResolver.fallback;
     final target = glucoseFormatter.range(
       settings.lowThreshold,
       settings.highThreshold,
@@ -27,26 +33,26 @@ class TargetRangeProfileViewModelMapper {
       ranges: [
         TargetRangeProfileRowViewModel(
           icon: Icons.stacked_line_chart_rounded,
-          label: 'Target range',
-          subtitle: 'Primary glucose band',
+          label: strings.targetRangePrimaryBandLabel,
+          subtitle: strings.targetRangePrimaryBandSubtitle,
           valueLabel: target.fullLabel,
         ),
         TargetRangeProfileRowViewModel(
           icon: Icons.trending_down_rounded,
-          label: 'Low threshold',
-          subtitle: 'Below this enters low range',
+          label: strings.targetRangeLowThresholdLabel,
+          subtitle: strings.targetRangeLowThresholdSubtitle,
           valueLabel: low.fullLabel,
         ),
         TargetRangeProfileRowViewModel(
           icon: Icons.trending_up_rounded,
-          label: 'High threshold',
-          subtitle: 'Above this enters high range',
+          label: strings.targetRangeHighThresholdLabel,
+          subtitle: strings.targetRangeHighThresholdSubtitle,
           valueLabel: high.fullLabel,
         ),
         TargetRangeProfileRowViewModel(
           icon: Icons.warning_amber_rounded,
-          label: 'Very high threshold',
-          subtitle: 'Marked as urgent high zone',
+          label: strings.targetRangeVeryHighThresholdLabel,
+          subtitle: strings.targetRangeVeryHighThresholdSubtitle,
           valueLabel: veryHigh.fullLabel,
         ),
       ],

@@ -542,8 +542,6 @@ class InsightFactBuilder {
   }
 
   String _dayLabel(DateTime day, DateTime now) {
-    final today = DateTime(now.year, now.month, now.day);
-    if (day == today.subtract(const Duration(days: 1))) return 'Yesterday';
     return _formatHeaderDate(day);
   }
 
@@ -567,42 +565,12 @@ class InsightFactBuilder {
   }
 
   String _formatHeaderDate(DateTime date) {
-    const months = [
-      '',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[date.month]} ${date.day}, ${date.year}';
+    return '${_monthShort(date.month)} ${date.day}, ${date.year}';
   }
 
   String _formatWeekRange(DateTime start, DateTime end) {
-    const months = [
-      '',
-      'JAN',
-      'FEB',
-      'MAR',
-      'APR',
-      'MAY',
-      'JUN',
-      'JUL',
-      'AUG',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DEC',
-    ];
-    final startMonth = months[start.month];
-    final endMonth = months[end.month];
+    final startMonth = _monthShort(start.month).toUpperCase();
+    final endMonth = _monthShort(end.month).toUpperCase();
     if (start.month == end.month) return '$startMonth ${start.day}-${end.day}';
     return '$startMonth ${start.day} - $endMonth ${end.day}';
   }
@@ -615,6 +583,23 @@ class InsightFactBuilder {
 
   String _weekdayShort(int weekday) =>
       const ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][weekday];
+
+  String _monthShort(int month) {
+    return switch (month) {
+      1 => 'Jan',
+      2 => 'Feb',
+      3 => 'Mar',
+      4 => 'Apr',
+      5 => 'May',
+      6 => 'Jun',
+      7 => 'Jul',
+      8 => 'Aug',
+      9 => 'Sep',
+      10 => 'Oct',
+      11 => 'Nov',
+      _ => 'Dec',
+    };
+  }
 
   String _formatTime(DateTime time) =>
       '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';

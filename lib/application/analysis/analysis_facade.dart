@@ -8,6 +8,7 @@ import '../../domain/entities/glucose_event.dart';
 import '../../domain/entities/glucose_reading.dart';
 import '../../domain/glucose/glucose_threshold_context.dart';
 import '../../domain/insight/narrative_insight.dart';
+import '../../domain/insight/insight_fact_bundle.dart';
 import '../../domain/subject/analysis_subject.dart';
 import '../../engine/detection/dawn_phenomenon_detector.dart';
 import '../../engine/detection/episode_detector.dart';
@@ -15,6 +16,9 @@ import '../../engine/statistics/agp_calculator.dart';
 import '../../engine/statistics/tir_calculator.dart';
 import '../glucose_unit/glucose_unit_format_service.dart';
 import 'analysis_session_store.dart';
+import '../insight/default_insight_templates.dart';
+import '../insight/insight_template_renderer.dart';
+import '../insight/insight_template_selector.dart';
 
 typedef AnalysisTirResult = TirResult;
 typedef AnalysisAgpSlot = AgpSlot;
@@ -49,6 +53,29 @@ class AnalysisFacade {
 
   List<String> insightBodiesFor(AnalysisModuleCode module) =>
       insightsFor(module).map((i) => i.body).toList();
+
+  List<String> localizedInsightBodiesFor(
+    AnalysisModuleCode module, {
+    String locale = 'en',
+  }) {
+    const selector = InsightTemplateSelector();
+    const renderer = InsightTemplateRenderer();
+    return insightsFor(module).map((insight) {
+      final template = selector.select(
+        InsightFactBundle(
+          module: insight.module,
+          slot: insight.slot,
+          type: insight.type,
+          facts: insight.facts,
+        ),
+        DefaultInsightTemplates.all,
+        locale: locale,
+        fallbackLocale: 'en',
+      );
+      if (template == null) return insight.body;
+      return renderer.render(template, insight.facts).body;
+    }).toList(growable: false);
+  }
 
   DailyGlucoseSummary? get latestDaily {
     final daily = snapshot?.dailySummaries;

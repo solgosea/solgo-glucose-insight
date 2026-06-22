@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../foundation/theme/app_colors.dart';
+import '../application/i18n/history_l10n.dart';
 import '../models/history_view_model.dart';
 
 class HistoryTimeFilterBanner extends StatelessWidget {
@@ -49,9 +50,12 @@ class HistoryTimeFilterBanner extends StatelessWidget {
               minimumSize: const Size(0, 32),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: const Text(
-              'Clear',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
+            child: Text(
+              context.historyL10n.filterClear,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
         ],

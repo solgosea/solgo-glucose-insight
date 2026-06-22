@@ -1,0 +1,23 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Data Source",
+    "pluginSubtitle":  "Configure xDrip+ Local and Nightscout sources.",
+    "pluginDescription":  "Configure xDrip+ Local and Nightscout sources.",
+    "pluginReportTitle":  "Data Source Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "nightscoutUpdateConnection": "Update connection",
+    "nightscoutApiTitle": "Nightscout API",
+    "nightscoutUpdateSubtitle": "Update your site URL or access token below.",
+    "nightscoutSetupSubtitle": "Enter your Nightscout site URL and optional access token.",
+    "nightscoutSiteUrl": "Site URL",
+    "nightscoutUrlHint": "https://your-site.herokuapp.com",
+    "nightscoutAccessToken": "Access token",
+    "nightscoutOptional": "Optional",
+    "nightscoutTesting": "Testing...",
+    "nightscoutTestAndConnect": "Test and connect",
+    "nightscoutEnterUrl": "Enter a Nightscout URL to continue",
+    "nightscoutTestingConnection": "Testing connection...",
+    "nightscoutConnectedSyncing": "Connected, syncing now"
+}

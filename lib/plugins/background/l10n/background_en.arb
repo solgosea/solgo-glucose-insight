@@ -1,0 +1,16 @@
+﻿{
+    "glucoseSyncSubtitle": "Sync active glucose source",
+    "sourceHealthSubtitle": "Validate active data source availability.",
+    "sourceHealthTitle": "Source Health Check",
+    "glucoseSyncTitle": "Glucose Sync",
+    "glucoseSyncDescription": "Synchronizes glucose readings from active source.",
+    "sourceHealthDescription": "Checks the active xDrip or Nightscout source reachability.",
+    "pluginUnavailable": "Unavailable",
+    "pluginReportTitle": "Background Report",
+    "@@locale": "en",
+    "pluginSubtitle": "Background glucose sync and source health tasks.",
+    "pluginTitle": "Background Tasks",
+    "pluginDescription": "Background glucose sync and source health tasks.",
+    "pluginNoData": "No data available yet.",
+    "pluginLoading": "Loading"
+}

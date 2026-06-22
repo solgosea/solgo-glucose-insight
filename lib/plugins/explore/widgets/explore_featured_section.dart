@@ -5,28 +5,36 @@ import '../../../foundation/theme/app_colors.dart';
 import '../../../plugin_platform/contracts/plugin_entry.dart';
 import '../../../plugin_platform/contracts/plugin_runtime_state.dart';
 import '../../../plugin_platform/contracts/plugin_runtime_status.dart';
+import '../application/i18n/explore_l10n.dart';
 
 class ExploreFeaturedSection extends StatelessWidget {
+  final ExplorePluginEntry? statusMonitorEntry;
+  final PluginRuntimeState? statusMonitorState;
   final ExplorePluginEntry? reportEntry;
   final PluginRuntimeState? reportState;
 
   const ExploreFeaturedSection({
     super.key,
+    this.statusMonitorEntry,
+    this.statusMonitorState,
     this.reportEntry,
     this.reportState,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (reportEntry == null) return const SizedBox();
+    if (statusMonitorEntry == null && reportEntry == null) {
+      return const SizedBox();
+    }
+    final l10n = context.exploreL10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(20, 18, 20, 8),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 8),
           child: Text(
-            'FEATURED PLUGINS',
-            style: TextStyle(
+            l10n.featuredPlugins,
+            style: const TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 10,
               fontWeight: FontWeight.w600,
@@ -35,14 +43,29 @@ class ExploreFeaturedSection extends StatelessWidget {
             ),
           ),
         ),
+        if (statusMonitorEntry != null)
+          _FeaturedPluginCard(
+            entry: statusMonitorEntry!,
+            state: statusMonitorState,
+            eyebrow: 'STATUS MONITOR',
+            badge: 'BETA',
+            badgeColor: AppColors.amber,
+            title: statusMonitorEntry!.title,
+            body: statusMonitorEntry!.subtitle,
+            cta: '',
+            color: AppColors.green,
+            icon: Icons.monitor_heart_rounded,
+            gradientEnd: AppColors.amber,
+            showFooter: false,
+          ),
         if (reportEntry != null)
           _FeaturedPluginCard(
             entry: reportEntry!,
             state: reportState,
-            eyebrow: 'REPORT',
-            badge: 'FREE',
-            title: 'Doctor-ready glucose report',
-            body: 'AGP standard PDF. Export & share in seconds.',
+            eyebrow: l10n.featuredReportEyebrow,
+            badge: l10n.featuredReportBadge,
+            title: l10n.featuredReportTitle,
+            body: l10n.featuredReportBody,
             cta: '',
             color: AppColors.green,
             icon: Icons.description_rounded,
@@ -66,6 +89,7 @@ class _FeaturedPluginCard extends StatelessWidget {
   final Color gradientEnd;
   final IconData icon;
   final bool showFooter;
+  final Color? badgeColor;
 
   const _FeaturedPluginCard({
     required this.entry,
@@ -79,6 +103,7 @@ class _FeaturedPluginCard extends StatelessWidget {
     required this.gradientEnd,
     required this.icon,
     this.showFooter = true,
+    this.badgeColor,
   });
 
   @override
@@ -207,7 +232,7 @@ class _FeaturedPluginCard extends StatelessWidget {
                           ),
                         )
                       else
-                        _DisabledPill(label: _disabledLabel(state)),
+                        _DisabledPill(label: _disabledLabel(context, state)),
                       const Spacer(),
                       Icon(
                         Icons.arrow_forward_rounded,
@@ -229,7 +254,8 @@ class _FeaturedPluginCard extends StatelessWidget {
                   fontSize: 9,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.8,
-                  color: effectiveColor,
+                  color:
+                      enabled ? badgeColor ?? effectiveColor : effectiveColor,
                 ),
               ),
             ),
@@ -239,13 +265,14 @@ class _FeaturedPluginCard extends StatelessWidget {
     );
   }
 
-  String _disabledLabel(PluginRuntimeState? state) {
+  String _disabledLabel(BuildContext context, PluginRuntimeState? state) {
+    final l10n = context.exploreL10n;
     return switch (state?.status) {
-      PluginRuntimeStatus.noData => 'No data',
-      PluginRuntimeStatus.missingSource => 'No source',
-      PluginRuntimeStatus.disabled => 'Disabled',
-      PluginRuntimeStatus.hidden => 'Hidden',
-      PluginRuntimeStatus.available || null => 'Unavailable',
+      PluginRuntimeStatus.noData => l10n.runtimeNoData,
+      PluginRuntimeStatus.missingSource => l10n.runtimeNoSource,
+      PluginRuntimeStatus.disabled => l10n.runtimeDisabled,
+      PluginRuntimeStatus.hidden => l10n.runtimeHidden,
+      PluginRuntimeStatus.available || null => l10n.runtimeUnavailable,
     };
   }
 }

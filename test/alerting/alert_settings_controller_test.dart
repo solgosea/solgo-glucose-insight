@@ -54,7 +54,7 @@ AlertEvent _event() {
   final now = DateTime(2026, 6, 8, 10);
   return AlertEvent(
     id: 'a1',
-    source: const AlertEventSource('follow.local'),
+    source: const AlertEventSource('local.datasource'),
     sourceEventId: 'f1',
     category: AlertCategory.glucoseUrgentLow,
     level: AlertLevel.critical,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/profile_l10n.dart';
 
 class TargetRangeSheetActions extends StatelessWidget {
   final bool canSave;
@@ -16,18 +17,19 @@ class TargetRangeSheetActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     return Row(
       children: [
         Expanded(
           child: _SheetButton(
-            label: 'Cancel',
+            label: l10n.targetRangeCancel,
             onTap: onCancel,
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: _SheetButton(
-            label: 'Save range',
+            label: l10n.targetRangeSaveRange,
             primary: true,
             enabled: canSave,
             onTap: onSave,

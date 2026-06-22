@@ -56,7 +56,7 @@ void main() {
     expect(output.highDriver, isNotNull);
     expect(output.highReliability?.confidence, EpisodeDataConfidence.high);
     expect(output.chartSection, isNotNull);
-    expect(output.similarSection.title, contains('Past 30 Days'));
+    expect(output.similarSection.windowDays, 30);
     expect(output.highRepeat?.windowDays, 30);
     expect(output.highRepeat?.chartDataset.dayMarks, hasLength(30));
     expect(output.highRepeat?.chartDataset.timeBlockBuckets, hasLength(5));

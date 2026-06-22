@@ -22,6 +22,7 @@ class InsightsSnapshotPreheater {
         (service ?? InsightsService(hostServices: hostServices)).load();
     return InsightsRuntimeSnapshot(
       subjectId: output.query.subjectId,
+      output: output,
       viewModel: mapper.map(output),
       updatedAt: now(),
     );

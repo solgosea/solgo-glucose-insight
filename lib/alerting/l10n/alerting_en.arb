@@ -1,0 +1,130 @@
+{
+  "@@locale": "en",
+  "alertingTitle": "Alert Settings",
+  "alertingSubtitle": "Configure notification, sound, vibration, and in-app behavior.",
+  "pluginTitle": "Alerting",
+  "pluginDescription": "Configurable alert delivery strategies.",
+  "settingsEntrySubtitle": "Sound, vibration, notification strategies",
+  "alertSystemSection": "Alert System",
+  "deliveryStrategiesSection": "Delivery Strategies",
+  "enableAlertsTitle": "Enable alerts",
+  "enableAlertsSubtitle": "Master switch for glucose safety alerts and future alert sources.",
+  "criticalOnlyTitle": "Critical only",
+  "criticalOnlySubtitle": "Only urgent events can trigger delivery strategies.",
+  "detailCriticalOnly": "Critical only",
+  "detailAllSeverities": "All severities",
+  "inAppAlertTitle": "In-app alert",
+  "inAppAlertSubtitle": "Show a visible alert card while the app is open.",
+  "detailCriticalFullScreenReady": "Critical full screen ready",
+  "detailCompactMode": "Compact mode",
+  "systemNotificationTitle": "System notification",
+  "systemNotificationSubtitle": "Use the operating system notification channel.",
+  "detailHighPriorityChannel": "High priority channel",
+  "soundAlertTitle": "Sound alert",
+  "soundAlertSubtitle": "Choose system, built-in, custom, or silent sound behavior.",
+  "soundMaxDuration": "{seconds}s max",
+  "@soundMaxDuration": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "detailRepeatCritical": "Repeat critical",
+  "detailSingle": "Single",
+  "vibrationAlertTitle": "Vibration alert",
+  "vibrationAlertSubtitle": "Use vibration patterns for warning and critical events.",
+  "vibrationCritical": "Critical: {label}",
+  "@vibrationCritical": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "vibrationWarning": "Warning: {label}",
+  "@vibrationWarning": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "configureTooltip": "Configure",
+  "alertSettingsEntryTitle": "Alert Settings",
+  "alertSettingsEntrySubtitle": "Sound, vibration, notifications, and in-app alert behavior",
+  "alertRuntimeTitle": "Alert runtime",
+  "runtimeAndroidHelperAlerts": "Android alerts can run through the foreground service, but SolgoInsight still treats them as helper alerts.",
+  "runtimeIosBestEffort": "iOS can evaluate helper alerts during best-effort background refresh when the system allows it. It is not real-time.",
+  "runtimePlatformLimited": "This platform does not provide reliable background alerts.",
+  "runtimeForegroundAlerts": "Foreground alerts",
+  "runtimeForegroundOff": "Foreground off",
+  "runtimeBackgroundEvaluation": "Background evaluation",
+  "runtimeBackgroundLimited": "Background limited",
+  "runtimeRealtimeGuaranteed": "Realtime guaranteed",
+  "runtimeNoRealtimeGuarantee": "No realtime guarantee",
+  "chooseSoundSourceTitle": "Choose sound source",
+  "chooseSoundSourceSubtitle": "The selected sound is saved globally and used whenever an alert rule requests Sound.",
+  "builtInSoundsSection": "Built-in sounds",
+  "quietSection": "Quiet",
+  "customSection": "Custom",
+  "importing": "Importing...",
+  "chooseAudioFile": "Choose audio file",
+  "previewingSound": "Previewing {name}",
+  "@previewingSound": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "couldNotPreviewSound": "Could not preview this sound",
+  "couldNotImportAudioTrySmaller": "Could not import this audio file. Try a smaller local file.",
+  "couldNotImportAudio": "Could not import this audio file",
+  "soundSubtitleAsset": "Bundled with SolgoInsight",
+  "soundSubtitleFile": "Imported into app private storage",
+  "soundSubtitleSilent": "Sound channel stays silent",
+  "playing": "Playing",
+  "preview": "Preview",
+  "select": "Select",
+  "soundSteadyPing": "Steady ping",
+  "soundUrgentPulse": "Urgent pulse",
+  "soundGentleChime": "Gentle chime",
+  "soundSoftBell": "Soft bell",
+  "soundSilent": "Silent",
+  "soundBuiltInFallback": "Built-in alert sound",
+  "vibrationCriticalRepeat": "Critical repeat",
+  "vibrationShortWarning": "Short warning",
+  "alertActionSnooze5m": "Snooze 5m",
+  "alertActionDismiss": "Dismiss",
+  "alertActionStop": "Stop",
+  "alertSubjectCurrentGlucose": "current glucose",
+  "alertSubjectGlucose": "Glucose",
+  "alertSubjectGlucoseData": "Glucose data",
+  "alertTitleUrgentLowGlucose": "Urgent low glucose",
+  "alertTitleLowGlucose": "Low glucose",
+  "alertTitleHighGlucose": "High glucose",
+  "alertTitleGlucoseAlert": "Glucose alert",
+  "alertBodyGlucoseValue": "{subject} is {value}.",
+  "@alertBodyGlucoseValue": {
+    "placeholders": {
+      "subject": {"type": "String"},
+      "value": {"type": "String"}
+    }
+  },
+  "alertTitleRapidFall": "Rapid fall",
+  "alertBodyRapidFall": "{subject} is falling quickly.",
+  "@alertBodyRapidFall": {
+    "placeholders": {
+      "subject": {"type": "String"}
+    }
+  },
+  "alertBodyRapidFallWithRate": "{subject} is falling quickly ({rate}).",
+  "@alertBodyRapidFallWithRate": {
+    "placeholders": {
+      "subject": {"type": "String"},
+      "rate": {"type": "String"}
+    }
+  },
+  "alertTitleNoRecentGlucoseData": "No recent glucose data",
+  "alertBodyNoRecentGlucoseData": "{subject} has not updated recently.",
+  "@alertBodyNoRecentGlucoseData": {
+    "placeholders": {
+      "subject": {"type": "String"}
+    }
+  },
+  "alertFallbackTitle": "Alert",
+  "alertFallbackBody": "A new alert was received."
+}

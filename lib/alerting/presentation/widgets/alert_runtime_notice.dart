@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/alerting_l10n.dart';
+import '../../l10n/generated/alerting_localizations.dart';
 import '../../runtime/alert_runtime_status.dart';
 
 class AlertRuntimeNotice extends StatelessWidget {
@@ -13,6 +15,7 @@ class AlertRuntimeNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.alertingL10n;
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
       decoration: BoxDecoration(
@@ -43,9 +46,9 @@ class AlertRuntimeNotice extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Alert runtime',
-                  style: TextStyle(
+                Text(
+                  l10n.alertRuntimeTitle,
+                  style: const TextStyle(
                     color: AppColors.text,
                     fontSize: 13,
                     fontWeight: FontWeight.w900,
@@ -53,7 +56,7 @@ class AlertRuntimeNotice extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  status.message,
+                  _message(status, l10n),
                   style: const TextStyle(
                     color: AppColors.textSoft,
                     fontSize: 11,
@@ -68,20 +71,20 @@ class AlertRuntimeNotice extends StatelessWidget {
                   children: [
                     _CapabilityPill(
                       label: status.foregroundAvailable
-                          ? 'Foreground alerts'
-                          : 'Foreground off',
+                          ? l10n.runtimeForegroundAlerts
+                          : l10n.runtimeForegroundOff,
                       active: status.foregroundAvailable,
                     ),
                     _CapabilityPill(
                       label: status.backgroundEvaluationAvailable
-                          ? 'Background evaluation'
-                          : 'Background limited',
+                          ? l10n.runtimeBackgroundEvaluation
+                          : l10n.runtimeBackgroundLimited,
                       active: status.backgroundEvaluationAvailable,
                     ),
                     _CapabilityPill(
                       label: status.realtimeGuaranteed
-                          ? 'Realtime guaranteed'
-                          : 'No realtime guarantee',
+                          ? l10n.runtimeRealtimeGuaranteed
+                          : l10n.runtimeNoRealtimeGuarantee,
                       active: status.realtimeGuaranteed,
                     ),
                   ],
@@ -92,6 +95,16 @@ class AlertRuntimeNotice extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _message(AlertRuntimeStatus status, AlertingLocalizations l10n) {
+    if (!status.capability.supportsBackgroundEvaluation) {
+      return l10n.runtimePlatformLimited;
+    }
+    if (!status.capability.supportsRemotePush) {
+      return l10n.runtimeIosBestEffort;
+    }
+    return l10n.runtimeAndroidHelperAlerts;
   }
 }
 

@@ -1,5 +1,6 @@
 import '../../../domain/event/alert_category.dart';
 import '../alert_rendered_text.dart';
+import '../alert_text_localizer.dart';
 import '../alert_text_render_context.dart';
 import '../alert_text_render_request.dart';
 import '../alert_text_renderer.dart';
@@ -17,11 +18,14 @@ class CoreNoDataAlertTextRenderer implements AlertTextRenderer {
     AlertTextRenderRequest request,
     AlertTextRenderContext context,
   ) {
+    final l10n = AlertTextLocalizer.forContext(context);
     final name = context.subjectDisplayName;
-    final prefix = name == null || name.trim().isEmpty ? 'Glucose data' : name;
+    final prefix = name == null || name.trim().isEmpty
+        ? l10n.alertSubjectGlucoseData
+        : name;
     return AlertRenderedText(
-      title: 'No recent glucose data',
-      body: '$prefix has not updated recently.',
+      title: l10n.alertTitleNoRecentGlucoseData,
+      body: l10n.alertBodyNoRecentGlucoseData(prefix),
     );
   }
 }

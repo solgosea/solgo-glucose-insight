@@ -2,8 +2,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 class AppMetadata {
   static const displayName = 'Solgo Insight';
-  static const fallbackVersionName = '0.4.0';
-  static const fallbackBuildNumber = '5';
+  static const fallbackVersionName = '0.1.0';
+  static const fallbackBuildNumber = '1';
 
   final String versionName;
   final String buildNumber;

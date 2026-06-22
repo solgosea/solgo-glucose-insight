@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/contracts/plugin_runtime_context.dart';
+import 'package:smart_xdrip/reporting/application/report_export_action.dart';
 
 import '../../../../application/analysis/analysis_facade.dart';
 import '../application/report_default_sections.dart';
 import '../application/report_export_use_case.dart';
 import '../application/report_service.dart';
+import '../l10n/generated/report_localizations.dart';
 import '../models/report_period.dart';
 import '../models/report_section.dart';
 import '../models/report_view_model.dart';
 import '../runtime/report_plugin_runtime.dart';
 import '../runtime/report_runtime_cache.dart';
-import '../services/report_export_service.dart' show ReportExportAction;
 
 class ReportController extends ChangeNotifier {
   final Listenable changeSignal;
@@ -27,6 +28,7 @@ class ReportController extends ChangeNotifier {
   bool _disposed = false;
   int _loadVersion = 0;
   List<ReportSectionToggle> _sections = defaultSections;
+  ReportLocalizations? _l10n;
 
   ReportController({
     required this.changeSignal,
@@ -43,23 +45,19 @@ class ReportController extends ChangeNotifier {
   bool get loading => _loading;
   bool get exporting => _exporting;
 
+  Future<void> updateLocale(ReportLocalizations l10n) async {
+    if (_l10n?.localeName == l10n.localeName) return;
+    _l10n = l10n;
+    if (_viewModel != null) {
+      await load();
+    }
+  }
+
   Future<void> load() async {
     final version = ++_loadVersion;
     _loading = true;
     _notify();
     final facade = AnalysisFacade.current();
-    final cached = runtimeCache?.freshSnapshot(
-      subjectId: facade.activeSubject.id,
-      period: _selectedPeriod,
-      sections: _sections,
-    );
-    if (cached != null) {
-      if (_disposed || version != _loadVersion) return;
-      _viewModel = cached.viewModel;
-      _loading = false;
-      _notify();
-      return;
-    }
     final next = await _preheatOrAnalyze(
       facade: facade,
       period: _selectedPeriod,
@@ -87,7 +85,7 @@ class ReportController extends ChangeNotifier {
     ];
     final current = _viewModel;
     if (current != null) {
-      _viewModel = current.copyWith(sections: _sections);
+      _viewModel = current.copyWith(sections: _localizedSections(_sections));
       _notify();
     }
   }
@@ -122,21 +120,67 @@ class ReportController extends ChangeNotifier {
     required List<ReportSectionToggle> sections,
   }) async {
     final context = runtimeContext;
-    final snapshot = context == null
-        ? null
-        : await runtime?.preheatPeriod(
-            context,
-            period: period,
-            sections: sections,
-            reason: 'controller',
-          );
-    if (snapshot != null) return snapshot.viewModel;
+    if (context != null) {
+      await runtime?.preheatPeriod(
+        context,
+        period: period,
+        sections: sections,
+        reason: 'controller',
+      );
+    }
 
     return service.buildFromFacade(
       facade: facade,
       period: period,
       sections: sections,
+      l10n: _l10n,
     );
+  }
+
+  List<ReportSectionToggle> _localizedSections(
+    List<ReportSectionToggle> sections,
+  ) {
+    final l10n = _l10n;
+    if (l10n == null) return sections;
+    return [
+      for (final section in sections)
+        ReportSectionToggle(
+          key: section.key,
+          title: _sectionTitle(section.key, l10n),
+          subtitle: _sectionSubtitle(section.key, l10n),
+          enabled: section.enabled,
+        ),
+    ];
+  }
+
+  String _sectionTitle(ReportSectionKey key, ReportLocalizations l10n) {
+    switch (key) {
+      case ReportSectionKey.keyMetrics:
+        return l10n.toggleKeyMetricsTitle;
+      case ReportSectionKey.agpChart:
+        return l10n.toggleAgpChartTitle;
+      case ReportSectionKey.dailyCurves:
+        return l10n.toggleDailyCurvesTitle;
+      case ReportSectionKey.periodAnalysis:
+        return l10n.togglePeriodAnalysisTitle;
+      case ReportSectionKey.episodesSummary:
+        return l10n.toggleEpisodesSummaryTitle;
+    }
+  }
+
+  String _sectionSubtitle(ReportSectionKey key, ReportLocalizations l10n) {
+    switch (key) {
+      case ReportSectionKey.keyMetrics:
+        return l10n.toggleKeyMetricsSubtitle;
+      case ReportSectionKey.agpChart:
+        return l10n.toggleAgpChartSubtitle;
+      case ReportSectionKey.dailyCurves:
+        return l10n.toggleDailyCurvesSubtitle;
+      case ReportSectionKey.periodAnalysis:
+        return l10n.togglePeriodAnalysisSubtitle;
+      case ReportSectionKey.episodesSummary:
+        return l10n.toggleEpisodesSummarySubtitle;
+    }
   }
 
   @override
@@ -147,5 +191,5 @@ class ReportController extends ChangeNotifier {
     super.dispose();
   }
 
-  static const defaultSections = ReportDefaultSections.values;
+  static final defaultSections = ReportDefaultSections.values;
 }

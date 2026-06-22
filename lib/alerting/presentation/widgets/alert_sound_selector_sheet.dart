@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/alerting_l10n.dart';
 import '../../application/sound/alert_sound_catalog.dart';
 import '../../domain/resource/alert_sound_ref.dart';
 
@@ -24,6 +25,7 @@ class AlertSoundSelectorSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.alertingL10n;
     const catalog = AlertSoundCatalog();
     final builtInSounds = catalog.builtInSounds();
     final quietSounds = catalog.quietSounds();
@@ -53,25 +55,25 @@ class AlertSoundSelectorSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 18),
-              const Text(
-                'Choose sound source',
-                style: TextStyle(
+              Text(
+                l10n.chooseSoundSourceTitle,
+                style: const TextStyle(
                   color: AppColors.text,
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                 ),
               ),
               const SizedBox(height: 5),
-              const Text(
-                'The selected sound is saved globally and used whenever an alert rule requests Sound.',
-                style: TextStyle(
+              Text(
+                l10n.chooseSoundSourceSubtitle,
+                style: const TextStyle(
                   color: AppColors.textSoft,
                   fontSize: 12,
                   height: 1.4,
                 ),
               ),
               const SizedBox(height: 18),
-              const _SectionTitle('Built-in sounds'),
+              _SectionTitle(l10n.builtInSoundsSection),
               for (final sound in builtInSounds)
                 _SoundOptionTile(
                   sound: sound,
@@ -81,7 +83,7 @@ class AlertSoundSelectorSheet extends StatelessWidget {
                   onPreview: onPreview,
                 ),
               const SizedBox(height: 10),
-              const _SectionTitle('Quiet'),
+              _SectionTitle(l10n.quietSection),
               for (final sound in quietSounds)
                 _SoundOptionTile(
                   sound: sound,
@@ -91,7 +93,7 @@ class AlertSoundSelectorSheet extends StatelessWidget {
                   onPreview: onPreview,
                 ),
               const SizedBox(height: 10),
-              const _SectionTitle('Custom'),
+              _SectionTitle(l10n.customSection),
               if (customSound != null)
                 _SoundOptionTile(
                   sound: customSound,
@@ -114,7 +116,7 @@ class AlertSoundSelectorSheet extends StatelessWidget {
                       )
                     : const Icon(Icons.folder_open_rounded),
                 label: Text(
-                  importing ? 'Importing...' : 'Choose audio file',
+                  importing ? l10n.importing : l10n.chooseAudioFile,
                 ),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.green,
@@ -208,7 +210,7 @@ class _SoundOptionTile extends StatelessWidget {
             ),
           ),
           title: Text(
-            sound.displayName,
+            _displayNameFor(context, sound),
             style: const TextStyle(
               color: AppColors.text,
               fontSize: 14,
@@ -216,7 +218,7 @@ class _SoundOptionTile extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            _subtitleFor(sound),
+            _subtitleFor(context, sound),
             style: const TextStyle(
               color: AppColors.textSoft,
               fontSize: 11,
@@ -232,7 +234,11 @@ class _SoundOptionTile extends StatelessWidget {
                     Icons.play_arrow_rounded,
                     size: 16,
                   ),
-                  label: Text(isPreviewing ? 'Playing' : 'Preview'),
+                  label: Text(
+                    isPreviewing
+                        ? context.alertingL10n.playing
+                        : context.alertingL10n.preview,
+                  ),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.green,
                     padding: const EdgeInsets.symmetric(
@@ -244,7 +250,7 @@ class _SoundOptionTile extends StatelessWidget {
                   ),
                 ),
               IconButton(
-                tooltip: 'Select',
+                tooltip: context.alertingL10n.select,
                 onPressed: () => onSelected(sound),
                 icon: Icon(
                   selected
@@ -269,11 +275,26 @@ class _SoundOptionTile extends StatelessWidget {
     };
   }
 
-  String _subtitleFor(AlertSoundRef sound) {
+  String _displayNameFor(BuildContext context, AlertSoundRef sound) {
+    final l10n = context.alertingL10n;
+    if (sound.source == AlertSoundSource.silent) {
+      return l10n.soundSilent;
+    }
+    return switch (sound.uri) {
+      'audio/alerts/steady_ping.wav' => l10n.soundSteadyPing,
+      'audio/alerts/urgent_pulse.wav' => l10n.soundUrgentPulse,
+      'audio/alerts/gentle_chime.wav' => l10n.soundGentleChime,
+      'audio/alerts/soft_bell.wav' => l10n.soundSoftBell,
+      _ => sound.displayName,
+    };
+  }
+
+  String _subtitleFor(BuildContext context, AlertSoundRef sound) {
+    final l10n = context.alertingL10n;
     return switch (sound.source) {
-      AlertSoundSource.asset => 'Bundled with Solgo Insight',
-      AlertSoundSource.file => 'Imported into app private storage',
-      AlertSoundSource.silent => 'Sound channel stays silent',
+      AlertSoundSource.asset => l10n.soundSubtitleAsset,
+      AlertSoundSource.file => l10n.soundSubtitleFile,
+      AlertSoundSource.silent => l10n.soundSubtitleSilent,
     };
   }
 

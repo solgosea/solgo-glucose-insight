@@ -28,7 +28,7 @@ void main() {
       ),
     );
 
-    expect(viewModel.label, contains('3 min ago'));
+    expect(viewModel.label, contains('3m'));
     expect(viewModel.countdownLabel, contains('Est. next'));
     expect(viewModel.nextSyncAt, isNotNull);
     expect(viewModel.scheduleEstimated, isTrue);

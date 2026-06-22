@@ -5,6 +5,7 @@ import '../models/settings_view_model.dart';
 class SettingsRenderScope extends InheritedWidget {
   final SettingsViewModel viewModel;
   final VoidCallback onPickUnit;
+  final VoidCallback onPickLanguage;
   final VoidCallback onPickInitialSyncWindow;
   final VoidCallback onExportCsv;
   final VoidCallback onClearAllData;
@@ -13,6 +14,7 @@ class SettingsRenderScope extends InheritedWidget {
     super.key,
     required this.viewModel,
     required this.onPickUnit,
+    required this.onPickLanguage,
     required this.onPickInitialSyncWindow,
     required this.onExportCsv,
     required this.onClearAllData,

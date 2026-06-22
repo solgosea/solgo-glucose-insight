@@ -1,31 +1,47 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/glance_l10n.dart';
+import '../../domain/floating/floating_glance_form_factor.dart';
+import '../../domain/floating/floating_glance_size_preset.dart';
 import '../../domain/glance_snapshot.dart';
 import '../styles/glance_theme.dart';
 
 class FloatingGlancePreview extends StatelessWidget {
   final GlanceSnapshot snapshot;
+  final FloatingGlanceSizePreset sizePreset;
+  final FloatingGlanceFormFactor formFactor;
 
   const FloatingGlancePreview({
     super.key,
     required this.snapshot,
-    bool collapsed = false,
+    this.sizePreset = FloatingGlanceSizePreset.medium,
+    this.formFactor = FloatingGlanceFormFactor.pill,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.glanceL10n;
     final color = GlanceTheme.stateColor(snapshot.rangeState);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _PreviewLabel('Compact'),
+        _PreviewLabel(l10n.glanceFloatingPreviewCompact),
         Align(
           alignment: Alignment.centerLeft,
-          child: _CompactFloatingPreview(snapshot: snapshot, color: color),
+          child: _CompactFloatingPreview(
+            snapshot: snapshot,
+            color: color,
+            sizePreset: sizePreset,
+            formFactor: formFactor,
+          ),
         ),
         const SizedBox(height: 12),
-        _PreviewLabel('Expanded'),
-        _ExpandedFloatingPreview(snapshot: snapshot, color: color),
+        _PreviewLabel(l10n.glanceFloatingPreviewExpanded),
+        _ExpandedFloatingPreview(
+          snapshot: snapshot,
+          color: color,
+          sizePreset: sizePreset,
+        ),
       ],
     );
   }
@@ -56,17 +72,52 @@ class _PreviewLabel extends StatelessWidget {
 class _CompactFloatingPreview extends StatelessWidget {
   final GlanceSnapshot snapshot;
   final Color color;
+  final FloatingGlanceSizePreset sizePreset;
+  final FloatingGlanceFormFactor formFactor;
 
   const _CompactFloatingPreview({
     required this.snapshot,
     required this.color,
+    required this.sizePreset,
+    required this.formFactor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final radius = formFactor == FloatingGlanceFormFactor.pill ? 999.0 : 15.0;
+    final horizontalPadding = switch (sizePreset) {
+      FloatingGlanceSizePreset.small => 10.0,
+      FloatingGlanceSizePreset.medium => 12.0,
+      FloatingGlanceSizePreset.large => 14.0,
+    };
+    final verticalPadding = switch (sizePreset) {
+      FloatingGlanceSizePreset.small => 8.0,
+      FloatingGlanceSizePreset.medium => 10.0,
+      FloatingGlanceSizePreset.large => 12.0,
+    };
+    final valueSize = switch (sizePreset) {
+      FloatingGlanceSizePreset.small => 12.0,
+      FloatingGlanceSizePreset.medium => 13.0,
+      FloatingGlanceSizePreset.large => 15.0,
+    };
+    final tirSize = switch (sizePreset) {
+      FloatingGlanceSizePreset.small => 9.0,
+      FloatingGlanceSizePreset.medium => 10.0,
+      FloatingGlanceSizePreset.large => 11.0,
+    };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: _floatingDecoration(color, BorderRadius.circular(999)),
+      constraints: BoxConstraints(
+        minWidth: switch (sizePreset) {
+          FloatingGlanceSizePreset.small => 166,
+          FloatingGlanceSizePreset.medium => 210,
+          FloatingGlanceSizePreset.large => 250,
+        },
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: horizontalPadding,
+        vertical: verticalPadding,
+      ),
+      decoration: _floatingDecoration(color, BorderRadius.circular(radius)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -76,7 +127,7 @@ class _CompactFloatingPreview extends StatelessWidget {
             '${snapshot.valueLabel} ${snapshot.unitLabel}',
             style: GlanceTheme.mono.copyWith(
               color: color,
-              fontSize: 13,
+              fontSize: valueSize,
               fontWeight: FontWeight.w900,
             ),
           ),
@@ -85,7 +136,7 @@ class _CompactFloatingPreview extends StatelessWidget {
             snapshot.tir24h.compactLabel,
             style: GlanceTheme.mono.copyWith(
               color: GlanceTheme.soft,
-              fontSize: 10,
+              fontSize: tirSize,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -107,15 +158,35 @@ class _CompactFloatingPreview extends StatelessWidget {
 class _ExpandedFloatingPreview extends StatelessWidget {
   final GlanceSnapshot snapshot;
   final Color color;
+  final FloatingGlanceSizePreset sizePreset;
 
   const _ExpandedFloatingPreview({
     required this.snapshot,
     required this.color,
+    required this.sizePreset,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.glanceL10n;
+    final valueSize = switch (sizePreset) {
+      FloatingGlanceSizePreset.small => 24.0,
+      FloatingGlanceSizePreset.medium => 28.0,
+      FloatingGlanceSizePreset.large => 32.0,
+    };
+    final chartHeight = switch (sizePreset) {
+      FloatingGlanceSizePreset.small => 44.0,
+      FloatingGlanceSizePreset.medium => 54.0,
+      FloatingGlanceSizePreset.large => 66.0,
+    };
     return Container(
+      constraints: BoxConstraints(
+        maxWidth: switch (sizePreset) {
+          FloatingGlanceSizePreset.small => 270,
+          FloatingGlanceSizePreset.medium => 320,
+          FloatingGlanceSizePreset.large => 380,
+        },
+      ),
       padding: const EdgeInsets.all(14),
       decoration: _floatingDecoration(color, BorderRadius.circular(18)),
       child: Column(
@@ -138,7 +209,7 @@ class _ExpandedFloatingPreview extends StatelessWidget {
                           snapshot.valueLabel,
                           style: GlanceTheme.mono.copyWith(
                             color: color,
-                            fontSize: 28,
+                            fontSize: valueSize,
                             fontWeight: FontWeight.w900,
                             height: 1,
                           ),
@@ -156,7 +227,9 @@ class _ExpandedFloatingPreview extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'Updated ${snapshot.freshness.label}',
+                      l10n.glanceFloatingPreviewUpdated(
+                        snapshot.freshness.label,
+                      ),
                       style: GlanceTheme.mono.copyWith(
                         color: GlanceTheme.dim,
                         fontSize: 9,
@@ -177,13 +250,17 @@ class _ExpandedFloatingPreview extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          _SparklinePreview(snapshot: snapshot, color: color),
+          _SparklinePreview(
+            snapshot: snapshot,
+            color: color,
+            height: chartHeight,
+          ),
           const SizedBox(height: 10),
           Row(
             children: [
               Expanded(
                 child: _MetricChip(
-                  label: 'TIR 24H',
+                  label: l10n.glanceNotificationPreviewTir24h,
                   value: snapshot.tir24h.percentLabel,
                   highlight: true,
                 ),
@@ -191,7 +268,7 @@ class _ExpandedFloatingPreview extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: _MetricChip(
-                  label: 'Window',
+                  label: l10n.glanceFloatingPreviewWindow,
                   value: '24H',
                 ),
               ),
@@ -199,7 +276,10 @@ class _ExpandedFloatingPreview extends StatelessWidget {
           ),
           const SizedBox(height: 9),
           Text(
-            'SOURCE  ${snapshot.sourceLabel} - updated ${snapshot.freshness.label}',
+            l10n.glanceFloatingPreviewSourceUpdated(
+              snapshot.sourceLabel,
+              snapshot.freshness.label,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GlanceTheme.mono.copyWith(
@@ -263,16 +343,18 @@ class _MetricChip extends StatelessWidget {
 class _SparklinePreview extends StatelessWidget {
   final GlanceSnapshot snapshot;
   final Color color;
+  final double height;
 
   const _SparklinePreview({
     required this.snapshot,
     required this.color,
+    required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 54,
+      height: height,
       width: double.infinity,
       child: CustomPaint(
         painter: _SparklinePainter(

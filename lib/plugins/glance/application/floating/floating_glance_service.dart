@@ -32,7 +32,9 @@ class FloatingGlanceService {
       await stop();
       return;
     }
-    await surfaceService.upsertSegment(contributor.build(snapshot));
+    await surfaceService.upsertSegment(
+      contributor.build(snapshot, settings: settings),
+    );
   }
 
   Future<void> startIfAvailable(GlanceSnapshot snapshot) async {

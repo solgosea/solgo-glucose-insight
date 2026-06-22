@@ -1,5 +1,6 @@
 import 'package:smart_xdrip/alerting/alerting_runtime_factory.dart';
 import 'package:smart_xdrip/application/data_source_runtime/data_source_runtime_coordinator.dart';
+import 'package:smart_xdrip/application/i18n/app_locale_controller.dart';
 import 'package:smart_xdrip/application/subject/active_subject_service.dart';
 import 'package:smart_xdrip/data/local/glucose_database.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
@@ -21,18 +22,22 @@ import 'application/datasource_nightscout_target_publisher.dart';
 import 'presentation/profile_section/datasource_profile_section.dart';
 import 'runtime/datasource_plugin_runtime.dart';
 import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target_registry.dart';
+import 'application/i18n/datasource_l10n_resolver.dart';
+import 'application/i18n/datasource_entry_localizer.dart';
 
 class DatasourcePlugin extends SmartFeaturePlugin {
   const DatasourcePlugin();
+
+  static final _strings = DatasourceL10nResolver.fallback;
 
   @override
   PluginId get id => DatasourcePluginRuntime.id;
 
   @override
-  String get title => 'Data Source';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'xDrip Local and Nightscout source connection.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -52,7 +57,7 @@ class DatasourcePlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: ProfileSlots.section,
           renderKey: 'Data Source',
-          title: 'Data Source',
+          title: _strings.pluginTitle,
           order: 20,
           dataRequirements: dataRequirements,
         ),
@@ -63,18 +68,21 @@ class DatasourcePlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const DatasourceEntryLocalizer());
     final alertingRuntimeFactory =
         context.services.get<AlertingRuntimeFactory>();
     final coordinator = context.services.get<DataSourceRuntimeCoordinator>();
     final settingsProvider = context.services.get<AppSettings Function()>();
-    final source = LocalGlucoseAlertSource(
-      database: context.services.get<GlucoseDatabase>(),
-      settingsProvider: settingsProvider,
-      subjectIdProvider: () =>
-          context.services.get<ActiveSubjectService>().current.id,
-      ruleProvider: alertingRuntimeFactory.ruleProvider(),
-      eventFactory: alertingRuntimeFactory.eventFactory(),
-    );
+      final source = LocalGlucoseAlertSource(
+        database: context.services.get<GlucoseDatabase>(),
+        settingsProvider: settingsProvider,
+        subjectIdProvider: () =>
+            context.services.get<ActiveSubjectService>().current.id,
+        ruleProvider: alertingRuntimeFactory.ruleProvider(),
+        eventFactory: alertingRuntimeFactory.eventFactory(),
+        localeProvider: () =>
+            context.services.get<AppLocaleController>().locale,
+      );
     alertingRuntimeFactory.sourceRegistry().register(source);
     context.services.register<LocalGlucoseAlertSource>(source);
     context.services.register(
@@ -88,7 +96,7 @@ class DatasourcePlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: ProfileSlots.section,
         renderKey: 'datasource.profile.section',
-        title: 'Data Source',
+        title: _strings.pluginTitle,
         order: 20,
         builder: (renderContext) => DatasourceProfileSection(
           renderContext: renderContext,

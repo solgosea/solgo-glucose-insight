@@ -80,21 +80,62 @@ class FloatingSurfaceOverlayService : Service() {
                 windowManager = manager,
                 params = params,
                 onPositionChanged = store::savePosition,
-                onClick = { handleClick(snapshot) }
+                onClick = { x, y, width, height ->
+                    handleClick(snapshot, width, height, x, y)
+                }
             )
         )
         manager.addView(view, params)
         floatingView = view
     }
 
-    private fun handleClick(snapshot: FloatingSurfaceSnapshot) {
+    private fun handleClick(
+        snapshot: FloatingSurfaceSnapshot,
+        overlayWidth: Int,
+        overlayHeight: Int,
+        x: Float,
+        y: Float
+    ) {
         if (snapshot.isSingleGlance()) {
+            if (snapshot.overlayState == "expanded") {
+                val sizePreset = sizePresetHit(overlayWidth, overlayHeight, x, y)
+                if (sizePreset != null) {
+                    FloatingSurfaceActionBus.dispatch(
+                        segmentId = "glance",
+                        action = "set_size_preset",
+                        value = sizePreset
+                    )
+                    return
+                }
+            }
             val next = if (snapshot.overlayState == "expanded") "compact" else "expanded"
             store.saveOverlayState(next)
             render()
             return
         }
         FloatingSurfaceTapActionHandler.openApp(this)
+    }
+
+    private fun sizePresetHit(
+        overlayWidth: Int,
+        overlayHeight: Int,
+        x: Float,
+        y: Float
+    ): String? {
+        val rowTop = overlayHeight - 67.dp
+        val rowBottom = overlayHeight - 31.dp
+        if (y < rowTop || y > rowBottom) return null
+        val chipWidth = 30.dp
+        val gap = 6.dp
+        val startX = overlayWidth - 18.dp - (chipWidth * 3 + gap * 2)
+        if (x < startX || x > overlayWidth - 12.dp) return null
+        val options = listOf("small", "medium", "large")
+        for (index in options.indices) {
+            val left = startX + index * (chipWidth + gap)
+            val right = left + chipWidth
+            if (x >= left && x <= right) return options[index]
+        }
+        return null
     }
 
     private fun removeView() {
@@ -112,9 +153,19 @@ class FloatingSurfaceOverlayService : Service() {
 
     private fun overlayWidth(snapshot: FloatingSurfaceSnapshot): Int {
         val screenWidth = resources.displayMetrics.widthPixels
+        val glance = snapshot.singleGlanceSegment()
+        val size = glance?.data?.optString("sizePreset", "medium") ?: "medium"
         val desired = when {
-            snapshot.isSingleGlance() && snapshot.overlayState == "expanded" -> 324.dp
-            snapshot.isSingleGlance() -> 244.dp
+            snapshot.isSingleGlance() && snapshot.overlayState == "expanded" -> when (size) {
+                "small" -> 276.dp
+                "large" -> 380.dp
+                else -> 324.dp
+            }
+            snapshot.isSingleGlance() -> when (size) {
+                "small" -> 184.dp
+                "large" -> 286.dp
+                else -> 244.dp
+            }
             snapshot.segments.size > 1 -> 286.dp
             else -> 232.dp
         }
@@ -122,9 +173,20 @@ class FloatingSurfaceOverlayService : Service() {
     }
 
     private fun overlayHeight(snapshot: FloatingSurfaceSnapshot): Int {
+        val glance = snapshot.singleGlanceSegment()
+        val size = glance?.data?.optString("sizePreset", "medium") ?: "medium"
+        val form = glance?.data?.optString("formFactor", "pill") ?: "pill"
         return when {
-            snapshot.isSingleGlance() && snapshot.overlayState == "expanded" -> 214.dp
-            snapshot.isSingleGlance() -> 54.dp
+            snapshot.isSingleGlance() && snapshot.overlayState == "expanded" -> when (size) {
+                "small" -> 218.dp
+                "large" -> 286.dp
+                else -> 248.dp
+            }
+            snapshot.isSingleGlance() -> when (size) {
+                "small" -> if (form == "card") 58.dp else 50.dp
+                "large" -> if (form == "card") 78.dp else 70.dp
+                else -> if (form == "card") 64.dp else 56.dp
+            }
             snapshot.segments.size > 1 -> 64.dp
             else -> 44.dp
         }
@@ -132,6 +194,11 @@ class FloatingSurfaceOverlayService : Service() {
 
     private fun FloatingSurfaceSnapshot.isSingleGlance(): Boolean {
         return segments.size == 1 && segments.firstOrNull()?.id == "glance"
+    }
+
+    private fun FloatingSurfaceSnapshot.singleGlanceSegment(): FloatingSurfaceSegmentSnapshot? {
+        if (!isSingleGlance()) return null
+        return segments.firstOrNull()
     }
 
     private val Int.dp: Int

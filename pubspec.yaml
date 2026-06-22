@@ -1,7 +1,7 @@
 name: smart_xdrip
 description: Solgo Insight CGM companion app for xDrip+ and Nightscout data workflows
 publish_to: none
-version: 0.4.0+5
+version: 0.5.0+6
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -50,7 +50,6 @@ dependencies:
   cryptography: ^2.7.0
   stream_transform: ^2.1.0
   url_launcher: ^6.3.2
-  contribution_heatmap: ^0.5.3
   data_table_2: ^2.7.2
   package_info_plus: 8.3.0
 
@@ -66,6 +65,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/images/

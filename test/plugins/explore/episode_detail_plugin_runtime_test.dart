@@ -17,6 +17,7 @@ import 'package:smart_xdrip/plugin_platform/schema/plugin_schema_registry.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/application/episode_detail_snapshot_preheater.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/install/episode_detail_runtime_installer.dart';
+import 'package:smart_xdrip/plugins/explore/episode_detail/mappers/episode_detail_view_model_mapper.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/models/episode_kind.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/runtime/episode_detail_plugin_runtime.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/runtime/episode_detail_runtime_cache.dart';
@@ -52,12 +53,15 @@ void main() {
     );
     expect(high, isNotNull);
     expect(low, isNotNull);
-    expect(high!.viewModel.kind, EpisodeKind.high);
-    expect(low!.viewModel.kind, EpisodeKind.low);
-    expect(high.viewModel.hero, isNotNull);
-    expect(low.viewModel.hero, isNotNull);
-    final highChart = high.viewModel.chart!;
-    final lowChart = low.viewModel.chart!;
+    final mapper = const EpisodeDetailViewModelMapper();
+    final highViewModel = mapper.map(high!.output);
+    final lowViewModel = mapper.map(low!.output);
+    expect(highViewModel.kind, EpisodeKind.high);
+    expect(lowViewModel.kind, EpisodeKind.low);
+    expect(highViewModel.hero, isNotNull);
+    expect(lowViewModel.hero, isNotNull);
+    final highChart = highViewModel.chart!;
+    final lowChart = lowViewModel.chart!;
     expect(
       highChart.timeRangeStart,
       DateTime(2026, 6, 6, 5, 45),
@@ -91,10 +95,10 @@ void main() {
     await manager.resume(EpisodeDetailPluginRuntime.id);
 
     const child = AnalysisSubject(
-      id: 'follow:child-episode',
+      id: 'remote:child-episode',
       displayName: 'Child Episode',
-      sourceLabel: 'Follow Nightscout',
-      origin: AnalysisSubjectOrigin('follow'),
+      sourceLabel: 'Remote Nightscout',
+      origin: AnalysisSubjectOrigin('remote'),
     );
     _seedStore(now.add(const Duration(minutes: 5)), subject: child);
     manager.eventBus.publish(

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:smart_xdrip/alerting/application/dedupe/alert_source_priority.dart';
 import 'package:smart_xdrip/alerting/application/event/alert_event_factory.dart';
 import 'package:smart_xdrip/alerting/application/event/alert_event_payload_codec.dart';
@@ -39,6 +41,7 @@ class LocalGlucoseAlertSource implements AlertSource {
   final AlertEventPayloadCodec codec;
   final LocalAlertSourceEligibilityPolicy eligibilityPolicy;
   final DateTime Function() clock;
+  final Locale? Function()? localeProvider;
 
   AlertSourceSink? _sink;
 
@@ -52,6 +55,7 @@ class LocalGlucoseAlertSource implements AlertSource {
     this.nightscoutDedupeKeyBuilder = const NightscoutAlertDedupeKeyBuilder(),
     this.codec = const AlertEventPayloadCodec(),
     this.eligibilityPolicy = const LocalAlertSourceEligibilityPolicy(),
+    this.localeProvider,
     DateTime Function()? clock,
   })  : eventFactory = eventFactory ?? _defaultEventFactory(),
         clock = clock ?? DateTime.now;
@@ -144,6 +148,7 @@ class LocalGlucoseAlertSource implements AlertSource {
       textContext: AlertTextRenderContext(
         unit: settings.unit,
         source: source,
+        locale: localeProvider?.call(),
       ),
     );
   }

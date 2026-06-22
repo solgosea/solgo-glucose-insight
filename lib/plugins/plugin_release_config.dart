@@ -4,7 +4,7 @@ import 'release/plugin_release_matrix.dart';
 import 'release/plugin_release_matrix_resolver.dart';
 import 'release/plugin_release_profile.dart';
 
-const currentPluginReleaseProfile = PluginReleaseProfile.fullInternal;
+const currentPluginReleaseProfile = PluginReleaseProfile.ossPreview;
 
 const ossPreviewPluginReleaseMatrix = PluginReleaseMatrix(
   profile: PluginReleaseProfile.ossPreview,
@@ -14,6 +14,8 @@ const ossPreviewPluginReleaseMatrix = PluginReleaseMatrix(
     'profile_basics',
     'settings_basics',
     'analysis_basic',
+    'connected_care',
+    'background_sync',
   },
   pluginOverrides: {},
 );

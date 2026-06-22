@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/glance_l10n.dart';
 import '../../domain/glance_snapshot.dart';
 import '../styles/glance_theme.dart';
 
@@ -19,6 +20,7 @@ class PersistentNotificationPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.glanceL10n;
     final color = GlanceTheme.stateColor(snapshot.rangeState);
     return Container(
       padding: const EdgeInsets.all(14),
@@ -48,7 +50,9 @@ class PersistentNotificationPreview extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  privateMode ? 'Glucose data available' : 'Solgo Insight',
+                  privateMode
+                      ? l10n.glancePrivateDataAvailable
+                      : 'SolgoInsight',
                   style: GlanceTheme.mono.copyWith(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w800,
@@ -67,7 +71,7 @@ class PersistentNotificationPreview extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             privateMode
-                ? 'Unlock to view current glucose'
+                ? l10n.glancePrivateUnlockToView
                 : '${snapshot.valueLabel} ${snapshot.unitLabel}  '
                     '${snapshot.tir24h.compactLabel}',
             style: GlanceTheme.mono.copyWith(
@@ -80,21 +84,31 @@ class PersistentNotificationPreview extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                _Kv(label: 'Trend', value: '${snapshot.trendArrow} Flat'),
+                _Kv(
+                  label: l10n.glanceNotificationPreviewTrend,
+                  value:
+                      '${snapshot.trendArrow} ${l10n.glanceNotificationPreviewFlat}',
+                ),
                 const SizedBox(width: 12),
-                _Kv(label: 'TIR 24H', value: snapshot.tir24h.percentLabel),
+                _Kv(
+                  label: l10n.glanceNotificationPreviewTir24h,
+                  value: snapshot.tir24h.percentLabel,
+                ),
                 const SizedBox(width: 12),
-                _Kv(label: 'Source', value: snapshot.sourceLabel),
+                _Kv(
+                  label: l10n.glanceNotificationPreviewSource,
+                  value: snapshot.sourceLabel,
+                ),
               ],
             ),
             const SizedBox(height: 12),
             Row(
               children: [
-                _Action(label: 'Open'),
+                _Action(label: l10n.glanceNotificationPreviewOpen),
                 const SizedBox(width: 8),
-                _Action(label: 'Data source'),
+                _Action(label: l10n.glanceNotificationPreviewDataSource),
                 const SizedBox(width: 8),
-                _Action(label: 'Settings'),
+                _Action(label: l10n.glanceNotificationPreviewSettings),
               ],
             ),
           ],

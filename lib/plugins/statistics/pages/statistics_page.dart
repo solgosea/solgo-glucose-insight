@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
+import '../application/i18n/statistics_l10n.dart';
 import '../application/statistics_host_services.dart';
 import '../controllers/statistics_controller.dart';
 import '../runtime/statistics_plugin_runtime.dart';
@@ -25,7 +26,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_initialized) return;
+    if (_initialized) {
+      _controller.updateLocale(context.statisticsL10n);
+      return;
+    }
     _initialized = true;
     final services = context.read<PluginServiceRegistry>();
     final runtimeManager = context.read<PluginRuntimeManager>();
@@ -35,6 +39,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
       runtimeCache: services.get<StatisticsRuntimeCache>(),
       runtime: services.get<StatisticsPluginRuntime>(),
     );
+    _controller.updateLocale(context.statisticsL10n);
     unawaited(_controller.init());
   }
 

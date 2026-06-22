@@ -12,6 +12,7 @@ void main() {
 
     expect(content, contains('NativeBridgeRegistry.configure'));
     expect(content, isNot(contains('com.metaguru.smartxdrip.glance.')));
+    expect(content, isNot(contains('com.metaguru.smartxdrip.statusmonitor.')));
     expect(content, isNot(contains('MethodChannel(')));
   });
 
@@ -25,11 +26,13 @@ void main() {
 
     for (final bridgeName in const [
       'GlanceWidgetBridge',
+      'StatusMonitorWidgetBridge',
       'FloatingSurfaceBridge',
     ]) {
       expect(registryContent, contains(bridgeName));
     }
     expect(registryContent, isNot(contains('FloatingGlanceBridge')));
+    expect(registryContent, isNot(contains('StatusFloatingBridge')));
 
     final androidFiles = Directory(
       '${root.path}/android/app/src/main/kotlin/com/metaguru/smartxdrip',
@@ -38,13 +41,15 @@ void main() {
       return path.endsWith('.kt') &&
           !path.endsWith('/platform/NativeBridgeRegistry.kt') &&
           !path.endsWith('/floating/FloatingSurfaceBridge.kt') &&
-          !path.contains('/glance/');
+          !path.contains('/glance/') &&
+          !path.contains('/statusmonitor/');
     });
 
     final violations = <String>[];
     for (final file in androidFiles) {
       final content = file.readAsStringSync();
       if (content.contains('GlanceWidgetBridge') ||
+          content.contains('StatusMonitorWidgetBridge') ||
           content.contains('FloatingSurfaceBridge')) {
         violations.add(file.path);
       }

@@ -1,0 +1,131 @@
+﻿{
+    "@@locale":  "zh",
+    "pluginTitle":  "组件与通知",
+    "pluginSubtitle":  "桌面组件、通知和悬浮 Glance。",
+    "pluginDescription":  "桌面组件、通知和悬浮 Glance。",
+    "pluginReportTitle":  "组件与通知报告",
+    "pluginLoading":  "加载中",
+    "pluginNoData":  "暂无可用数据。",
+    "pluginUnavailable":  "不可用",
+    "glancePrivacySection":  "隐私",
+    "glanceLowBatterySubtitle":  "降低刷新频率以节省电量",
+    "glanceLockScreenModeTitle":  "锁屏 Glance",
+    "glanceHubTitle":  "小组件与通知",
+    "floatingUnavailableAction":  "不可用",
+    "floatingVisibleBody":  "可以拖到任意位置。点击浮窗可返回应用。",
+    "glanceGraphExpandedSubtitle":  "在展开通知中显示小趋势图",
+    "glanceWidgetTemplatesSection":  "小组件模板",
+    "glanceShowNotificationTitle":  "显示在通知栏",
+    "glancePersistentNotificationSection":  "常驻通知",
+    "glanceIosWidgetGuide":  "请从 iOS 小组件选择器添加 SolgoInsight Glance。主屏幕和锁屏小组件会使用最近共享的 Glance 快照更新。",
+    "glanceNotificationSettingsSection":  "通知设置",
+    "glanceLockScreenModeSubtitle":  "选择完整数值、仅范围或隐私模式",
+    "glanceAndroidWidgetGuide":  "Android 不允许应用替你直接放置小组件。这是系统操作，不同手机品牌的步骤可能略有差异。",
+    "glanceLockScreenGlanceTitle":  "锁屏 Glance",
+    "floatingVisibleTitle":  "Floating Glance 正在显示",
+    "glanceTabNotifications":  "通知",
+    "floatingUnavailableTitle":  "Floating Glance 不可用",
+    "floatingPermissionNeededBody":  "请先允许在其他应用上层显示。Android 授权后返回这里。",
+    "glanceNotificationPrivacySection":  "通知隐私",
+    "floatingPermissionNeededTitle":  "需要浮窗权限",
+    "glancePrivateModeTitle":  "隐私模式文字",
+    "floatingPermissionGrantedBody":  "点一下即可把 Floating Glance 显示到屏幕上。",
+    "floatingHiddenTitle":  "Floating Glance 已隐藏",
+    "glanceFloatingSection":  "浮动 Glance",
+    "glanceFloatingCardTitle":  "Floating Glance",
+    "glanceFloatingCardBody":  "允许 SolgoInsight 在其他应用上方显示血糖状态。它保持静音，只同步 Glance 状态。",
+    "glanceFloatingVisiblePill":  "显示中",
+    "glanceFloatingSetupPill":  "设置",
+    "glanceFloatingSizeTitle":  "Floating Glance 尺寸",
+    "glanceFloatingSizeAuto":  "自动",
+    "glanceFloatingSizeSmall":  "小",
+    "glanceFloatingSizeMedium":  "中",
+    "glanceFloatingSizeLarge":  "大",
+    "glanceFloatingShapeTitle":  "形态",
+    "glanceFloatingShapePill":  "胶囊",
+    "glanceFloatingShapeCard":  "卡片",
+    "glanceFloatingRecommendedPreset":  "此设备推荐：{size}{shape}",
+    "@glanceFloatingRecommendedPreset":  {
+                                             "placeholders":  {
+                                                                  "size":  {
+                                                                               "type":  "String"
+                                                                           },
+                                                                  "shape":  {
+                                                                                "type":  "String"
+                                                                            }
+                                                              }
+                                         },
+    "glanceFloatingCustomPreset":  "自定义尺寸。你的选择不会被自动更改。",
+    "floatingUnavailableBody":  "此设备未提供 Android 浮窗服务。",
+    "glanceHomeScreenWidgetSubtitle":  "小号和中号小组件使用最新的 Glance 快照",
+    "glanceAddHomeScreenSection":  "添加到主屏幕",
+    "glanceShowNotificationSubtitle":  "常驻血糖状态，静音且低优先级",
+    "floatingShowAction":  "显示 Floating Glance",
+    "floatingHiddenBody":  "权限已准备好。需要屏幕浮窗时可以再次显示。",
+    "glanceHomeScreenWidgetTitle":  "主屏幕小组件",
+    "glanceLockAodSection":  "锁屏与 AOD",
+    "glanceGraphExpandedTitle":  "展开视图中的曲线",
+    "glanceLockScreenGlanceSubtitle":  "iOS 16+ 的辅助小组件。AOD 行为遵循 iOS 系统。",
+    "glanceAodFriendlySection":  "AOD 友好",
+    "glanceLowBatteryTitle":  "低耗电模式",
+    "floatingHideAction":  "隐藏 Floating Glance",
+    "floatingPermissionGrantedTitle":  "Floating Glance 权限已授予",
+    "floatingPermissionNeededAction":  "启用浮窗权限",
+    "glanceQuickActionsTitle":  "快捷操作",
+    "glanceTabWidgets":  "小组件",
+    "glanceHomeLockWidgetsSection":  "主屏幕与锁屏小组件",
+    "glancePrivateModeSubtitle":  "血糖数据可用 - 解锁后查看",
+    "glanceQuickActionsSubtitle":  "打开应用、数据源和设置",
+    "glanceNotificationPreviewDataSource":  "数据源",
+    "glanceFloatingPreviewSourceUpdated":  "来源 {source} - 更新于 {freshness}",
+    "glanceWidgetGraphRange":  "图表范围",
+    "glanceWidgetLastUpdated":  "最后更新",
+    "glanceNotificationPreviewOpen":  "打开",
+    "glanceWidgetShowOnWidget":  "小组件显示内容",
+    "glanceWidgetMiniGraph":  "迷你图表",
+    "glanceNotificationPreviewFlat":  "平稳",
+    "glanceNotificationPreviewSettings":  "设置",
+    "glanceWidgetTrendArrow":  "趋势箭头",
+    "glanceNotificationPreviewTir24h":  "24 小时 TIR",
+    "glanceNotificationPreviewSource":  "来源",
+    "glanceWidgetAddWidget":  "添加小组件",
+    "glanceNotificationPreviewTrend":  "趋势",
+    "glanceWidgetDelta":  "变化值",
+    "glanceFloatingPreviewWindow":  "窗口",
+    "glanceWidgetTapAction":  "点击动作",
+    "@glanceFloatingPreviewSourceUpdated":  {
+                                                "placeholders":  {
+                                                                     "freshness":  {
+                                                                                       "type":  "String"
+                                                                                   },
+                                                                     "source":  {
+                                                                                    "type":  "String"
+                                                                                }
+                                                                 }
+                                            },
+    "glanceFloatingPreviewCompact":  "紧凑",
+    "glanceFloatingPreviewExpanded":  "展开",
+    "glancePrivateUnlockToView":  "解锁查看当前血糖",
+    "glancePrivateDataAvailable":  "血糖数据可用",
+    "glanceFloatingPreviewUpdated":  "更新于 {freshness}",
+    "glanceNotificationGlucoseDataAvailable": "血糖数据可用",
+    "glanceNotificationSourceOffline": "数据源离线",
+    "glanceNotificationGlucoseStale": "血糖数据已过期",
+    "glanceNotificationHidden": "速览已隐藏",
+    "glanceNotificationHiddenOnLockScreen": "锁屏速览已隐藏",
+    "glanceNotificationUnlockCurrentGlucose": "解锁后查看当前血糖",
+    "glanceNotificationNoRecentGlucoseData": "暂无近期血糖数据",
+    "glanceNotificationRangeHigh": "偏高",
+    "glanceNotificationRangeLow": "偏低",
+    "glanceNotificationRangeInRange": "目标范围内",
+    "glanceNotificationStatusAvailable": "血糖状态可用",
+    "glanceNotificationChannelTitle": "速览状态",
+    "glanceNotificationChannelDescription": "锁屏血糖状态，无提示音和振动。",
+    "@glanceFloatingPreviewUpdated":  {
+                                          "placeholders":  {
+                                                               "freshness":  {
+                                                                                 "type":  "String"
+                                                                             }
+                                                           }
+                                      }
+}

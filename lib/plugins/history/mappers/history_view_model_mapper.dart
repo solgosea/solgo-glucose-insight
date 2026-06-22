@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import '../../../application/glucose_unit/glucose_unit_format_service.dart';
+import '../../../application/i18n/localized_date_time_formatter.dart';
 import '../../../domain/entities/app_settings.dart';
 import '../../../domain/entities/glucose_reading.dart';
 import '../../../foundation/theme/app_colors.dart';
@@ -10,6 +9,8 @@ import '../domain/sections/history_date_section.dart';
 import '../domain/sections/history_stats_section.dart';
 import '../domain/sections/history_summary_section.dart';
 import '../engine/history_engine_output.dart';
+import '../application/i18n/history_l10n_resolver.dart';
+import '../l10n/generated/history_localizations.dart';
 import '../models/history_view_model.dart';
 import 'history_curve_view_model_mapper.dart';
 import 'history_episode_view_model_mapper.dart';
@@ -30,32 +31,48 @@ class HistoryViewModelMapper {
     this.filterTextBuilder = const HistoryFilterTextBuilder(),
   });
 
-  HistoryViewModel map(HistoryEngineOutput output) {
-    final filterLabel = filterTextBuilder.label(output.timeFilter);
+  HistoryViewModel map(
+    HistoryEngineOutput output, {
+    HistoryLocalizations? l10n,
+  }) {
+    final strings = l10n ?? HistoryL10nResolver.fallback;
+    final filterLabel = filterTextBuilder.label(output.timeFilter, strings);
     return HistoryViewModel(
-      dateNav: _dateNav(output.dateSection),
-      summaryChips: _summaryChips(output.summarySection, output.settings),
+      dateNav: _dateNav(output.dateSection, strings),
+      summaryChips: _summaryChips(
+        output.summarySection,
+        output.settings,
+        strings,
+      ),
       curve: curveMapper.map(output.curveSection, output.settings),
-      stats: _stats(output.statsSection, output.settings),
+      stats: _stats(output.statsSection, output.settings, strings),
       episodeCallouts: episodeMapper.map(
         output.episodeSection,
         output.settings,
         selectedDay: output.dateSection.selectedDay,
+        l10n: strings,
       ),
-      events: eventsMapper.map(output.eventsSection, output.settings),
+      events: eventsMapper.map(
+        output.eventsSection,
+        output.settings,
+        l10n: strings,
+      ),
       timeFilter: filterLabel == null
           ? null
           : HistoryTimeFilterViewModel(label: filterLabel),
     );
   }
 
-  HistoryDateNavViewModel _dateNav(HistoryDateSection section) {
-    final yearLabel = DateFormat('y').format(section.selectedDay);
+  HistoryDateNavViewModel _dateNav(
+    HistoryDateSection section,
+    HistoryLocalizations l10n,
+  ) {
+    final yearLabel = section.selectedDay.year.toString();
     return HistoryDateNavViewModel(
-      dateLabel: DateFormat('EEEE, MMM d').format(section.selectedDay),
+      dateLabel: _dateLabel(section.selectedDay, l10n),
       subtitle: section.isToday
-          ? '$yearLabel - DAY VIEW  -  TODAY'
-          : '$yearLabel - DAY VIEW',
+          ? '$yearLabel - ${l10n.dayView}  -  ${l10n.today}'
+          : '$yearLabel - ${l10n.dayView}',
       isToday: section.isToday,
     );
   }
@@ -63,6 +80,7 @@ class HistoryViewModelMapper {
   List<HistorySummaryChipViewModel> _summaryChips(
     HistorySummarySection section,
     AppSettings settings,
+    HistoryLocalizations l10n,
   ) {
     final tir = section.tir;
     if (tir == null) return const [];
@@ -72,20 +90,20 @@ class HistoryViewModelMapper {
     final meanLabel = glucoseFormatter.value(tir.mean, unit).valueLabel;
     return [
       HistorySummaryChipViewModel(
-        text: 'TIR ${tir.tir.toStringAsFixed(0)}%',
+        text: '${l10n.summaryTir} ${tir.tir.toStringAsFixed(0)}%',
         color: _tirColor(tir.tir),
       ),
       HistorySummaryChipViewModel(
-        text: 'Peak $peakLabel',
+        text: '${l10n.summaryPeak} $peakLabel',
         color:
             peak > settings.highThreshold ? AppColors.amber : AppColors.green,
       ),
       HistorySummaryChipViewModel(
-        text: 'CV ${tir.cv.toStringAsFixed(0)}%',
+        text: '${l10n.summaryCv} ${tir.cv.toStringAsFixed(0)}%',
         color: tir.cv < 36 ? AppColors.green : AppColors.amber,
       ),
       HistorySummaryChipViewModel(
-        text: 'Avg $meanLabel',
+        text: '${l10n.summaryAverage} $meanLabel',
         color: (tir.mean >= settings.lowThreshold &&
                 tir.mean <= settings.highThreshold)
             ? AppColors.green
@@ -97,6 +115,7 @@ class HistoryViewModelMapper {
   List<HistoryStatCardViewModel> _stats(
     HistoryStatsSection section,
     AppSettings settings,
+    HistoryLocalizations l10n,
   ) {
     final tir = section.tir;
     if (tir == null) return const [];
@@ -106,24 +125,24 @@ class HistoryViewModelMapper {
     final peakDisplay = glucoseFormatter.value(peak, unit);
     return [
       HistoryStatCardViewModel(
-        label: 'TIR',
+        label: l10n.statTir,
         value: '${tir.tir.toStringAsFixed(0)}%',
         color: _tirColor(tir.tir),
       ),
       HistoryStatCardViewModel(
-        label: 'AVG',
+        label: l10n.statAverage,
         value: mean.valueLabel,
         unit: mean.unitLabel,
         color: AppColors.text,
       ),
       HistoryStatCardViewModel(
-        label: 'PEAK',
+        label: l10n.statPeak,
         value: peakDisplay.valueLabel,
         unit: peakDisplay.unitLabel,
         color: peak > settings.highThreshold ? AppColors.amber : AppColors.text,
       ),
       HistoryStatCardViewModel(
-        label: 'CV',
+        label: l10n.statCv,
         value: '${tir.cv.toStringAsFixed(0)}%',
         color: tir.cv < 36 ? AppColors.green : AppColors.amber,
       ),
@@ -141,5 +160,14 @@ class HistoryViewModelMapper {
     return readings.map((reading) => reading.value).reduce(
           (a, b) => a > b ? a : b,
         );
+  }
+
+  String _dateLabel(DateTime day, HistoryLocalizations l10n) {
+    final formatter = LocalizedDateTimeFormatter(l10n.localeName);
+    final weekday = formatter.weekdayFull(day);
+    final date = formatter.dateShort(day);
+    return l10n.localeName.startsWith('zh')
+        ? '$weekday，$date'
+        : '$weekday, $date';
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../domain/entities/app_settings.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../application/i18n/home_l10n.dart';
 import '../models/home_view_model.dart';
 import 'home_header_status_panel.dart';
 import 'home_header_title_block.dart';
@@ -64,6 +65,8 @@ class _ActiveSubjectPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.homeL10n;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.green.withValues(alpha: 0.1),
@@ -82,7 +85,7 @@ class _ActiveSubjectPill extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                '$name · $source',
+                '$name - $source',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -100,9 +103,12 @@ class _ActiveSubjectPill extends StatelessWidget {
                 minimumSize: const Size(0, 30),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
-                'My device',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800),
+              child: Text(
+                l10n.homeMyDevice,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ],

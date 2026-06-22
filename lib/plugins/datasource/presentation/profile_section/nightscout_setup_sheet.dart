@@ -3,6 +3,8 @@ import 'package:smart_xdrip/application/data_source/data_source_connection_resul
 import 'package:smart_xdrip/application/nightscout/nightscout_url_normalizer.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/datasource_l10n.dart';
+
 class NightscoutSetupSheet extends StatefulWidget {
   final String initialUrl;
   final String initialToken;
@@ -53,6 +55,7 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.datasourceL10n;
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     return SafeArea(
       child: SingleChildScrollView(
@@ -74,7 +77,9 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
               ),
             ),
             Text(
-              _isEditing ? 'Update connection' : 'Nightscout API',
+              _isEditing
+                  ? l10n.nightscoutUpdateConnection
+                  : l10n.nightscoutApiTitle,
               style: const TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 18,
@@ -85,8 +90,8 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
             const SizedBox(height: 4),
             Text(
               _isEditing
-                  ? 'Update your site URL or access token below.'
-                  : 'Enter your Nightscout site URL and optional access token.',
+                  ? l10n.nightscoutUpdateSubtitle
+                  : l10n.nightscoutSetupSubtitle,
               style: const TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 12,
@@ -107,8 +112,8 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
                 color: AppColors.text,
               ),
               decoration: _inputDecoration(
-                label: 'Site URL',
-                hint: 'https://your-site.herokuapp.com',
+                label: l10n.nightscoutSiteUrl,
+                hint: l10n.nightscoutUrlHint,
                 suffixIcon: _urlController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(
@@ -133,8 +138,8 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
                 color: AppColors.text,
               ),
               decoration: _inputDecoration(
-                label: 'Access token',
-                hint: 'Optional',
+                label: l10n.nightscoutAccessToken,
+                hint: l10n.nightscoutOptional,
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscureToken
@@ -180,7 +185,9 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
                 ),
                 onPressed: _busy ? null : _testAndConnect,
                 child: Text(
-                  _busy ? 'Testing...' : 'Test and connect',
+                  _busy
+                      ? l10n.nightscoutTesting
+                      : l10n.nightscoutTestAndConnect,
                   style: const TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 14,
@@ -238,14 +245,14 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
     final url = normalized ?? _urlController.text.trim();
     if (url.isEmpty) {
       setState(() {
-        _statusMessage = 'Enter a Nightscout URL to continue';
+        _statusMessage = context.datasourceL10n.nightscoutEnterUrl;
         _statusSuccess = false;
       });
       return;
     }
     setState(() {
       _busy = true;
-      _statusMessage = 'Testing connection...';
+      _statusMessage = context.datasourceL10n.nightscoutTestingConnection;
       _statusSuccess = null;
     });
     final token = _tokenController.text.trim();
@@ -256,8 +263,9 @@ class _NightscoutSetupSheetState extends State<NightscoutSetupSheet> {
     if (!mounted) return;
     setState(() {
       _busy = false;
-      _statusMessage =
-          result.success ? 'Connected, syncing now' : result.message;
+      _statusMessage = result.success
+          ? context.datasourceL10n.nightscoutConnectedSyncing
+          : result.message;
       _statusSuccess = result.success;
     });
     if (result.success) {

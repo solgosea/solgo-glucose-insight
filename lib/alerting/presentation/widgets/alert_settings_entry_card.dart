@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/alerting_l10n.dart';
 
 class AlertSettingsEntryCard extends StatelessWidget {
   const AlertSettingsEntryCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.alertingL10n;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
       child: GestureDetector(
@@ -38,22 +40,22 @@ class AlertSettingsEntryCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Alert Settings',
-                        style: TextStyle(
+                        l10n.alertSettingsEntryTitle,
+                        style: const TextStyle(
                           color: AppColors.text,
                           fontSize: 14,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       Text(
-                        'Sound, vibration, notifications, and in-app alert behavior',
-                        style: TextStyle(
+                        l10n.alertSettingsEntrySubtitle,
+                        style: const TextStyle(
                           color: AppColors.textSoft,
                           fontSize: 11,
                           height: 1.35,

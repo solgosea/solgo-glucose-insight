@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 
 class EpisodeRepeatTimeBlockBars extends StatelessWidget {
@@ -38,7 +39,7 @@ class EpisodeRepeatTimeBlockBars extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'REPEAT BY TIME OF DAY',
+                  context.episodeDetailL10n.repeatByTimeOfDay.toUpperCase(),
                   style: TextStyle(
                     fontFamily: 'JetBrainsMono',
                     fontSize: 8,
@@ -48,7 +49,7 @@ class EpisodeRepeatTimeBlockBars extends StatelessWidget {
                 ),
               ),
               Text(
-                'EPISODE COUNT',
+                context.episodeDetailL10n.episodeCount.toUpperCase(),
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 8,

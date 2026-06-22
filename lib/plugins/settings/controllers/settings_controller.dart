@@ -20,7 +20,7 @@ class SettingsController extends ChangeNotifier {
   final SettingsExportActions exportActions;
   final SettingsRuntimeCache runtimeCache;
   final SettingsPluginRuntime runtime;
-  final SettingsViewModelMapper mapper;
+  SettingsViewModelMapper mapper;
 
   SettingsController({
     required this.hostServices,
@@ -29,8 +29,9 @@ class SettingsController extends ChangeNotifier {
     required this.exportActions,
     required this.runtimeCache,
     required this.runtime,
-    this.mapper = const SettingsViewModelMapper(),
-  }) : _settings = settingsActions.settingsProvider();
+    SettingsViewModelMapper? mapper,
+  })  : mapper = mapper ?? SettingsViewModelMapper(),
+        _settings = settingsActions.settingsProvider();
 
   AppSettings _settings;
   SettingsAnalysisResult? _analysis;
@@ -41,6 +42,11 @@ class SettingsController extends ChangeNotifier {
   AppSettings get settings => _settings;
   bool get saving => _saving;
   SettingsViewModel? get viewModel => _viewModel;
+
+  void useMapper(SettingsViewModelMapper nextMapper) {
+    mapper = nextMapper;
+    _refreshViewModel();
+  }
 
   String get unitLabel {
     return switch (_settings.unit) {

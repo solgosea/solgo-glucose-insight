@@ -10,19 +10,23 @@ import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../../../plugin_platform/rendering/plugin_renderable.dart';
 import '../composition/settings_slots.dart';
 import '../widgets/settings_render_scope.dart';
-import '../widgets/settings_storage_actions_group.dart';
+import '../widgets/settings_storage_actions_group.dart';
+import '../application/i18n/settings_l10n_resolver.dart';
+import '../application/i18n/settings_entry_localizer.dart';
 
 class SettingsSyncPlugin extends SmartFeaturePlugin {
   const SettingsSyncPlugin();
+
+  static final _strings = SettingsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('settings.sync');
 
   @override
-  String get title => 'Sync Settings';
+  String get title => _strings.settingsSyncTitle;
 
   @override
-  String get description => 'Initial sync window and source sync preferences.';
+  String get description => _strings.settingsSyncDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -43,17 +47,17 @@ class SettingsSyncPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: SettingsSlots.section,
           renderKey: 'Sync Settings',
-          title: 'Sync Settings',
+          title: _strings.settingsSyncTitle,
           order: 20,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get settingsEntry => const SectionPluginEntry(
+  SectionPluginEntry get settingsEntry => SectionPluginEntry(
         section: 'Sync Settings',
-        title: 'Sync Settings',
-        subtitle: 'Source sync behavior',
+        title: _strings.settingsSyncTitle,
+        subtitle: _strings.settingsSyncTitle,
         order: 20,
       );
 
@@ -62,12 +66,13 @@ class SettingsSyncPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const SettingsEntryLocalizer());
     context.compositionRegistry.register(
       PluginRenderable(
         pluginId: id,
         slot: SettingsSlots.section,
         renderKey: 'settings.sync.section',
-        title: 'Sync Settings',
+        title: _strings.settingsSyncTitle,
         order: 20,
         builder: (renderContext) {
           final scope = SettingsRenderScope.of(renderContext.buildContext);

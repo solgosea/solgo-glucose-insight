@@ -18,6 +18,13 @@ class PluginTextRenderer {
   }) {
     final template = _template(key);
     if (template == null) return PluginRenderedText(body: fallback ?? '');
+    return renderTemplate(template, facts);
+  }
+
+  PluginRenderedText renderTemplate(
+    PluginTextTemplate template,
+    Map<String, Object?> facts,
+  ) {
     return PluginRenderedText(
       title: _optional(template.titleTemplate, facts),
       body: renderer.render(template.bodyTemplate, facts),

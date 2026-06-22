@@ -80,7 +80,7 @@ void smartXdripBackgroundServiceOnStart(ServiceInstance service) async {
     } catch (error) {
       if (service is AndroidServiceInstance) {
         await service.setForegroundNotificationInfo(
-          title: 'Solgo Insight sync',
+          title: 'SolgoInsight sync',
           content: 'Sync failed. Will retry automatically.',
         );
       }
@@ -144,16 +144,6 @@ void smartXdripBackgroundServiceOnStart(ServiceInstance service) async {
 
   service.on(BackgroundServiceCommands.alertActuatorCommand).listen((event) {
     handleAlertActuatorCommand(event);
-  });
-
-  service.on(BackgroundServiceCommands.stopFollowAlertSound).listen((event) {
-    final personId = event?['personId']?.toString().trim();
-    final type = event?['type']?.toString().trim();
-    handleAlertActuatorCommand({
-      'commandType': AlertActuatorCommandType.stopTarget.code,
-      'targetId': personId,
-      'type': type,
-    });
   });
 
   await runOnce('start');

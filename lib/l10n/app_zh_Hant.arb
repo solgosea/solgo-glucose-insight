@@ -1,0 +1,171 @@
+{
+  "@@locale": "zh_Hant",
+  "appName": "SolgoInsight",
+  "commonCancel": "取消",
+  "commonDone": "完成",
+  "commonBack": "返回",
+  "commonLoading": "載入中",
+  "commonRetry": "重試",
+  "commonSave": "儲存",
+  "commonShare": "分享",
+  "commonPrint": "列印",
+  "commonExportPdf": "匯出 PDF",
+  "commonNoData": "暫無資料",
+  "commonUnavailable": "不可用",
+  "settingsTitle": "設定",
+  "settingsSubtitle": "顯示、同步視窗、儲存與匯出偏好。",
+  "settingsLanguageTitle": "語言",
+  "settingsLanguageDescription": "App 顯示語言",
+  "settingsLanguageSystem": "跟隨系統",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageSimplifiedChinese": "简体中文",
+  "settingsLanguageTraditionalChinese": "繁體中文",
+  "settingsLanguageChanged": "語言已更新。",
+  "settingsBloodGlucoseUnit": "血糖單位",
+  "settingsInitialSyncWindow": "初始同步視窗",
+  "settingsRecommendedBalance": "建議平衡",
+  "settingsExportData": "匯出資料",
+  "settingsClearAllData": "清除所有資料",
+  "timeJustNow": "剛剛",
+  "timeNever": "從未",
+  "timeMinutesAgo": "{minutes} 分鐘前",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{hours} 小時前",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{days} 天前",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "durationSecondsShort": "{seconds}秒",
+  "@durationSecondsShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutesShort": "{minutes}分",
+  "@durationMinutesShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursShort": "{hours}小時",
+  "@durationHoursShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursMinutesShort": "{hours}小時 {minutes}分",
+  "@durationHoursMinutesShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "dateToday": "今天",
+  "dateYesterday": "昨天",
+  "dateTomorrow": "明天",
+  "dayPeriodDawn": "清晨",
+  "dayPeriodMorning": "上午",
+  "dayPeriodAfternoon": "下午",
+  "dayPeriodEvening": "傍晚",
+  "dayPeriodNight": "夜間",
+  "relativeDayPeriodToday": "今天{period}",
+  "@relativeDayPeriodToday": {
+    "placeholders": {
+      "period": {}
+    }
+  },
+  "relativeDayPeriodYesterday": "昨天{period}",
+  "@relativeDayPeriodYesterday": {
+    "placeholders": {
+      "period": {}
+    }
+  },
+  "relativeDayPeriodTomorrow": "明天{period}",
+  "@relativeDayPeriodTomorrow": {
+    "placeholders": {
+      "period": {}
+    }
+  },
+  "syncNotSyncing": "未同步",
+  "syncWaiting": "等待中",
+  "syncNotConfigured": "未設定",
+  "syncConfiguredNotSyncing": "已設定，未同步",
+  "syncWaitingFirstSync": "等待首次同步",
+  "syncSynced": "已同步 {relative}",
+  "@syncSynced": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
+  "syncLastSynced": "上次同步 {relative}",
+  "@syncLastSynced": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
+  "syncFailed": "失敗",
+  "syncLastFailed": "上次同步失敗",
+  "syncSchedulePending": "同步排程待定",
+  "syncPaused": "同步已暫停",
+  "syncWaitingSchedule": "等待同步排程",
+  "syncDue": "需要同步",
+  "syncNext": "下次 {duration}",
+  "@syncNext": {
+    "placeholders": {
+      "duration": {}
+    }
+  },
+  "syncEstimatedNext": "預計下次 {duration}",
+  "@syncEstimatedNext": {
+    "placeholders": {
+      "duration": {}
+    }
+  },
+  "syncForegroundRefresh": "前台重新整理 {relative}",
+  "@syncForegroundRefresh": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
+  "syncNewCount": "{count} 筆新增",
+  "@syncNewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncTitleLive": "即時同步已啟用",
+  "syncTitleWarming": "同步正在準備",
+  "syncTitleNeedsAttention": "同步需要注意",
+  "syncTitleInterrupted": "同步已中斷",
+  "syncTitleDisabled": "同步已關閉",
+  "syncDetailCollectingFirstSamples": "正在為此來源收集首批血糖樣本。"
+}

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/alerting/application/rule/evaluators/glucose_high_rule_evaluator.dart';
 import 'package:smart_xdrip/alerting/application/rule/evaluators/glucose_rapid_fall_rule_evaluator.dart';
@@ -73,6 +75,38 @@ void main() {
     );
 
     expect(rendered.body, 'Glucose is falling quickly (-3.1 mg/dL/min).');
+  });
+
+  test('core glucose renderer follows Chinese locale', () {
+    final result = const GlucoseHighRuleEvaluator().evaluate(
+      _rule(
+        category: AlertCategory.glucoseHigh,
+        comparator: AlertRuleComparator.greaterThan,
+        threshold: 10,
+      ),
+      AlertRuleEvaluationContext(
+        readings: [
+          GlucoseReading(timestamp: DateTime(2026, 6, 13, 8), value: 10.8),
+        ],
+        now: DateTime(2026, 6, 13, 8, 1),
+      ),
+    );
+
+    final rendered = const CoreGlucoseAlertTextRenderer().render(
+      AlertTextRenderRequest(
+        source: AlertEventSource.nightscout,
+        category: AlertCategory.glucoseHigh,
+        type: 'high',
+        result: result,
+      ),
+      const AlertTextRenderContext(
+        unit: GlucoseUnit.mmolL,
+        locale: Locale('zh'),
+      ),
+    );
+
+    expect(rendered.title, '高血糖');
+    expect(rendered.body, '血糖为 10.8 mmol/L。');
   });
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../shared/episode_section_label.dart';
 import 'episode_repeat_day_strip.dart';
@@ -56,6 +57,7 @@ class EpisodeRepeatChartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -114,7 +116,7 @@ class EpisodeRepeatChartCard extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: 'Pattern takeaway: ',
+                      text: '${l10n.patternTakeaway}: ',
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                         color: textColor,

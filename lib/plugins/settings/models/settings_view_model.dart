@@ -96,6 +96,7 @@ class SettingsAboutViewModel {
 
 enum SettingsAction {
   none,
+  pickLanguage,
   pickUnit,
   pickInitialSyncWindow,
   exportCsv,

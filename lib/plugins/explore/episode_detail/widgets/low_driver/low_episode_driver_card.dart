@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../low_shared/low_episode_style.dart';
 import '../shared/episode_section_label.dart';
@@ -14,21 +15,22 @@ class LowEpisodeDriverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     final bars = [
-      ('Nadir', viewModel.nadirScore),
-      ('Duration', viewModel.durationScore),
-      ('Descent', viewModel.descentScore),
-      ('Recovery', viewModel.recoveryScore),
-      ('Night', viewModel.nocturnalScore),
-      ('Repeat', viewModel.repeatScore),
+      (l10n.nadir, viewModel.nadirScore),
+      (l10n.duration, viewModel.durationScore),
+      (l10n.descent, viewModel.descentScore),
+      (l10n.recovery, viewModel.recoveryScore),
+      (l10n.night, viewModel.nocturnalScore),
+      (l10n.repeatPattern, viewModel.repeatScore),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const EpisodeSectionLabel(
+        EpisodeSectionLabel(
           index: '05',
-          title: 'Main driver',
-          trailing: 'Why review',
+          title: l10n.mainDriver,
+          trailing: l10n.whyReview,
           accent: LowEpisodeStyle.blue,
         ),
         EpisodeSectionCard(

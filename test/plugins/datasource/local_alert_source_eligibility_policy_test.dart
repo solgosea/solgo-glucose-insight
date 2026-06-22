@@ -37,7 +37,7 @@ void main() {
       () {
     expect(
       policy.canEvaluate(
-        subjectId: 'follow:child-a',
+        subjectId: 'remote:child-a',
         settings: const AppSettings(nightscoutSyncEnabled: true),
       ),
       isFalse,

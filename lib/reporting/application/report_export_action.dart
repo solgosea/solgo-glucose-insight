@@ -1,0 +1,4 @@
+enum ReportExportAction {
+  save,
+  share,
+}

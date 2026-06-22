@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/navigation/safe_navigation.dart';
+import '../application/i18n/episode_detail_l10n.dart';
 import '../shared/episode_chart_card.dart';
 import '../shared/episode_disclaimer.dart';
 import '../shared/episode_header.dart';
@@ -31,18 +32,44 @@ class EpisodeDetailBody extends StatelessWidget {
   final EpisodeDetailViewModel viewModel;
   final bool showResetToLatest;
   final VoidCallback? onResetToLatest;
+  final bool showReportAction;
+  final bool reportExporting;
+  final VoidCallback? onExportReport;
 
   const EpisodeDetailBody({
     super.key,
     required this.viewModel,
     this.showResetToLatest = false,
     this.onResetToLatest,
+    this.showReportAction = false,
+    this.reportExporting = false,
+    this.onExportReport,
   });
 
   @override
   Widget build(BuildContext context) {
     if (!viewModel.hasEpisode) {
-      return EpisodeEmptyState(viewModel: viewModel);
+      final actionColor = viewModel.kind == EpisodeKind.high
+          ? AppColors.rose
+          : LowEpisodeStyle.blue;
+      return EpisodeEmptyState(
+        viewModel: viewModel,
+        trailing: _HeaderActions(
+          children: [
+            if (showReportAction)
+              _ReportButton(
+                color: actionColor,
+                exporting: reportExporting,
+                onTap: null,
+              ),
+            if (showResetToLatest)
+              _ResetToLatestButton(
+                color: actionColor,
+                onTap: onResetToLatest,
+              ),
+          ],
+        ),
+      );
     }
 
     final chart = viewModel.chart!;
@@ -56,6 +83,9 @@ class EpisodeDetailBody extends StatelessWidget {
         themeColor: themeColor,
         showResetToLatest: showResetToLatest,
         onResetToLatest: onResetToLatest,
+        showReportAction: showReportAction,
+        reportExporting: reportExporting,
+        onExportReport: onExportReport,
       );
     }
 
@@ -64,6 +94,9 @@ class EpisodeDetailBody extends StatelessWidget {
       chart: chart,
       showResetToLatest: showResetToLatest,
       onResetToLatest: onResetToLatest,
+      showReportAction: showReportAction,
+      reportExporting: reportExporting,
+      onExportReport: onExportReport,
     );
   }
 }
@@ -74,6 +107,9 @@ class _HighEpisodeDetailScaffold extends StatelessWidget {
   final Color themeColor;
   final bool showResetToLatest;
   final VoidCallback? onResetToLatest;
+  final bool showReportAction;
+  final bool reportExporting;
+  final VoidCallback? onExportReport;
 
   const _HighEpisodeDetailScaffold({
     required this.viewModel,
@@ -81,10 +117,14 @@ class _HighEpisodeDetailScaffold extends StatelessWidget {
     required this.themeColor,
     required this.showResetToLatest,
     required this.onResetToLatest,
+    required this.showReportAction,
+    required this.reportExporting,
+    required this.onExportReport,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -97,12 +137,21 @@ class _HighEpisodeDetailScaffold extends StatelessWidget {
                 title: viewModel.title,
                 subtitle: viewModel.subtitle,
                 onBack: () => context.safePopOrHome(),
-                trailing: showResetToLatest
-                    ? _ResetToLatestButton(
+                trailing: _HeaderActions(
+                  children: [
+                    if (showReportAction)
+                      _ReportButton(
+                        color: AppColors.rose,
+                        exporting: reportExporting,
+                        onTap: reportExporting ? null : onExportReport,
+                      ),
+                    if (showResetToLatest)
+                      _ResetToLatestButton(
                         color: AppColors.rose,
                         onTap: onResetToLatest,
-                      )
-                    : null,
+                      ),
+                  ],
+                ),
               ),
               if (viewModel.highSummary != null)
                 HighEpisodeSummaryCard(viewModel: viewModel.highSummary!),
@@ -110,7 +159,7 @@ class _HighEpisodeDetailScaffold extends StatelessWidget {
                 HighEpisodeBurdenCard(viewModel: viewModel.highBurden!),
               if (viewModel.highLifecycle != null)
                 HighEpisodeLifecycleCard(viewModel: viewModel.highLifecycle!),
-              const EpisodeSectionLabel(index: '04', title: 'Episode chart'),
+              EpisodeSectionLabel(index: '04', title: l10n.episodeChart),
               EpisodeChartCard(
                 readings: chart.readings,
                 unit: chart.unit,
@@ -153,16 +202,23 @@ class _LowEpisodeDetailScaffold extends StatelessWidget {
   final EpisodeChartViewModel chart;
   final bool showResetToLatest;
   final VoidCallback? onResetToLatest;
+  final bool showReportAction;
+  final bool reportExporting;
+  final VoidCallback? onExportReport;
 
   const _LowEpisodeDetailScaffold({
     required this.viewModel,
     required this.chart,
     required this.showResetToLatest,
     required this.onResetToLatest,
+    required this.showReportAction,
+    required this.reportExporting,
+    required this.onExportReport,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Scaffold(
       backgroundColor: LowEpisodeStyle.bg,
       body: SafeArea(
@@ -175,16 +231,25 @@ class _LowEpisodeDetailScaffold extends StatelessWidget {
                 title: viewModel.title,
                 subtitle: viewModel.subtitle,
                 onBack: () => context.safePopOrHome(),
-                trailing: showResetToLatest
-                    ? _ResetToLatestButton(
+                trailing: _HeaderActions(
+                  children: [
+                    if (showReportAction)
+                      _ReportButton(
+                        color: LowEpisodeStyle.blue,
+                        exporting: reportExporting,
+                        onTap: reportExporting ? null : onExportReport,
+                      ),
+                    if (showResetToLatest)
+                      _ResetToLatestButton(
                         color: LowEpisodeStyle.blue,
                         onTap: onResetToLatest,
-                      )
-                    : null,
+                      ),
+                  ],
+                ),
               ),
               EpisodeSectionLabel(
                 index: '01',
-                title: 'Episode summary',
+                title: l10n.episodeSummary,
                 trailing: viewModel.statusTime,
                 accent: LowEpisodeStyle.blue,
               ),
@@ -194,9 +259,9 @@ class _LowEpisodeDetailScaffold extends StatelessWidget {
                 LowEpisodeBurdenCard(viewModel: viewModel.lowBurden!),
               if (viewModel.lowLifecycle != null)
                 LowEpisodeLifecycleCard(viewModel: viewModel.lowLifecycle!),
-              const EpisodeSectionLabel(
+              EpisodeSectionLabel(
                 index: '04',
-                title: 'Episode chart',
+                title: l10n.episodeChart,
                 accent: LowEpisodeStyle.blue,
               ),
               EpisodeChartCard(
@@ -244,6 +309,78 @@ class _LowEpisodeDetailScaffold extends StatelessWidget {
   }
 }
 
+class _HeaderActions extends StatelessWidget {
+  final List<Widget> children;
+
+  const _HeaderActions({required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    if (children.isEmpty) return const SizedBox.shrink();
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < children.length; i++) ...[
+          if (i > 0) const SizedBox(width: 8),
+          children[i],
+        ],
+      ],
+    );
+  }
+}
+
+class _ReportButton extends StatelessWidget {
+  final Color color;
+  final bool exporting;
+  final VoidCallback? onTap;
+
+  const _ReportButton({
+    required this.color,
+    required this.exporting,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onTap != null;
+    final l10n = context.episodeDetailL10n;
+    return Tooltip(
+      message: enabled ? l10n.previewReport : l10n.noReportAvailable,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Opacity(
+          opacity: enabled ? 1 : .42,
+          child: Container(
+            width: 32,
+            height: 32,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: color.withOpacity(0.34)),
+            ),
+            child: exporting
+                ? SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(color),
+                    ),
+                  )
+                : Icon(
+                    Icons.picture_as_pdf_rounded,
+                    size: 17,
+                    color: color,
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _ResetToLatestButton extends StatelessWidget {
   final Color color;
   final VoidCallback? onTap;
@@ -255,8 +392,9 @@ class _ResetToLatestButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Tooltip(
-      message: 'Back to latest episode',
+      message: l10n.backToLatestEpisode,
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,

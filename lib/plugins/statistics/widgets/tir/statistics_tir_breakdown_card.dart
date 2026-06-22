@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../../application/i18n/statistics_l10n.dart';
 import '../../models/statistics_view_model.dart';
 import '../shared/statistics_section_card.dart';
 import 'statistics_extreme_cell.dart';
@@ -16,7 +17,7 @@ class StatisticsTirBreakdownCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StatisticsSectionCard(
-      title: 'Time in range breakdown',
+      title: context.statisticsL10n.tirBreakdownTitle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

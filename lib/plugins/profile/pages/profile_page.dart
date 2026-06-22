@@ -7,6 +7,7 @@ import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
 
+import '../application/i18n/profile_l10n.dart';
 import '../application/profile_host_services.dart';
 import '../controllers/profile_controller.dart';
 import '../runtime/profile_plugin_runtime.dart';
@@ -27,6 +28,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (!_isUninitialized) {
+      _controller.updateLocale(context.profileL10n);
+      return;
+    }
     if (mounted && _isUninitialized) {
       _isUninitialized = false;
       final services = context.read<PluginServiceRegistry>();
@@ -37,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
         runtimeCache: services.get<ProfileRuntimeCache>(),
         runtime: services.get<ProfilePluginRuntime>(),
       );
+      _controller.updateLocale(context.profileL10n);
       unawaited(_controller.load());
     }
   }

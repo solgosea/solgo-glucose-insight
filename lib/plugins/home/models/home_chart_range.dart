@@ -8,6 +8,4 @@ enum HomeChartRange {
   final int hours;
 
   const HomeChartRange(this.label, this.hours);
-
-  String get title => 'LAST ${label.toUpperCase()}';
 }

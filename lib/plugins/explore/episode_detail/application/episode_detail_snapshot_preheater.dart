@@ -1,20 +1,17 @@
 import '../../../../application/analysis/analysis_facade.dart';
 import '../domain/episode_detail_entry_intent.dart';
 import 'episode_detail_service.dart';
-import '../mappers/episode_detail_view_model_mapper.dart';
 import '../models/episode_kind.dart';
 import '../runtime/episode_detail_runtime_snapshot.dart';
 
 class EpisodeDetailSnapshotPreheater {
   final AnalysisFacade Function() facadeProvider;
   final EpisodeDetailService? service;
-  final EpisodeDetailViewModelMapper mapper;
   final DateTime Function() now;
 
   EpisodeDetailSnapshotPreheater({
     required this.facadeProvider,
     this.service,
-    this.mapper = const EpisodeDetailViewModelMapper(),
     DateTime Function()? now,
   }) : now = now ?? DateTime.now;
 
@@ -30,12 +27,11 @@ class EpisodeDetailSnapshotPreheater {
               now: now,
             ))
         .load(intent: intent);
-    final viewModel = mapper.map(output);
     return EpisodeDetailRuntimeSnapshot(
       subjectId: facade.activeSubject.id,
       kind: kind,
       focus: intent.focus,
-      viewModel: viewModel,
+      output: output,
       updatedAt: now(),
       reason: reason,
     );

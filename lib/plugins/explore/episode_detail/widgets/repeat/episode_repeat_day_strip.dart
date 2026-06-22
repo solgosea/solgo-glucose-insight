@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 
 class EpisodeRepeatDayStrip extends StatelessWidget {
@@ -24,6 +25,7 @@ class EpisodeRepeatDayStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Container(
       padding: const EdgeInsets.fromLTRB(9, 10, 9, 9),
       decoration: BoxDecoration(
@@ -38,7 +40,7 @@ class EpisodeRepeatDayStrip extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  '30-DAY OCCURRENCE STRIP',
+                  l10n.thirtyDayOccurrenceStrip.toUpperCase(),
                   style: TextStyle(
                     fontFamily: 'JetBrainsMono',
                     fontSize: 8,
@@ -48,7 +50,7 @@ class EpisodeRepeatDayStrip extends StatelessWidget {
                 ),
               ),
               Text(
-                'OLDER -> TODAY',
+                l10n.olderToToday.toUpperCase(),
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 8,
@@ -86,9 +88,9 @@ class EpisodeRepeatDayStrip extends StatelessWidget {
             spacing: 10,
             runSpacing: 5,
             children: [
-              _Legend(color: mutedColor, label: 'no episode'),
-              _Legend(color: hitColor, label: 'episode'),
-              _Legend(color: currentColor, label: 'current'),
+              _Legend(color: mutedColor, label: l10n.noEpisode),
+              _Legend(color: hitColor, label: l10n.episode),
+              _Legend(color: currentColor, label: l10n.current),
             ],
           ),
         ],

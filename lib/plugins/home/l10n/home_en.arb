@@ -1,0 +1,77 @@
+﻿{
+    "homeHeaderSubtitle": "Home title and active sync status.",
+    "homeHeroTitle": "Current Glucose",
+    "homeTirSubtitle": "Current range summary",
+    "homeHeroSubtitle": "Latest glucose value",
+    "homeTirDescription": "Time-in-range summary for the current view.",
+    "homeRangeChartDescription": "Recent glucose range chart.",
+    "homeHeroDescription": "Latest glucose value and trend summary.",
+    "homeStatsDescription": "Compact mean, CV, and event stat row.",
+    "homeInsightDescription": "Compact generated insight entry point.",
+    "homeStatsTitle": "Home Stats",
+    "homeHeaderDescription": "Home title and active sync status.",
+    "homeRangeChartTitle": "Range Chart",
+    "homeHeaderTitle": "Home Header",
+    "homeTirTitle": "Time In Range",
+    "homeStatsSubtitle": "Mean, CV, and event stats",
+    "homeInsightTitle": "Home Insight",
+    "homeRangeChartSubtitle": "Recent glucose trend",
+    "homeInsightSubtitle": "Generated insight entry point",
+    "pluginUnavailable": "Unavailable",
+    "pluginReportTitle": "Home Report",
+    "@@locale": "en",
+    "pluginSubtitle": "Dashboard widgets and glucose overview.",
+    "pluginTitle": "Home",
+    "pluginDescription": "Dashboard widgets and glucose overview.",
+    "pluginNoData": "No data available yet.",
+    "pluginLoading": "Loading"
+    ,
+    "homeStatAverage": "Avg {window}",
+    "@homeStatAverage": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeStatTir": "TIR {window}",
+    "@homeStatTir": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeStatCv": "CV {window}",
+    "@homeStatCv": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeInRange": "in range",
+    "homeStable": "stable",
+    "homeHighWithThreshold": "High {threshold}",
+    "@homeHighWithThreshold": {
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "homeLowWithThreshold": "Low {threshold}",
+    "@homeLowWithThreshold": {
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "homeLast24h": "Last 24h",
+    "homeNotEnoughData": "Not enough CGM data yet.",
+    "homeCheckingSync": "Checking sync",
+    "homeCompanionEyebrow": "CGM COMPANION",
+    "homeTodaysInsight": "TODAY'S INSIGHT",
+    "homeSeeFullAnalysis": "See full analysis  >",
+    "homeMyDevice": "My device",
+    "homeInspectingPast": "INSPECTING PAST - release for now",
+    "homeRangeOneHour": "1h",
+    "homeRangeFourHours": "4h",
+    "homeRangeEightHours": "8h",
+    "homeRangeTwentyFourHours": "24h",
+    "homeRangeTitleOneHour": "LAST 1H",
+    "homeRangeTitleFourHours": "LAST 4H",
+    "homeRangeTitleEightHours": "LAST 8H",
+    "homeRangeTitleTwentyFourHours": "LAST 24H"
+}

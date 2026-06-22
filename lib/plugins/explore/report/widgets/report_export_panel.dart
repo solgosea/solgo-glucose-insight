@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smart_xdrip/reporting/application/report_export_action.dart';
 
 import '../../../../foundation/theme/app_colors.dart';
-import '../services/report_export_service.dart';
+import '../application/i18n/report_l10n.dart';
 
 class ReportExportPanel extends StatelessWidget {
   final bool exporting;
@@ -17,71 +18,46 @@ class ReportExportPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.reportL10n;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ExportButton(
-            primary: true,
-            icon: Icons.picture_as_pdf_rounded,
-            title: 'Save as PDF',
-            subtitle: 'Generate an AGP-style local report',
-            disabled: !enabled || exporting,
-            onTap: () => onExport(ReportExportAction.save),
-          ),
-          const SizedBox(height: 8),
-          _ExportButton(
-            icon: Icons.ios_share_rounded,
-            title: 'Share / Send',
-            subtitle: 'Use the system share sheet',
-            disabled: !enabled || exporting,
-            onTap: () => onExport(ReportExportAction.share),
-          ),
-          const SizedBox(height: 8),
-          _ExportButton(
-            icon: Icons.mail_outline_rounded,
-            title: 'Email to myself',
-            subtitle: 'Open mail-capable share targets',
-            disabled: !enabled || exporting,
-            onTap: () => onExport(ReportExportAction.email),
+          const _PrivacyNote(),
+          const SizedBox(height: 10),
+          Text(
+            l10n.exportDescription,
+            style: const TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 9,
+              height: 1.5,
+              color: AppColors.textDim,
+            ),
           ),
           const SizedBox(height: 12),
-          const _PrivacyNote(),
-          const SizedBox(height: 18),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: !enabled || exporting
-                  ? null
-                  : () => onExport(ReportExportAction.save),
-              icon: exporting
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: AppColors.bg,
-                      ),
-                    )
-                  : const Icon(Icons.auto_awesome_rounded),
-              label: Text(exporting ? 'Generating...' : 'Generate Report'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.green,
-                foregroundColor: AppColors.bg,
-                disabledBackgroundColor: AppColors.green.withOpacity(0.3),
-                disabledForegroundColor: AppColors.bg.withOpacity(0.6),
-                elevation: 0,
-                minimumSize: const Size.fromHeight(52),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                textStyle: const TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w800,
+          Row(
+            children: [
+              Expanded(
+                child: _ActionButton(
+                  label: l10n.exportSavePdf,
+                  icon: Icons.picture_as_pdf_rounded,
+                  primary: true,
+                  disabled: !enabled || exporting,
+                  loading: exporting,
+                  onTap: () => onExport(ReportExportAction.save),
                 ),
               ),
-            ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _ActionButton(
+                  label: l10n.exportShareSend,
+                  icon: Icons.ios_share_rounded,
+                  disabled: !enabled || exporting,
+                  onTap: () => onExport(ReportExportAction.share),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -89,87 +65,69 @@ class ReportExportPanel extends StatelessWidget {
   }
 }
 
-class _ExportButton extends StatelessWidget {
+class _ActionButton extends StatelessWidget {
   final bool primary;
   final IconData icon;
-  final String title;
-  final String subtitle;
+  final String label;
   final bool disabled;
+  final bool loading;
   final VoidCallback onTap;
 
-  const _ExportButton({
+  const _ActionButton({
     this.primary = false,
     required this.icon,
-    required this.title,
-    required this.subtitle,
+    required this.label,
     required this.disabled,
+    this.loading = false,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final accent = primary ? AppColors.green : AppColors.text;
     return Opacity(
       opacity: disabled ? 0.55 : 1,
       child: GestureDetector(
         onTap: disabled ? null : onTap,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
           decoration: BoxDecoration(
-            color:
-                primary ? AppColors.green.withOpacity(0.11) : AppColors.bgCard,
+            color: primary ? AppColors.green : AppColors.bgCard2,
             border: Border.all(
-              color: primary
-                  ? AppColors.green.withOpacity(0.45)
-                  : AppColors.border,
-              width: primary ? 1.5 : 1,
+              color: primary ? AppColors.green : AppColors.borderMid,
             ),
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: primary
-                      ? AppColors.green.withOpacity(0.15)
-                      : AppColors.bgCard2,
-                  borderRadius: BorderRadius.circular(10),
+              if (loading)
+                const SizedBox(
+                  width: 15,
+                  height: 15,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.bg,
+                  ),
+                )
+              else
+                Icon(
+                  icon,
+                  size: 15,
+                  color: primary ? AppColors.bg : AppColors.textSoft,
                 ),
-                child: Icon(icon,
-                    color: primary ? AppColors.green : AppColors.textSoft),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: primary ? AppColors.green : accent,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 11,
-                        color: AppColors.textSoft,
-                      ),
-                    ),
-                  ],
+              const SizedBox(width: 7),
+              Flexible(
+                child: Text(
+                  loading ? context.reportL10n.exportGenerating : label,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: primary ? AppColors.bg : AppColors.text,
+                  ),
                 ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.textDim,
               ),
             ],
           ),
@@ -191,15 +149,16 @@ class _PrivacyNote extends StatelessWidget {
         border: Border.all(color: AppColors.blue.withOpacity(0.18)),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.lock_outline_rounded, color: AppColors.blue, size: 16),
-          SizedBox(width: 9),
+          const Icon(Icons.lock_outline_rounded,
+              color: AppColors.blue, size: 16),
+          const SizedBox(width: 9),
           Expanded(
             child: Text(
-              'Reports are generated locally from CGM readings stored on this device. No insulin, carb, medication, or meal data is included.',
-              style: TextStyle(
+              context.reportL10n.exportPrivacyNote,
+              style: const TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 11,
                 height: 1.5,

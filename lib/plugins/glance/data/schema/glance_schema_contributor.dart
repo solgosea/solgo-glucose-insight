@@ -9,7 +9,7 @@ class GlanceSchemaContributor extends PluginSchemaContributor {
   String get pluginId => 'glance.layer';
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   Future<void> install(PluginSchemaContext context) {

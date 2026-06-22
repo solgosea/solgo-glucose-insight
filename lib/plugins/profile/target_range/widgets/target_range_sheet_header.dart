@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/profile_l10n.dart';
 
 class TargetRangeSheetHeader extends StatelessWidget {
   final VoidCallback onReset;
@@ -12,26 +13,27 @@ class TargetRangeSheetHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Target Range',
-                style: TextStyle(
+                l10n.targetRangeSheetTitle,
+                style: const TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                   color: AppColors.text,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
-                'Drag the markers or type exact values. Both stay in sync.',
-                style: TextStyle(
+                l10n.targetRangeSheetSubtitle,
+                style: const TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 12,
                   height: 1.45,
@@ -41,16 +43,20 @@ class TargetRangeSheetHeader extends StatelessWidget {
             ],
           ),
         ),
-        _ResetButton(onTap: onReset),
+        _ResetButton(label: l10n.targetRangeReset, onTap: onReset),
       ],
     );
   }
 }
 
 class _ResetButton extends StatelessWidget {
+  final String label;
   final VoidCallback onTap;
 
-  const _ResetButton({required this.onTap});
+  const _ResetButton({
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +70,18 @@ class _ResetButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(9),
           border: Border.all(color: AppColors.border),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.refresh_rounded, size: 13, color: AppColors.textSoft),
-            SizedBox(width: 5),
+            const Icon(
+              Icons.refresh_rounded,
+              size: 13,
+              color: AppColors.textSoft,
+            ),
+            const SizedBox(width: 5),
             Text(
-              'Reset',
-              style: TextStyle(
+              label,
+              style: const TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 11,
                 fontWeight: FontWeight.w600,

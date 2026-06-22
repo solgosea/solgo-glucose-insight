@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../low_shared/low_episode_style.dart';
 import '../repeat/episode_repeat_chart_card.dart';
@@ -15,9 +16,10 @@ class LowEpisodeRepeatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return EpisodeRepeatChartCard(
       index: '08',
-      title: 'Repeat pattern',
+      title: l10n.repeatPattern,
       trailing: viewModel.windowLabel,
       summaryStat: viewModel.summaryStat,
       summaryLabel: viewModel.summaryLabel,

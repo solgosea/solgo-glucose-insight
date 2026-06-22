@@ -6,20 +6,22 @@ import '../../plugin_platform/contracts/plugin_id.dart';
 import '../../plugin_platform/contracts/plugin_placement.dart';
 import '../../plugin_platform/contracts/plugin_release_stage.dart';
 import '../../plugin_platform/contracts/plugin_route.dart';
-import '../../plugin_platform/contracts/smart_feature_plugin.dart';
+import '../../plugin_platform/contracts/smart_feature_plugin.dart';
+import 'application/i18n/background_l10n_resolver.dart';
 
 class SourceHealthTaskPlugin extends SmartFeaturePlugin {
   const SourceHealthTaskPlugin();
+
+  static final _strings = BackgroundL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('background.source_health');
 
   @override
-  String get title => 'Source Health Check';
+  String get title => _strings.sourceHealthTitle;
 
   @override
-  String get description =>
-      'Checks the active xDrip or Nightscout source reachability.';
+  String get description => _strings.sourceHealthDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -39,7 +41,7 @@ class SourceHealthTaskPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.backgroundTask'),
           renderKey: 'source.health_check',
-          title: 'Source Health Check',
+          title: _strings.sourceHealthTitle,
           order: 10,
           dataRequirements: dataRequirements,
         ),
@@ -47,10 +49,10 @@ class SourceHealthTaskPlugin extends SmartFeaturePlugin {
 
   @override
   BackgroundTaskPluginEntry get backgroundTaskEntry =>
-      const BackgroundTaskPluginEntry(
+      BackgroundTaskPluginEntry(
         taskKey: 'source.health_check',
-        title: 'Source Health Check',
-        description: 'Validate active data source availability.',
+        title: _strings.sourceHealthTitle,
+        description: _strings.sourceHealthSubtitle,
         interval: Duration(minutes: 2),
         foregroundService: true,
         order: 10,

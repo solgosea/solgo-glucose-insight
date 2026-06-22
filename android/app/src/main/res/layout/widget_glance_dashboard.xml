@@ -144,7 +144,7 @@
                         android:layout_marginStart="4dp"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="Solgo Insight"
+                        android:text="SolgoInsight"
                         android:textColor="#8FBFAA"
                         android:textSize="9.5sp"
                         android:textStyle="bold" />

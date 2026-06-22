@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../foundation/theme/app_colors.dart';
 import '../../../../plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import '../../../../plugin_platform/services/plugin_service_registry.dart';
+import '../application/i18n/report_l10n.dart';
 import '../controllers/report_controller.dart';
 import '../runtime/report_plugin_runtime.dart';
 import '../runtime/report_runtime_cache.dart';
@@ -24,7 +25,11 @@ class _ReportPageState extends State<ReportPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_controller != null) return;
+    final existing = _controller;
+    if (existing != null) {
+      unawaited(existing.updateLocale(context.reportL10n));
+      return;
+    }
     final services = context.read<PluginServiceRegistry>();
     final runtimeManager = context.read<PluginRuntimeManager>();
     unawaited(
@@ -36,6 +41,7 @@ class _ReportPageState extends State<ReportPage> {
       runtime: services.get<ReportPluginRuntime>(),
       runtimeContext: runtimeManager.context,
     );
+    unawaited(_controller!.updateLocale(context.reportL10n));
     _controller!.load();
   }
 

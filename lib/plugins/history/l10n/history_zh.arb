@@ -1,0 +1,58 @@
+﻿{
+    "@@locale":  "zh",
+    "pluginTitle":  "历史",
+    "pluginSubtitle":  "每日血糖曲线、事件与片段回顾。",
+    "pluginDescription":  "每日血糖曲线、事件与片段回顾。",
+    "pluginReportTitle":  "历史报告",
+    "pluginLoading":  "加载中",
+    "pluginNoData":  "暂无可用数据。",
+    "pluginUnavailable":  "不可用",
+    "dayView": "日视图",
+    "today": "今天",
+    "summaryTir": "TIR",
+    "summaryPeak": "峰值",
+    "summaryCv": "CV",
+    "summaryAverage": "平均",
+    "statTir": "TIR",
+    "statAverage": "平均",
+    "statPeak": "峰值",
+    "statCv": "CV",
+    "curveTitle": "24 小时曲线",
+    "legendInRange": "范围内",
+    "legendHigh": "偏高",
+    "legendLow": "偏低",
+    "filterFocusedAround": "聚焦 {time} 附近",
+    "@filterFocusedAround": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "filterClear": "清除",
+    "episodeHigh": "高血糖片段",
+    "episodeLow": "低血糖片段",
+    "episodeAction": "查看片段分析 ->",
+    "eventRiseDetected": "检测到上升",
+    "eventLowEpisode": "低血糖片段",
+    "eventRecoveryToRange": "回到目标范围",
+    "eventStableWindow": "稳定时段",
+    "eventFirstReading": "当天首条读数",
+    "eventDawnPhenomenon": "黎明现象",
+    "tagHighEpisode": "高血糖片段",
+    "tagLowEpisode": "低血糖片段",
+    "tagInRange": "范围内",
+    "tagElevated": "偏高",
+    "eventsSectionTitle": "血糖事件",
+    "eventsEmpty": "暂无记录事件",
+    "eventBackInRange": "已回到范围内",
+    "eventNocturnalLow": "夜间低血糖",
+    "eventRatePrefix": "速率 {rate}",
+    "@eventRatePrefix": {
+        "placeholders": {
+            "rate": {
+                "type": "String"
+            }
+        }
+    }
+}

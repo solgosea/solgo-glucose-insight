@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../foundation/theme/app_colors.dart';
+import '../application/i18n/report_l10n.dart';
 import '../models/report_view_model.dart';
 
 class ReportHeaderCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class ReportHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.reportL10n;
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 14, 20, 0),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -23,21 +25,22 @@ class ReportHeaderCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _Row(label: 'Period', value: viewModel.periodLabel),
+          _Row(label: l10n.headerPeriod, value: viewModel.periodLabel),
           const SizedBox(height: 8),
-          _Row(label: 'Readings', value: viewModel.readingsLabel),
+          _Row(label: l10n.headerReadings, value: viewModel.readingsLabel),
           const SizedBox(height: 8),
-          _Row(label: 'Coverage', value: viewModel.coverageLabel),
+          _Row(label: l10n.headerCoverage, value: viewModel.coverageLabel),
           Container(
             height: 1,
             margin: const EdgeInsets.symmetric(vertical: 10),
             color: AppColors.border,
           ),
-          _Row(label: 'Data source', value: viewModel.dataSourceLabel),
+          _Row(label: l10n.headerDataSource, value: viewModel.dataSourceLabel),
           const SizedBox(height: 8),
-          _Row(label: 'Target range', value: viewModel.targetRangeLabel),
+          _Row(
+              label: l10n.headerTargetRange, value: viewModel.targetRangeLabel),
           const SizedBox(height: 8),
-          _Row(label: 'Generated', value: viewModel.generatedLabel),
+          _Row(label: l10n.headerGenerated, value: viewModel.generatedLabel),
         ],
       ),
     );

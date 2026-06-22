@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
+import 'package:smart_xdrip/plugin_platform/i18n/plugin_entry_localization_registry.dart';
 import 'package:smart_xdrip/plugin_platform/widgets/plugin_entry_card.dart';
 import 'package:smart_xdrip/presentation/common/widgets/section_label.dart';
+import '../application/i18n/explore_l10n.dart';
 import '../controllers/explore_controller.dart';
 import '../runtime/explore_entry_state_store.dart';
 import '../runtime/explore_plugin_runtime.dart';
@@ -41,6 +43,9 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final controller = _controller;
+    final l10n = context.exploreL10n;
+    final entryLocalizers = context.read<PluginEntryLocalizationRegistry>();
+    final locale = Localizations.localeOf(context);
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: controller == null
@@ -54,11 +59,11 @@ class _ExplorePageState extends State<ExplorePage> {
                   child: ListView(
                     padding: const EdgeInsets.only(bottom: 32),
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 4),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 4),
                         child: Text(
-                          'Explore',
-                          style: TextStyle(
+                          l10n.pluginTitle,
+                          style: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 26,
                             fontWeight: FontWeight.w700,
@@ -66,11 +71,11 @@ class _ExplorePageState extends State<ExplorePage> {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 8),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                         child: Text(
-                          'Deep analysis tools',
-                          style: TextStyle(
+                          l10n.pluginSubtitle,
+                          style: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 14,
                             color: AppColors.textSoft,
@@ -88,14 +93,33 @@ class _ExplorePageState extends State<ExplorePage> {
                         )
                       else ...[
                         ExploreFeaturedSection(
-                          reportEntry: controller.reportFeatured?.entry,
+                          statusMonitorEntry:
+                              controller.statusMonitorFeatured == null
+                                  ? null
+                                  : entryLocalizers.localizeExplore(
+                                      controller.statusMonitorFeatured!.entry,
+                                      locale,
+                                    ),
+                          statusMonitorState:
+                              controller.statusMonitorFeatured?.state,
+                          reportEntry: controller.reportFeatured == null
+                              ? null
+                              : entryLocalizers.localizeExplore(
+                                  controller.reportFeatured!.entry,
+                                  locale,
+                                ),
                           reportState: controller.reportFeatured?.state,
                         ),
                         for (final section in controller.sections) ...[
-                          SectionLabel(section.title),
+                          SectionLabel(
+                            l10n.sectionTitleFor(section.title),
+                          ),
                           for (final resolved in section.resolvedEntries)
                             PluginEntryCard(
-                              entry: resolved.entry,
+                              entry: entryLocalizers.localizeExplore(
+                                resolved.entry,
+                                locale,
+                              ),
                               state: resolved.state,
                             ),
                         ],

@@ -67,6 +67,7 @@ const settingsBasicsBundle = PluginBundle(
 const analysisBasicBundle = PluginBundle(
   key: 'analysis_basic',
   pluginIds: {
+    'explore.statusMonitor',
     'explore.report',
     'explore.high_episode',
     'explore.low_episode',

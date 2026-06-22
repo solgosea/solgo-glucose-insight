@@ -1,0 +1,10 @@
+﻿{
+    "@@locale":  "zh",
+    "pluginTitle":  "低血糖事件",
+    "pluginSubtitle":  "回顾低血糖事件和恢复情况。",
+    "pluginDescription":  "回顾低血糖事件和恢复情况。",
+    "pluginReportTitle":  "低血糖事件报告",
+    "pluginLoading":  "加载中",
+    "pluginNoData":  "暂无可用数据。",
+    "pluginUnavailable":  "不可用"
+}

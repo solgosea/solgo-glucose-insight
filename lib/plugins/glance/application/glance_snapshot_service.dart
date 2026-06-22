@@ -57,6 +57,6 @@ class GlanceSnapshotService {
   String _sourceLabel(AppSettings settings) {
     if (settings.xdripSyncEnabled) return 'xDrip+ Local';
     if (settings.nightscoutSyncEnabled) return 'Nightscout API';
-    return 'Solgo Insight';
+    return 'SolgoInsight';
   }
 }

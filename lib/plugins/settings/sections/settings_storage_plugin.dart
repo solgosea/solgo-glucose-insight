@@ -10,19 +10,23 @@ import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../../../plugin_platform/rendering/plugin_renderable.dart';
 import '../composition/settings_slots.dart';
 import '../widgets/settings_render_scope.dart';
-import '../widgets/settings_storage_card.dart';
+import '../widgets/settings_storage_card.dart';
+import '../application/i18n/settings_l10n_resolver.dart';
+import '../application/i18n/settings_entry_localizer.dart';
 
 class SettingsStoragePlugin extends SmartFeaturePlugin {
   const SettingsStoragePlugin();
+
+  static final _strings = SettingsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('settings.storage');
 
   @override
-  String get title => 'Data Storage';
+  String get title => _strings.settingsStorageTitle;
 
   @override
-  String get description => 'Local glucose data storage summary.';
+  String get description => _strings.settingsStorageDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -43,17 +47,17 @@ class SettingsStoragePlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: SettingsSlots.section,
           renderKey: 'Data Storage',
-          title: 'Data Storage',
+          title: _strings.settingsStorageTitle,
           order: 30,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get settingsEntry => const SectionPluginEntry(
+  SectionPluginEntry get settingsEntry => SectionPluginEntry(
         section: 'Data Storage',
-        title: 'Data Storage',
-        subtitle: 'Local storage usage',
+        title: _strings.settingsStorageTitle,
+        subtitle: _strings.settingsStorageTitle,
         order: 30,
       );
 
@@ -62,12 +66,13 @@ class SettingsStoragePlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const SettingsEntryLocalizer());
     context.compositionRegistry.register(
       PluginRenderable(
         pluginId: id,
         slot: SettingsSlots.section,
         renderKey: 'settings.storage.section',
-        title: 'Data Storage',
+        title: _strings.settingsStorageTitle,
         order: 30,
         builder: (renderContext) {
           final scope = SettingsRenderScope.of(renderContext.buildContext);

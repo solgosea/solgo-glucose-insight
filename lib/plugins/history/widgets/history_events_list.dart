@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../application/i18n/history_l10n.dart';
 import '../models/history_view_model.dart';
 import 'history_event_row.dart';
 
@@ -14,12 +15,12 @@ class HistoryEventsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (events.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Center(
           child: Text(
-            'No events recorded',
-            style: TextStyle(
+            context.historyL10n.eventsEmpty,
+            style: const TextStyle(
               fontFamily: 'Inter',
               fontSize: 13,
               color: AppColors.textDim,

@@ -1,0 +1,91 @@
+﻿{
+    "targetRangeTitle": "Target Range",
+    "targetRangeDescription": "Personal glucose target range thresholds.",
+    "targetRangeSubtitle": "Personal glucose targets",
+    "pluginUnavailable": "Unavailable",
+    "pluginReportTitle": "Profile Report",
+    "@@locale": "en",
+    "pluginSubtitle": "Profile, data source, target range, and settings.",
+    "pluginTitle": "Profile",
+    "pluginDescription": "Profile, data source, target range, and settings.",
+    "pluginNoData": "No data available yet.",
+    "pluginLoading": "Loading",
+    "targetRangeVeryHighThresholdSubtitle": "Marked as urgent high zone",
+    "targetRangePrimaryBandLabel": "Target range",
+    "targetRangeHighThresholdSubtitle": "Above this enters high range",
+    "targetRangeUpdated": "Target range updated",
+    "targetRangeInRangeTarget": "IN-RANGE TARGET",
+    "targetRangeHighThresholdLabel": "High threshold",
+    "targetRangePrimaryBandSubtitle": "Primary glucose band",
+    "targetRangeHighLabel": "HIGH",
+    "targetRangeDragHint": "Drag a handle, or type below",
+    "targetRangeVeryHighLabel": "VERY HIGH",
+    "targetRangeExactValues": "EXACT VALUES",
+    "targetRangeSheetTitle": "Target Range",
+    "targetRangeVeryHighThresholdLabel": "Very high threshold",
+    "targetRangeLowThresholdLabel": "Low threshold",
+    "targetRangeLowThresholdSubtitle": "Below this enters low range",
+    "targetRangeCancel": "Cancel",
+    "targetRangeLowLabel": "LOW",
+    "targetRangeSaveRange": "Save range",
+    "targetRangeSpread": "spread",
+    "targetRangeReset": "Reset",
+    "targetRangeSheetSubtitle": "Drag the markers or type exact values. Both stay in sync.",
+    "profileHeaderTitle": "My Profile",
+    "profileBuildingBaseline": "Building baseline",
+    "profileDaysRecorded": "{days} days recorded",
+    "@profileDaysRecorded": {
+        "placeholders": {
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "profileGlucotype": "Glucotype: {label}",
+    "@profileGlucotype": {
+        "placeholders": {
+            "label": {
+                "type": "String"
+            }
+        }
+    },
+    "profileGlucotypeLow": "Low",
+    "profileGlucotypeModerate": "Moderate",
+    "profileGlucotypeSevere": "Severe",
+    "profileStatTir14d": "TIR 14d",
+    "profileStatAvg14d": "Avg 14d",
+    "profileStatCv14d": "CV 14d",
+    "profileSettingsSummary": "Settings",
+    "profileSectionMyBaseline": "My Baseline",
+    "profileSectionAppSettings": "App Settings",
+    "profileBaselineTitle": "Personal Glucose Baseline",
+    "profileBaselineBuiltFrom": "Built from {days} days - Updated {date}",
+    "@profileBaselineBuiltFrom": {
+        "placeholders": {
+            "days": {
+                "type": "int"
+            },
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBaselineNotEnough": "Not enough data yet",
+    "profileBaselineTir": "TIR baseline",
+    "profileBaselineTypicalPeak": "Typical peak",
+    "profileBaselineCvRange": "CV range",
+    "targetRangeLowHighGapMessage": "Low must be at least {gap} {unit} below High.",
+    "@targetRangeLowHighGapMessage": {
+        "placeholders": {
+            "gap": {"type": "String"},
+            "unit": {"type": "String"}
+        }
+    },
+    "targetRangeHighVeryHighGapMessage": "High must be at least {gap} {unit} below Very High.",
+    "@targetRangeHighVeryHighGapMessage": {
+        "placeholders": {
+            "gap": {"type": "String"},
+            "unit": {"type": "String"}
+        }
+    }
+}

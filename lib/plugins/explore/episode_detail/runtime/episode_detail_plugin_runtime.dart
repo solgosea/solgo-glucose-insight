@@ -110,7 +110,7 @@ class EpisodeDetailPluginRuntime implements PluginRuntime {
             'reason': reason,
             'subjectId': snapshot.subjectId,
             'kind': snapshot.kind.name,
-            'hasData': snapshot.viewModel.hero != null,
+            'hasData': snapshot.output.focus != null,
           },
         ),
       );

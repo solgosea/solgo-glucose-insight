@@ -13,18 +13,21 @@ import '../../plugin_platform/rendering/plugin_renderable.dart';
 import 'composition/home_slots.dart';
 import 'widgets/home_render_scope.dart';
 import 'widgets/home_stats_row.dart';
+import 'application/i18n/home_l10n_resolver.dart';
 
 class HomeStatsWidgetPlugin extends SmartFeaturePlugin {
   const HomeStatsWidgetPlugin();
+
+  static final _strings = HomeL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('home.stats');
 
   @override
-  String get title => 'Home Stats';
+  String get title => _strings.homeStatsTitle;
 
   @override
-  String get description => 'Compact mean, CV, and event stat row.';
+  String get description => _strings.homeStatsDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -43,17 +46,17 @@ class HomeStatsWidgetPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: HomeSlots.widget,
           renderKey: 'home.stats',
-          title: 'Home Stats',
+          title: _strings.homeStatsTitle,
           order: 40,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  HomeWidgetPluginEntry get homeWidgetEntry => const HomeWidgetPluginEntry(
+  HomeWidgetPluginEntry get homeWidgetEntry => HomeWidgetPluginEntry(
         widgetKey: 'home.stats',
-        title: 'Home Stats',
-        description: 'Compact statistics',
+        title: _strings.homeStatsTitle,
+        description: _strings.homeStatsSubtitle,
         order: 40,
       );
 
@@ -67,7 +70,7 @@ class HomeStatsWidgetPlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: HomeSlots.widget,
         renderKey: 'home.stats',
-        title: 'Home Stats',
+        title: _strings.homeStatsTitle,
         order: 40,
         builder: (renderContext) {
           final scope = HomeRenderScope.of(renderContext.buildContext);

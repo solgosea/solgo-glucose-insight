@@ -32,36 +32,73 @@ class FloatingSurfaceViewFactory(private val context: Context) {
 
     private fun glanceCompact(segment: FloatingSurfaceSegmentSnapshot): View {
         val color = levelColor(segment.level)
+        val size = glanceSizePreset(segment)
+        val form = glanceFormFactor(segment)
+        val horizontalPadding = when (size) {
+            "small" -> 10.dp
+            "large" -> 14.dp
+            else -> 12.dp
+        }
+        val verticalPadding = when (size) {
+            "small" -> 8.dp
+            "large" -> 12.dp
+            else -> 10.dp
+        }
+        val valueSize = when (size) {
+            "small" -> 13
+            "large" -> 17
+            else -> 15
+        }
+        val tirSize = when (size) {
+            "small" -> 9
+            "large" -> 11
+            else -> 10
+        }
+        val metaSize = when (size) {
+            "large" -> 10
+            else -> 9
+        }
         return LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(12.dp, 10.dp, 12.dp, 10.dp)
+            setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding)
             background = roundedBackground(
-                radius = 999.dp,
+                radius = if (form == "card") 15.dp else 999.dp,
                 color = "#EE17211D",
                 strokeColor = color
             )
             addView(label("::", color, 14, true))
             addHorizontalGap(this, 8)
             addView(
-                label(segment.primaryText, color, 15, true),
+                label(segment.primaryText, color, valueSize, true),
                 LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
             )
             addHorizontalGap(this, 8)
             val tir = segment.secondaryText.orEmpty()
             if (tir.isNotBlank()) {
-                addView(label(tir, Color.parseColor("#C8D8D0"), 10, true))
+                addView(label(tir, Color.parseColor("#C8D8D0"), tirSize, true))
                 addHorizontalGap(this, 6)
             }
-            addView(label(segment.metaText ?: "", Color.parseColor("#82958D"), 9, false))
+            addView(label(segment.metaText ?: "", Color.parseColor("#82958D"), metaSize, false))
         }
     }
 
     private fun glanceExpanded(segment: FloatingSurfaceSegmentSnapshot): View {
         val color = levelColor(segment.level)
+        val size = glanceSizePreset(segment)
+        val padding = when (size) {
+            "small" -> 13.dp
+            "large" -> 17.dp
+            else -> 15.dp
+        }
+        val chartHeight = when (size) {
+            "small" -> 50.dp
+            "large" -> 74.dp
+            else -> 62.dp
+        }
         return LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(15.dp, 14.dp, 15.dp, 13.dp)
+            setPadding(padding, padding - 1.dp, padding, padding - 2.dp)
             background = roundedBackground(
                 radius = 18.dp,
                 color = "#F017211D",
@@ -77,15 +114,35 @@ class FloatingSurfaceViewFactory(private val context: Context) {
                     high = segment.data.optDouble("targetHighMmol", 10.0),
                     lineColor = color
                 ),
-                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 62.dp)
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, chartHeight)
             )
             addVerticalGap(this, 10)
             addView(expandedMetrics(segment))
-            addView(sourceRow(segment))
+            addVerticalGap(this, 9)
+            addView(
+                sizePresetRow(segment),
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+            addView(
+                sourceRow(segment),
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
         }
     }
 
     private fun expandedHeader(segment: FloatingSurfaceSegmentSnapshot, color: Int): View {
+        val size = glanceSizePreset(segment)
+        val valueSize = when (size) {
+            "small" -> 27
+            "large" -> 35
+            else -> 31
+        }
         return LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.TOP
@@ -96,7 +153,7 @@ class FloatingSurfaceViewFactory(private val context: Context) {
                 val valueRow = LinearLayout(context).apply {
                     orientation = LinearLayout.HORIZONTAL
                     gravity = Gravity.BOTTOM
-                    addView(label(segment.data.string("valueLabel", "--"), color, 31, true))
+                    addView(label(segment.data.string("valueLabel", "--"), color, valueSize, true))
                     addHorizontalGap(this, 7)
                     addView(label(segment.data.string("unitLabel"), Color.parseColor("#8FA198"), 10, true))
                 }
@@ -151,6 +208,42 @@ class FloatingSurfaceViewFactory(private val context: Context) {
         }
     }
 
+    private fun sizePresetRow(segment: FloatingSurfaceSegmentSnapshot): View {
+        val current = glanceSizePreset(segment)
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            addView(label("SIZE", Color.parseColor("#4D7264"), 8, true))
+            addView(View(context), LinearLayout.LayoutParams(0, 1, 1f))
+            listOf(
+                "small" to "S",
+                "medium" to "M",
+                "large" to "L"
+            ).forEachIndexed { index, option ->
+                if (index > 0) addHorizontalGap(this, 6)
+                addView(sizeChip(option.second, selected = current == option.first))
+            }
+        }
+    }
+
+    private fun sizeChip(text: String, selected: Boolean): View {
+        val color = if (selected) Color.parseColor("#6EE89F") else Color.parseColor("#8FA198")
+        return TextView(context).apply {
+            this.text = text
+            setTextColor(color)
+            textSize = 10f
+            includeFontPadding = false
+            gravity = Gravity.CENTER
+            typeface = Typeface.DEFAULT_BOLD
+            background = roundedBackground(
+                radius = 999.dp,
+                color = if (selected) "#2472E79F" else "#121F18",
+                strokeColor = if (selected) Color.parseColor("#6672E79F") else Color.parseColor("#244D7264")
+            )
+            layoutParams = LinearLayout.LayoutParams(30.dp, 26.dp)
+        }
+    }
+
     private fun sourceRow(segment: FloatingSurfaceSegmentSnapshot): View {
         return LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -160,7 +253,7 @@ class FloatingSurfaceViewFactory(private val context: Context) {
             addHorizontalGap(this, 7)
             addView(dot(levelColor("healthy")))
             addHorizontalGap(this, 6)
-            val source = segment.data.string("sourceLabel", "Solgo Insight")
+            val source = segment.data.string("sourceLabel", "SolgoInsight")
             addView(
                 label("$source - updated ${segment.metaText ?: "--"}", Color.parseColor("#8FA198"), 10, true),
                 LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
@@ -383,6 +476,21 @@ class FloatingSurfaceViewFactory(private val context: Context) {
             values.add(point.optDouble("valueMmol").toFloat())
         }
         return values
+    }
+
+    private fun glanceSizePreset(segment: FloatingSurfaceSegmentSnapshot): String {
+        return when (segment.data.string("sizePreset", "medium")) {
+            "small" -> "small"
+            "large" -> "large"
+            else -> "medium"
+        }
+    }
+
+    private fun glanceFormFactor(segment: FloatingSurfaceSegmentSnapshot): String {
+        return when (segment.data.string("formFactor", "pill")) {
+            "card" -> "card"
+            else -> "pill"
+        }
     }
 
     private val Int.dp: Int

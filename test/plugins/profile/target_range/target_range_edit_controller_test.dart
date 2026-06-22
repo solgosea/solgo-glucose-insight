@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/plugins/profile/target_range/editing/target_range_edit_controller.dart';
+import 'package:smart_xdrip/plugins/profile/target_range/editing/target_range_validation_result.dart';
 import 'package:smart_xdrip/plugins/profile/target_range/target_range_value_policy.dart';
 
 void main() {
@@ -58,7 +59,11 @@ void main() {
 
       expect(updated.validation.isValid, isFalse);
       expect(updated.validation.invalidMarker, TargetRangeMarker.low);
-      expect(updated.validation.message, contains('Low must be'));
+      expect(
+        updated.validation.reason,
+        TargetRangeValidationReason.lowTooCloseToHigh,
+      );
+      expect(updated.validation.gapLabel, isNotEmpty);
     });
 
     test('marker changes clamp through policy and remain valid', () {

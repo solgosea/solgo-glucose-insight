@@ -185,7 +185,7 @@ void main() {
     );
 
     expect(home.availableRanges.first, HomeChartRange.oneHour);
-    expect(home.selectedRange.title, 'LAST 1H');
+    expect(home.selectedRange, HomeChartRange.oneHour);
     expect(home.chartReadings.length, 13);
     expect(
       home.chartReadings.first.timestamp,

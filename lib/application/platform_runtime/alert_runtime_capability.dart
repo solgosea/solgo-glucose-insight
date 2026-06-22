@@ -23,7 +23,7 @@ class AlertRuntimeCapability {
         supportsRemotePush = true,
         limitationText =
             'Android alerts can run through the foreground service, but '
-                'Solgo Insight still treats them as helper alerts.';
+                'SolgoInsight still treats them as helper alerts.';
 
   const AlertRuntimeCapability.iosPreview()
       : supportsForegroundAlerts = true,

@@ -9,18 +9,21 @@ import '../../plugin_platform/install/plugin_install_context.dart';
 import '../../plugin_platform/rendering/plugin_renderable.dart';
 import 'composition/profile_slots.dart';
 import 'target_range/profile_section/target_range_profile_section.dart';
+import 'application/i18n/profile_l10n_resolver.dart';
 
 class TargetRangePlugin extends SmartFeaturePlugin {
   const TargetRangePlugin();
+
+  static final _strings = ProfileL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('profile.target_range');
 
   @override
-  String get title => 'Target Range';
+  String get title => _strings.targetRangeTitle;
 
   @override
-  String get description => 'Personal glucose target range thresholds.';
+  String get description => _strings.targetRangeDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -38,7 +41,7 @@ class TargetRangePlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: ProfileSlots.section,
           renderKey: 'Target Range',
-          title: 'Target Range',
+          title: _strings.targetRangeTitle,
           order: 30,
           dataRequirements: dataRequirements,
         ),
@@ -54,7 +57,7 @@ class TargetRangePlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: ProfileSlots.section,
         renderKey: 'target_range.profile.section',
-        title: 'Target Range',
+        title: _strings.targetRangeTitle,
         order: 30,
         builder: (renderContext) => TargetRangeProfileSection(
           renderContext: renderContext,

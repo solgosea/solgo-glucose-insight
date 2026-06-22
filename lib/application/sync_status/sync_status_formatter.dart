@@ -3,9 +3,12 @@ import '../../domain/sync_status/sync_schedule_mode.dart';
 import '../../domain/sync_status/sync_schedule_snapshot.dart';
 import '../../domain/sync_status/sync_status_level.dart';
 import '../../domain/sync_status/sync_status_snapshot.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class SyncStatusFormatter {
-  const SyncStatusFormatter();
+  final AppLocalizations? l10n;
+
+  const SyncStatusFormatter({this.l10n});
 
   String sourceName(DataSourceKind source) {
     return switch (source) {
@@ -16,13 +19,13 @@ class SyncStatusFormatter {
 
   String compactText(SyncStatusSnapshot snapshot) {
     return switch (snapshot.level) {
-      SyncStatusLevel.inactive => 'Not syncing',
-      SyncStatusLevel.waitingFirstSync => '${snapshot.sourceLabel} - waiting',
+      SyncStatusLevel.inactive => _syncNotSyncing,
+      SyncStatusLevel.waitingFirstSync => '${snapshot.sourceLabel} - $_waiting',
       SyncStatusLevel.fresh =>
         '${snapshot.sourceLabel} - ${_relative(snapshot.lastSuccessAt)}',
       SyncStatusLevel.stale =>
         '${snapshot.sourceLabel} - ${_relative(snapshot.lastSuccessAt)}',
-      SyncStatusLevel.failed => '${snapshot.sourceLabel} - failed',
+      SyncStatusLevel.failed => '${snapshot.sourceLabel} - $_failed',
     };
   }
 
@@ -33,27 +36,30 @@ class SyncStatusFormatter {
     SyncStatusSnapshot? activeSnapshot,
   }) {
     if (!active) {
-      if (!configured) return 'Not configured';
-      return 'Configured, not syncing';
+      if (!configured) return _notConfigured;
+      return _configuredNotSyncing;
     }
     final snapshot = activeSnapshot;
-    if (snapshot == null) return 'Waiting for first sync';
+    if (snapshot == null) return _waitingFirstSync;
     return switch (snapshot.level) {
-      SyncStatusLevel.inactive => 'Not syncing',
-      SyncStatusLevel.waitingFirstSync => 'Waiting for first sync',
-      SyncStatusLevel.fresh => 'Synced ${_relative(snapshot.lastSuccessAt)}',
+      SyncStatusLevel.inactive => _syncNotSyncing,
+      SyncStatusLevel.waitingFirstSync => _waitingFirstSync,
+      SyncStatusLevel.fresh =>
+        l10n?.syncSynced(_relative(snapshot.lastSuccessAt)) ??
+            'Synced ${_relative(snapshot.lastSuccessAt)}',
       SyncStatusLevel.stale =>
-        'Last synced ${_relative(snapshot.lastSuccessAt)}',
-      SyncStatusLevel.failed => 'Last sync failed',
+        l10n?.syncLastSynced(_relative(snapshot.lastSuccessAt)) ??
+            'Last synced ${_relative(snapshot.lastSuccessAt)}',
+      SyncStatusLevel.failed => _lastFailed,
     };
   }
 
   String scheduleText(SyncScheduleSnapshot? schedule) {
-    if (schedule == null) return 'Schedule pending';
+    if (schedule == null) return _schedulePending;
     return switch (schedule.mode) {
-      SyncScheduleMode.unknown => 'Schedule pending',
-      SyncScheduleMode.paused => 'Sync paused',
-      SyncScheduleMode.waiting => 'Waiting for schedule',
+      SyncScheduleMode.unknown => _schedulePending,
+      SyncScheduleMode.paused => _syncPaused,
+      SyncScheduleMode.waiting => _waitingSchedule,
       SyncScheduleMode.foreground ||
       SyncScheduleMode.background =>
         _nextText(schedule),
@@ -62,23 +68,52 @@ class SyncStatusFormatter {
 
   String _nextText(SyncScheduleSnapshot schedule) {
     final next = schedule.nextSyncAt;
-    if (next == null) return 'Waiting for schedule';
+    if (next == null) return _waitingSchedule;
     final delta = next.difference(DateTime.now());
-    if (delta <= Duration.zero) return 'Sync due';
-    final prefix = schedule.estimated ? 'Est. next' : 'Next';
-    if (delta.inSeconds < 60) return '$prefix ${delta.inSeconds}s';
-    if (delta.inMinutes < 60) {
-      return '$prefix ${delta.inMinutes}:${(delta.inSeconds % 60).toString().padLeft(2, '0')}';
+    if (delta <= Duration.zero) return _syncDue;
+    final duration = delta.inSeconds < 60
+        ? _durationSeconds(delta.inSeconds)
+        : delta.inMinutes < 60
+            ? '${delta.inMinutes}:${(delta.inSeconds % 60).toString().padLeft(2, '0')}'
+            : _durationHours(delta.inHours);
+    if (schedule.estimated) {
+      return l10n?.syncEstimatedNext(duration) ?? 'Est. next $duration';
     }
-    return '$prefix ${delta.inHours}h';
+    return l10n?.syncNext(duration) ?? 'Next $duration';
   }
 
   String _relative(DateTime? date) {
-    if (date == null) return 'never';
+    if (date == null) return l10n?.timeNever ?? 'never';
     final delta = DateTime.now().difference(date);
-    if (delta.inSeconds < 60) return 'just now';
-    if (delta.inMinutes < 60) return '${delta.inMinutes} min ago';
-    if (delta.inHours < 24) return '${delta.inHours}h ago';
-    return '${delta.inDays}d ago';
+    if (delta.inSeconds < 60) return l10n?.timeJustNow ?? '0s';
+    if (delta.inMinutes < 60) {
+      return l10n?.timeMinutesAgo(delta.inMinutes) ?? '${delta.inMinutes}m';
+    }
+    if (delta.inHours < 24) {
+      return l10n?.timeHoursAgo(delta.inHours) ?? '${delta.inHours}h';
+    }
+    return l10n?.timeDaysAgo(delta.inDays) ?? '${delta.inDays}d';
   }
+
+  String _durationSeconds(int value) =>
+      l10n?.durationSecondsShort(value) ?? '${value}s';
+
+  String _durationHours(int value) =>
+      l10n?.durationHoursShort(value) ?? '${value}h';
+
+  String get _syncNotSyncing => l10n?.syncNotSyncing ?? 'Not syncing';
+  String get _waiting => l10n?.syncWaiting ?? 'waiting';
+  String get _failed => l10n?.syncFailed ?? 'failed';
+  String get _notConfigured => l10n?.syncNotConfigured ?? 'Not configured';
+  String get _configuredNotSyncing =>
+      l10n?.syncConfiguredNotSyncing ?? 'Configured, not syncing';
+  String get _waitingFirstSync =>
+      l10n?.syncWaitingFirstSync ?? 'Waiting for first sync';
+  String get _lastFailed => l10n?.syncLastFailed ?? 'Last sync failed';
+  String get _schedulePending =>
+      l10n?.syncSchedulePending ?? 'Schedule pending';
+  String get _syncPaused => l10n?.syncPaused ?? 'Sync paused';
+  String get _waitingSchedule =>
+      l10n?.syncWaitingSchedule ?? 'Waiting for schedule';
+  String get _syncDue => l10n?.syncDue ?? 'Sync due';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/rendering/plugin_render_context.dart';
 
+import '../../application/i18n/profile_l10n.dart';
 import '../../application/profile_host_services.dart';
 import '../../application/profile_settings_actions.dart';
 import '../target_range_ruler_sheet.dart';
@@ -28,7 +29,7 @@ class TargetRangeProfileSection extends StatelessWidget {
       builder: (context, _) {
         final settings = actions.settingsProvider();
         return TargetRangeProfileCard(
-          viewModel: mapper.map(settings),
+          viewModel: mapper.map(settings, l10n: context.profileL10n),
           onTap: () => _editTargetRange(context, actions),
         );
       },
@@ -40,6 +41,7 @@ class TargetRangeProfileSection extends StatelessWidget {
     ProfileSettingsActions actions,
   ) async {
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.profileL10n;
     final draft = await showModalBottomSheet<TargetRangeDraft>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -50,12 +52,12 @@ class TargetRangeProfileSection extends StatelessWidget {
     if (draft == null) return;
     await actions.updateTargetRange(draft);
     messenger.showSnackBar(
-      const SnackBar(
+      SnackBar(
         backgroundColor: AppColors.bgCard2,
         behavior: SnackBarBehavior.floating,
         content: Text(
-          'Target range updated',
-          style: TextStyle(
+          l10n.targetRangeUpdated,
+          style: const TextStyle(
             fontFamily: 'JetBrainsMono',
             fontSize: 12,
             color: AppColors.textSoft,

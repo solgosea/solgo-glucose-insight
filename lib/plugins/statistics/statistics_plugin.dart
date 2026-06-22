@@ -22,18 +22,22 @@ import 'data/sqlite/statistics_template_repository.dart';
 import 'pages/statistics_page.dart';
 import 'runtime/statistics_plugin_runtime.dart';
 import 'runtime/statistics_runtime_cache.dart';
+import 'application/i18n/statistics_entry_localizer.dart';
+import 'application/i18n/statistics_l10n_resolver.dart';
 
 class StatisticsPlugin extends SmartFeaturePlugin {
   const StatisticsPlugin();
+
+  static final _strings = StatisticsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('core.statistics');
 
   @override
-  String get title => 'Stats';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Aggregate metrics, AGP, and TIR distribution.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -54,15 +58,15 @@ class StatisticsPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.mainTab'),
           renderKey: '/stats',
-          title: 'Stats',
+          title: _strings.pluginTitle,
           order: 20,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  MainTabPluginEntry get mainTabEntry => const MainTabPluginEntry(
-        label: 'Stats',
+  MainTabPluginEntry get mainTabEntry => MainTabPluginEntry(
+        label: _strings.pluginTitle,
         route: '/stats',
         icon: Icons.bar_chart_outlined,
         activeIcon: Icons.bar_chart,
@@ -76,6 +80,7 @@ class StatisticsPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const StatisticsEntryLocalizer());
     context.registerSchema(const StatisticsTemplateSchemaContributor());
     final database = context.services.get<GlucoseDatabase>();
     final templateRepository = SqliteStatisticsTemplateRepository(

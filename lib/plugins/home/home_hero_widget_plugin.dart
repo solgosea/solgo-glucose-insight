@@ -13,18 +13,21 @@ import '../../plugin_platform/rendering/plugin_renderable.dart';
 import 'composition/home_slots.dart';
 import 'widgets/home_hero_glucose_card.dart';
 import 'widgets/home_render_scope.dart';
+import 'application/i18n/home_l10n_resolver.dart';
 
 class HomeHeroWidgetPlugin extends SmartFeaturePlugin {
   const HomeHeroWidgetPlugin();
+
+  static final _strings = HomeL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('home.hero_glucose');
 
   @override
-  String get title => 'Current Glucose';
+  String get title => _strings.homeHeroTitle;
 
   @override
-  String get description => 'Latest glucose value and trend summary.';
+  String get description => _strings.homeHeroDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -43,17 +46,17 @@ class HomeHeroWidgetPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: HomeSlots.widget,
           renderKey: 'home.hero_glucose',
-          title: 'Current Glucose',
+          title: _strings.homeHeroTitle,
           order: 20,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  HomeWidgetPluginEntry get homeWidgetEntry => const HomeWidgetPluginEntry(
+  HomeWidgetPluginEntry get homeWidgetEntry => HomeWidgetPluginEntry(
         widgetKey: 'home.hero_glucose',
-        title: 'Current Glucose',
-        description: 'Latest glucose value',
+        title: _strings.homeHeroTitle,
+        description: _strings.homeHeroSubtitle,
         order: 20,
       );
 
@@ -67,7 +70,7 @@ class HomeHeroWidgetPlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: HomeSlots.widget,
         renderKey: 'home.hero_glucose',
-        title: 'Current Glucose',
+        title: _strings.homeHeroTitle,
         order: 20,
         builder: (renderContext) {
           final scope = HomeRenderScope.of(renderContext.buildContext);

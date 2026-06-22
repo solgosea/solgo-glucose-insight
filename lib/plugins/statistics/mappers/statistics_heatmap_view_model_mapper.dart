@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_xdrip/application/plugin_text/plugin_text_render_context.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
 import '../application/text/statistics_heatmap_text_builder.dart';
@@ -13,9 +14,12 @@ class StatisticsHeatmapViewModelMapper {
     this.textBuilder = const StatisticsHeatmapTextBuilder(),
   });
 
-  StatisticsHeatmapViewModel map(StatisticsHeatmapSection section) {
+  StatisticsHeatmapViewModel map(
+    StatisticsHeatmapSection section, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return StatisticsHeatmapViewModel(
-      title: textBuilder.title(),
+      title: textBuilder.title(context: context),
       cells: section.cells
           .map(
             (cell) => StatisticsHeatmapCellViewModel(
@@ -24,7 +28,7 @@ class StatisticsHeatmapViewModelMapper {
               color: _cellColor(cell.tirPct),
               timeLabel: '${cell.hour.toString().padLeft(2, '0')}:00',
               tirLabel: '${cell.tirPct.toStringAsFixed(0)}%',
-              tagLabel: textBuilder.tagLabel(cell.tag),
+              tagLabel: textBuilder.tagLabel(cell.tag, context: context),
               tagColor: _heatmapTagColor(cell.tag),
             ),
           )

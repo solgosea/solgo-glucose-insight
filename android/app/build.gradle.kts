@@ -14,6 +14,8 @@ if (keystorePropertiesFile.exists()) {
         keystoreProperties.load(reader)
     }
 }
+val hasReleaseKeystore =
+    keystoreProperties["storeFile"]?.toString()?.isNotBlank() == true
 
 android {
     namespace = "com.metaguru.smartxdrip"
@@ -52,7 +54,11 @@ android {
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (hasReleaseKeystore) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

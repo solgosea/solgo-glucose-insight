@@ -1,0 +1,131 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Widgets \u0026 Notification",
+    "pluginSubtitle":  "Home widgets, notifications, and Floating Glance.",
+    "pluginDescription":  "Home widgets, notifications, and Floating Glance.",
+    "pluginReportTitle":  "Widgets \u0026 Notification Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "glancePrivacySection":  "Privacy",
+    "glanceLowBatterySubtitle":  "Reduces refresh frequency to save power",
+    "glanceLockScreenModeTitle":  "Lock screen glance",
+    "glanceHubTitle":  "Widgets \u0026 Notifications",
+    "floatingUnavailableAction":  "Unavailable",
+    "floatingVisibleBody":  "Drag it anywhere. Tap the floating view to return to the app.",
+    "glanceGraphExpandedSubtitle":  "Show a small trend graph inside expanded notification",
+    "glanceWidgetTemplatesSection":  "Widget templates",
+    "glanceShowNotificationTitle":  "Show in notification bar",
+    "glancePersistentNotificationSection":  "Persistent notification",
+    "glanceIosWidgetGuide":  "Add SolgoInsight Glance from the iOS widget picker. Home and Lock Screen widgets update from the last shared Glance snapshot.",
+    "glanceNotificationSettingsSection":  "Notification settings",
+    "glanceLockScreenModeSubtitle":  "Choose full value, range-only, or private mode",
+    "glanceAndroidWidgetGuide":  "Android does not let apps place widgets for you. This is a system action, and steps may vary slightly by phone brand.",
+    "glanceLockScreenGlanceTitle":  "Lock Screen Glance",
+    "floatingVisibleTitle":  "Floating Glance is visible now",
+    "glanceTabNotifications":  "Notifications",
+    "floatingUnavailableTitle":  "Floating Glance is unavailable",
+    "floatingPermissionNeededBody":  "Allow display over other apps first. Return here after Android grants the permission.",
+    "glanceNotificationPrivacySection":  "Notification privacy",
+    "floatingPermissionNeededTitle":  "Floating permission needed",
+    "glancePrivateModeTitle":  "Private mode text",
+    "floatingPermissionGrantedBody":  "Tap once to place Floating Glance on your screen.",
+    "floatingHiddenTitle":  "Floating Glance is hidden",
+    "glanceFloatingSection":  "Floating glance",
+    "glanceFloatingCardTitle":  "Floating Glance",
+    "glanceFloatingCardBody":  "Allows SolgoInsight to show glucose above other apps. It stays silent and only mirrors Glance status.",
+    "glanceFloatingVisiblePill":  "VISIBLE",
+    "glanceFloatingSetupPill":  "SETUP",
+    "glanceFloatingSizeTitle":  "Floating Glance size",
+    "glanceFloatingSizeAuto":  "Auto",
+    "glanceFloatingSizeSmall":  "Small",
+    "glanceFloatingSizeMedium":  "Medium",
+    "glanceFloatingSizeLarge":  "Large",
+    "glanceFloatingShapeTitle":  "Shape",
+    "glanceFloatingShapePill":  "Pill",
+    "glanceFloatingShapeCard":  "Card",
+    "glanceFloatingRecommendedPreset":  "Recommended for this device: {size} {shape}",
+    "@glanceFloatingRecommendedPreset":  {
+                                             "placeholders":  {
+                                                                  "size":  {
+                                                                               "type":  "String"
+                                                                           },
+                                                                  "shape":  {
+                                                                                "type":  "String"
+                                                                            }
+                                                              }
+                                         },
+    "glanceFloatingCustomPreset":  "Custom size. Your choice will not be changed automatically.",
+    "floatingUnavailableBody":  "This device does not expose the Android floating overlay service.",
+    "glanceHomeScreenWidgetSubtitle":  "Small and medium widgets use the latest Glance snapshot",
+    "glanceAddHomeScreenSection":  "Add to home screen",
+    "glanceShowNotificationSubtitle":  "Always-on glucose status, silent and low-priority",
+    "floatingShowAction":  "Show Floating Glance",
+    "floatingHiddenBody":  "Permission is ready. Show it again when you want a screen overlay.",
+    "glanceHomeScreenWidgetTitle":  "Home Screen Widget",
+    "glanceLockAodSection":  "Lock screen \u0026 AOD",
+    "glanceGraphExpandedTitle":  "Graph in expanded view",
+    "glanceLockScreenGlanceSubtitle":  "Accessory widget on iOS 16+. AOD follows iOS behavior.",
+    "glanceAodFriendlySection":  "AOD-friendly",
+    "glanceLowBatteryTitle":  "Low-battery friendly mode",
+    "floatingHideAction":  "Hide Floating Glance",
+    "floatingPermissionGrantedTitle":  "Floating Glance permission granted",
+    "floatingPermissionNeededAction":  "Enable floating permission",
+    "glanceQuickActionsTitle":  "Quick actions",
+    "glanceTabWidgets":  "Widgets",
+    "glanceHomeLockWidgetsSection":  "Home \u0026 lock screen widgets",
+    "glancePrivateModeSubtitle":  "Glucose data available - Unlock to view",
+    "glanceQuickActionsSubtitle":  "Open app, data source, and settings",
+    "glanceNotificationPreviewDataSource":  "Data source",
+    "glanceFloatingPreviewSourceUpdated":  "SOURCE {source} - updated {freshness}",
+    "glanceWidgetGraphRange":  "Graph range",
+    "glanceWidgetLastUpdated":  "Last updated",
+    "glanceNotificationPreviewOpen":  "Open",
+    "glanceWidgetShowOnWidget":  "Show on widget",
+    "glanceWidgetMiniGraph":  "Mini graph",
+    "glanceNotificationPreviewFlat":  "Flat",
+    "glanceNotificationPreviewSettings":  "Settings",
+    "glanceWidgetTrendArrow":  "Trend arrow",
+    "glanceNotificationPreviewTir24h":  "TIR 24H",
+    "glanceNotificationPreviewSource":  "Source",
+    "glanceWidgetAddWidget":  "Add widget",
+    "glanceNotificationPreviewTrend":  "Trend",
+    "glanceWidgetDelta":  "Delta",
+    "glanceFloatingPreviewWindow":  "Window",
+    "glanceWidgetTapAction":  "Tap action",
+    "@glanceFloatingPreviewSourceUpdated":  {
+                                                "placeholders":  {
+                                                                     "freshness":  {
+                                                                                       "type":  "String"
+                                                                                   },
+                                                                     "source":  {
+                                                                                    "type":  "String"
+                                                                                }
+                                                                 }
+                                            },
+    "glanceFloatingPreviewCompact":  "Compact",
+    "glanceFloatingPreviewExpanded":  "Expanded",
+    "glancePrivateUnlockToView":  "Unlock to view current glucose",
+    "glancePrivateDataAvailable":  "Glucose data available",
+    "glanceFloatingPreviewUpdated":  "Updated {freshness}",
+    "glanceNotificationGlucoseDataAvailable": "Glucose data available",
+    "glanceNotificationSourceOffline": "Source offline",
+    "glanceNotificationGlucoseStale": "Glucose stale",
+    "glanceNotificationHidden": "Glance hidden",
+    "glanceNotificationHiddenOnLockScreen": "Glance is hidden on lock screen",
+    "glanceNotificationUnlockCurrentGlucose": "Unlock to view current glucose",
+    "glanceNotificationNoRecentGlucoseData": "No recent glucose data",
+    "glanceNotificationRangeHigh": "High",
+    "glanceNotificationRangeLow": "Low",
+    "glanceNotificationRangeInRange": "In range",
+    "glanceNotificationStatusAvailable": "Glucose status available",
+    "glanceNotificationChannelTitle": "Glance status",
+    "glanceNotificationChannelDescription": "Lock screen glucose status without sound or vibration.",
+    "@glanceFloatingPreviewUpdated":  {
+                                          "placeholders":  {
+                                                               "freshness":  {
+                                                                                 "type":  "String"
+                                                                             }
+                                                           }
+                                      }
+}

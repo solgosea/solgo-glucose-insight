@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
-        android:label="Solgo Insight"
+        android:label="SolgoInsight"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -94,6 +94,50 @@
         <receiver
             android:name=".glance.GlanceWidgetTapActionReceiver"
             android:exported="false" />
+        <receiver
+            android:name=".statusmonitor.StatusMonitorCompactWidgetProvider"
+            android:exported="true"
+            android:label="Monitor Compact">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/status_monitor_widget_compact" />
+        </receiver>
+        <receiver
+            android:name=".statusmonitor.StatusMonitorFlowWidgetProvider"
+            android:exported="true"
+            android:label="Monitor Flow">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/status_monitor_widget_flow" />
+        </receiver>
+        <receiver
+            android:name=".statusmonitor.StatusMonitorIssueWidgetProvider"
+            android:exported="true"
+            android:label="Monitor Issue">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/status_monitor_widget_issue" />
+        </receiver>
+        <receiver
+            android:name=".statusmonitor.StatusMonitorDetailedWidgetProvider"
+            android:exported="true"
+            android:label="Monitor Detail">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/status_monitor_widget_detailed" />
+        </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

@@ -1,0 +1,411 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Episode Detail",
+    "pluginSubtitle":  "High and low episode interpretation and reports.",
+    "pluginDescription":  "High and low episode interpretation and reports.",
+    "pluginReportTitle":  "Episode Detail Report",
+    "reportBrandName": "Solgo Insight",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "retry":  "Retry",
+    "dataQuality":  "Data quality",
+    "highEpisodeTitle": "High Episode",
+    "lowEpisodeTitle": "Low Episode",
+    "noMatchingHighEpisode": "No matching high episode",
+    "noMatchingLowEpisode": "No matching low episode",
+    "noRecentHighEpisode": "No recent high episode",
+    "noRecentLowEpisode": "No recent low episode",
+    "monthJan": "Jan",
+    "monthFeb": "Feb",
+    "monthMar": "Mar",
+    "monthApr": "Apr",
+    "monthMay": "May",
+    "monthJun": "Jun",
+    "monthJul": "Jul",
+    "monthAug": "Aug",
+    "monthSep": "Sep",
+    "monthOct": "Oct",
+    "monthNov": "Nov",
+    "monthDec": "Dec",
+    "episodeTimeline": "Episode timeline",
+    "cgmContextBeforeEpisode": "CGM context - 2h before episode",
+    "patternAnalysis": "Pattern analysis",
+    "repeatByTimeOfDay": "Repeat by time of day",
+    "episodeCount": "Episode count",
+    "highDriverDuration":  "Duration is the main burden driver.",
+    "timeBelowRange":  "Time below range",
+    "visibleInWindow":  "visible in window",
+    "lowDriverMixed":  "The episode has a mixed low-burden profile.",
+    "toAboveLowThreshold":  "to above low threshold",
+    "highEpisodeReportTitle":  "High Episode Report",
+    "returnLabel":  "Return",
+    "lowReportContextBody":  "This report cannot determine compression lows, meals, insulin, activity, calibration, or sensor-specific context unless notes are available.",
+    "printSave":  "Print / Save",
+    "highDriverRepeat":  "Repeat timing is the main review signal.",
+    "lowTime":  "Low time",
+    "highDriverMixed":  "The episode has a mixed burden profile.",
+    "lowDriverNadir":  "Nadir is the main low-burden driver.",
+    "largestGap":  "Largest gap",
+    "representativeEpisodeCurve":  "Representative episode curve",
+    "highDriverSlowRecovery":  "Slow recovery is the main burden driver.",
+    "highExposureSummary":  "High exposure summary",
+    "lowestValue":  "Lowest value",
+    "lowExposureSummary":  "Low exposure summary",
+    "highReportNoCauseBody":  "Review alongside meals, insulin, activity, site changes, stress, and sensor context if available.",
+    "episodeLifecycle":  "Episode lifecycle",
+    "toBelowHighThreshold":  "to below high threshold",
+    "medianRecovery":  "Median recovery",
+    "repeatPattern":  "Repeat pattern",
+    "belowLowThreshold":  "below low threshold",
+    "timeAboveRange":  "Time above range",
+    "nadir":  "Nadir",
+    "detectedEvents":  "detected events",
+    "highReportDisclaimer":  "Local report. Generated on device and shared only when you choose. This report observes high episodes only; it is not medical advice and does not replace CGM alerts, xDrip+, Nightscout, or care-team guidance.",
+    "betweenReadings":  "between readings",
+    "coverage":  "Coverage",
+    "lowDriverRepeat":  "Repeat timing is the main review signal.",
+    "lowEpisodeReportTitle":  "Low Episode Report",
+    "backToEpisode":  "Back to episode",
+    "confidence":  "Confidence",
+    "share":  "Share",
+    "lowDriverNocturnal":  "Nocturnal timing is the main review signal.",
+    "highestPeak":  "Highest peak",
+    "lowReportDisclaimer":  "Local report. Generated on device and shared only when you choose. This report observes low episodes only; it is not medical advice and does not replace CGM alerts, xDrip+, Nightscout, or care-team guidance.",
+    "highDriverFastRise":  "Fast rise is the main burden driver.",
+    "repeatTimingVisible":  "Repeat timing is visible.",
+    "highReportAboveRangeDuration": "The representative episode stayed above range for {duration}.",
+    "@highReportAboveRangeDuration": {
+        "placeholders": {
+            "duration": {"type": "String"}
+        }
+    },
+    "lowReportBelowRangeDuration": "The representative episode stayed below range for {duration}.",
+    "@lowReportBelowRangeDuration": {
+        "placeholders": {
+            "duration": {"type": "String"}
+        }
+    },
+    "lowReportBelowRangeDurationNadir": "The representative episode stayed below range for {duration} and reached {nadir}.",
+    "@lowReportBelowRangeDurationNadir": {
+        "placeholders": {
+            "duration": {"type": "String"},
+            "nadir": {"type": "String"}
+        }
+    },
+    "highReportRepeatCount": "{count} high episodes appeared in the past {days} days.",
+    "@highReportRepeatCount": {
+        "placeholders": {
+            "count": {"type": "String"},
+            "days": {"type": "int"}
+        }
+    },
+    "lowReportRepeatCount": "{count} low episodes appeared in the past {days} days.",
+    "@lowReportRepeatCount": {
+        "placeholders": {
+            "count": {"type": "String"},
+            "days": {"type": "int"}
+        }
+    },
+    "repeatTimingInsufficientData": "There was not enough repeat-pattern data for a strong timing note.",
+    "readings":  "Readings",
+    "descent":  "Descent",
+    "duration":  "Duration",
+    "lowDriverSlowRecovery":  "Slow recovery is the main review signal.",
+    "exporting":  "Exporting...",
+    "recovery":  "Recovery",
+    "lowReportContextTitle":  "Use with context.",
+    "repeatTimingLimited":  "Repeat timing is limited.",
+    "highEpisodes":  "High episodes",
+    "lowDriverFastDescent":  "Fast descent is the main low-burden driver.",
+    "medianReturn":  "Median return",
+    "couldNotExportReport":  "Could not export report",
+    "rise":  "Rise",
+    "highDriverPeak":  "Peak is the main burden driver.",
+    "episodeWindow":  "episode window",
+    "baseline":  "Baseline",
+    "peak":  "Peak",
+    "insufficientData":  "insufficient data",
+    "lowEpisodes":  "Low episodes",
+    "highReportNoCauseTitle":  "The report does not infer cause.",
+    "lowDriverDuration":  "Duration is the main low-burden driver.",
+    "reviewNotes":  "Review notes",
+    "episodeReview":  "episode review",
+    "selectedLowUnavailable":  "The selected low episode may no longer be available.",
+    "selectedHighUnavailable":  "The selected high episode may no longer be available.",
+    "couldNotBuildReport":  "Could not build this report",
+    "areaAboveTarget":  "Area above target",
+    "descentRate":  "Descent rate",
+    "preOnsetBaseline":  "Pre-onset baseline",
+    "nadirValue":  "Nadir Value",
+    "exposure":  "Exposure",
+    "nadirVsUsualDailyNadir":  "Nadir vs usual daily nadir",
+    "dropPerMinute":  "Drop/min",
+    "similarEpisodes":  "Similar episodes",
+    "peakVsUsualDailyPeak":  "Peak vs usual daily peak",
+    "preEpisodeBaseline":  "Pre-episode baseline",
+    "peakValue":  "Peak Value",
+    "areaBelowTarget":  "Area below target",
+    "area":  "Area",
+    "onsetRate":  "Onset rate",
+    "recovered":  "Recovered",
+    "nadirGap":  "Nadir gap",
+    "episodeSummary":  "Episode summary",
+    "episodeChart":  "Episode chart",
+    "previewReport":  "Preview report",
+    "noReportAvailable":  "No report available",
+    "backToLatestEpisode":  "Back to latest episode",
+    "reviewPriority":  "Review priority",
+    "notVisible":  "Not visible",
+    "value":  "Value",
+    "thirtyDayOccurrenceStrip":  "30-day occurrence strip",
+    "olderToToday":  "Older -> today",
+    "noEpisode":  "no episode",
+    "episode":  "episode",
+    "current":  "current",
+    "personalContext":  "Personal context",
+    "burdenBreakdown":  "Burden breakdown",
+    "mainDriver":  "Main driver",
+    "recoveryQuality":  "Recovery quality"
+    ,"belowTarget":  "Below target",
+    "whyReview":  "Why review",
+    "night":  "Night",
+    "returnedInRange":  "Returned in range",
+    "recoveryNotVisible":  "Recovery not visible",
+    "recoveredAt":  "Recovered at {time}",
+    "@recoveredAt":  {
+                         "placeholders":  {
+                                              "time":  {
+
+                                                       }
+                                          }
+                     },
+    "note":  "Note",
+    "veryHigh": "Very high",
+    "veryLow": "Very low",
+    "none": "none",
+    "high": "high",
+    "low": "low",
+    "strongHigh": "strong high",
+    "similarVerySimilar": "Very similar",
+    "similarSimilar": "Similar",
+    "similarLooseMatch": "Loose match",
+    "clusterNight": "Night cluster",
+    "clusterAm": "AM cluster",
+    "clusterPm": "PM cluster",
+    "clusterEvening": "Evening cluster",
+    "focusedMissingEpisode": "No matching {kind} episode found{time}.",
+    "@focusedMissingEpisode": {
+      "placeholders": {
+        "kind": {},
+        "time": {}
+      }
+    },
+    "focusedMissingTime": " for {time}",
+    "@focusedMissingTime": {
+      "placeholders": {
+        "time": {}
+      }
+    },
+    "unknown": "Unknown",
+    "priorityInfo": "Info",
+    "priorityNotable": "Notable",
+    "priorityImportant": "Important",
+    "driverPeak": "peak",
+    "driverDuration": "duration",
+    "driverFastRise": "fast rise",
+    "driverSlowRecovery": "slow recovery",
+    "driverRepeatTiming": "repeat timing",
+    "driverMixedSignals": "mixed signals",
+    "confidenceHigh": "High confidence",
+    "confidenceMedium": "Medium confidence",
+    "confidenceLow": "Low confidence",
+    "driverNadir": "nadir",
+    "driverFastDescent": "fast descent",
+    "driverNocturnalTiming": "nocturnal timing",
+    "recoveryQuick": "Quick",
+    "recoveryGradual": "Gradual",
+    "recoverySlow": "Slow",
+    "usualRate": "usual {rate}",
+    "@usualRate": {
+      "placeholders": {
+        "rate": {}
+      }
+    },
+    "similarEpisodesPastDays": "Similar episodes (past {days} days)",
+    "@similarEpisodesPastDays": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "similarEmptyPast30": "No similar episodes were found in the past 30 days.",
+    "similarChartNote": "Slide across the chart to snap to the nearest episode. X-axis is time of day, Y-axis is {metric} glucose, and bubble size reflects duration.",
+    "@similarChartNote": {
+      "placeholders": {
+        "metric": {}
+      }
+    },
+    "reportRepresentative": "Representative",
+    "reportLimited": "Limited",
+    "reportInsufficient": "Insufficient",
+    "episodeTimeUnavailable": "Episode time unavailable",
+    "similarHighs": "Similar highs",
+    "pastDays": "Past {days} days",
+    "@pastDays": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "medianPeak": "Median peak",
+    "glucosePeak": "glucose peak",
+    "medianDuration": "Median duration",
+    "aboveRange": "above range",
+    "belowRange": "below range",
+    "pdfPreviewSuffix": "PDF Preview",
+    "reportPeriod": "Report period",
+    "episodeAnalyzed": "Episode analyzed",
+    "reportGenerated": "Generated",
+    "reportDataSource": "Data source",
+    "thresholds": "Thresholds",
+    "episodeView": "episode view",
+    "sequence": "sequence",
+    "past30Days": "past 30 days",
+    "timeVsPeak": "time vs peak",
+    "highReportHeroSummary": "A focused hyperglycemia exposure report with event curve, peak, duration, return-to-range, repeat timing, similar episodes, and data quality.",
+    "lowReportHeroSummary": "A focused hypoglycemia exposure report with event curve, nadir, duration, descent, recovery, repeat timing, and data quality.",
+    "highThresholds": "High >{high} / Very high >{veryHigh}",
+    "@highThresholds": {
+      "placeholders": {
+        "high": {},
+        "veryHigh": {}
+      }
+    },
+    "lowThresholds": "Low <{low} / Very low <{veryLow}",
+    "@lowThresholds": {
+      "placeholders": {
+        "low": {},
+        "veryLow": {}
+      }
+    },
+    "repeatLimitedPast30": "Repeat pattern was limited in the past 30 days.",
+    "start": "start",
+    "recover": "recover",
+    "overTarget": "{amount} over target",
+    "@overTarget": {
+      "placeholders": {
+        "amount": {}
+      }
+    },
+    "returnTowardRange": "Return toward range",
+    "baselineUnavailable": "Baseline unavailable",
+    "baselineValue": "baseline {range}",
+    "@baselineValue": {
+      "placeholders": {
+        "range": {}
+      }
+    },
+    "above": "Above",
+    "within": "Within",
+    "stable": "Stable",
+    "rising": "Rising",
+    "variable": "Variable",
+    "dropping": "Dropping",
+    "fast": "Fast",
+    "typical": "Typical",
+    "lower": "Lower",
+    "timeWindowVariability": "Time-window variability",
+    "variabilityLabel": "{label} variability",
+    "@variabilityLabel": {
+      "placeholders": {
+        "label": {}
+      }
+    },
+    "notEnoughHistory": "Not enough history",
+    "cvRank": "CV {cv}% · rank {rank}/{total}",
+    "@cvRank": {
+      "placeholders": {
+        "cv": {},
+        "rank": {},
+        "total": {}
+      }
+    },
+    "samePartOfDay": "the same part of day",
+    "dayWithRepeatedHighs": "day with repeated highs",
+    "daysWithRepeatedHighs": "days with repeated highs",
+    "dayWithRepeatedLows": "day with repeated lows",
+    "daysWithRepeatedLows": "days with repeated lows",
+    "noClearRepeat": "No clear repeat",
+    "patternTakeaway": "Pattern takeaway",
+    "timeBlockNight": "Night",
+    "timeBlockDawn": "Dawn",
+    "timeBlockMorning": "Morning",
+    "timeBlockAfternoon": "Afternoon",
+    "timeBlockEvening": "Evening",
+    "clusterTitle": "{label} cluster",
+    "@clusterTitle": {
+      "placeholders": {
+        "label": {}
+      }
+    },
+    "repeatedHighsAround": "Most repeated highs are visible around {label}{range}.",
+    "@repeatedHighsAround": {
+      "placeholders": {
+        "label": {},
+        "range": {}
+      }
+    },
+    "repeatedLowsAround": "Most repeated lows are visible around {label}{range}.",
+    "@repeatedLowsAround": {
+      "placeholders": {
+        "label": {},
+        "range": {}
+      }
+    },
+    "visibleInWindow": "In visible window",
+    "peakRecovery": "Peak + recovery",
+    "peakOnly": "Peak only",
+    "nadirRecovery": "Nadir + recovery",
+    "nadirOnly": "Nadir only",
+    "partial": "Partial",
+    "dataConfidence": "Data confidence",
+    "leadUpDescent": "Lead-up descent",
+    "overnightSlope": "Overnight slope",
+    "daytimeSlope": "Daytime slope",
+    "usualUnavailable": "usual unavailable",
+    "noCluster": "No cluster",
+    "peakGlucose": "Peak glucose",
+    "nadirGlucose": "Nadir glucose",
+    "similarCount": "{count} similar",
+    "@similarCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "noMedian": "No median",
+    "minutesMedian": "{minutes}m median",
+    "@minutesMedian": {
+      "placeholders": {
+        "minutes": {}
+      }
+    },
+    "noMedianValue": "No median value",
+    "valueMedian": "{value} median",
+    "@valueMedian": {
+      "placeholders": {
+        "value": {}
+      }
+    },
+    "selectedDate": "Selected · {date}",
+    "@selectedDate": {
+      "placeholders": {
+        "date": {}
+      }
+    },
+    "selectedEpisode": "{range} · {kind} episode",
+    "@selectedEpisode": {
+      "placeholders": {
+        "range": {},
+        "kind": {}
+      }
+    }
+}

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../application/i18n/history_l10n.dart';
 
 class HistoryCurveLegend extends StatelessWidget {
   const HistoryCurveLegend({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    final l10n = context.historyL10n;
+    return Row(
       children: [
-        _LegendDot(AppColors.green, 'In range'),
-        SizedBox(width: 10),
-        _LegendDot(AppColors.rose, 'High'),
-        SizedBox(width: 10),
-        _LegendDot(AppColors.blue, 'Low'),
+        _LegendDot(AppColors.green, l10n.legendInRange),
+        const SizedBox(width: 10),
+        _LegendDot(AppColors.rose, l10n.legendHigh),
+        const SizedBox(width: 10),
+        _LegendDot(AppColors.blue, l10n.legendLow),
       ],
     );
   }

@@ -16,10 +16,10 @@ class StatisticsPeriodVariabilityCalculator {
     required AppSettings settings,
   }) {
     final periods = [
-      (label: 'Night', start: 0, end: 6),
-      (label: 'Morning', start: 6, end: 12),
-      (label: 'Afternoon', start: 12, end: 18),
-      (label: 'Evening', start: 18, end: 24),
+      (label: 'night', start: 0, end: 6),
+      (label: 'morning', start: 6, end: 12),
+      (label: 'afternoon', start: 12, end: 18),
+      (label: 'evening', start: 18, end: 24),
     ];
     final rows = <StatisticsPeriodVariability>[];
     for (final period in periods) {

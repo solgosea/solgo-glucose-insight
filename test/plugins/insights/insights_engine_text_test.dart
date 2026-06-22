@@ -7,6 +7,7 @@ import 'package:smart_xdrip/plugins/insights/domain/insights_pattern_kind.dart';
 import 'package:smart_xdrip/plugins/insights/domain/insights_query.dart';
 import 'package:smart_xdrip/plugins/insights/engine/insights_engine.dart';
 import 'package:smart_xdrip/plugins/insights/engine/insights_engine_input.dart';
+import 'package:smart_xdrip/plugins/insights/l10n/generated/insights_localizations_zh.dart';
 import 'package:smart_xdrip/plugins/insights/mappers/insights_view_model_mapper.dart';
 
 void main() {
@@ -96,6 +97,61 @@ void main() {
     expect(viewModel.weeklyReview.body, contains('Last week TIR was 81%'));
     expect(viewModel.weeklyReview.stats.first.label, 'TIR');
     expect(viewModel.patternsEmptyText, isNotEmpty);
+  });
+
+  test('insights mapper renders Chinese text from localized templates', () {
+    final now = DateTime(2026, 6, 17, 9);
+    final output = const InsightsEngine().run(
+      InsightsEngineInput(
+        query: InsightsQuery(subjectId: 'self', anchorTime: now),
+        insights: [
+          _insight(
+            id: 'daily',
+            slot: InsightSlotCode.dailyBrief,
+            type: InsightTypeCode.dailyCompleteDay,
+            generatedAt: now,
+            facts: const {
+              'dayLabel': '昨天',
+              'tir': '78',
+              'tirDeltaPhrase': '高于',
+              'avgTir14': '74',
+              'cv': '31',
+              'cvDeltaPhrase': '接近',
+              'avgCv14': '30',
+              'observedDays14': 12,
+            },
+          ),
+          _insight(
+            id: 'weekly',
+            slot: InsightSlotCode.weeklyReview,
+            type: InsightTypeCode.weeklyReview,
+            generatedAt: now,
+            facts: const {
+              'weekRange': '6月10-16日',
+              'tir7': '81',
+              'tirDeltaPhrase': '高于',
+              'prevTir7': '78',
+              'cv7': '29',
+              'bestDayShort': '周二',
+              'longestHighValue': '42分',
+            },
+          ),
+        ],
+      ),
+    );
+
+    final viewModel = const InsightsViewModelMapper().map(
+      output,
+      l10n: InsightsLocalizationsZh(),
+    );
+
+    expect(viewModel.headerDate, '2026年6月17日');
+    expect(viewModel.dailyBrief, contains('昨天 的 TIR 为 78%'));
+    expect(viewModel.dailyBriefFooter, '基于 12 天数据');
+    expect(viewModel.weeklyReview.eyebrow, '本周回顾 - 6月10-16日');
+    expect(viewModel.weeklyReview.body, contains('上周 TIR 为 81%'));
+    expect(viewModel.weeklyReview.stats[1].label, '最佳日');
+    expect(viewModel.patternsEmptyText, '等待足够的 CGM 数据后生成洞察。');
   });
 }
 

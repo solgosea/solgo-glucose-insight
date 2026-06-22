@@ -1,0 +1,108 @@
+﻿{
+    "@@locale":  "zh_Hant",
+    "pluginTitle":  "血糖報告",
+    "pluginSubtitle":  "適合醫師查看的血糖報告，可列印和分享。",
+    "pluginDescription":  "適合醫師查看的血糖報告，可列印和分享。",
+    "pluginReportTitle":  "血糖報告報告",
+    "pluginLoading":  "載入中",
+    "pluginNoData":  "暫無可用資料。",
+    "pluginUnavailable":  "不可用",
+    "pageSubtitle": "AGP 標準 · 本地產生 · 匯出 PDF 或分享",
+    "sectionKeyMetrics": "關鍵指標",
+    "sectionTimeInRanges": "範圍時間",
+    "sectionAgp": "動態葡萄糖概覽",
+    "sectionDailyCurves": "每日曲線",
+    "sectionIncludeInReport": "包含在報告中",
+    "sectionExport": "匯出",
+    "reportDocumentTitle": "血糖报告文档",
+    "reportWearLabel": "{wear}% 佩戴",
+    "@reportWearLabel": {
+        "placeholders": {
+            "wear": {"type": "String"}
+        }
+    },
+    "headerPeriod": "週期",
+    "headerReadings": "讀數",
+    "headerCoverage": "覆蓋率",
+    "headerDataSource": "資料來源",
+    "headerTargetRange": "目標範圍",
+    "headerGenerated": "產生時間",
+    "exportPrivacyNote": "報告由本裝置上儲存的 CGM 讀數本地產生，不包含胰島素、碳水、用藥或餐食資料。",
+    "exportDescription": "適合醫師查看的 PDF 會打包目前報告，便於儲存或分享；互動式報告仍保留在 App 內。",
+    "exportSavePdf": "儲存為 PDF",
+    "exportShareSend": "分享 / 傳送",
+    "exportGenerating": "正在產生...",
+    "metricTir": "TIR",
+    "metricAverage": "平均",
+    "metricWear": "配戴",
+    "metricCv": "CV",
+    "metricGmi": "GMI",
+    "metricSd": "SD",
+    "metricTargetUnit": "目標 >=70%",
+    "metricOnTarget": "達標",
+    "metricBelowTarget": "低於目標",
+    "metricSensorActive": "感測器活躍",
+    "metricCvTargetUnit": "目標 <36%",
+    "metricGmiUnit": "估算 A1C",
+    "rangeVeryHigh": "極高",
+    "rangeHigh": "偏高",
+    "rangeInRange": "範圍內",
+    "rangeLow": "偏低",
+    "rangeVeryLow": "極低",
+    "emptyNoReportData": "暫無報告資料。請連接 xDrip+ Local 或 Nightscout API 並同步讀數。",
+    "periodAnalysisInsufficient": "週期分析資料不足。",
+    "episodeSummaryInsufficient": "片段摘要資料不足。",
+    "periodAnalysisSummary": "{bestPeriod} 的 TIR 最高（{bestTir}%）。{variablePeriod} 波動最大（CV {cv}%）。",
+    "@periodAnalysisSummary": {
+        "placeholders": {
+            "bestPeriod": {"type": "String"},
+            "bestTir": {"type": "String"},
+            "variablePeriod": {"type": "String"},
+            "cv": {"type": "String"}
+        }
+    },
+    "episodeSummary": "本報告週期內偵測到 {highCount} 個高血糖片段和 {lowCount} 個低血糖片段。",
+    "@episodeSummary": {
+        "placeholders": {
+            "highCount": {"type": "int"},
+            "lowCount": {"type": "int"}
+        }
+    },
+    "unitDays": "{days} 天",
+    "@unitDays": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "unitReadings": "{count} 筆讀數",
+    "@unitReadings": {
+        "placeholders": {
+            "count": {"type": "String"}
+        }
+    },
+    "unitWearActive": "{wear}% 配戴 - {minutes} 活躍分鐘",
+    "@unitWearActive": {
+        "placeholders": {
+            "wear": {"type": "String"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "toggleKeyMetricsTitle": "關鍵指標",
+    "toggleKeyMetricsSubtitle": "TIR、平均值、配戴、CV 和 GMI",
+    "toggleAgpChartTitle": "AGP 圖表",
+    "toggleAgpChartSubtitle": "24 小時百分位疊加圖",
+    "toggleDailyCurvesTitle": "每日曲線",
+    "toggleDailyCurvesSubtitle": "最近 14 天，並標記資料稀疏日",
+    "togglePeriodAnalysisTitle": "週期分析",
+    "togglePeriodAnalysisSubtitle": "加入分時段模式摘要",
+    "toggleEpisodesSummaryTitle": "片段摘要",
+    "toggleEpisodesSummarySubtitle": "加入高/低血糖片段數量",
+    "sourceNightscoutXdrip": "Nightscout API + xDrip+ Local",
+    "sourceXdrip": "xDrip+ Local HTTP",
+    "sourceNightscout": "Nightscout API",
+    "sourceLocalCache": "本地標準快取",
+    "sourceNoData": "無資料來源",
+    "agpOverlayLabel": "24 小時疊加 - 所有日期合併",
+    "agpLegendMedian": "中位數",
+    "agpLegendIqr": "IQR"
+}

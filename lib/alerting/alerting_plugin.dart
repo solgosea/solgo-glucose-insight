@@ -13,6 +13,8 @@ import '../plugin_platform/rendering/plugin_renderable.dart';
 import '../plugin_platform/runtime/manager/plugin_runtime_start_policy.dart';
 import '../application/platform_runtime/platform_runtime_capability_snapshot.dart';
 import '../plugins/settings/composition/settings_slots.dart';
+import 'application/i18n/alerting_entry_localizer.dart';
+import 'application/i18n/alerting_l10n_resolver.dart';
 import 'alerting_runtime_factory.dart';
 import 'data/schema/alerting_schema_contributor.dart';
 import 'runtime/alert_runtime_coordinator.dart';
@@ -23,14 +25,16 @@ import 'runtime/alerting_plugin_runtime.dart';
 class AlertingPlugin extends SmartFeaturePlugin {
   const AlertingPlugin();
 
+  static final _strings = AlertingL10nResolver.fallback;
+
   @override
   PluginId get id => const PluginId('core.alerting');
 
   @override
-  String get title => 'Alerting';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Configurable alert delivery strategies.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -51,17 +55,18 @@ class AlertingPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: SettingsSlots.section,
           renderKey: 'Alerts',
-          title: 'Alert Settings',
+          title: _strings.alertingTitle,
           order: 25,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get settingsEntry => const SectionPluginEntry(
+  SectionPluginEntry get settingsEntry => SectionPluginEntry(
+        pluginId: id.value,
         section: 'Alerts',
-        title: 'Alert Settings',
-        subtitle: 'Sound, vibration, notification strategies',
+        title: _strings.alertingTitle,
+        subtitle: _strings.settingsEntrySubtitle,
         order: 25,
       );
 
@@ -75,6 +80,7 @@ class AlertingPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const AlertingEntryLocalizer());
     context.registerSchema(const AlertingSchemaContributor());
     final runtimeFactory = context.services.get<AlertingRuntimeFactory>();
     context.services.register(

@@ -1,0 +1,12 @@
+﻿{
+    "@@locale":  "zh",
+    "pluginTitle":  "洞察",
+    "pluginSubtitle":  "生成的回顾洞察与摘要。",
+    "pluginDescription":  "生成的回顾洞察与摘要。",
+    "pluginReportTitle":  "洞察报告",
+    "pluginLoading":  "加载中",
+    "pluginNoData":  "暂无可用数据。",
+    "pluginUnavailable":  "不可用",
+    "insightsDailyBriefToday": "今日摘要",
+    "insightsSectionPatternsDetected": "已发现的模式"
+}

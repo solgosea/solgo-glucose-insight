@@ -7,6 +7,8 @@ import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/sync_status/sync_status_view_model_mapper.dart';
 import 'package:smart_xdrip/presentation/common/sync_status/sync_status_view_model.dart';
 import '../application/home_host_services.dart';
+import '../application/i18n/home_l10n_resolver.dart';
+import '../l10n/generated/home_localizations.dart';
 import '../mappers/home_view_model_mapper.dart';
 import '../models/home_chart_range.dart';
 import '../models/home_view_model.dart';
@@ -19,12 +21,13 @@ class HomeController extends ChangeNotifier {
   final HomePluginRuntime? runtime;
   final HomeViewModelMapper _mapper;
   final SyncStatusViewModelMapper _syncStatusMapper;
+  HomeLocalizations _l10n = HomeL10nResolver.fallback;
 
   HomeChartRange _selectedRange = HomeChartRange.fourHours;
   HomeViewModel? viewModel;
-  SyncStatusViewModel _syncStatus = const SyncStatusViewModel(
-    label: 'Checking sync',
-    semanticLabel: 'Checking sync',
+  SyncStatusViewModel _syncStatus = SyncStatusViewModel(
+    label: HomeL10nResolver.fallback.homeCheckingSync,
+    semanticLabel: HomeL10nResolver.fallback.homeCheckingSync,
     color: AppColors.textDim,
     pulsing: false,
     display: false,
@@ -47,6 +50,12 @@ class HomeController extends ChangeNotifier {
 
   Future<void> init() async {
     await _refresh();
+  }
+
+  void updateLocale(HomeLocalizations l10n) {
+    if (_l10n.localeName == l10n.localeName) return;
+    _l10n = l10n;
+    if (viewModel != null) _remap();
   }
 
   Future<void> selectRange(HomeChartRange range) async {
@@ -81,13 +90,13 @@ class HomeController extends ChangeNotifier {
       range: _selectedRange,
     );
     if (cached != null) {
-      viewModel = cached;
       _syncStatus = cached.syncStatus;
+      _remap(notify: false);
     } else {
       final snapshot = await runtime?.preheatRange(range: _selectedRange);
       if (snapshot != null) {
-        viewModel = snapshot.viewModel;
         _syncStatus = snapshot.viewModel.syncStatus;
+        _remap(notify: false);
       } else {
         final syncStatus = await hostServices.syncStatusSnapshot();
         _syncStatus = _syncStatusMapper.map(
@@ -111,6 +120,7 @@ class HomeController extends ChangeNotifier {
       facade: AnalysisFacade.current(),
       selectedRange: _selectedRange,
       syncStatus: _syncStatus,
+      l10n: _l10n,
     );
     if (notify && !_disposed) notifyListeners();
   }

@@ -10,6 +10,7 @@ import '../application/glance_runtime_coordinator.dart';
 import '../application/glance_snapshot_service.dart';
 import '../application/glance_widget_config_service.dart';
 import '../application/floating/floating_glance_runtime_coordinator.dart';
+import '../application/floating/floating_glance_overlay_action_handler.dart';
 import '../application/floating/floating_glance_service.dart';
 import '../application/runtime/glance_runtime_refresh_pipeline.dart';
 import '../data/platform/glance_widget_platform_bridge.dart';
@@ -49,6 +50,12 @@ class GlanceServiceRegistrar {
       settingsRepository: floatingSettingsRepository,
       surfaceService: context.services.get<FloatingSurfaceService>(),
     );
+    final floatingActionHandler = FloatingGlanceOverlayActionHandler(
+      surfaceService: context.services.get<FloatingSurfaceService>(),
+      settingsRepository: floatingSettingsRepository,
+      snapshotService: snapshotService,
+      floatingService: floatingService,
+    )..start();
     final widgetConfigService = GlanceWidgetConfigService(
       repository: widgetConfigRepository,
       snapshotService: snapshotService,
@@ -73,6 +80,7 @@ class GlanceServiceRegistrar {
       widgetBridge: widgetBridge,
       notificationService: notificationService,
       floatingService: floatingService,
+      floatingActionHandler: floatingActionHandler,
       widgetConfigService: widgetConfigService,
       navigationActionResolver: const GlanceNavigationActionResolver(),
       runtimeCoordinator: runtimeCoordinator,
@@ -97,6 +105,9 @@ class GlanceServiceRegistrar {
       bundle.notificationService,
     );
     context.services.register<FloatingGlanceService>(bundle.floatingService);
+    context.services.register<FloatingGlanceOverlayActionHandler>(
+      bundle.floatingActionHandler,
+    );
     context.services.register<GlanceWidgetConfigService>(
       bundle.widgetConfigService,
     );

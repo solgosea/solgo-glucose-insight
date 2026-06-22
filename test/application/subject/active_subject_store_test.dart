@@ -10,13 +10,13 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('persists and restores a followed active subject', () async {
+  test('persists and restores a remote active subject', () async {
     final store = ActiveSubjectStore();
     const child = AnalysisSubject(
-      id: 'follow:fg_child_1',
+      id: 'remote:child_1',
       displayName: 'Xiao Ming',
-      sourceLabel: 'Follow Nightscout',
-      origin: AnalysisSubjectOrigin('follow'),
+      sourceLabel: 'Remote Nightscout',
+      origin: AnalysisSubjectOrigin('remote'),
     );
 
     await store.set(child);
@@ -35,10 +35,10 @@ void main() {
     final store = ActiveSubjectStore();
     await store.set(
       const AnalysisSubject(
-        id: 'follow:fg_child_2',
+        id: 'remote:child_2',
         displayName: 'Child',
-        sourceLabel: 'Follow Nightscout',
-        origin: AnalysisSubjectOrigin('follow'),
+        sourceLabel: 'Remote Nightscout',
+        origin: AnalysisSubjectOrigin('remote'),
       ),
     );
 

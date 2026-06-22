@@ -29,7 +29,7 @@ void main() {
       privacyMode: GlanceNotificationPrivacyMode.full,
     );
 
-    expect(content.title, 'Solgo Insight');
+    expect(content.title, 'SolgoInsight');
     expect(content.body, contains(snapshot.valueLabel));
     expect(content.body, contains(snapshot.unitLabel));
     expect(content.body, contains(snapshot.tir24h.compactLabel));
@@ -86,6 +86,6 @@ void main() {
 
     expect(content.title, 'Glucose stale');
     expect(content.body, contains('Glucose stale'));
-    expect(content.body, contains('30 min ago'));
+    expect(content.body, contains('30m'));
   });
 }

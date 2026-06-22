@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../application/i18n/insights_l10n.dart';
 import '../models/insights_view_model.dart';
 import 'daily/daily_brief_card.dart';
 import 'header/insights_header.dart';
@@ -33,7 +34,9 @@ class InsightsBody extends StatelessWidget {
               footer: viewModel.dailyBriefFooter,
             ),
             WeeklyReviewCard(viewModel: viewModel.weeklyReview),
-            const InsightSectionLabel('Patterns Detected'),
+            InsightSectionLabel(
+              context.insightsL10n.insightsSectionPatternsDetected,
+            ),
             InsightPatternList(
               patterns: viewModel.patterns,
               emptyText: viewModel.patternsEmptyText,

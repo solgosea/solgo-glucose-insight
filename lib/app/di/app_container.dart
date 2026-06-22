@@ -39,6 +39,8 @@ import '../../application/floating_surface/floating_surface_permission_service.d
 import '../../application/floating_surface/floating_surface_registry.dart';
 import '../../application/floating_surface/floating_surface_runtime_coordinator.dart';
 import '../../application/floating_surface/floating_surface_service.dart';
+import '../../application/i18n/app_locale_controller.dart';
+import '../../application/i18n/app_locale_store.dart';
 import '../../application/insight/insight_generation_service.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_registrar.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_result.dart';
@@ -94,6 +96,7 @@ import '../../infrastructure/ios_bg_task/method_channel_ios_bg_task.dart';
 import '../../infrastructure/polling/foreground_polling_scheduler.dart';
 import '../../plugin_platform/registry/plugin_registry.dart';
 import '../../plugin_platform/composition/plugin_composition_registry.dart';
+import '../../plugin_platform/i18n/plugin_entry_localization_registry.dart';
 import '../../plugin_platform/install/plugin_install_context.dart';
 import '../../plugin_platform/runtime/events/plugin_runtime_event.dart';
 import '../../plugin_platform/runtime/events/plugin_runtime_subject_data.dart';
@@ -151,8 +154,11 @@ class AppContainer extends ChangeNotifier {
   late final PlatformRuntimeCapabilitySnapshot platformRuntimeCapabilities;
   late final PluginServiceRegistry pluginServices;
   late final PluginCompositionRegistry pluginCompositionRegistry;
+  late final PluginEntryLocalizationRegistry pluginEntryLocalizers;
   late final PluginRuntimeManager pluginRuntimeManager;
   late final PluginSchemaRegistry pluginSchemaRegistry;
+  late final AppLocaleStore localeStore;
+  late final AppLocaleController localeController;
   late AppSettings settings;
   StreamSubscription<Map<String, dynamic>?>? _backgroundSyncSubscription;
   DateTime? _lastBackgroundSyncAt;
@@ -193,7 +199,11 @@ class AppContainer extends ChangeNotifier {
     alertSuppressionPolicyRegistry = AlertSuppressionPolicyRegistry();
     pluginServices = PluginServiceRegistry();
     pluginCompositionRegistry = PluginCompositionRegistry();
+    pluginEntryLocalizers = PluginEntryLocalizationRegistry();
     pluginRuntimeManager = PluginRuntimeManager.create();
+    localeStore = AppLocaleStore();
+    localeController = AppLocaleController(localeStore);
+    await localeController.load();
     nightscoutSyncTargetRegistry = NightscoutSyncTargetRegistry(
       eventBus: pluginRuntimeManager.eventBus,
     );
@@ -280,6 +290,7 @@ class AppContainer extends ChangeNotifier {
       database: glucoseDatabase,
       overlaySignalBus: alertOverlaySignalBus,
       suppressionRegistry: alertSuppressionPolicyRegistry,
+      localeProvider: () => localeController.locale,
     );
     await _installFeaturePlugins();
     await _validateRestoredActiveSubject();
@@ -680,7 +691,12 @@ class AppContainer extends ChangeNotifier {
     pluginServices.register<PluginCompositionRegistry>(
       pluginCompositionRegistry,
     );
+    pluginServices.register<PluginEntryLocalizationRegistry>(
+      pluginEntryLocalizers,
+    );
     pluginServices.register<PluginSchemaRegistry>(pluginSchemaRegistry);
+    pluginServices.register<AppLocaleStore>(localeStore);
+    pluginServices.register<AppLocaleController>(localeController);
     pluginServices.register<GlucoseDatabase>(glucoseDatabase);
     pluginServices.register<SettingsStore>(settingsStore);
     pluginServices.register<DataSourceRuntimeCoordinator>(
@@ -752,7 +768,7 @@ class AppContainer extends ChangeNotifier {
       backgroundServiceAdapter,
     );
     final floatingSurfaceRegistry = FloatingSurfaceRegistry();
-    const floatingSurfaceBridge = MethodChannelFloatingSurfaceBridge();
+    final floatingSurfaceBridge = MethodChannelFloatingSurfaceBridge();
     final floatingSurfaceService = FloatingSurfaceService(
       registry: floatingSurfaceRegistry,
       bridge: floatingSurfaceBridge,
@@ -822,6 +838,7 @@ class AppContainer extends ChangeNotifier {
       services: pluginServices,
       schemaRegistry: pluginSchemaRegistry,
       compositionRegistry: pluginCompositionRegistry,
+      entryLocalizers: pluginEntryLocalizers,
     );
     for (final plugin in featurePlugins) {
       plugin.install(context);
@@ -1160,6 +1177,7 @@ class AppContainer extends ChangeNotifier {
     iosBgRefreshStatusStore.dispose();
     unawaited(alertOverlaySignalBus.dispose());
     unawaited(pluginRuntimeManager.dispose());
+    localeController.dispose();
     syncScheduleStore.removeListener(_scheduleStatusChangedNotification);
     super.dispose();
   }

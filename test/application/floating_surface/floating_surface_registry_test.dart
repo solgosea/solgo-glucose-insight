@@ -9,7 +9,7 @@ void main() {
 
     registry.upsert(
       const FloatingSurfaceSegment(
-        id: 'quick_status',
+        id: 'status_monitor',
         kind: FloatingSurfaceSegmentKind.status,
         order: 20,
         primaryText: 'status',
@@ -28,7 +28,7 @@ void main() {
 
     expect(
       registry.snapshot().segments.map((segment) => segment.id),
-      ['glance', 'quick_status'],
+      ['glance', 'status_monitor'],
     );
 
     registry.upsert(
@@ -42,6 +42,6 @@ void main() {
       ),
     );
 
-    expect(registry.snapshot().segments.single.id, 'quick_status');
+    expect(registry.snapshot().segments.single.id, 'status_monitor');
   });
 }

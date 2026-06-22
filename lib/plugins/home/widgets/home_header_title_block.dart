@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/entities/app_settings.dart';
 import '../../../foundation/theme/app_colors.dart';
+import '../application/i18n/home_l10n.dart';
 import 'home_unit_quick_switch.dart';
 
 class HomeHeaderTitleBlock extends StatelessWidget {
@@ -19,9 +20,9 @@ class HomeHeaderTitleBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'CGM COMPANION',
-          style: TextStyle(
+        Text(
+          context.homeL10n.homeCompanionEyebrow,
+          style: const TextStyle(
             fontFamily: 'JetBrainsMono',
             fontSize: 11,
             fontWeight: FontWeight.w700,

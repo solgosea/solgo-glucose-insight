@@ -1,0 +1,59 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Stats",
+    "pluginSubtitle":  "Glucose metrics, TIR, AGP, and heatmap.",
+    "pluginDescription":  "Glucose metrics, TIR, AGP, and heatmap.",
+    "pluginReportTitle":  "Stats Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "pageTitle":  "Stats",
+    "exportAction":  "Export -\u003e",
+    "tirBreakdownTitle":  "Time in range breakdown",
+    "agpTitle":  "AGP - Ambulatory Glucose Profile - {window} pattern",
+    "@agpTitle":  {
+                      "placeholders":  {
+                                           "window":  {
+                                                          "type":  "String"
+                                                      }
+                                       }
+                  },
+    "agpAnnotationDawn":  "Dawn",
+    "agpAnnotationPhenomenon":  "phenomenon",
+    "periodNight": "Night",
+    "periodMorning": "Morning",
+    "periodAfternoon": "Afternoon",
+    "periodEvening": "Evening",
+    "minutesPerDay":  "~{minutes} min/day",
+    "@minutesPerDay":  {
+                           "placeholders":  {
+                                                "minutes":  {
+
+                                                            }
+                                            }
+                       },
+    "windowShortLast24Hours": "24h",
+    "windowShortLast3Days": "3d",
+    "windowShortLast7Days": "7d",
+    "windowShortLast14Days": "14d",
+    "windowShortLast30Days": "30d",
+    "windowShortLast90Days": "90d",
+    "windowHeaderLast24Hours": "LAST 24 HOURS",
+    "windowHeaderLast3Days": "LAST 3 DAYS",
+    "windowHeaderLast7Days": "LAST 7 DAYS",
+    "windowHeaderLast14Days": "LAST 14 DAYS",
+    "windowHeaderLast30Days": "LAST 30 DAYS",
+    "windowHeaderLast90Days": "LAST 90 DAYS",
+    "deltaSame": "same",
+    "deltaVsPrevious": "{delta} vs prev {window}",
+    "@deltaVsPrevious": {
+        "placeholders": {
+            "delta": {
+                "type": "String"
+            },
+            "window": {
+                "type": "String"
+            }
+        }
+    }
+}

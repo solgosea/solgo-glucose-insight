@@ -77,11 +77,9 @@ class EpisodeDetailEngine {
     final focus = focusSelection.event;
     final header = EpisodeHeaderSection(
       kind: input.query.kind,
-      title: high ? 'High Episode' : 'Low Episode',
+      title: '',
       episodeTime: focus?.time,
-      emptySubtitle: input.query.isFocused
-          ? (high ? 'No matching high episode' : 'No matching low episode')
-          : (high ? 'No recent high episode' : 'No recent low episode'),
+      emptySubtitle: '',
     );
 
     if (focus == null) {
@@ -138,7 +136,7 @@ class EpisodeDetailEngine {
       events: events,
       high: high,
       windowDays: 30,
-      title: 'Similar Episodes (Past 30 Days)',
+      title: '',
     );
 
     if (!high) {

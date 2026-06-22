@@ -17,10 +17,17 @@ class InsightRenderPipeline {
     required List<InsightFactBundle> factBundles,
     required List<InsightTemplate> templates,
     required DateTime generatedAt,
+    String locale = 'en',
+    String fallbackLocale = 'en',
   }) {
     final rendered = <NarrativeInsight>[];
     for (final facts in factBundles) {
-      final template = selector.select(facts, templates);
+      final template = selector.select(
+        facts,
+        templates,
+        locale: locale,
+        fallbackLocale: fallbackLocale,
+      );
       if (template == null) continue;
       final text = renderer.render(template, facts.facts);
       rendered.add(

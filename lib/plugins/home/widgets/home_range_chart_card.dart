@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../application/i18n/home_l10n.dart';
+import '../application/i18n/home_range_l10n.dart';
 import '../models/home_chart_range.dart';
 import '../models/home_view_model.dart';
 import 'home_range_selector.dart';
@@ -19,6 +21,7 @@ class HomeRangeChartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.homeL10n;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.bgCard,
@@ -33,7 +36,7 @@ class HomeRangeChartCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                viewModel.selectedRange.title,
+                l10n.rangeTitle(viewModel.selectedRange),
                 style: const TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 10,

@@ -1,0 +1,10 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Low Episode",
+    "pluginSubtitle":  "Review low glucose episodes and recovery.",
+    "pluginDescription":  "Review low glucose episodes and recovery.",
+    "pluginReportTitle":  "Low Episode Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable"
+}

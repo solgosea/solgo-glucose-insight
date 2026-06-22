@@ -1,0 +1,12 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Insights",
+    "pluginSubtitle":  "Generated review insights and summaries.",
+    "pluginDescription":  "Generated review insights and summaries.",
+    "pluginReportTitle":  "Insights Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "insightsDailyBriefToday": "DAILY BRIEF - TODAY",
+    "insightsSectionPatternsDetected": "Patterns Detected"
+}

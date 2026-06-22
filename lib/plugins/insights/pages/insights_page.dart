@@ -7,6 +7,7 @@ import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
 import '../application/insights_host_services.dart';
+import '../application/i18n/insights_l10n.dart';
 import '../controllers/insights_controller.dart';
 import '../runtime/insights_plugin_runtime.dart';
 import '../runtime/insights_runtime_cache.dart';
@@ -26,8 +27,11 @@ class _InsightsPageState extends State<InsightsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_initialized) return;
-    _initialized = true;
+    final l10n = context.insightsL10n;
+    if (_initialized) {
+      _controller.updateLocale(l10n);
+      return;
+    }
     final services = context.read<PluginServiceRegistry>();
     final runtimeManager = context.read<PluginRuntimeManager>();
     unawaited(runtimeManager.resume(InsightsPluginRuntime.id));
@@ -36,6 +40,8 @@ class _InsightsPageState extends State<InsightsPage> {
       runtimeCache: services.get<InsightsRuntimeCache>(),
       runtime: services.get<InsightsPluginRuntime>(),
     );
+    _controller.updateLocale(l10n);
+    _initialized = true;
     unawaited(_controller.init());
   }
 

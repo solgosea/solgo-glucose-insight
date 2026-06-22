@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../application/glance_persistent_notification_service.dart';
 import '../../application/glance_snapshot_service.dart';
 import '../../application/floating/floating_glance_service.dart';
+import '../../application/floating/floating_glance_preset_policy.dart';
 import '../../data/sqlite/sqlite_floating_glance_settings_repository.dart';
 import '../../data/sqlite/sqlite_glance_settings_repository.dart';
 import '../../domain/glance_display_mode.dart';
@@ -10,8 +11,11 @@ import '../../domain/glance_lock_screen_mode.dart';
 import '../../domain/glance_snapshot.dart';
 import '../../domain/notification_privacy_mode.dart';
 import '../../domain/floating/floating_glance_mode.dart';
+import '../../domain/floating/floating_glance_form_factor.dart';
+import '../../domain/floating/floating_glance_preset_source.dart';
 import '../../domain/floating/floating_glance_settings.dart';
 import '../../domain/floating/floating_glance_setup_state.dart';
+import '../../domain/floating/floating_glance_size_preset.dart';
 
 class GlanceHubController extends ChangeNotifier {
   final GlanceSnapshotService snapshotService;
@@ -19,6 +23,7 @@ class GlanceHubController extends ChangeNotifier {
   final GlancePersistentNotificationService notificationService;
   final SqliteFloatingGlanceSettingsRepository? floatingSettingsRepository;
   final FloatingGlanceService? floatingService;
+  final FloatingGlancePresetPolicy floatingPresetPolicy;
 
   GlanceSnapshot? snapshot;
   GlanceNotificationSettings settings = const GlanceNotificationSettings();
@@ -33,6 +38,7 @@ class GlanceHubController extends ChangeNotifier {
     required this.notificationService,
     this.floatingSettingsRepository,
     this.floatingService,
+    this.floatingPresetPolicy = const FloatingGlancePresetPolicy(),
   });
 
   FloatingGlanceSetupState get floatingSetupState {
@@ -237,6 +243,84 @@ class GlanceHubController extends ChangeNotifier {
     notifyListeners();
   }
 
+  FloatingGlancePresetRecommendation floatingPresetRecommendation({
+    required double width,
+    required double height,
+  }) {
+    return floatingPresetPolicy.recommend(width: width, height: height);
+  }
+
+  Future<void> refreshFloatingPresetForWindow({
+    required double width,
+    required double height,
+  }) async {
+    final repository = floatingSettingsRepository;
+    if (repository == null ||
+        floatingSettings.presetSource == FloatingGlancePresetSource.user) {
+      return;
+    }
+    final next = floatingPresetPolicy.effectiveSettings(
+      settings: floatingSettings,
+      width: width,
+      height: height,
+    );
+    if (next.sizePreset == floatingSettings.sizePreset &&
+        next.formFactor == floatingSettings.formFactor &&
+        next.presetSource == floatingSettings.presetSource) {
+      return;
+    }
+    floatingSettings = next;
+    await repository.save(floatingSettings);
+    await _refreshVisibleFloatingGlance();
+    notifyListeners();
+  }
+
+  Future<void> setFloatingSizePreset(
+    FloatingGlanceSizePreset sizePreset,
+  ) async {
+    final repository = floatingSettingsRepository;
+    if (repository == null) return;
+    floatingSettings = floatingSettings.copyWith(
+      sizePreset: sizePreset,
+      presetSource: FloatingGlancePresetSource.user,
+    );
+    await repository.save(floatingSettings);
+    await _refreshVisibleFloatingGlance();
+    notifyListeners();
+  }
+
+  Future<void> setFloatingFormFactor(
+    FloatingGlanceFormFactor formFactor,
+  ) async {
+    final repository = floatingSettingsRepository;
+    if (repository == null) return;
+    floatingSettings = floatingSettings.copyWith(
+      formFactor: formFactor,
+      presetSource: FloatingGlancePresetSource.user,
+    );
+    await repository.save(floatingSettings);
+    await _refreshVisibleFloatingGlance();
+    notifyListeners();
+  }
+
+  Future<void> useRecommendedFloatingPreset({
+    required double width,
+    required double height,
+  }) async {
+    final repository = floatingSettingsRepository;
+    if (repository == null) return;
+    floatingSettings = floatingPresetPolicy.effectiveSettings(
+      settings: floatingSettings.copyWith(
+        presetSource: FloatingGlancePresetSource.automatic,
+      ),
+      width: width,
+      height: height,
+    );
+    await repository.save(floatingSettings);
+    await _refreshVisibleFloatingGlance();
+    notifyListeners();
+  }
+
   Future<void> hideFloatingGlance() async {
     final repository = floatingSettingsRepository;
     if (repository == null) return;
@@ -263,5 +347,14 @@ class GlanceHubController extends ChangeNotifier {
     await service.requestPermission();
     floatingPermissionGranted = await service.hasPermission();
     notifyListeners();
+  }
+
+  Future<void> _refreshVisibleFloatingGlance() async {
+    if (!floatingSettings.enabled || !floatingPermissionGranted) return;
+    final service = floatingService;
+    if (service == null) return;
+    final current = snapshot ?? await snapshotService.current();
+    snapshot = current;
+    await service.show(current);
   }
 }

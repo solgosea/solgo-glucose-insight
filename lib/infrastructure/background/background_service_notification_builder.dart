@@ -16,7 +16,7 @@ class BackgroundServiceNotificationBuilder {
 
   BackgroundServiceNotification fromSnapshot(BackgroundSyncSnapshot snapshot) {
     return BackgroundServiceNotification(
-      title: 'Solgo Insight sync',
+      title: 'SolgoInsight sync',
       content: switch (snapshot.status) {
         BackgroundSyncStatus.disabled => 'Background sync is paused.',
         BackgroundSyncStatus.checking => 'Checking data source...',
@@ -29,7 +29,7 @@ class BackgroundServiceNotificationBuilder {
 
   BackgroundServiceNotification get initial {
     return const BackgroundServiceNotification(
-      title: 'Solgo Insight sync',
+      title: 'SolgoInsight sync',
       content: 'Preparing glucose data sync...',
     );
   }

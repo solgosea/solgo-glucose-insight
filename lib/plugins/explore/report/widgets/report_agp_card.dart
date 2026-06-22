@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../foundation/theme/app_colors.dart';
 import '../../../../presentation/common/widgets/charts/agp_chart.dart';
+import '../application/i18n/report_l10n.dart';
 import '../models/report_view_model.dart';
 
 class ReportAgpCard extends StatelessWidget {
@@ -14,6 +15,8 @@ class ReportAgpCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.reportL10n;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
@@ -25,12 +28,12 @@ class ReportAgpCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: Text(
-                  '24-HOUR OVERLAY · ALL DAYS COMBINED',
-                  style: TextStyle(
+                  l10n.agpOverlayLabel,
+                  style: const TextStyle(
                     fontFamily: 'JetBrainsMono',
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
@@ -39,9 +42,15 @@ class ReportAgpCard extends StatelessWidget {
                   ),
                 ),
               ),
-              _Legend(color: Color(0xFF7CF0A8), label: 'Median'),
-              SizedBox(width: 8),
-              _Legend(color: Color(0x4D3FD0C8), label: 'IQR'),
+              _Legend(
+                color: const Color(0xFF7CF0A8),
+                label: l10n.agpLegendMedian,
+              ),
+              const SizedBox(width: 8),
+              _Legend(
+                color: const Color(0x4D3FD0C8),
+                label: l10n.agpLegendIqr,
+              ),
             ],
           ),
           const SizedBox(height: 8),

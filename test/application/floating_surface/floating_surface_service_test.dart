@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/application/floating_surface/floating_surface_payload.dart';
+import 'package:smart_xdrip/application/floating_surface/floating_surface_action.dart';
 import 'package:smart_xdrip/application/floating_surface/floating_surface_registry.dart';
 import 'package:smart_xdrip/application/floating_surface/floating_surface_segment.dart';
 import 'package:smart_xdrip/application/floating_surface/floating_surface_segment_kind.dart';
@@ -14,14 +15,14 @@ void main() {
       bridge: bridge,
     );
 
-    await service.upsertSegment(_segment('quick_status', 20));
+    await service.upsertSegment(_segment('status_monitor', 20));
     await service.upsertSegment(_segment('glance', 10));
 
     expect(bridge.stopCalls, 0);
     expect(bridge.updateCalls, 2);
     expect(
       bridge.lastPayload?.segments.map((segment) => segment.id),
-      ['glance', 'quick_status'],
+      ['glance', 'status_monitor'],
     );
   });
 
@@ -91,6 +92,9 @@ class _FakeBridge implements FloatingSurfacePlatformBridge {
 
   @override
   bool get isSupported => true;
+
+  @override
+  Stream<FloatingSurfaceAction> get actions => const Stream.empty();
 
   @override
   Future<bool> hasOverlayPermission() async => permission;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../shared/episode_section_label.dart';
 
@@ -14,17 +15,18 @@ class HighEpisodeDriverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     final bars = [
-      ('Peak', viewModel.peakScore),
-      ('Duration', viewModel.durationScore),
-      ('Rise', viewModel.riseScore),
-      ('Recovery', viewModel.recoveryScore),
-      ('Repeat', viewModel.repeatScore),
+      (l10n.peak, viewModel.peakScore),
+      (l10n.duration, viewModel.durationScore),
+      (l10n.rise, viewModel.riseScore),
+      (l10n.recovery, viewModel.recoveryScore),
+      (l10n.repeatPattern, viewModel.repeatScore),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const EpisodeSectionLabel(index: '05', title: 'Main driver'),
+        EpisodeSectionLabel(index: '05', title: l10n.mainDriver),
         EpisodeSectionCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

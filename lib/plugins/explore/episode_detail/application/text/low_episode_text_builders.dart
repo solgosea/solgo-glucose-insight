@@ -1,3 +1,5 @@
+import 'package:smart_xdrip/application/plugin_text/plugin_text_render_context.dart';
+
 import '../../domain/episode_data_confidence.dart';
 import '../../domain/low_episode_driver_type.dart';
 import '../../domain/low_episode_recovery_quality.dart';
@@ -14,22 +16,29 @@ class LowEpisodeSummaryTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String title(LowEpisodeReviewPriority priority, Map<String, Object?> facts) {
+  String title(
+    LowEpisodeReviewPriority priority,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowSummaryTitle,
       type: _priorityType(priority),
       facts: facts,
+      context: context,
     );
   }
 
   String subtitle(
     LowEpisodeReviewPriority priority,
-    Map<String, Object?> facts,
-  ) {
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowSummarySubtitle,
       type: _priorityType(priority),
       facts: facts,
+      context: context,
     );
   }
 }
@@ -41,11 +50,16 @@ class LowEpisodeBurdenTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String note(LowEpisodeReviewPriority priority, Map<String, Object?> facts) {
+  String note(
+    LowEpisodeReviewPriority priority,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowBurdenNote,
       type: _priorityType(priority),
       facts: facts,
+      context: context,
     );
   }
 }
@@ -57,19 +71,29 @@ class LowEpisodeDriverTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String title(LowEpisodeDriverType type, Map<String, Object?> facts) {
+  String title(
+    LowEpisodeDriverType type,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowDriverTitle,
       type: _driverType(type),
       facts: facts,
+      context: context,
     );
   }
 
-  String body(LowEpisodeDriverType type, Map<String, Object?> facts) {
+  String body(
+    LowEpisodeDriverType type,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowDriverBody,
       type: _driverType(type),
       facts: facts,
+      context: context,
     );
   }
 }
@@ -81,11 +105,16 @@ class LowEpisodeRecoveryTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String note(LowEpisodeRecoveryQuality quality, Map<String, Object?> facts) {
+  String note(
+    LowEpisodeRecoveryQuality quality,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowRecoveryNote,
       type: _recoveryType(quality),
       facts: facts,
+      context: context,
     );
   }
 }
@@ -97,11 +126,15 @@ class LowEpisodeContextTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String note(Map<String, Object?> facts) {
+  String note(
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowContextNote,
       type: EpisodeDetailTextType.lowPriorityNotable,
       facts: facts,
+      context: context,
     );
   }
 }
@@ -113,27 +146,55 @@ class LowEpisodeRepeatTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String title(LowEpisodeRepeatPatternType type, Map<String, Object?> facts) {
+  String title(
+    LowEpisodeRepeatPatternType type,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowRepeatTitle,
       type: _repeatType(type),
       facts: facts,
+      context: context,
     );
   }
 
-  String body(LowEpisodeRepeatPatternType type, Map<String, Object?> facts) {
+  String body(
+    LowEpisodeRepeatPatternType type,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowRepeatBody,
       type: _repeatType(type),
       facts: facts,
+      context: context,
     );
   }
 
-  String hint(LowEpisodeRepeatPatternType type, Map<String, Object?> facts) {
+  String hint(
+    LowEpisodeRepeatPatternType type,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowRepeatHint,
       type: EpisodeDetailTextType.lowRepeatNone,
       facts: facts,
+      context: context,
+    );
+  }
+
+  String takeaway(
+    LowEpisodeRepeatPatternType type,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
+    return renderer.render(
+      slot: EpisodeDetailTextSlot.lowRepeatTakeaway,
+      type: _repeatType(type),
+      facts: facts,
+      context: context,
     );
   }
 }
@@ -145,11 +206,16 @@ class LowEpisodeReliabilityTextBuilder {
     this.renderer = const EpisodeDetailTextRenderer(),
   });
 
-  String note(EpisodeDataConfidence confidence, Map<String, Object?> facts) {
+  String note(
+    EpisodeDataConfidence confidence,
+    Map<String, Object?> facts, {
+    PluginTextRenderContext context = const PluginTextRenderContext.english(),
+  }) {
     return renderer.render(
       slot: EpisodeDetailTextSlot.lowReliabilityNote,
       type: _reliabilityType(confidence),
       facts: facts,
+      context: context,
     );
   }
 }

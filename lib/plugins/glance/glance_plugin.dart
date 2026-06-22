@@ -14,19 +14,22 @@ import 'presentation/pages/glance_hub_page.dart';
 import 'presentation/pages/persistent_notification_page.dart';
 import 'presentation/pages/widget_config_page.dart';
 import 'runtime/glance_plugin_runtime.dart';
+import 'application/i18n/glance_entry_localizer.dart';
+import 'application/i18n/glance_l10n_resolver.dart';
 
 class GlancePlugin extends SmartFeaturePlugin {
   const GlancePlugin();
+
+  static final _strings = GlanceL10nResolver.fallback;
 
   @override
   PluginId get id => GlancePluginRuntime.runtimeId;
 
   @override
-  String get title => 'Widgets & Notification';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description =>
-      'Home screen widgets and persistent glucose status notification.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.beta;
@@ -68,6 +71,7 @@ class GlancePlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const GlanceEntryLocalizer());
     const GlanceInstallModule().install(context, id);
   }
 }

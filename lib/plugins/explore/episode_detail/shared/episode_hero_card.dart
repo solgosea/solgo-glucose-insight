@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../foundation/theme/app_colors.dart';
+import '../application/i18n/episode_detail_l10n.dart';
 
 /// Hero card displayed at the top of an episode detail page.
 class EpisodeHeroCard extends StatelessWidget {
@@ -50,6 +51,7 @@ class EpisodeHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
       padding: const EdgeInsets.all(16),
@@ -137,7 +139,7 @@ class EpisodeHeroCard extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: _HeroStat(
-                  label: 'RECOVERY',
+                  label: l10n.recovery.toUpperCase(),
                   value: recoveryRateText,
                   color: AppColors.green,
                 ),

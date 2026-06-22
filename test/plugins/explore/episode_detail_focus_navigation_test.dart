@@ -1,13 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/domain/entities/glucose_event.dart';
-import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/application/episode_detail_route_codec.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/domain/episode_detail_entry_intent.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/domain/episode_detail_focus.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/domain/episode_detail_focus_match.dart';
+import 'package:smart_xdrip/plugins/explore/episode_detail/domain/episode_detail_query.dart';
+import 'package:smart_xdrip/plugins/explore/episode_detail/domain/sections/episode_header_section.dart';
+import 'package:smart_xdrip/plugins/explore/episode_detail/domain/sections/episode_similar_section.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/engine/calculators/episode_focus_calculator.dart';
-import 'package:smart_xdrip/plugins/explore/episode_detail/models/episode_detail_view_model.dart';
+import 'package:smart_xdrip/plugins/explore/episode_detail/engine/episode_detail_engine_output.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/models/episode_kind.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/runtime/episode_detail_runtime_cache.dart';
 import 'package:smart_xdrip/plugins/explore/episode_detail/runtime/episode_detail_runtime_snapshot.dart';
@@ -88,7 +90,7 @@ void main() {
     final latest = EpisodeDetailRuntimeSnapshot(
       subjectId: 'self',
       kind: EpisodeKind.high,
-      viewModel: fakeHighEpisodeViewModel(title: 'Latest High'),
+      output: fakeHighEpisodeOutput(title: 'Latest High'),
       updatedAt: DateTime(2026, 6, 17),
       reason: 'latest',
     );
@@ -96,7 +98,7 @@ void main() {
       subjectId: 'self',
       kind: EpisodeKind.high,
       focus: EpisodeDetailFocus(eventTime: focusTime),
-      viewModel: fakeHighEpisodeViewModel(title: 'Focused High'),
+      output: fakeHighEpisodeOutput(title: 'Focused High'),
       updatedAt: DateTime(2026, 6, 17),
       reason: 'focused',
     );
@@ -107,7 +109,8 @@ void main() {
     expect(
       cache
           .freshSnapshot(subjectId: 'self', kind: EpisodeKind.high)
-          ?.viewModel
+          ?.output
+          .headerSection
           .title,
       'Latest High',
     );
@@ -118,7 +121,8 @@ void main() {
             kind: EpisodeKind.high,
             focus: EpisodeDetailFocus(eventTime: focusTime),
           )
-          ?.viewModel
+          ?.output
+          .headerSection
           .title,
       'Focused High',
     );
@@ -154,28 +158,42 @@ void main() {
   });
 }
 
-EpisodeDetailViewModel fakeHighEpisodeViewModel({required String title}) {
-  return EpisodeDetailViewModel(
-    kind: EpisodeKind.high,
-    statusTime: '08:10',
-    title: title,
-    subtitle: 'Jun 17',
-    hero: null,
-    chart: null,
-    contextRows: const [],
-    pattern: null,
-    severity: null,
-    similarHeader: '',
-    similarCards: const [],
-    disclaimer: '',
-    emptyText: '',
-    highSummary: const HighEpisodeSummaryViewModel(
-      priorityLabel: 'Info',
-      priorityColor: AppColors.green,
-      title: 'High episode',
-      subtitle: 'Focused high episode',
-      peakText: '12.4 mmol/L',
-      durationText: '50 min',
+EpisodeDetailEngineOutput fakeHighEpisodeOutput({required String title}) {
+  return EpisodeDetailEngineOutput(
+    query: EpisodeDetailQuery(
+      subjectId: 'self',
+      kind: EpisodeKind.high,
+      anchorTime: DateTime(2026, 6, 17),
     ),
+    focusMatch: const EpisodeDetailFocusMatch.latest(),
+    settings: const AppSettings(),
+    focus: null,
+    headerSection: EpisodeHeaderSection(
+      kind: EpisodeKind.high,
+      title: title,
+      episodeTime: null,
+      emptySubtitle: '',
+    ),
+    window: null,
+    chartSection: null,
+    similarSection: const EpisodeSimilarSection(
+      title: '',
+      windowDays: 30,
+      currentPoint: null,
+      points: [],
+      selected: null,
+    ),
+    highBurden: null,
+    highDriver: null,
+    highRecovery: null,
+    highContext: null,
+    highRepeat: null,
+    highReliability: null,
+    lowBurden: null,
+    lowDriver: null,
+    lowRecovery: null,
+    lowContext: null,
+    lowRepeat: null,
+    lowReliability: null,
   );
 }

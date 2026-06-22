@@ -6,6 +6,7 @@ import '../domain/history_time_filter.dart';
 import '../engine/history_engine.dart';
 import '../engine/history_engine_input.dart';
 import '../engine/history_engine_output.dart';
+import '../l10n/generated/history_localizations.dart';
 import '../mappers/history_view_model_mapper.dart';
 import '../models/history_view_model.dart';
 
@@ -48,6 +49,7 @@ class HistoryService {
     required bool isToday,
     required AppSettings settings,
     HistoryTimeFilter? timeFilter,
+    HistoryLocalizations? l10n,
   }) {
     return mapper.map(
       buildOutput(
@@ -59,6 +61,7 @@ class HistoryService {
         settings: settings,
         timeFilter: timeFilter,
       ),
+      l10n: l10n,
     );
   }
 }

@@ -104,10 +104,10 @@ void main() {
     await manager.resume(ReportPluginRuntime.id);
 
     const child = AnalysisSubject(
-      id: 'follow:report-child',
+      id: 'remote:report-child',
       displayName: 'Report Child',
-      sourceLabel: 'Follow Nightscout',
-      origin: AnalysisSubjectOrigin('follow'),
+      sourceLabel: 'Remote Nightscout',
+      origin: AnalysisSubjectOrigin('remote'),
     );
     _seedAnalysisStore(
       subject: child,

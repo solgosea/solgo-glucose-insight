@@ -1,5 +1,6 @@
 import '../../../domain/event/alert_category.dart';
 import '../alert_rendered_text.dart';
+import '../alert_text_localizer.dart';
 import '../alert_text_render_context.dart';
 import '../alert_text_render_request.dart';
 import '../alert_text_renderer.dart';
@@ -17,18 +18,20 @@ class CoreRateAlertTextRenderer implements AlertTextRenderer {
     AlertTextRenderRequest request,
     AlertTextRenderContext context,
   ) {
+    final l10n = AlertTextLocalizer.forContext(context);
     final rate = request.result?.rateMmolPerMin ??
         _double(request.payload['rateMmolPerMin']);
     final rateLabel = rate == null
         ? null
         : context.glucoseFormatter.rate(rate, context.unit).fullLabel;
     final name = context.subjectDisplayName;
-    final prefix = name == null || name.trim().isEmpty ? 'Glucose' : name;
+    final prefix =
+        name == null || name.trim().isEmpty ? l10n.alertSubjectGlucose : name;
     return AlertRenderedText(
-      title: 'Rapid fall',
+      title: l10n.alertTitleRapidFall,
       body: rateLabel == null
-          ? '$prefix is falling quickly.'
-          : '$prefix is falling quickly ($rateLabel).',
+          ? l10n.alertBodyRapidFall(prefix)
+          : l10n.alertBodyRapidFallWithRate(prefix, rateLabel),
     );
   }
 

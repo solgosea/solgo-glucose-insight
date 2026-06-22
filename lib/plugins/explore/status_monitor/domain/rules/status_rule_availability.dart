@@ -1,0 +1,4 @@
+enum StatusRuleAvailability {
+  unknownWhenMissing,
+  notApplicableWhenMissing,
+}

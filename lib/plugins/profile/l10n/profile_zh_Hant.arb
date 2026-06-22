@@ -1,0 +1,91 @@
+﻿{
+    "targetRangeTitle": "目標範圍",
+    "targetRangeDescription": "個人血糖目標範圍閾值。",
+    "targetRangeSubtitle": "個人血糖目標",
+    "pluginUnavailable": "不可用",
+    "pluginReportTitle": "個人資料報告",
+    "@@locale": "zh_Hant",
+    "pluginSubtitle": "個人資料、資料來源、目標範圍和設定。",
+    "pluginTitle": "個人資料",
+    "pluginDescription": "個人資料、資料來源、目標範圍和設定。",
+    "pluginNoData": "暫無可用資料。",
+    "pluginLoading": "載入中",
+    "targetRangeVeryHighThresholdSubtitle": "標記為需要關注的高血糖區間",
+    "targetRangePrimaryBandLabel": "目標範圍",
+    "targetRangeHighThresholdSubtitle": "高於此值進入高血糖範圍",
+    "targetRangeUpdated": "目標範圍已更新",
+    "targetRangeInRangeTarget": "目標範圍",
+    "targetRangeHighThresholdLabel": "高血糖閾值",
+    "targetRangePrimaryBandSubtitle": "主要血糖範圍",
+    "targetRangeHighLabel": "高",
+    "targetRangeDragHint": "拖動控制點，或在下方輸入",
+    "targetRangeVeryHighLabel": "極高",
+    "targetRangeExactValues": "精確數值",
+    "targetRangeSheetTitle": "目標範圍",
+    "targetRangeVeryHighThresholdLabel": "極高閾值",
+    "targetRangeLowThresholdLabel": "低血糖閾值",
+    "targetRangeLowThresholdSubtitle": "低於此值進入低血糖範圍",
+    "targetRangeCancel": "取消",
+    "targetRangeLowLabel": "低",
+    "targetRangeSaveRange": "儲存範圍",
+    "targetRangeSpread": "跨度",
+    "targetRangeReset": "重設",
+    "targetRangeSheetSubtitle": "拖動標記或輸入精確數值，兩者會保持同步。",
+    "profileHeaderTitle": "我的個人資料",
+    "profileBuildingBaseline": "正在建立基線",
+    "profileDaysRecorded": "已記錄 {days} 天",
+    "@profileDaysRecorded": {
+        "placeholders": {
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "profileGlucotype": "血糖類型：{label}",
+    "@profileGlucotype": {
+        "placeholders": {
+            "label": {
+                "type": "String"
+            }
+        }
+    },
+    "profileGlucotypeLow": "平穩",
+    "profileGlucotypeModerate": "中等波動",
+    "profileGlucotypeSevere": "高波動",
+    "profileStatTir14d": "TIR 14天",
+    "profileStatAvg14d": "平均 14天",
+    "profileStatCv14d": "CV 14天",
+    "profileSettingsSummary": "設定",
+    "profileSectionMyBaseline": "我的基線",
+    "profileSectionAppSettings": "App 設定",
+    "profileBaselineTitle": "個人血糖基線",
+    "profileBaselineBuiltFrom": "基於 {days} 天建立 - 更新於 {date}",
+    "@profileBaselineBuiltFrom": {
+        "placeholders": {
+            "days": {
+                "type": "int"
+            },
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBaselineNotEnough": "資料還不夠",
+    "profileBaselineTir": "TIR 基線",
+    "profileBaselineTypicalPeak": "典型峰值",
+    "profileBaselineCvRange": "CV 範圍",
+    "targetRangeLowHighGapMessage": "低血糖閾值至少要比高血糖閾值低 {gap} {unit}。",
+    "@targetRangeLowHighGapMessage": {
+        "placeholders": {
+            "gap": {"type": "String"},
+            "unit": {"type": "String"}
+        }
+    },
+    "targetRangeHighVeryHighGapMessage": "高血糖閾值至少要比極高閾值低 {gap} {unit}。",
+    "@targetRangeHighVeryHighGapMessage": {
+        "placeholders": {
+            "gap": {"type": "String"},
+            "unit": {"type": "String"}
+        }
+    }
+}

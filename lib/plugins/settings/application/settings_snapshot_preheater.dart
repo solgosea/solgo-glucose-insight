@@ -11,12 +11,13 @@ class SettingsSnapshotPreheater {
   final SettingsViewModelMapper mapper;
   final DateTime Function() now;
 
-  const SettingsSnapshotPreheater({
+  SettingsSnapshotPreheater({
     required this.hostServices,
     this.storageAnalyzer = const SettingsStorageAnalyzer(),
-    this.mapper = const SettingsViewModelMapper(),
+    SettingsViewModelMapper? mapper,
     DateTime Function()? now,
-  }) : now = now ?? DateTime.now;
+  })  : mapper = mapper ?? SettingsViewModelMapper(),
+        now = now ?? DateTime.now;
 
   Future<SettingsRuntimeSnapshot> preheat() async {
     final settings = hostServices.settingsProvider();

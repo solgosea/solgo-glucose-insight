@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import '../data/local/glucose_database.dart';
 import 'application/actuator/alert_actuator_command_bus.dart';
 import 'application/actuator/alert_actuator_command_queue.dart';
@@ -48,6 +50,7 @@ class AlertingRuntimeFactory {
   final GlucoseDatabase database;
   final AlertOverlaySignalBus overlaySignalBus;
   final AlertSuppressionPolicyRegistry suppressionRegistry;
+  final Locale? Function()? localeProvider;
   AlertActuatorCommandBus? _commandBus;
   AlertOrchestrator? _orchestrator;
   AlertActionService? _actionService;
@@ -73,6 +76,7 @@ class AlertingRuntimeFactory {
     required this.database,
     required this.overlaySignalBus,
     AlertSuppressionPolicyRegistry? suppressionRegistry,
+    this.localeProvider,
   }) : suppressionRegistry =
             suppressionRegistry ?? AlertSuppressionPolicyRegistry();
 
@@ -207,6 +211,7 @@ class AlertingRuntimeFactory {
 
   FlutterLocalNotificationGateway notificationGateway() {
     return _notificationGateway ??= FlutterLocalNotificationGateway(
+      localeProvider: localeProvider,
       backgroundActionHandler: alertNotificationBackgroundEntrypoint,
     );
   }

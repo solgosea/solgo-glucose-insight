@@ -67,12 +67,33 @@ class GlanceSchema {
         id INTEGER PRIMARY KEY CHECK (id = 1),
         mode TEXT NOT NULL,
         display_style TEXT NOT NULL,
+        size_preset TEXT NOT NULL DEFAULT 'medium',
+        form_factor TEXT NOT NULL DEFAULT 'pill',
+        preset_source TEXT NOT NULL DEFAULT 'automatic',
         position_x REAL NOT NULL,
         position_y REAL NOT NULL,
         collapsed INTEGER NOT NULL,
         updated_at_ms INTEGER NOT NULL
       )
     ''');
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.floatingSettings,
+      'size_preset',
+      "TEXT NOT NULL DEFAULT 'medium'",
+    );
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.floatingSettings,
+      'form_factor',
+      "TEXT NOT NULL DEFAULT 'pill'",
+    );
+    await _addColumnIfMissing(
+      database,
+      GlanceTables.floatingSettings,
+      'preset_source',
+      "TEXT NOT NULL DEFAULT 'automatic'",
+    );
   }
 
   Future<void> _addColumnIfMissing(

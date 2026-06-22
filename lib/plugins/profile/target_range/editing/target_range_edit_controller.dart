@@ -128,14 +128,18 @@ class TargetRangeEditController {
       return TargetRangeValidationResult(
         isValid: false,
         invalidMarker: TargetRangeMarker.low,
-        message: 'Low must be at least $gap $unitLabel below High.',
+        reason: TargetRangeValidationReason.lowTooCloseToHigh,
+        gapLabel: gap,
+        unitLabel: unitLabel,
       );
     }
     if (!highVeryHighOk) {
       return TargetRangeValidationResult(
         isValid: false,
         invalidMarker: TargetRangeMarker.high,
-        message: 'High must be at least $gap $unitLabel below Very High.',
+        reason: TargetRangeValidationReason.highTooCloseToVeryHigh,
+        gapLabel: gap,
+        unitLabel: unitLabel,
       );
     }
     return const TargetRangeValidationResult.valid();

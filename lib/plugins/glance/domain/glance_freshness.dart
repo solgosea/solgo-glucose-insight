@@ -22,14 +22,14 @@ class GlanceFreshness {
       return GlanceFreshness(
         updatedAt: null,
         evaluatedAt: now,
-        label: 'No recent data',
+        label: '--',
         isFresh: false,
         isStale: true,
       );
     }
     final age = now.difference(updatedAt);
     final minutes = age.inMinutes.clamp(0, 100000);
-    final label = minutes <= 0 ? 'just now' : '$minutes min ago';
+    final label = minutes <= 0 ? '0m' : '${minutes}m';
     return GlanceFreshness(
       updatedAt: updatedAt,
       evaluatedAt: now,

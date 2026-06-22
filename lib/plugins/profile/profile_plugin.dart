@@ -22,18 +22,22 @@ import 'composition/profile_slots.dart';
 import 'pages/profile_page.dart';
 import 'runtime/profile_plugin_runtime.dart';
 import 'runtime/profile_runtime_cache.dart';
+import 'application/i18n/profile_entry_localizer.dart';
+import 'application/i18n/profile_l10n_resolver.dart';
 
 class ProfilePlugin extends SmartFeaturePlugin {
   const ProfilePlugin();
+
+  static final _strings = ProfileL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('core.profile');
 
   @override
-  String get title => 'Profile';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Profile, data source, target range, and settings.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -58,15 +62,15 @@ class ProfilePlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.mainTab'),
           renderKey: '/profile',
-          title: 'Profile',
+          title: _strings.pluginTitle,
           order: 40,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  MainTabPluginEntry get mainTabEntry => const MainTabPluginEntry(
-        label: 'Profile',
+  MainTabPluginEntry get mainTabEntry => MainTabPluginEntry(
+        label: _strings.pluginTitle,
         route: '/profile',
         icon: Icons.person_outline,
         activeIcon: Icons.person,
@@ -80,6 +84,7 @@ class ProfilePlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const ProfileEntryLocalizer());
     final host = context.services.get<AppHostServices>();
     final actions = context.services.get<AppHostActions>();
     final hostServices = ProfileHostServices(

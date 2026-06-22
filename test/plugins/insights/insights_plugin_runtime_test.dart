@@ -199,7 +199,7 @@ void _seedAnalysisStore(
       sourceLabel: 'Test source',
       origin: subjectId == 'self'
           ? AnalysisSubjectOrigin.self
-          : const AnalysisSubjectOrigin('follow'),
+          : const AnalysisSubjectOrigin('remote'),
     ),
   );
 }

@@ -10,10 +10,15 @@ import io.flutter.plugin.common.MethodChannel
 object FloatingSurfaceBridge {
     private const val CHANNEL = "com.metaguru.smartxdrip/floating_surface"
     private var lastPayloadSignature: String? = null
+    private var channel: MethodChannel? = null
 
     fun configure(flutterEngine: FlutterEngine, context: Context) {
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
-            .setMethodCallHandler { call, result ->
+        val methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+        channel = methodChannel
+        FloatingSurfaceActionBus.configure { action ->
+            methodChannel.invokeMethod("nativeAction", action)
+        }
+        methodChannel.setMethodCallHandler { call, result ->
                 when (call.method) {
                     "hasOverlayPermission" -> result.success(Settings.canDrawOverlays(context))
                     "requestOverlayPermission" -> {

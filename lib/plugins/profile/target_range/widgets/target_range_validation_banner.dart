@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/profile_l10n.dart';
 import '../editing/target_range_validation_result.dart';
 
 class TargetRangeValidationBanner extends StatelessWidget {
@@ -33,7 +34,7 @@ class TargetRangeValidationBanner extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              validation.message,
+              _message(context),
               style: const TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 11.5,
@@ -45,5 +46,23 @@ class TargetRangeValidationBanner extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _message(BuildContext context) {
+    final reason = validation.reason;
+    final l10n = context.profileL10n;
+    return switch (reason) {
+      TargetRangeValidationReason.lowTooCloseToHigh =>
+        l10n.targetRangeLowHighGapMessage(
+          validation.gapLabel,
+          validation.unitLabel,
+        ),
+      TargetRangeValidationReason.highTooCloseToVeryHigh =>
+        l10n.targetRangeHighVeryHighGapMessage(
+          validation.gapLabel,
+          validation.unitLabel,
+        ),
+      null => validation.message,
+    };
   }
 }

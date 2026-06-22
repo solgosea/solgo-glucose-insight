@@ -87,19 +87,27 @@ class ReportDailyCurveViewModel {
 }
 
 class ReportHeaderViewModel {
+  final String periodTitle;
   final String periodLabel;
   final String readingsLabel;
   final String coverageLabel;
+  final String dataSourceTitle;
   final String dataSourceLabel;
+  final String targetRangeTitle;
   final String targetRangeLabel;
+  final String generatedTitle;
   final String generatedLabel;
 
   const ReportHeaderViewModel({
+    required this.periodTitle,
     required this.periodLabel,
     required this.readingsLabel,
     required this.coverageLabel,
+    required this.dataSourceTitle,
     required this.dataSourceLabel,
+    required this.targetRangeTitle,
     required this.targetRangeLabel,
+    required this.generatedTitle,
     required this.generatedLabel,
   });
 }

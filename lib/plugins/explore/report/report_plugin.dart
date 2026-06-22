@@ -16,18 +16,22 @@ import 'application/report_snapshot_preheater.dart';
 import 'pages/report_page.dart';
 import 'runtime/report_plugin_runtime.dart';
 import 'runtime/report_runtime_cache.dart';
+import 'application/i18n/report_entry_localizer.dart';
+import 'application/i18n/report_l10n_resolver.dart';
 
 class ReportPlugin extends SmartFeaturePlugin {
   const ReportPlugin();
+
+  static final _strings = ReportL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('explore.report');
 
   @override
-  String get title => 'Glucose Report';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'AGP-style local report with PDF export.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -47,17 +51,17 @@ class ReportPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: ExploreSlots.card,
           renderKey: '/explore/report',
-          title: 'Glucose Report',
+          title: _strings.pluginTitle,
           order: 210,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  ExplorePluginEntry get exploreEntry => const ExplorePluginEntry(
+  ExplorePluginEntry get exploreEntry => ExplorePluginEntry(
         section: 'GLUCOSE PROFILE',
-        title: 'Glucose Report',
-        subtitle: 'AGP-style PDF export',
+        title: _strings.pluginTitle,
+        subtitle: _strings.pluginTitle,
         route: '/explore/report',
         icon: Icons.description_rounded,
         order: 210,
@@ -73,6 +77,7 @@ class ReportPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const ReportEntryLocalizer());
     final cache = ReportRuntimeCache();
     final runtime = ReportPluginRuntime(
       cache: cache,

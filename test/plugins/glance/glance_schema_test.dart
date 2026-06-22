@@ -21,5 +21,14 @@ void main() {
 
     expect(names, contains(GlanceTables.widgetConfigs));
     expect(names, contains(GlanceTables.notificationSettings));
+
+    final floatingColumns = await db.rawQuery(
+      'PRAGMA table_info(${GlanceTables.floatingSettings})',
+    );
+    final floatingColumnNames =
+        floatingColumns.map((row) => row['name']).toSet();
+    expect(floatingColumnNames, contains('size_preset'));
+    expect(floatingColumnNames, contains('form_factor'));
+    expect(floatingColumnNames, contains('preset_source'));
   });
 }

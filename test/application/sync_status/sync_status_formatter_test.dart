@@ -15,7 +15,7 @@ void main() {
         lastSuccessAt: DateTime.now().subtract(const Duration(minutes: 5)),
       );
 
-      expect(formatter.compactText(snapshot), 'xDrip+ Local - 5 min ago');
+      expect(formatter.compactText(snapshot), 'xDrip+ Local - 5m');
     });
 
     test('does not pretend unconfigured inactive sources are syncing', () {

@@ -22,18 +22,22 @@ import 'composition/settings_slots.dart';
 import 'pages/settings_page.dart';
 import 'runtime/settings_plugin_runtime.dart';
 import 'runtime/settings_runtime_cache.dart';
+import 'application/i18n/settings_l10n_resolver.dart';
+import 'application/i18n/settings_entry_localizer.dart';
 
 class SettingsPlugin extends SmartFeaturePlugin {
   const SettingsPlugin();
+
+  static final _strings = SettingsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('core.settings');
 
   @override
-  String get title => 'Settings';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Display, sync, storage, and export settings.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -57,17 +61,17 @@ class SettingsPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: ProfileSlots.section,
           renderKey: 'App Settings',
-          title: 'Settings',
+          title: _strings.pluginTitle,
           order: 40,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get profileEntry => const SectionPluginEntry(
+  SectionPluginEntry get profileEntry => SectionPluginEntry(
         section: 'App Settings',
-        title: 'Settings',
-        subtitle: 'Display, sync window, storage, export',
+        title: _strings.pluginTitle,
+        subtitle: _strings.pluginTitle,
         order: 40,
       );
 
@@ -81,6 +85,7 @@ class SettingsPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const SettingsEntryLocalizer());
     final host = context.services.get<AppHostServices>();
     final actions = context.services.get<AppHostActions>();
     final hostServices = SettingsHostServices(

@@ -10,19 +10,23 @@ import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../../../plugin_platform/rendering/plugin_renderable.dart';
 import '../composition/settings_slots.dart';
 import '../widgets/settings_about_block.dart';
-import '../widgets/settings_render_scope.dart';
+import '../widgets/settings_render_scope.dart';
+import '../application/i18n/settings_l10n_resolver.dart';
+import '../application/i18n/settings_entry_localizer.dart';
 
 class SettingsAboutPlugin extends SmartFeaturePlugin {
   const SettingsAboutPlugin();
+
+  static final _strings = SettingsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('settings.about');
 
   @override
-  String get title => 'About';
+  String get title => _strings.settingsAboutTitle;
 
   @override
-  String get description => 'Application metadata and support links.';
+  String get description => _strings.settingsAboutDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -40,17 +44,17 @@ class SettingsAboutPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: SettingsSlots.section,
           renderKey: 'About',
-          title: 'About',
+          title: _strings.settingsAboutTitle,
           order: 60,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get settingsEntry => const SectionPluginEntry(
+  SectionPluginEntry get settingsEntry => SectionPluginEntry(
         section: 'About',
-        title: 'About',
-        subtitle: 'Application information',
+        title: _strings.settingsAboutTitle,
+        subtitle: _strings.settingsAboutTitle,
         order: 60,
       );
 
@@ -59,12 +63,13 @@ class SettingsAboutPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const SettingsEntryLocalizer());
     context.compositionRegistry.register(
       PluginRenderable(
         pluginId: id,
         slot: SettingsSlots.section,
         renderKey: 'settings.about.section',
-        title: 'About',
+        title: _strings.settingsAboutTitle,
         order: 60,
         builder: (renderContext) {
           final scope = SettingsRenderScope.of(renderContext.buildContext);

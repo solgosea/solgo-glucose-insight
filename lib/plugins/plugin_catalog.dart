@@ -10,6 +10,7 @@ import 'statistics/statistics_plugin.dart';
 import 'explore/high_episode/high_episode_plugin.dart';
 import 'explore/low_episode/low_episode_plugin.dart';
 import 'explore/report/report_plugin.dart';
+import 'explore/status_monitor/status_monitor_plugin.dart';
 import 'glance/glance_plugin.dart';
 import 'home/home_header_widget_plugin.dart';
 import 'home/home_hero_widget_plugin.dart';
@@ -54,6 +55,7 @@ const pluginCatalog = <SmartFeaturePlugin>[
   SourceHealthTaskPlugin(),
   GlucoseSyncTaskPlugin(),
   InsightsPlugin(),
+  StatusMonitorPlugin(),
   ReportPlugin(),
   HighEpisodePlugin(),
   LowEpisodePlugin(),

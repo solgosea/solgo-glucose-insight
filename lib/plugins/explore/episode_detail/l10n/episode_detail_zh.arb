@@ -1,0 +1,411 @@
+﻿{
+    "@@locale":  "zh",
+    "pluginTitle":  "事件详情",
+    "pluginSubtitle":  "高/低血糖事件解读与报告。",
+    "pluginDescription":  "高/低血糖事件解读与报告。",
+    "pluginReportTitle":  "事件详情报告",
+    "reportBrandName": "Solgo Insight",
+    "pluginLoading":  "加载中",
+    "pluginNoData":  "暂无可用数据。",
+    "pluginUnavailable":  "不可用",
+    "retry":  "重试",
+    "dataQuality":  "数据质量",
+    "highEpisodeTitle": "高血糖事件",
+    "lowEpisodeTitle": "低血糖事件",
+    "noMatchingHighEpisode": "没有匹配的高血糖事件",
+    "noMatchingLowEpisode": "没有匹配的低血糖事件",
+    "noRecentHighEpisode": "近期没有高血糖事件",
+    "noRecentLowEpisode": "近期没有低血糖事件",
+    "monthJan": "1月",
+    "monthFeb": "2月",
+    "monthMar": "3月",
+    "monthApr": "4月",
+    "monthMay": "5月",
+    "monthJun": "6月",
+    "monthJul": "7月",
+    "monthAug": "8月",
+    "monthSep": "9月",
+    "monthOct": "10月",
+    "monthNov": "11月",
+    "monthDec": "12月",
+    "episodeTimeline": "事件时间线",
+    "cgmContextBeforeEpisode": "CGM 背景 · 事件前 2 小时",
+    "patternAnalysis": "模式分析",
+    "repeatByTimeOfDay": "按时段查看重复",
+    "episodeCount": "事件次数",
+    "highDriverDuration":  "持续时间是主要负担驱动。",
+    "timeBelowRange":  "低于范围时间",
+    "visibleInWindow":  "窗口内可见",
+    "lowDriverMixed":  "该事件呈现混合低血糖负担特征。",
+    "toAboveLowThreshold":  "到高于低血糖阈值",
+    "highEpisodeReportTitle":  "高血糖事件报告",
+    "returnLabel":  "回落",
+    "lowReportContextBody":  "除非有记录，本报告无法判断压迫性低血糖、饮食、胰岛素、活动、校准或传感器特定背景。",
+    "printSave":  "打印 / 保存",
+    "highDriverRepeat":  "重复时段是主要复查信号。",
+    "lowTime":  "低血糖时间",
+    "highDriverMixed":  "该事件呈现混合负担特征。",
+    "lowDriverNadir":  "最低点是主要低血糖负担驱动。",
+    "largestGap":  "最大间隔",
+    "representativeEpisodeCurve":  "代表性事件曲线",
+    "highDriverSlowRecovery":  "缓慢恢复是主要负担驱动。",
+    "highExposureSummary":  "高血糖暴露摘要",
+    "lowestValue":  "最低值",
+    "lowExposureSummary":  "低血糖暴露摘要",
+    "highReportNoCauseBody":  "如有相关信息，请结合饮食、胰岛素、活动、输注部位变化、压力和传感器状态一起查看。",
+    "episodeLifecycle":  "事件生命周期",
+    "toBelowHighThreshold":  "到低于高血糖阈值",
+    "medianRecovery":  "中位恢复时间",
+    "repeatPattern":  "重复模式",
+    "belowLowThreshold":  "低于低血糖阈值",
+    "timeAboveRange":  "高于范围时间",
+    "nadir":  "最低点",
+    "detectedEvents":  "检测到的事件",
+    "highReportDisclaimer":  "本地报告。在设备上生成，仅在你选择时分享。本报告只观察高血糖事件，不是医疗建议，也不能替代 CGM 警报、xDrip+、Nightscout 或医疗团队指导。",
+    "betweenReadings":  "读数之间",
+    "coverage":  "覆盖率",
+    "lowDriverRepeat":  "重复时段是主要复查信号。",
+    "lowEpisodeReportTitle":  "低血糖事件报告",
+    "backToEpisode":  "返回事件",
+    "confidence":  "可信度",
+    "share":  "分享",
+    "lowDriverNocturnal":  "夜间时段是主要复查信号。",
+    "highestPeak":  "最高峰值",
+    "lowReportDisclaimer":  "本地报告。在设备上生成，仅在你选择时分享。本报告只观察低血糖事件，不是医疗建议，也不能替代 CGM 警报、xDrip+、Nightscout 或医疗团队指导。",
+    "highDriverFastRise":  "快速上升是主要负担驱动。",
+    "repeatTimingVisible":  "可看到重复时段。",
+    "highReportAboveRangeDuration": "代表性事件高于范围持续了 {duration}。",
+    "@highReportAboveRangeDuration": {
+        "placeholders": {
+            "duration": {"type": "String"}
+        }
+    },
+    "lowReportBelowRangeDuration": "代表性事件低于范围持续了 {duration}。",
+    "@lowReportBelowRangeDuration": {
+        "placeholders": {
+            "duration": {"type": "String"}
+        }
+    },
+    "lowReportBelowRangeDurationNadir": "代表性事件低于范围持续了 {duration}，最低到 {nadir}。",
+    "@lowReportBelowRangeDurationNadir": {
+        "placeholders": {
+            "duration": {"type": "String"},
+            "nadir": {"type": "String"}
+        }
+    },
+    "highReportRepeatCount": "过去 {days} 天出现了 {count} 次高血糖事件。",
+    "@highReportRepeatCount": {
+        "placeholders": {
+            "count": {"type": "String"},
+            "days": {"type": "int"}
+        }
+    },
+    "lowReportRepeatCount": "过去 {days} 天出现了 {count} 次低血糖事件。",
+    "@lowReportRepeatCount": {
+        "placeholders": {
+            "count": {"type": "String"},
+            "days": {"type": "int"}
+        }
+    },
+    "repeatTimingInsufficientData": "重复模式数据不足，暂时无法形成明确的时段提示。",
+    "readings":  "读数",
+    "descent":  "下降",
+    "duration":  "持续时间",
+    "lowDriverSlowRecovery":  "缓慢恢复是主要复查信号。",
+    "exporting":  "导出中...",
+    "recovery":  "恢复",
+    "lowReportContextTitle":  "需要结合背景理解。",
+    "repeatTimingLimited":  "重复时段证据有限。",
+    "highEpisodes":  "高血糖事件",
+    "lowDriverFastDescent":  "快速下降是主要低血糖负担驱动。",
+    "medianReturn":  "中位回落时间",
+    "couldNotExportReport":  "无法导出报告",
+    "rise":  "上升",
+    "highDriverPeak":  "峰值是主要负担驱动。",
+    "episodeWindow":  "事件窗口",
+    "baseline":  "基线",
+    "peak":  "峰值",
+    "insufficientData":  "数据不足",
+    "lowEpisodes":  "低血糖事件",
+    "highReportNoCauseTitle":  "本报告不推断原因。",
+    "lowDriverDuration":  "持续时间是主要低血糖负担驱动。",
+    "reviewNotes":  "复查要点",
+    "episodeReview":  "事件复查",
+    "selectedLowUnavailable":  "所选低血糖事件可能已不可用。",
+    "selectedHighUnavailable":  "所选高血糖事件可能已不可用。",
+    "couldNotBuildReport":  "无法生成此报告",
+    "areaAboveTarget":  "高于目标面积",
+    "descentRate":  "下降速率",
+    "preOnsetBaseline":  "发生前基线",
+    "nadirValue":  "最低值",
+    "exposure":  "暴露",
+    "nadirVsUsualDailyNadir":  "最低点 vs 日常最低点",
+    "dropPerMinute":  "下降/分钟",
+    "similarEpisodes":  "相似事件",
+    "peakVsUsualDailyPeak":  "峰值 vs 日常峰值",
+    "preEpisodeBaseline":  "事件前基线",
+    "peakValue":  "峰值",
+    "areaBelowTarget":  "低于目标面积",
+    "area":  "面积",
+    "onsetRate":  "起始速率",
+    "recovered":  "已恢复",
+    "nadirGap":  "最低点差值",
+    "episodeSummary":  "事件摘要",
+    "episodeChart":  "事件图表",
+    "previewReport":  "预览报告",
+    "noReportAvailable":  "暂无可用报告",
+    "backToLatestEpisode":  "返回最新事件",
+    "reviewPriority":  "复查优先级",
+    "notVisible":  "不可见",
+    "value":  "数值",
+    "thirtyDayOccurrenceStrip":  "30 天出现条带",
+    "olderToToday":  "较早 -> 今天",
+    "noEpisode":  "无事件",
+    "episode":  "事件",
+    "current":  "当前",
+    "personalContext":  "个人背景",
+    "burdenBreakdown":  "负担拆解",
+    "mainDriver":  "主要驱动",
+    "recoveryQuality":  "恢复质量",
+    "belowTarget":  "低于目标",
+    "whyReview":  "为什么复查",
+    "night":  "夜间",
+    "returnedInRange":  "已回到范围",
+    "recoveryNotVisible":  "未看到恢复",
+    "recoveredAt":  "恢复于 {time}",
+    "@recoveredAt":  {
+                         "placeholders":  {
+                                              "time":  {
+
+                                                       }
+                                          }
+                     },
+    "note":  "备注",
+    "veryHigh": "非常高",
+    "veryLow": "非常低",
+    "none": "无",
+    "high": "高",
+    "low": "低",
+    "strongHigh": "明显高",
+    "similarVerySimilar": "非常相似",
+    "similarSimilar": "相似",
+    "similarLooseMatch": "弱匹配",
+    "clusterNight": "夜间聚集",
+    "clusterAm": "上午聚集",
+    "clusterPm": "下午聚集",
+    "clusterEvening": "晚间聚集",
+    "focusedMissingEpisode": "未找到匹配的{kind}事件{time}。",
+    "@focusedMissingEpisode": {
+      "placeholders": {
+        "kind": {},
+        "time": {}
+      }
+    },
+    "focusedMissingTime": "，时间 {time}",
+    "@focusedMissingTime": {
+      "placeholders": {
+        "time": {}
+      }
+    },
+    "unknown": "未知",
+    "priorityInfo": "信息",
+    "priorityNotable": "值得关注",
+    "priorityImportant": "重要",
+    "driverPeak": "峰值",
+    "driverDuration": "持续时间",
+    "driverFastRise": "快速上升",
+    "driverSlowRecovery": "恢复较慢",
+    "driverRepeatTiming": "重复时段",
+    "driverMixedSignals": "混合信号",
+    "confidenceHigh": "高置信度",
+    "confidenceMedium": "中等置信度",
+    "confidenceLow": "低置信度",
+    "driverNadir": "最低值",
+    "driverFastDescent": "快速下降",
+    "driverNocturnalTiming": "夜间时段",
+    "recoveryQuick": "快速",
+    "recoveryGradual": "逐步",
+    "recoverySlow": "缓慢",
+    "usualRate": "通常 {rate}",
+    "@usualRate": {
+      "placeholders": {
+        "rate": {}
+      }
+    },
+    "similarEpisodesPastDays": "相似事件（过去 {days} 天）",
+    "@similarEpisodesPastDays": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "similarEmptyPast30": "过去 30 天未找到相似事件。",
+    "similarChartNote": "在图表上滑动可吸附到最近事件。X 轴是一天中的时间，Y 轴是{metric}血糖，气泡大小表示持续时间。",
+    "@similarChartNote": {
+      "placeholders": {
+        "metric": {}
+      }
+    },
+    "reportRepresentative": "具有代表性",
+    "reportLimited": "有限",
+    "reportInsufficient": "数据不足",
+    "episodeTimeUnavailable": "事件时间不可用",
+    "similarHighs": "相似高血糖",
+    "pastDays": "过去 {days} 天",
+    "@pastDays": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "medianPeak": "峰值中位数",
+    "glucosePeak": "血糖峰值",
+    "medianDuration": "持续时间中位数",
+    "aboveRange": "高于范围",
+    "belowRange": "低于范围",
+    "pdfPreviewSuffix": "PDF 预览",
+    "reportPeriod": "报告周期",
+    "episodeAnalyzed": "分析事件",
+    "reportGenerated": "生成时间",
+    "reportDataSource": "数据源",
+    "thresholds": "阈值",
+    "episodeView": "事件视图",
+    "sequence": "顺序",
+    "past30Days": "过去 30 天",
+    "timeVsPeak": "时间 vs 峰值",
+    "highReportHeroSummary": "聚焦高血糖暴露的报告，包含事件曲线、峰值、持续时间、回到范围、重复时段、相似事件和数据质量。",
+    "lowReportHeroSummary": "聚焦低血糖暴露的报告，包含事件曲线、最低值、持续时间、下降、恢复、重复时段和数据质量。",
+    "highThresholds": "高 >{high} / 极高 >{veryHigh}",
+    "@highThresholds": {
+      "placeholders": {
+        "high": {},
+        "veryHigh": {}
+      }
+    },
+    "lowThresholds": "低 <{low} / 极低 <{veryLow}",
+    "@lowThresholds": {
+      "placeholders": {
+        "low": {},
+        "veryLow": {}
+      }
+    },
+    "repeatLimitedPast30": "过去 30 天内重复模式有限。",
+    "start": "开始",
+    "recover": "恢复",
+    "overTarget": "高于目标 {amount}",
+    "@overTarget": {
+      "placeholders": {
+        "amount": {}
+      }
+    },
+    "returnTowardRange": "回到目标范围",
+    "baselineUnavailable": "基线不可用",
+    "baselineValue": "基线 {range}",
+    "@baselineValue": {
+      "placeholders": {
+        "range": {}
+      }
+    },
+    "above": "偏高",
+    "within": "范围内",
+    "stable": "稳定",
+    "rising": "上升",
+    "variable": "波动",
+    "dropping": "下降",
+    "fast": "较快",
+    "typical": "通常",
+    "lower": "更低",
+    "timeWindowVariability": "该时段波动性",
+    "variabilityLabel": "{label} 波动性",
+    "@variabilityLabel": {
+      "placeholders": {
+        "label": {}
+      }
+    },
+    "notEnoughHistory": "历史数据不足",
+    "cvRank": "CV {cv}% · 排名 {rank}/{total}",
+    "@cvRank": {
+      "placeholders": {
+        "cv": {},
+        "rank": {},
+        "total": {}
+      }
+    },
+    "samePartOfDay": "一天中的相似时段",
+    "dayWithRepeatedHighs": "天出现重复高血糖",
+    "daysWithRepeatedHighs": "天出现重复高血糖",
+    "dayWithRepeatedLows": "天出现重复低血糖",
+    "daysWithRepeatedLows": "天出现重复低血糖",
+    "noClearRepeat": "没有明显重复",
+    "patternTakeaway": "模式提示",
+    "timeBlockNight": "夜间",
+    "timeBlockDawn": "黎明",
+    "timeBlockMorning": "上午",
+    "timeBlockAfternoon": "下午",
+    "timeBlockEvening": "晚间",
+    "clusterTitle": "{label} 聚集",
+    "@clusterTitle": {
+      "placeholders": {
+        "label": {}
+      }
+    },
+    "repeatedHighsAround": "重复高血糖主要出现在 {label}{range}。",
+    "@repeatedHighsAround": {
+      "placeholders": {
+        "label": {},
+        "range": {}
+      }
+    },
+    "repeatedLowsAround": "重复低血糖主要出现在 {label}{range}。",
+    "@repeatedLowsAround": {
+      "placeholders": {
+        "label": {},
+        "range": {}
+      }
+    },
+    "visibleInWindow": "可见窗口内",
+    "peakRecovery": "峰值 + 恢复",
+    "peakOnly": "仅峰值",
+    "nadirRecovery": "最低值 + 恢复",
+    "nadirOnly": "仅最低值",
+    "partial": "部分",
+    "dataConfidence": "数据置信度",
+    "leadUpDescent": "前段下降",
+    "overnightSlope": "夜间斜率",
+    "daytimeSlope": "日间斜率",
+    "usualUnavailable": "通常水平不可用",
+    "noCluster": "没有聚集",
+    "peakGlucose": "峰值血糖",
+    "nadirGlucose": "最低血糖",
+    "similarCount": "{count} 个相似",
+    "@similarCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "noMedian": "无中位数",
+    "minutesMedian": "{minutes} 分钟中位数",
+    "@minutesMedian": {
+      "placeholders": {
+        "minutes": {}
+      }
+    },
+    "noMedianValue": "无中位数值",
+    "valueMedian": "{value} 中位数",
+    "@valueMedian": {
+      "placeholders": {
+        "value": {}
+      }
+    },
+    "selectedDate": "已选择 · {date}",
+    "@selectedDate": {
+      "placeholders": {
+        "date": {}
+      }
+    },
+    "selectedEpisode": "{range} · {kind}事件",
+    "@selectedEpisode": {
+      "placeholders": {
+        "range": {},
+        "kind": {}
+      }
+    }
+}

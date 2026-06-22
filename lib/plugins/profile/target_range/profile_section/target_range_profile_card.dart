@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/profile_l10n.dart';
 import 'target_range_profile_view_model.dart';
 
 class TargetRangeProfileCard extends StatelessWidget {
@@ -64,6 +65,7 @@ class _TargetHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     final parts = _splitValueAndUnit(target.valueLabel);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,9 +85,9 @@ class _TargetHero extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'TARGET RANGE',
-                style: TextStyle(
+              Text(
+                l10n.targetRangeInRangeTarget,
+                style: const TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 9.5,
                   fontWeight: FontWeight.w700,
@@ -167,6 +169,11 @@ class _ThresholdGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = <Color>[AppColors.blue, AppColors.amber, AppColors.rose];
+    final labels = [
+      context.profileL10n.targetRangeLowLabel,
+      context.profileL10n.targetRangeHighLabel,
+      context.profileL10n.targetRangeVeryHighLabel,
+    ];
     return Row(
       children: [
         for (var i = 0; i < thresholds.length; i++) ...[
@@ -175,6 +182,7 @@ class _ThresholdGrid extends StatelessWidget {
             child: _ThresholdTile(
               range: thresholds[i],
               accent: colors[i.clamp(0, colors.length - 1)],
+              shortLabel: labels[i.clamp(0, labels.length - 1)],
             ),
           ),
         ],
@@ -186,19 +194,13 @@ class _ThresholdGrid extends StatelessWidget {
 class _ThresholdTile extends StatelessWidget {
   final TargetRangeProfileRowViewModel range;
   final Color accent;
+  final String shortLabel;
 
   const _ThresholdTile({
     required this.range,
     required this.accent,
+    required this.shortLabel,
   });
-
-  String get _shortLabel {
-    final lower = range.label.toLowerCase();
-    if (lower.contains('very')) return 'VERY HIGH';
-    if (lower.contains('high')) return 'HIGH';
-    if (lower.contains('low')) return 'LOW';
-    return range.label.toUpperCase();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +217,7 @@ class _ThresholdTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            _shortLabel,
+            shortLabel,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

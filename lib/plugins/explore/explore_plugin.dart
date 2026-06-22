@@ -19,19 +19,23 @@ import 'application/explore_entry_state_refresh_service.dart';
 import 'composition/explore_slots.dart';
 import 'pages/explore_page.dart';
 import 'runtime/explore_entry_state_store.dart';
-import 'runtime/explore_plugin_runtime.dart';
+import 'runtime/explore_plugin_runtime.dart';
+import 'application/i18n/explore_l10n_resolver.dart';
+import 'application/i18n/explore_entry_localizer.dart';
 
 class ExplorePlugin extends SmartFeaturePlugin {
   const ExplorePlugin();
+
+  static final _strings = ExploreL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('core.explore');
 
   @override
-  String get title => 'Explore';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Container for optional analysis plugins.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -54,15 +58,15 @@ class ExplorePlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.mainTab'),
           renderKey: '/explore',
-          title: 'Explore',
+          title: _strings.pluginTitle,
           order: 30,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  MainTabPluginEntry get mainTabEntry => const MainTabPluginEntry(
-        label: 'Explore',
+  MainTabPluginEntry get mainTabEntry => MainTabPluginEntry(
+        label: _strings.pluginTitle,
         route: '/explore',
         icon: Icons.search_outlined,
         activeIcon: Icons.search,
@@ -76,6 +80,7 @@ class ExplorePlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const ExploreEntryLocalizer());
     final store = ExploreEntryStateStore();
     final runtime = ExplorePluginRuntime(
       store: store,

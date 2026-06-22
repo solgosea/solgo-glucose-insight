@@ -3,6 +3,7 @@ import '../../../../../foundation/theme/app_colors.dart';
 import '../../../../../domain/entities/app_settings.dart';
 import '../../../../../domain/entities/glucose_reading.dart';
 import '../../../../presentation/common/widgets/charts/glucose_line_chart.dart';
+import '../application/i18n/episode_detail_l10n.dart';
 import '../widgets/low_shared/low_episode_style.dart';
 
 /// Card wrapping the GlucoseLineChart for an episode page.
@@ -71,7 +72,7 @@ class _EpisodeChartCardState extends State<EpisodeChartCard> {
             opacity: _inspecting ? 0.48 : 1,
             duration: const Duration(milliseconds: 140),
             child: Text(
-              'EPISODE TIMELINE',
+              context.episodeDetailL10n.episodeTimeline.toUpperCase(),
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
                 fontSize: 9,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/presentation/common/widgets/section_label.dart';
+import '../application/i18n/history_l10n.dart';
 import '../models/history_view_model.dart';
 import 'history_curve_card.dart';
 import 'history_date_nav.dart';
@@ -59,7 +60,7 @@ class HistoryBody extends StatelessWidget {
               callouts: viewModel.episodeCallouts,
               onRouteSelected: onRouteSelected,
             ),
-            const SectionLabel('GLUCOSE EVENTS'),
+            SectionLabel(context.historyL10n.eventsSectionTitle),
             HistoryEventsList(events: viewModel.events),
           ],
         ),

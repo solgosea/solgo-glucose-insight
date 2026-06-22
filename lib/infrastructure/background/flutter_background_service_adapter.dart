@@ -90,13 +90,6 @@ class FlutterBackgroundServiceAdapter {
     _service.invoke(BackgroundServiceCommands.runOnce);
   }
 
-  Future<void> stopFollowAlertSound({
-    required String personId,
-    required String type,
-  }) async {
-    await stopAlertTarget(targetId: personId, type: type);
-  }
-
   Future<void> dispatchAlertActuatorCommand(
     AlertActuatorCommand command,
   ) async {

@@ -10,19 +10,23 @@ import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../../../plugin_platform/rendering/plugin_renderable.dart';
 import '../composition/settings_slots.dart';
 import '../widgets/settings_danger_card.dart';
-import '../widgets/settings_render_scope.dart';
+import '../widgets/settings_render_scope.dart';
+import '../application/i18n/settings_l10n_resolver.dart';
+import '../application/i18n/settings_entry_localizer.dart';
 
 class SettingsDangerPlugin extends SmartFeaturePlugin {
   const SettingsDangerPlugin();
+
+  static final _strings = SettingsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('settings.danger');
 
   @override
-  String get title => 'Danger Zone';
+  String get title => _strings.settingsDangerTitle;
 
   @override
-  String get description => 'Destructive local data actions.';
+  String get description => _strings.settingsDangerDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -42,17 +46,17 @@ class SettingsDangerPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: SettingsSlots.section,
           renderKey: 'Danger Zone',
-          title: 'Danger Zone',
+          title: _strings.settingsDangerTitle,
           order: 50,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get settingsEntry => const SectionPluginEntry(
+  SectionPluginEntry get settingsEntry => SectionPluginEntry(
         section: 'Danger Zone',
-        title: 'Danger Zone',
-        subtitle: 'Local data reset actions',
+        title: _strings.settingsDangerTitle,
+        subtitle: _strings.settingsDangerTitle,
         order: 50,
       );
 
@@ -61,12 +65,13 @@ class SettingsDangerPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const SettingsEntryLocalizer());
     context.compositionRegistry.register(
       PluginRenderable(
         pluginId: id,
         slot: SettingsSlots.section,
         renderKey: 'settings.danger.section',
-        title: 'Danger Zone',
+        title: _strings.settingsDangerTitle,
         order: 50,
         builder: (renderContext) {
           final scope = SettingsRenderScope.of(renderContext.buildContext);

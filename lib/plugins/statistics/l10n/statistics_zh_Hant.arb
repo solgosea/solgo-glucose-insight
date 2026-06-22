@@ -1,0 +1,59 @@
+﻿{
+    "@@locale":  "zh_Hant",
+    "pluginTitle":  "統計",
+    "pluginSubtitle":  "血糖指標、TIR、AGP 與熱力圖。",
+    "pluginDescription":  "血糖指標、TIR、AGP 與熱力圖。",
+    "pluginReportTitle":  "統計報告",
+    "pluginLoading":  "載入中",
+    "pluginNoData":  "暫無可用資料。",
+    "pluginUnavailable":  "不可用",
+    "pageTitle":  "統計",
+    "exportAction":  "匯出 -\u003e",
+    "tirBreakdownTitle":  "目標範圍時間分布",
+    "agpTitle":  "AGP - 動態葡萄糖概覽 - {window} 模式",
+    "@agpTitle":  {
+                      "placeholders":  {
+                                           "window":  {
+                                                          "type":  "String"
+                                                      }
+                                       }
+                  },
+    "agpAnnotationDawn":  "黎明",
+    "agpAnnotationPhenomenon":  "現象",
+    "periodNight": "夜间",
+    "periodMorning": "上午",
+    "periodAfternoon": "下午",
+    "periodEvening": "晚间",
+    "minutesPerDay":  "约 {minutes} 分钟/天",
+    "@minutesPerDay":  {
+                           "placeholders":  {
+                                                "minutes":  {
+
+                                                            }
+                                            }
+                       },
+    "windowShortLast24Hours": "24小時",
+    "windowShortLast3Days": "3天",
+    "windowShortLast7Days": "7天",
+    "windowShortLast14Days": "14天",
+    "windowShortLast30Days": "30天",
+    "windowShortLast90Days": "90天",
+    "windowHeaderLast24Hours": "過去 24 小時",
+    "windowHeaderLast3Days": "過去 3 天",
+    "windowHeaderLast7Days": "過去 7 天",
+    "windowHeaderLast14Days": "過去 14 天",
+    "windowHeaderLast30Days": "過去 30 天",
+    "windowHeaderLast90Days": "過去 90 天",
+    "deltaSame": "持平",
+    "deltaVsPrevious": "較上一 {window} {delta}",
+    "@deltaVsPrevious": {
+        "placeholders": {
+            "delta": {
+                "type": "String"
+            },
+            "window": {
+                "type": "String"
+            }
+        }
+    }
+}

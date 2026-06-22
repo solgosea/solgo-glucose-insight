@@ -11,6 +11,7 @@ class SettingsBody extends StatelessWidget {
   final SettingsViewModel viewModel;
   final VoidCallback onBack;
   final VoidCallback onPickUnit;
+  final VoidCallback onPickLanguage;
   final VoidCallback onPickInitialSyncWindow;
   final VoidCallback onExportCsv;
   final VoidCallback onClearAllData;
@@ -20,6 +21,7 @@ class SettingsBody extends StatelessWidget {
     required this.viewModel,
     required this.onBack,
     required this.onPickUnit,
+    required this.onPickLanguage,
     required this.onPickInitialSyncWindow,
     required this.onExportCsv,
     required this.onClearAllData,
@@ -39,6 +41,7 @@ class SettingsBody extends StatelessWidget {
               SettingsRenderScope(
                 viewModel: viewModel,
                 onPickUnit: onPickUnit,
+                onPickLanguage: onPickLanguage,
                 onPickInitialSyncWindow: onPickInitialSyncWindow,
                 onExportCsv: onExportCsv,
                 onClearAllData: onClearAllData,

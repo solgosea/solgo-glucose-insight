@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
+import '../application/i18n/home_l10n.dart';
 import '../application/home_host_services.dart';
 import '../controllers/home_controller.dart';
 import '../runtime/home_plugin_runtime.dart';
@@ -30,7 +31,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_initialized) return;
+    if (_initialized) {
+      _controller.updateLocale(context.homeL10n);
+      return;
+    }
     _initialized = true;
     final services = context.read<PluginServiceRegistry>();
     unawaited(
@@ -41,6 +45,7 @@ class _HomePageState extends State<HomePage> {
       runtimeCache: services.get<HomeRuntimeCache>(),
       runtime: services.get<HomePluginRuntime>(),
     );
+    _controller.updateLocale(context.homeL10n);
     _controller.init();
   }
 

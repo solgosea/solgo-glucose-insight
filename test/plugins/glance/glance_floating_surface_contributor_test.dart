@@ -2,6 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/domain/entities/glucose_reading.dart';
 import 'package:smart_xdrip/plugins/glance/application/floating/glance_floating_surface_contributor.dart';
+import 'package:smart_xdrip/plugins/glance/domain/floating/floating_glance_form_factor.dart';
+import 'package:smart_xdrip/plugins/glance/domain/floating/floating_glance_preset_source.dart';
+import 'package:smart_xdrip/plugins/glance/domain/floating/floating_glance_settings.dart';
+import 'package:smart_xdrip/plugins/glance/domain/floating/floating_glance_size_preset.dart';
 import 'package:smart_xdrip/plugins/glance/domain/glance_freshness.dart';
 import 'package:smart_xdrip/plugins/glance/domain/glance_range_state.dart';
 import 'package:smart_xdrip/plugins/glance/domain/glance_snapshot.dart';
@@ -29,6 +33,11 @@ void main() {
         targetHighMmol: 10,
         tir24h: const GlanceTirSummary(tirPercent: 78, readingCount: 12),
       ),
+      settings: const FloatingGlanceSettings(
+        sizePreset: FloatingGlanceSizePreset.large,
+        formFactor: FloatingGlanceFormFactor.card,
+        presetSource: FloatingGlancePresetSource.user,
+      ),
     );
 
     expect(segment.id, 'glance');
@@ -36,5 +45,8 @@ void main() {
     expect(segment.primaryText, '7.2 mmol/L');
     expect(segment.secondaryText, 'TIR 78%');
     expect(segment.level, 'healthy');
+    expect(segment.data['sizePreset'], 'large');
+    expect(segment.data['formFactor'], 'card');
+    expect(segment.data['presetSource'], 'user');
   });
 }

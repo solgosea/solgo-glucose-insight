@@ -13,18 +13,21 @@ import '../../plugin_platform/rendering/plugin_renderable.dart';
 import 'composition/home_slots.dart';
 import 'widgets/home_range_chart_card.dart';
 import 'widgets/home_render_scope.dart';
+import 'application/i18n/home_l10n_resolver.dart';
 
 class HomeRangeChartWidgetPlugin extends SmartFeaturePlugin {
   const HomeRangeChartWidgetPlugin();
+
+  static final _strings = HomeL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('home.range_chart');
 
   @override
-  String get title => 'Range Chart';
+  String get title => _strings.homeRangeChartTitle;
 
   @override
-  String get description => 'Recent glucose range chart.';
+  String get description => _strings.homeRangeChartDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -43,17 +46,17 @@ class HomeRangeChartWidgetPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: HomeSlots.widget,
           renderKey: 'home.range_chart',
-          title: 'Range Chart',
+          title: _strings.homeRangeChartTitle,
           order: 30,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  HomeWidgetPluginEntry get homeWidgetEntry => const HomeWidgetPluginEntry(
+  HomeWidgetPluginEntry get homeWidgetEntry => HomeWidgetPluginEntry(
         widgetKey: 'home.range_chart',
-        title: 'Range Chart',
-        description: 'Recent glucose chart',
+        title: _strings.homeRangeChartTitle,
+        description: _strings.homeRangeChartSubtitle,
         order: 30,
       );
 
@@ -67,7 +70,7 @@ class HomeRangeChartWidgetPlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: HomeSlots.widget,
         renderKey: 'home.range_chart',
-        title: 'Range Chart',
+        title: _strings.homeRangeChartTitle,
         order: 30,
         builder: (renderContext) {
           final scope = HomeRenderScope.of(renderContext.buildContext);

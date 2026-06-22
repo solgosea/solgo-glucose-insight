@@ -1,0 +1,108 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Glucose Report",
+    "pluginSubtitle":  "Doctor-ready glucose report with print and share.",
+    "pluginDescription":  "Doctor-ready glucose report with print and share.",
+    "pluginReportTitle":  "Glucose Report Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "pageSubtitle": "AGP-standard - local - export to PDF or share",
+    "sectionKeyMetrics": "Key Metrics",
+    "sectionTimeInRanges": "Time in Ranges",
+    "sectionAgp": "Ambulatory Glucose Profile",
+    "sectionDailyCurves": "Daily Curves",
+    "sectionIncludeInReport": "Include in Report",
+    "sectionExport": "Export",
+    "reportDocumentTitle": "Glucose Report Document",
+    "reportWearLabel": "{wear}% wear",
+    "@reportWearLabel": {
+        "placeholders": {
+            "wear": {"type": "String"}
+        }
+    },
+    "headerPeriod": "Period",
+    "headerReadings": "Readings",
+    "headerCoverage": "Coverage",
+    "headerDataSource": "Data source",
+    "headerTargetRange": "Target range",
+    "headerGenerated": "Generated",
+    "exportPrivacyNote": "Reports are generated locally from CGM readings stored on this device. No insulin, carb, medication, or meal data is included.",
+    "exportDescription": "Doctor-ready PDF output packages this report for saving or sharing. The interactive report remains available in the app.",
+    "exportSavePdf": "Save as PDF",
+    "exportShareSend": "Share / Send",
+    "exportGenerating": "Generating...",
+    "metricTir": "TIR",
+    "metricAverage": "Avg",
+    "metricWear": "Wear",
+    "metricCv": "CV",
+    "metricGmi": "GMI",
+    "metricSd": "SD",
+    "metricTargetUnit": "target >=70%",
+    "metricOnTarget": "On target",
+    "metricBelowTarget": "Below target",
+    "metricSensorActive": "sensor active",
+    "metricCvTargetUnit": "target <36%",
+    "metricGmiUnit": "est. A1C",
+    "rangeVeryHigh": "Very High",
+    "rangeHigh": "High",
+    "rangeInRange": "In Range",
+    "rangeLow": "Low",
+    "rangeVeryLow": "Very Low",
+    "emptyNoReportData": "No report data yet. Connect xDrip+ Local or Nightscout API and sync readings first.",
+    "periodAnalysisInsufficient": "Insufficient data for period analysis.",
+    "episodeSummaryInsufficient": "Insufficient data for episode summary.",
+    "periodAnalysisSummary": "{bestPeriod} had the highest TIR ({bestTir}%). {variablePeriod} was the most variable period (CV {cv}%).",
+    "@periodAnalysisSummary": {
+        "placeholders": {
+            "bestPeriod": {"type": "String"},
+            "bestTir": {"type": "String"},
+            "variablePeriod": {"type": "String"},
+            "cv": {"type": "String"}
+        }
+    },
+    "episodeSummary": "{highCount} high episodes and {lowCount} low episodes were detected in this report window.",
+    "@episodeSummary": {
+        "placeholders": {
+            "highCount": {"type": "int"},
+            "lowCount": {"type": "int"}
+        }
+    },
+    "unitDays": "{days} days",
+    "@unitDays": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "unitReadings": "{count} readings",
+    "@unitReadings": {
+        "placeholders": {
+            "count": {"type": "String"}
+        }
+    },
+    "unitWearActive": "{wear}% wear - {minutes} active min",
+    "@unitWearActive": {
+        "placeholders": {
+            "wear": {"type": "String"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "toggleKeyMetricsTitle": "Key Metrics",
+    "toggleKeyMetricsSubtitle": "TIR, average, wear, CV and GMI",
+    "toggleAgpChartTitle": "AGP Chart",
+    "toggleAgpChartSubtitle": "24-hour percentile overlay",
+    "toggleDailyCurvesTitle": "Daily Curves",
+    "toggleDailyCurvesSubtitle": "Last 14 days with sparse-data marks",
+    "togglePeriodAnalysisTitle": "Period Analysis",
+    "togglePeriodAnalysisSubtitle": "Add day-part pattern summary",
+    "toggleEpisodesSummaryTitle": "Episodes Summary",
+    "toggleEpisodesSummarySubtitle": "Add low/high episode counts",
+    "sourceNightscoutXdrip": "Nightscout API + xDrip+ Local",
+    "sourceXdrip": "xDrip+ Local HTTP",
+    "sourceNightscout": "Nightscout API",
+    "sourceLocalCache": "Local canonical cache",
+    "sourceNoData": "No data source",
+    "agpOverlayLabel": "24-HOUR OVERLAY - ALL DAYS COMBINED",
+    "agpLegendMedian": "Median",
+    "agpLegendIqr": "IQR"
+}

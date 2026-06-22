@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../low_shared/low_episode_style.dart';
 import '../shared/episode_section_label.dart';
@@ -15,13 +16,14 @@ class LowEpisodeLifecycleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const EpisodeSectionLabel(
+        EpisodeSectionLabel(
           index: '03',
-          title: 'Episode lifecycle',
-          trailing: 'Sequence',
+          title: l10n.episodeLifecycle,
+          trailing: l10n.episodeWindow,
           accent: LowEpisodeStyle.blue,
         ),
         EpisodeSectionCard(

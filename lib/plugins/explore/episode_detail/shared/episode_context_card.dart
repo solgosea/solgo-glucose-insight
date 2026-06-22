@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../foundation/theme/app_colors.dart';
+import '../application/i18n/episode_detail_l10n.dart';
 
 /// One row of the CGM Context card.
 class EpisodeContextRow {
@@ -34,9 +35,9 @@ class EpisodeContextCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'CGM CONTEXT - 2H BEFORE EPISODE',
-            style: TextStyle(
+          Text(
+            context.episodeDetailL10n.cgmContextBeforeEpisode.toUpperCase(),
+            style: const TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 9,
               fontWeight: FontWeight.w600,

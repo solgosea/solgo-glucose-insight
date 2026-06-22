@@ -8,6 +8,8 @@ import 'package:smart_xdrip/domain/glucose_trend/glucose_trend_visual_mapper.dar
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/sync_status/sync_status_view_model.dart';
 import '../application/home_metric_window_policy.dart';
+import '../application/i18n/home_l10n_resolver.dart';
+import '../l10n/generated/home_localizations.dart';
 import '../models/home_chart_range.dart';
 import '../models/home_glucose_summary_view_model.dart';
 import '../models/home_stat_card_view_model.dart';
@@ -31,7 +33,9 @@ class HomeViewModelMapper {
     required AnalysisFacade facade,
     required HomeChartRange selectedRange,
     required SyncStatusViewModel syncStatus,
+    HomeLocalizations? l10n,
   }) {
+    final strings = l10n ?? HomeL10nResolver.fallback;
     final settings = facade.settings;
     final unit = settings.unit;
     final latest = facade.latestReading ??
@@ -40,10 +44,13 @@ class HomeViewModelMapper {
     final summaryWindow = metricWindowPolicy.timeInRange;
     final summaryReadings = facade.readingsForLastHours(summaryWindow.hours);
     final summaryTir = facade.tirForReadings(summaryReadings);
-    final generated = facade.insightBodiesFor(AnalysisModuleCode.insights);
+    final generated = facade.localizedInsightBodiesFor(
+      AnalysisModuleCode.insights,
+      locale: strings.localeName,
+    );
     final insightText = generated.isNotEmpty
         ? generated.first
-        : (facade.compactDailySummary() ?? 'Not enough CGM data yet.');
+        : (facade.compactDailySummary() ?? strings.homeNotEnoughData);
 
     return HomeViewModel(
       syncStatus: syncStatus,
@@ -55,8 +62,8 @@ class HomeViewModelMapper {
       unit: unit,
       lowThreshold: settings.lowThreshold,
       highThreshold: settings.highThreshold,
-      stats: _stats(summaryTir: summaryTir, unit: unit),
-      tir: _tir(summaryTir, settings),
+      stats: _stats(summaryTir: summaryTir, unit: unit, l10n: strings),
+      tir: _tir(summaryTir, settings, strings),
       insightText: insightText,
     );
   }
@@ -86,6 +93,7 @@ class HomeViewModelMapper {
   List<HomeStatCardViewModel> _stats({
     required AnalysisTirResult summaryTir,
     required GlucoseUnit unit,
+    required HomeLocalizations l10n,
   }) {
     final averageWindow = metricWindowPolicy.average;
     final tirWindow = metricWindowPolicy.timeInRange;
@@ -97,27 +105,31 @@ class HomeViewModelMapper {
 
     return [
       HomeStatCardViewModel(
-        label: 'Avg ${averageWindow.labelSuffix}',
+        label: l10n.homeStatAverage(averageWindow.labelSuffix),
         value: mean.valueLabel,
         valueColor: AppColors.green,
         unit: mean.unitLabel,
       ),
       HomeStatCardViewModel(
-        label: 'TIR ${tirWindow.labelSuffix}',
+        label: l10n.homeStatTir(tirWindow.labelSuffix),
         value: '${summaryTir.tir.toStringAsFixed(0)}%',
         valueColor: tirColor,
-        unit: 'in range',
+        unit: l10n.homeInRange,
       ),
       HomeStatCardViewModel(
-        label: 'CV ${cvWindow.labelSuffix}',
+        label: l10n.homeStatCv(cvWindow.labelSuffix),
         value: '${cv.toStringAsFixed(0)}%',
         valueColor: cvColor,
-        unit: 'stable',
+        unit: l10n.homeStable,
       ),
     ];
   }
 
-  HomeTirViewModel _tir(AnalysisTirResult tir24h, AppSettings settings) {
+  HomeTirViewModel _tir(
+    AnalysisTirResult tir24h,
+    AppSettings settings,
+    HomeLocalizations l10n,
+  ) {
     final range = glucoseFormatter.range(
       settings.lowThreshold,
       settings.highThreshold,
@@ -129,20 +141,20 @@ class HomeViewModelMapper {
       tir: tir24h.tir,
       tar: tir24h.tar,
       tbr: tir24h.tbr,
-      footer: '${range.fullLabel} - Last 24h',
+      footer: '${range.fullLabel} - ${l10n.homeLast24h}',
       rows: [
         HomeTirRowViewModel(
-          label: 'High $highLabel',
+          label: l10n.homeHighWithThreshold(highLabel),
           percent: tir24h.tar,
           color: AppColors.rose,
         ),
         HomeTirRowViewModel(
-          label: 'In range',
+          label: l10n.homeInRange,
           percent: tir24h.tir,
           color: AppColors.green,
         ),
         HomeTirRowViewModel(
-          label: 'Low $lowLabel',
+          label: l10n.homeLowWithThreshold(lowLabel),
           percent: tir24h.tbr,
           color: AppColors.blue,
         ),

@@ -7,10 +7,12 @@ import '../models/episode_detail_view_model.dart';
 
 class EpisodeEmptyState extends StatelessWidget {
   final EpisodeDetailViewModel viewModel;
+  final Widget? trailing;
 
   const EpisodeEmptyState({
     super.key,
     required this.viewModel,
+    this.trailing,
   });
 
   @override
@@ -24,6 +26,7 @@ class EpisodeEmptyState extends StatelessWidget {
               title: viewModel.title,
               subtitle: viewModel.subtitle,
               onBack: () => context.safePopOrHome(),
+              trailing: trailing,
             ),
             Expanded(
               child: Center(

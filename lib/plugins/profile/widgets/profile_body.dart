@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/presentation/common/widgets/section_label.dart';
 
+import '../application/i18n/profile_l10n.dart';
 import '../models/profile_view_model.dart';
 import 'profile_app_settings_card.dart';
 import 'profile_header_card.dart';
@@ -20,6 +21,7 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -31,24 +33,15 @@ class ProfileBody extends StatelessWidget {
               ProfileHeaderCard(viewModel: viewModel.header),
               ProfileStatsStrip(stats: viewModel.stats),
               const ProfileSectionSlotHost(),
-              ..._sectionWidgets(context, 'App Settings'),
+              SectionLabel(l10n.profileSectionAppSettings),
+              ProfileAppSettingsCard(
+                summary: viewModel.appSettingsSummary,
+                onTap: onSettingsTap,
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  List<Widget> _sectionWidgets(BuildContext context, String section) {
-    return switch (section) {
-      'App Settings' => [
-          const SectionLabel('App Settings'),
-          ProfileAppSettingsCard(
-            summary: viewModel.appSettingsSummary,
-            onTap: onSettingsTap,
-          ),
-        ],
-      _ => const <Widget>[],
-    };
   }
 }

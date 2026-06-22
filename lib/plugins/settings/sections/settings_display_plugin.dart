@@ -10,19 +10,23 @@ import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../../../plugin_platform/rendering/plugin_renderable.dart';
 import '../composition/settings_slots.dart';
 import '../widgets/settings_display_group.dart';
-import '../widgets/settings_render_scope.dart';
+import '../widgets/settings_render_scope.dart';
+import '../application/i18n/settings_l10n_resolver.dart';
+import '../application/i18n/settings_entry_localizer.dart';
 
 class SettingsDisplayPlugin extends SmartFeaturePlugin {
   const SettingsDisplayPlugin();
+
+  static final _strings = SettingsL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('settings.display');
 
   @override
-  String get title => 'Display';
+  String get title => _strings.settingsDisplayTitle;
 
   @override
-  String get description => 'Display preferences for glucose units.';
+  String get description => _strings.settingsDisplayDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -42,17 +46,17 @@ class SettingsDisplayPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: SettingsSlots.section,
           renderKey: 'Display',
-          title: 'Display',
+          title: _strings.settingsDisplayTitle,
           order: 10,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  SectionPluginEntry get settingsEntry => const SectionPluginEntry(
+  SectionPluginEntry get settingsEntry => SectionPluginEntry(
         section: 'Display',
-        title: 'Display',
-        subtitle: 'Units and presentation preferences',
+        title: _strings.settingsDisplayTitle,
+        subtitle: _strings.settingsDisplayTitle,
         order: 10,
       );
 
@@ -61,18 +65,20 @@ class SettingsDisplayPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const SettingsEntryLocalizer());
     context.compositionRegistry.register(
       PluginRenderable(
         pluginId: id,
         slot: SettingsSlots.section,
         renderKey: 'settings.display.section',
-        title: 'Display',
+        title: _strings.settingsDisplayTitle,
         order: 10,
         builder: (renderContext) {
           final scope = SettingsRenderScope.of(renderContext.buildContext);
           return SettingsDisplayGroup(
             viewModel: scope.viewModel.display,
             onPickUnit: scope.onPickUnit,
+            onPickLanguage: scope.onPickLanguage,
           );
         },
       ),

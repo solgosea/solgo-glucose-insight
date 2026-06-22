@@ -7,6 +7,7 @@ import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
 import '../controllers/history_controller.dart';
+import '../application/i18n/history_l10n.dart';
 import '../application/history_host_services.dart';
 import '../runtime/history_plugin_runtime.dart';
 import '../runtime/history_runtime_cache.dart';
@@ -26,7 +27,10 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_initialized) return;
+    if (_initialized) {
+      _controller.updateLocale(context.historyL10n);
+      return;
+    }
     _initialized = true;
     final services = context.read<PluginServiceRegistry>();
     final runtimeManager = context.read<PluginRuntimeManager>();
@@ -36,6 +40,7 @@ class _HistoryPageState extends State<HistoryPage> {
       runtimeCache: services.get<HistoryRuntimeCache>(),
       runtime: services.get<HistoryPluginRuntime>(),
     );
+    _controller.updateLocale(context.historyL10n);
     unawaited(_controller.init());
   }
 

@@ -13,18 +13,21 @@ import '../../plugin_platform/rendering/plugin_renderable.dart';
 import 'composition/home_slots.dart';
 import 'widgets/home_render_scope.dart';
 import 'widgets/home_tir_section.dart';
+import 'application/i18n/home_l10n_resolver.dart';
 
 class HomeTirWidgetPlugin extends SmartFeaturePlugin {
   const HomeTirWidgetPlugin();
+
+  static final _strings = HomeL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('home.tir');
 
   @override
-  String get title => 'Time In Range';
+  String get title => _strings.homeTirTitle;
 
   @override
-  String get description => 'Time-in-range summary for the current view.';
+  String get description => _strings.homeTirDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -43,17 +46,17 @@ class HomeTirWidgetPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: HomeSlots.widget,
           renderKey: 'home.tir',
-          title: 'Time In Range',
+          title: _strings.homeTirTitle,
           order: 50,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  HomeWidgetPluginEntry get homeWidgetEntry => const HomeWidgetPluginEntry(
+  HomeWidgetPluginEntry get homeWidgetEntry => HomeWidgetPluginEntry(
         widgetKey: 'home.tir',
-        title: 'Time In Range',
-        description: 'TIR section',
+        title: _strings.homeTirTitle,
+        description: _strings.homeTirSubtitle,
         order: 50,
       );
 
@@ -67,7 +70,7 @@ class HomeTirWidgetPlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: HomeSlots.widget,
         renderKey: 'home.tir',
-        title: 'Time In Range',
+        title: _strings.homeTirTitle,
         order: 50,
         builder: (renderContext) {
           final scope = HomeRenderScope.of(renderContext.buildContext);

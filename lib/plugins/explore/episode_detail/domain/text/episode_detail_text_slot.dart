@@ -9,6 +9,7 @@ class EpisodeDetailTextSlot {
   static const highRepeatTitle = 'episode_detail.high.repeat.title';
   static const highRepeatBody = 'episode_detail.high.repeat.body';
   static const highRepeatHint = 'episode_detail.high.repeat.hint';
+  static const highRepeatTakeaway = 'episode_detail.high.repeat.takeaway';
   static const highReliabilityNote = 'episode_detail.high.reliability.note';
   static const lowSummaryTitle = 'episode_detail.low.summary.title';
   static const lowSummarySubtitle = 'episode_detail.low.summary.subtitle';
@@ -20,6 +21,7 @@ class EpisodeDetailTextSlot {
   static const lowRepeatTitle = 'episode_detail.low.repeat.title';
   static const lowRepeatBody = 'episode_detail.low.repeat.body';
   static const lowRepeatHint = 'episode_detail.low.repeat.hint';
+  static const lowRepeatTakeaway = 'episode_detail.low.repeat.takeaway';
   static const lowReliabilityNote = 'episode_detail.low.reliability.note';
 
   const EpisodeDetailTextSlot._();

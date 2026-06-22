@@ -1,0 +1,688 @@
+﻿{
+    "@@locale":  "zh_Hant",
+    "pluginTitle":  "狀態監控",
+    "pluginSubtitle":  "隱私安全的資料來源、同步與支援排障。",
+    "pluginDescription":  "隱私安全的資料來源、同步與支援排障。",
+    "pluginExploreSection": "系統狀態",
+    "pluginReportTitle":  "狀態監控報告",
+    "pluginLoading":  "載入中",
+    "pluginNoData":  "暫無可用資料。",
+    "pluginUnavailable":  "不可用",
+    "reportSupportTitle":  "狀態監控支援報告",
+    "reportTitle":  "狀態監控",
+    "reportEyebrow":  "隱私安全的社群支援報告",
+    "reportSummary":  "這是一份可分享的 CGM 資料鏈排障證據報告。它會提示優先檢查的位置，對比本地與雲端的新鮮度，並隱藏私人 URL、憑證、主體識別和精確伺服器位址。",
+    "reportDetails":  "報告詳情",
+    "reportSupportTriage":  "支援排障摘要",
+    "reportLocalCloudFreshness":  "本地與雲端新鮮度",
+    "reportDataChainSnapshot":  "資料鏈快照",
+    "reportComponentEvidence":  "元件證據",
+    "reportFreshnessCompleteness":  "新鮮度與完整性",
+    "reportSourceCapabilities":  "資料來源能力",
+    "reportTechnicalEvidence":  "技術證據",
+    "reportSuggestedFirstLook":  "建議優先檢查的位置",
+    "reportPrivacyLabel":  "已隱藏 URL、憑證、主體 ID",
+    "reportDisclaimer":  "隱私安全報告。報告在本機產生，僅在使用者主動選擇時分享。URL、憑證、主體識別和精確伺服器位址都會被隱藏。本報告只展示可觀察檢查結果，不是診斷工具、警報系統或醫療建議。",
+    "reportWindowLiveProbe":  "過去 24 小時，即時探測 {time}",
+    "@reportWindowLiveProbe":  {
+                                   "placeholders":  {
+                                                        "time":  {
+
+                                                                 }
+                                                    }
+                               },
+    "reportPrint":  "列印",
+    "reportShare":  "分享",
+    "reportCouldNotExport":  "無法匯出報告",
+    "reportCouldNotBuildPreview":  "無法產生報告預覽",
+    "reportTryAgain":  "重試",
+    "reportHeaderBrand":  "Solgo Insight",
+    "reportComponentColumn":  "元件",
+    "reportStatusColumn":  "狀態",
+    "reportTakeawayColumn":  "結論",
+    "reportChecksColumn":  "檢查",
+    "reportUsefulEvidenceColumn":  "有用證據",
+    "reportMatchesComponents":  "符合狀態報告元件",
+    "reportSafeToShare":  "可安全分享",
+    "reportLast24h":  "過去 24 小時",
+    "reportSourceMode":  "資料來源模式",
+    "reportGenerated":  "產生時間",
+    "reportPrivacy":  "隱私",
+    "reportWindow":  "視窗",
+    "reportSuggestedFirstLookLabel":  "建议优先检查",
+    "reportLocalReading":  "本地读数",
+    "reportCloudReading":  "云端读数",
+    "reportAapsContext":  "AAPS 上下文",
+    "reportLocalActiveStream":  "本地 / 当前数据流",
+    "reportNightscoutCloud":  "Nightscout 云端",
+    "reportLatestVisibleReading":  "最新可见读数",
+    "reportLatestServerReading":  "最新服务器读数",
+    "reportModeLabel":  "模式标签",
+    "reportAvailable":  "可用",
+    "reportNotExposed":  "未暴露",
+    "reportFastTriage":  "快速排查",
+    "reportLatestLocalReading":  "最新本地读数",
+    "reportLatestNightscoutReading":  "最新 Nightscout 读数",
+    "reportXdripLocalResponse":  "xDrip+ 本地响应",
+    "reportNightscoutResponse":  "Nightscout 响应",
+    "reportCompleteness24h":  "24 小时完整性",
+    "reportLargestVisibleGap":  "最大可见间隔",
+    "reportAapsEvidence":  "AAPS 证据",
+    "reportUnknown":  "未知",
+    "reportNoShareableEvidence":  "暂无可分享证据。",
+    "reportNoEvidence":  "无证据",
+    "reportConfigureCgmSource":  "先配置 CGM 数据源。",
+    "reportConfigureCgmSourceBody":  "状态监控需要 xDrip+ 本地或 Nightscout 证据，才能生成有用的支持报告。",
+    "reportConfigureCgmSourceTakeaway":  "当前还看不到已配置的数据源，第一步是连接 xDrip+ 本地或 Nightscout。",
+    "reportStartWithPath":  "先检查 {path}。",
+    "@reportStartWithPath":  {
+                                 "placeholders":  {
+                                                      "path":  {
+
+                                                               }
+                                                  }
+                             },
+    "reportLocalFresherThanCloudBody":  "本地 xDrip+ 证据看起来比 Nightscout 数据流更新。请检查上传是否排队、被阻止、被限流，或是否受到 Nightscout 服务器/网络延迟影响。",
+    "reportLocalFresherThanCloudTakeaway":  "本地读数看起来比 Nightscout 更新，所以最有用的第一步是检查 {path}。",
+    "@reportLocalFresherThanCloudTakeaway":  {
+                                                "placeholders":  {
+                                                                     "path":  {
+
+                                                                              }
+                                                                 }
+                                            },
+    "reportStartWithComponent":  "先检查 {component}。",
+    "@reportStartWithComponent":  {
+                                      "placeholders":  {
+                                                           "component":  {
+
+                                                                         }
+                                                       }
+                                  },
+    "reportComponentStrongestIssueTakeaway":  "{component} 显示了最明显的问题证据，因此应先检查本地采集路径，再检查云端或闭环上下文。",
+    "@reportComponentStrongestIssueTakeaway":  {
+                                                  "placeholders":  {
+                                                                       "component":  {
+
+                                                                                    }
+                                                                   }
+                                              },
+    "reportStartWithNightscout":  "先检查 Nightscout。",
+    "reportNightscoutFirstTakeaway":  "Nightscout 是最明显的关注/问题组件，因此应先检查云端服务器或上传路径。",
+    "reportAapsContextLimited":  "AAPS 上下文有限，不一定表示故障。",
+    "reportAapsContextLimitedBody":  "CGM 数据链已有足够的健康证据，但当前数据源看不到闭环上下文。",
+    "reportAapsContextLimitedTakeaway":  "血糖数据链看起来可用；当前数据源中的 AAPS 上下文有限。",
+    "reportAffectedComponentsTakeaway":  "{affected} 正在显示关注/问题证据。先检查 {component}，再用组件证据表对比可见检查项。",
+    "@reportAffectedComponentsTakeaway":  {
+                                             "placeholders":  {
+                                                                  "affected":  {
+
+                                                                               },
+                                                                  "verb":  {
+
+                                                                           },
+                                                                  "component":  {
+
+                                                                                }
+                                                              }
+                                         },
+    "reportAndOthers":  "以及其他组件",
+    "reportUploadServerDelayPath": "上传/服务器延迟路径",
+    "reportCloudApiPath": "云端/API 路径",
+    "reportComponentPair": "{first} 和 {second}",
+    "@reportComponentPair": {
+      "placeholders": {
+        "first": {},
+        "second": {}
+      }
+    },
+    "reportComponentPairAndOthers": "{first}、{second} {others}",
+    "@reportComponentPairAndOthers": {
+      "placeholders": {
+        "first": {},
+        "second": {},
+        "others": {}
+      }
+    },
+    "reportVerbIs": "正在",
+    "reportVerbAre": "正在",
+    "reportNoMajorStatusIssue":  "未发现明显状态问题。",
+    "reportNoMajorStatusIssueBody":  "当前可见检查处于健康范围。如果问题是间歇性的，可将这份报告作为辅助上下文。",
+    "reportIssuePhraseIssue":  "{component} 处于问题状态",
+    "@reportIssuePhraseIssue":  {
+                                   "placeholders":  {
+                                                        "component":  {
+
+                                                                      }
+                                                    }
+                                },
+    "reportIssuePhraseWatch":  "{component} 处于关注状态",
+    "@reportIssuePhraseWatch":  {
+                                   "placeholders":  {
+                                                        "component":  {
+
+                                                                      }
+                                                    }
+                                },
+    "reportNoDataSourceConfigured":  "未配置数据源",
+    "reportCurrentIssue":  "当前问题",
+    "reportSourceModeCommunity":  "数据源模式",
+    "reportPrivacyCommunity":  "隐私：已隐藏 URL/凭证/主体 ID",
+    "reportCommunityQuestion":  "问题：我应该先检查 CGM 数据链的哪一部分？",
+    "reportEvidenceScoreBody":  "{available}/{components} 个组件有足够证据。{passed}/{total} 个检查通过。",
+    "@reportEvidenceScoreBody":  {
+                                    "placeholders":  {
+                                                         "available":  {
+
+                                                                       },
+                                                         "components":  {
+
+                                                                        },
+                                                         "passed":  {
+
+                                                                    },
+                                                         "total":  {
+
+                                                                  }
+                                                     }
+                                 },
+    "reportEvidenceScoreTitle": "證據評分",
+    "reportCopyCommunityPost": "複製社群求助內容",
+    "reportPrivacySafe": "隱私安全",
+    "reportObservedFacts": "可觀察事實",
+    "reportLimitsOfReport": "本報告的限制",
+    "reportTimelineCurrent": "目前",
+    "reportTimelinePartial": "部分",
+    "reportTimelineGap": "中斷",
+    "reportProbeNotVisible":  "本报告中看不到 {label}。",
+    "@reportProbeNotVisible":  {
+                                  "placeholders":  {
+                                                       "label":  {
+
+                                                                 }
+                                                   }
+                               },
+    "reportProbeIsValue":  "{label} 为 {value}。",
+    "@reportProbeIsValue":  {
+                               "placeholders":  {
+                                                    "label":  {
+
+                                                              },
+                                                    "value":  {
+
+                                                              }
+                                                }
+                            },
+    "reportLoopContextNotVisible":  "无法通过当前数据源看到闭环上下文。",
+    "reportLoopContextEvidence":  "闭环上下文证据为 {value}；不要把它当作闭环决策评估。",
+    "@reportLoopContextEvidence":  {
+                                      "placeholders":  {
+                                                           "value":  {
+
+                                                                    }
+                                                       }
+                                  },
+    "reportLocalFreshnessNotVisible":  "无法看到本地或当前数据流的新鲜度。请先检查已配置的数据源路径，不要直接假设是云端延迟。",
+    "reportXdripResponseIncomplete":  "血糖数据可见，但直接的 xDrip+ 本地响应证据不完整。",
+    "reportActiveSourceVisible":  "血糖数据可通过当前数据源路径看到。",
+    "reportNightscoutFreshnessNotVisible":  "本报告中看不到 Nightscout 读数新鲜度。",
+    "reportCloudEntriesBehind":  "云端 entries 落后于当前数据流。请检查上传、服务器或网络延迟。",
+    "reportCloudEntriesCurrent":  "云端 entries 当前是最新的。如果预期使用本地 xDrip+，请优先检查本地服务暴露。",
+    "reportFirstInspectionPathTitle":  "把这作为第一检查路径，而不是结论。",
+    "reportFirstInspectionPathBody":  "报告指向的是可观察证据。它不能证明根因，也不能替代 CGM 警报。",
+    "reportNoShareableStatusEvidenceVisible":  "暂无可分享的状态证据。",
+    "reportEvidenceLimitCloud":  "本报告无法证明 CGM 厂商云端、Dexcom Share、泵无线连接或手机系统行为。",
+    "reportEvidenceLimitDeviceLabels":  "Nightscout 设备标签只是线索，不等同于设备真相。",
+    "reportEvidenceLimitAaps":  "AAPS 上下文取决于当前数据源能够看到的内容。",
+    "reportEvidenceLimitNotAlarm":  "本报告不是报警或诊断工具。",
+    "pageEyebrowStatusMonitor":  "状态监控",
+    "pageHistoryTitle":  "状态历史",
+    "pageLowBatterySubtitle":  "降低状态刷新频率以节省电量。",
+    "pageFloatingStatusBar":  "浮动状态栏",
+    "pageDashboardSubtitle":  "CGM 传感器 · xDrip+ · Nightscout",
+    "pageShowNotificationSubtitle":  "静默、低优先级的状态监控通知。",
+    "pageEyebrowLiveStatus":  "实时状态",
+    "pageShowNotificationTitle":  "在通知栏显示",
+    "pageLockScreenStatus":  "锁屏状态",
+    "pageReportTooltip":  "报告",
+    "pageHistorySubtitle":  "7 天组件状态",
+    "pageWidgetsSubtitle":  "主屏幕与持续状态展示",
+    "pageStatusNotification":  "状态通知",
+    "pageLowBatteryTitle":  "低电量友好模式",
+    "pageWidgetsTitle":  "小组件与通知",
+    "pageWidgetTemplates":  "小组件模板",
+    "pageAddToHomeScreen":  "添加到主屏幕",
+    "pageComponents":  "组件",
+    "pageRefreshNow":  "立即刷新",
+    "pageAapsIobCobProfile":  "IOB / COB / 配置",
+    "pageContextVisibility":  "上下文可见性",
+    "pageProfileTempTarget":  "配置 / 临时目标",
+    "pageSourceNightscoutDeviceStatus":  "来源：Nightscout 设备状态",
+    "pageNoLocalAapsRestAssumed":  "不假设本地 AAPS REST",
+    "pageMissingFieldsReduceConfidence":  "缺失字段会降低可信度",
+    "pagePumpLoopContext":  "泵与闭环上下文",
+    "pageFactualChecksOnly":  "仅事实检查",
+    "pageStatusHealthy":  "健康",
+    "pageStatusWatch":  "关注",
+    "pageStatusIssue":  "问题",
+    "pageStatusUnknown":  "未知",
+    "pageStatusAvailable":  "可用",
+    "pageStatusHistory":  "历史",
+    "pageStatusMixed":  "混合",
+    "pageStatusLive":  "实时",
+    "pageLatestProbe":  "最新探测",
+    "pageLast3h":  "最近 3 小时",
+    "pageLast30m":  "最近 30 分钟",
+    "pageNow":  "现在",
+    "pageThreeHoursAgo":  "3 小时前",
+    "pageFresh":  "新鲜",
+    "pageStalePartial":  "过期/部分",
+    "pageMissing":  "缺失",
+    "pageEvidenceMatrix":  "证据矩阵",
+    "pageLoopEvidenceTimeline":  "闭环证据时间线",
+    "pageLatestContext":  "最新 {context}",
+    "@pageLatestContext":  {
+                               "placeholders":  {
+                                                    "context":  {
+
+                                                                }
+                                                }
+                           },
+    "pageNightscoutDeviceStatus":  "Nightscout 设备状态",
+    "pageOpenapsContext":  "OpenAPS 上下文",
+    "pageEndpointMatrix":  "端点矩阵",
+    "pageReachable":  "可访问",
+    "pageNotReachable":  "不可访问",
+    "pageCheckedRecently":  "最近已检查",
+    "pageResponseTimeline":  "响应时间线",
+    "pageNoResponseSamples":  "暂无响应样本。请在下一次刷新后打开此页面以生成时间线。",
+    "pageMedianMs":  "中位数 {ms}ms",
+    "@pageMedianMs":  {
+                         "placeholders":  {
+                                              "ms":  {
+
+                                                     }
+                                          }
+                     },
+    "pageTimeouts":  "{count} 次超时",
+    "@pageTimeouts":  {
+                         "placeholders":  {
+                                              "count":  {
+
+                                                       }
+                                          }
+                     },
+    "dashboardWaitingForSource": "等待数据源",
+    "dashboardTemporarilyUnavailable": "状态暂时不可用",
+    "dashboardRefreshFailedBody": "SolgoInsight 无法刷新当前状态视图。请重试，或检查数据源设置。",
+    "dashboardCheckingStatus": "正在检查状态",
+    "dashboardPreparingLatest": "SolgoInsight 正在准备最新的状态面板。",
+    "dashboardWaitingTakeaway": "正在等待已配置的数据源。",
+    "dashboardNoSourceSummary": "当前对象还没有配置数据源。",
+    "dashboardSourceLabel": "来源",
+    "dashboardNotConfigured": "未配置",
+    "dashboardNoSource": "无来源",
+    "dashboardNeedsSourceHeadline": "Status 需要先配置数据源。",
+    "dashboardNeedsSourceBody": "连接 Nightscout 或 xDrip+ Local 后，才能读取 CGM、上传器和服务器状态。",
+    "dashboardNeedsSourceMeta": "无数据源 - 状态尚未评估",
+    "dashboardNeedsSourceEmptyReason": "请在 Profile 中设置数据源，以监控 CGM、上传器和服务器状态。",
+    "notificationChannelTitle": "Status Monitor",
+    "notificationChannelDescription": "静默的状态监控通知。",
+    "pageNoRecentTimeouts":  "最近探测中未看到超时",
+    "pageRecentTimeoutsVisible":  "最近探测中可以看到超时",
+    "pageSensorContext":  "传感器上下文",
+    "pageOptionalSourceData":  "可选数据源信息",
+    "pageSessionAgeRemaining":  "会话时长 / 剩余时间",
+    "pageCollectorContext":  "采集器上下文",
+    "pageCollectorHealthyCopy":  "最近一次探测中没有可用的数据源侧采集器警告。",
+    "pageReadingSource":  "读数来源",
+    "pageReadingSourceCopy":  "最近读数来自 {source}，随后进入 CGM 传感器引擎。",
+    "@pageReadingSourceCopy":  {
+                                  "placeholders":  {
+                                                       "source":  {
+
+                                                                  }
+                                                   }
+                              },
+    "pageSensorNotice":  "SolgoInsight 展示可观察的传感器数据质量。它不能替代 xDrip+ 的传感器处理、校准、主要警报或临床判断。",
+    "pageLast24h":  "最近 24 小时",
+    "pageContinuous":  "连续",
+    "pageSparse":  "稀疏",
+    "pageGap":  "间隔",
+    "pageUnknownLower":  "未知",
+    "pageLatestAge":  "最新 {age}",
+    "@pageLatestAge":  {
+                           "placeholders":  {
+                                                "age":  {
+
+                                                        }
+                                            }
+                       },
+    "pageNoVisibleGap":  "未看到明显间隔",
+    "pageGapBuckets":  "{count} 个间隔桶",
+    "@pageGapBuckets":  {
+                            "placeholders":  {
+                                                 "count":  {
+
+                                                          }
+                                             }
+                        },
+    "pageSensorQualityTimeline":  "传感器质量时间线",
+    "pageSuddenJumps":  "突变跳点",
+    "pageMajorJumps":  "{count} 个主要跳点",
+    "@pageMajorJumps":  {
+                            "placeholders":  {
+                                                 "count":  {
+
+                                                          }
+                                             }
+                        },
+    "pageQuietBaseline":  "平静基线",
+    "pageWatchJump":  "关注跳点",
+    "pageIssueJump":  "问题跳点",
+    "pageNoAbruptSensorJumps":  "未看到传感器突变跳点",
+    "pageLargestJump":  "最大跳点 {value} mmol/L",
+    "@pageLargestJump":  {
+                             "placeholders":  {
+                                                  "value":  {
+
+                                                           }
+                                              }
+                         },
+    "pageAdjacentReadingsOnly":  "仅比较相邻读数 | 间隔必须不超过 10 分钟",
+    "pageFlatPeriods":  "平直时段",
+    "pageLongestMinutes":  "最长 {minutes} 分钟",
+    "@pageLongestMinutes":  {
+                                "placeholders":  {
+                                                     "minutes":  {
+
+                                                                }
+                                                 }
+                            },
+    "pageWatch30m":  "30 分钟关注",
+    "pageIssue60m":  "60 分钟问题",
+    "pageFlatThresholdReached":  "达到平直时段阈值",
+    "pageNo30mFlatPeriod":  "未出现 30 分钟平直时段",
+    "pageFlatContextNote":  "平直时段只是上下文，不是根因标签。",
+    "pageVariabilityNoise":  "波动与噪声",
+    "pageReadings24h":  "24 小时读数",
+    "pageCvNoise":  "CV / 噪声",
+    "pageContinuity":  "连续性",
+    "pageCvWatchBody":  "关注范围低于 36%。这是波动上下文，不是诊断。",
+    "pageObservedCadenceBody":  "将观察到的读数与预期 5 分钟节奏进行比较。",
+    "pageCadenceFreshnessBody":  "节奏加上最新传感器新鲜度（{age}）。",
+    "@pageCadenceFreshnessBody":  {
+                                      "placeholders":  {
+                                                           "age":  {
+
+                                                                   }
+                                                       }
+                                  },
+    "pageServerDataFreshness":  "服务器数据新鲜度",
+    "pageFromEntriesEndpoint":  "来自 entries 端点",
+    "pageLatestServerReading":  "最新服务器读数",
+    "pageAvailableEndpoints":  "可用端点",
+    "pageMeasuredLatestEntry":  "根据 Nightscout 返回的最新 entry 测量。",
+    "pageRecentNightscoutEndpoints":  "从 API 探测中解析最近 Nightscout 端点。",
+    "pageDataFreshnessTimeline": "数据新鲜度时间线",
+    "pageHealthyCadence": "节奏正常",
+    "pageDelayed": "延迟",
+    "pageCompleteness24h": "24小时完整度",
+    "pageExpectedReadings": "{observed} / {expected} 预期",
+    "@pageExpectedReadings": {
+      "placeholders": {
+        "observed": {},
+        "expected": {}
+      }
+    },
+    "pageCoveragePercent": "{percent}% 覆盖",
+    "@pageCoveragePercent": {
+      "placeholders": {
+        "percent": {}
+      }
+    },
+    "pageExpectedFiveMinuteCadence": "预期 5 分钟一次的读数节奏",
+    "pageServiceAndBattery": "服务与电量",
+    "pageLocalService": "本地服务",
+    "pageXdripLocalModeNote": "/status.json 仅在 xDrip+ 本地模式下可用",
+    "pageUploaderBattery": "上传端电量",
+    "pageBatteryPebbleNote": "来自 /pebble 端点的电量信号",
+    "pageSensorCollectorContext": "传感器与采集器上下文",
+    "pageOptionalChecks": "可选检查",
+    "pageUploadLatency": "上传延迟",
+    "pageUploadLatencyUnavailable": "本地模式无法获得服务器接收时间戳，因此不可用。",
+    "pageObservedActiveXdripSource": "来自当前活动 xDrip+ 数据源上下文。",
+    "pageDetectedNightscoutMarkers": "检测到的 Nightscout 标记",
+    "pageMarkerEvidenceNote": "这是证据，不等同于设备真实状态",
+    "pageCapabilityContext": "能力上下文",
+    "pageWhatSiteExposes": "这个站点暴露了什么",
+    "pageObservedNightscoutApiProbes": "来自 Nightscout API 探测结果。",
+    "pageFloatingPermissionReady": "浮窗权限已就绪。",
+    "pageEnableFloatingPermission": "启用浮窗权限",
+    "pageSevenDayHistory": "7 天历史",
+    "pageSevenDayHistorySubtitle": "每一行代表一天 - 每天 24 个格子，每小时一个 - 未知表示记录的状态样本不足，无法判断",
+    "pageToday": "今天",
+    "pageMonthJan": "1月",
+    "pageMonthFeb": "2月",
+    "pageMonthMar": "3月",
+    "pageMonthApr": "4月",
+    "pageMonthMay": "5月",
+    "pageMonthJun": "6月",
+    "pageMonthJul": "7月",
+    "pageMonthAug": "8月",
+    "pageMonthSep": "9月",
+    "pageMonthOct": "10月",
+    "pageMonthNov": "11月",
+    "pageMonthDec": "12月",
+    "pageXdripSignalMissingReason": "最新报告中未包含这个 xDrip+ 信号",
+    "pageConnectNightscout": "连接 Nightscout",
+    "pageSetupSourceBody": "在 Profile 中设置数据源，以监控这个对象的 CGM、上传端和服务器状态。",
+    "pageSetUp": "设置",
+    "reportCapabilityEntries": "条目",
+    "reportCapabilityRangeQuery": "范围查询",
+    "reportCapabilityPebble": "Pebble",
+    "reportCapabilityUploaderBattery": "上传端电量",
+    "reportCapabilityDeviceStatus": "设备状态",
+    "reportCapabilityNightscoutStatus": "Nightscout 状态",
+    "reportCapabilityUploadLatency": "上传延迟",
+    "reportConfiguredSource": "已配置的数据源",
+    "reportChecksPassed": "{passed}/{total} 项通过",
+    "@reportChecksPassed": {
+      "placeholders": {
+        "passed": {},
+        "total": {}
+      }
+    },
+    "reportMeetsExpected": "{value}（达到 {expected} 条预期）",
+    "@reportMeetsExpected": {
+      "placeholders": {
+        "value": {},
+        "expected": {}
+      }
+    },
+    "reportObservedExpected": "{value}（{observed}/{expected} 条预期）",
+    "@reportObservedExpected": {
+      "placeholders": {
+        "value": {},
+        "observed": {},
+        "expected": {}
+      }
+    },
+    "reportGapsOver15m": "{value}，{count} 个间隙 >15 分钟",
+    "@reportGapsOver15m": {
+      "placeholders": {
+        "value": {},
+        "count": {}
+      }
+    },
+    "widgetStatus": "状态",
+    "widgetStatusUnavailable": "状态不可用",
+    "widgetNoRecentStatus": "没有最新状态",
+    "widgetConnectSourceSummary": "连接 Nightscout 数据源，以监控 CGM、上传端和服务器状态。",
+    "widgetOpenToRefresh": "打开 SolgoInsight 以刷新最新状态快照。",
+    "widgetStatusAvailable": "状态可用",
+    "widgetAllSystemsHealthy": "所有系统正常",
+    "widgetWatchStatus": "关注 {component}",
+    "@widgetWatchStatus": {
+      "placeholders": {
+        "component": {}
+      }
+    },
+    "widgetComponentIssue": "{component} 异常",
+    "@widgetComponentIssue": {
+      "placeholders": {
+        "component": {}
+      }
+    },
+    "widgetUpdatedJustNow": "刚刚更新",
+    "widgetUpdatedMinutesAgo": "{minutes} 分钟前更新",
+    "@widgetUpdatedMinutesAgo": {
+      "placeholders": {
+        "minutes": {}
+      }
+    },
+    "widgetUpdatedHoursAgo": "{hours} 小时前更新",
+    "@widgetUpdatedHoursAgo": {
+      "placeholders": {
+        "hours": {}
+      }
+    },
+    "widgetUpdatedDaysAgo": "{days} 天前更新",
+    "@widgetUpdatedDaysAgo": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "metricAccessToken": "访问令牌",
+    "metricApiReachable": "API 可访问",
+    "metricCobContext": "COB 上下文",
+    "metricCollectorContext": "采集器上下文",
+    "metricCv24h": "CV（24小时）",
+    "metricDeviceStatus": "设备状态",
+    "metricDevicestatus": "devicestatus",
+    "metricEntriesEndpoint": "Entries 端点",
+    "metricFlatLinePeriods": "平直时段",
+    "metricIobCobContext": "IOB / COB 上下文",
+    "metricIobContext": "IOB 上下文",
+    "metricLastReadingFreshness": "最新读数新鲜度",
+    "metricLatestAapsContext": "最新 AAPS 上下文",
+    "metricLatestServerReading": "最新服务器读数",
+    "metricLocalService": "本地服务",
+    "metricLoopContext": "循环上下文",
+    "metricNightscoutEvidence": "Nightscout 证据",
+    "metricNoReadings": "无读数",
+    "metricP95UploadLatency": "P95 上传延迟",
+    "metricProfileTempTarget": "Profile / 临时目标",
+    "metricProfileContext": "Profile 上下文",
+    "metricPumpContext": "泵上下文",
+    "metricResponseTime": "响应时间",
+    "metricSensorContext": "传感器上下文",
+    "metricSensorDataFreshness": "传感器数据新鲜度",
+    "metricSensorLifetime": "传感器寿命",
+    "metricSensorCollectorContext": "传感器/采集器上下文",
+    "metricSignalContinuity": "信号连续性",
+    "metricStatusEndpoint": "Status 端点",
+    "metricSuddenChanges24h": "突变（24小时）",
+    "metricUploaderBattery": "上传端电量",
+    "metricVersionContext": "版本上下文",
+    "metricReadingsCount": "{count} 条读数",
+    "@metricReadingsCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "metricNotAvailable": "不可用",
+    "pageAapsSync": "AAPS 同步",
+    "pagePump": "泵",
+    "pageProfile": "Profile",
+    "pageNoAapsContext": "没有 AAPS 上下文",
+    "pageJustNow": "刚刚",
+    "pageMinutesAgoShort": "{minutes} 分钟前",
+    "@pageMinutesAgoShort": {
+      "placeholders": {
+        "minutes": {}
+      }
+    },
+    "pageHoursAgoShort": "{hours} 小时前",
+    "@pageHoursAgoShort": {
+      "placeholders": {
+        "hours": {}
+      }
+    },
+    "pageDaysAgoShort": "{days} 天前",
+    "@pageDaysAgoShort": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "pageOpenapsContextNotVisible": "OpenAPS 上下文不可见。",
+    "pagePumpContextNotVisibleNightscout": "Nightscout 中未看到泵上下文。",
+    "pageIobContextNotVisible": "IOB 上下文不可见。",
+    "pageCobContextNotVisible": "COB 上下文不可见。",
+    "pageProfileTempTargetNotVisible": "Profile 或临时目标上下文不可见。",
+    "pageNightscoutApiReachableEvidence": "可访问。设备状态端点返回了证据。",
+    "pageNightscoutConfiguredEvidenceUnavailable": "Nightscout 已配置，但当前证据不可用。",
+    "pageNoNightscoutTargetConfigured": "尚未配置 Nightscout 目标。",
+    "pageNoOpenapsLoopContextVisible": "采样的设备状态中没有可见的 OpenAPS 循环上下文。",
+    "pageNoRecentProfileTempTargetContext": "采样响应中没有最近的 Profile 或临时目标上下文。",
+    "pagePartial": "部分可见",
+    "pageVisible": "可见",
+    "pageNoTimelineData": "没有时间线数据",
+    "pageLatestTimelineLabel": "最新 {label}",
+    "@pageLatestTimelineLabel": {
+      "placeholders": {
+        "label": {}
+      }
+    },
+    "pageNoVisibleIssueCluster": "没有可见的问题聚集",
+    "pageIssueBucketsInView": "视图中有 {count} 个问题时段",
+    "@pageIssueBucketsInView": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "pageOlder": "更早",
+    "pageMid": "中段",
+    "pageCurrentReadings": "当前读数",
+    "pagePossibleDirections": "可能的排查方向",
+    "pageModeReadingsQuality": "读数质量",
+    "pageModeLocalService": "本地服务",
+    "pageModeNightscoutApi": "Nightscout API",
+    "pageModeNightscoutEvidence": "Nightscout 证据",
+    "pageComponentCgmSensor": "CGM 传感器",
+    "pageComponentXdrip": "xDrip+",
+    "pageComponentNightscout": "Nightscout",
+    "pageComponentAapsLoop": "AAPS 循环",
+    "pageLatestSensorReadingObserved": "最新观察到的传感器读数",
+    "pageConfidenceAvailableMetrics": "基于可用指标的可信度",
+    "pageConfidenceAvailableEndpoints": "基于可用端点的可信度",
+    "pageConfidenceAvailableContext": "基于可用上下文的可信度",
+    "pageConfidenceNightscoutEvidence": "基于 Nightscout 证据的可信度",
+    "pageChecksPassedShort": "{available}/{total} 项检查通过",
+    "@pageChecksPassedShort": {
+      "placeholders": {
+        "available": {},
+        "total": {}
+      }
+    },
+    "pageLockScreenDisabled": "锁屏状态已关闭",
+    "pageNotificationLowPriorityNote": "仅显示低优先级状态。没有声音、震动、稍后提醒或手动消除。",
+    "pageHowToPlaceWidget": "如何放置小组件",
+    "pageWidgetStepLongPress": "长按主屏幕任意空白区域",
+    "pageWidgetStepTapWidgets": "点击小组件，然后滚动到 SolgoInsight Status Monitor",
+    "pageWidgetStepDragTemplate": "拖动一个状态模板到主屏幕",
+    "pageStatusDataNotReady": "状态数据尚未准备好。配置数据源后再打开 Status Monitor。",
+    "pageSamplesRecorded": "已记录 {percent}% 样本",
+    "@pageSamplesRecorded": {
+      "placeholders": {
+        "percent": {}
+      }
+    },
+    "pageDailySummary7Days": "每日汇总 - 7 天",
+    "pageHourlyDetail": "小时详情",
+    "pageHistoryScopeNote": "历史记录限定在当前用户和数据源内。它记录 Status Monitor 刷新得到的组件快照；Unknown 表示该小时没有足够的样本数据可判断。",
+    "pageHistoryReasonRecordedSample": "已记录样本",
+    "pageHistoryReasonCarriedForward": "沿用上一状态",
+    "pageHistoryReasonNoSample": "无样本",
+    "pageHistoryReasonFuture": "未来小时"
+}

@@ -1,0 +1,689 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "Status Monitor",
+    "pluginSubtitle":  "Privacy-safe source, sync, and support diagnostics.",
+    "pluginDescription":  "Privacy-safe source, sync, and support diagnostics.",
+    "pluginExploreSection": "SYSTEM STATUS",
+    "pluginReportTitle":  "Status Monitor Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "reportSupportTitle":  "Status Monitor Support Report",
+    "reportTitle":  "Status Monitor",
+    "reportEyebrow":  "Privacy-safe community support report",
+    "reportSummary":  "A shareable evidence report for troubleshooting the CGM data chain. It highlights what to inspect first, compares local and cloud freshness, and hides private URLs, credentials, subject identifiers, and exact server addresses.",
+    "reportDetails":  "Report details",
+    "reportSupportTriage":  "Support triage",
+    "reportLocalCloudFreshness":  "Local vs cloud freshness",
+    "reportDataChainSnapshot":  "Data chain snapshot",
+    "reportComponentEvidence":  "Component evidence",
+    "reportFreshnessCompleteness":  "Freshness and completeness",
+    "reportSourceCapabilities":  "Source capabilities",
+    "reportTechnicalEvidence":  "Technical evidence",
+    "reportSuggestedFirstLook":  "Suggested place to look first",
+    "reportPrivacyLabel":  "URLs, credentials, subject id hidden",
+    "reportDisclaimer":  "Privacy-safe report. Generated on device and shared only when the user chooses. URLs, credentials, subject identifiers, and exact server addresses are hidden. This report shows observable checks only; it is not a diagnosis tool, an alarm system, or medical advice.",
+    "reportWindowLiveProbe":  "Last 24 hours, live probe {time}",
+    "@reportWindowLiveProbe":  {
+                                   "placeholders":  {
+                                                        "time":  {
+
+                                                                 }
+                                                    }
+                               },
+    "reportPrint":  "Print",
+    "reportShare":  "Share",
+    "reportCouldNotExport":  "Could not export report",
+    "reportCouldNotBuildPreview":  "Could not build report preview",
+    "reportTryAgain":  "Try again",
+    "reportHeaderBrand":  "Solgo Insight",
+    "reportComponentColumn":  "COMPONENT",
+    "reportStatusColumn":  "STATUS",
+    "reportTakeawayColumn":  "TAKEAWAY",
+    "reportChecksColumn":  "CHECKS",
+    "reportUsefulEvidenceColumn":  "USEFUL EVIDENCE",
+    "reportMatchesComponents":  "matches StatusReport components",
+    "reportSafeToShare":  "safe to share",
+    "reportLast24h":  "last 24h",
+    "reportSourceMode":  "Source mode",
+    "reportGenerated":  "Generated",
+    "reportPrivacy":  "Privacy",
+    "reportWindow":  "Window",
+    "reportSuggestedFirstLookLabel":  "Suggested first look",
+    "reportLocalReading":  "Local reading",
+    "reportCloudReading":  "Cloud reading",
+    "reportAapsContext":  "AAPS context",
+    "reportLocalActiveStream":  "Local / active stream",
+    "reportNightscoutCloud":  "Nightscout cloud",
+    "reportLatestVisibleReading":  "latest visible reading",
+    "reportLatestServerReading":  "latest server reading",
+    "reportModeLabel":  "Mode label",
+    "reportAvailable":  "available",
+    "reportNotExposed":  "not exposed",
+    "reportFastTriage":  "fast triage",
+    "reportLatestLocalReading":  "Latest local reading",
+    "reportLatestNightscoutReading":  "Latest Nightscout reading",
+    "reportXdripLocalResponse":  "xDrip+ Local response",
+    "reportNightscoutResponse":  "Nightscout response",
+    "reportCompleteness24h":  "24h completeness",
+    "reportLargestVisibleGap":  "Largest visible gap",
+    "reportAapsEvidence":  "AAPS evidence",
+    "reportUnknown":  "Unknown",
+    "reportNoShareableEvidence":  "No shareable evidence is available.",
+    "reportNoEvidence":  "No evidence",
+    "reportConfigureCgmSource":  "Start by configuring a CGM source.",
+    "reportConfigureCgmSourceBody":  "Status Monitor needs xDrip+ Local or Nightscout evidence before it can produce a useful support report.",
+    "reportConfigureCgmSourceTakeaway":  "No configured source is visible yet, so the first step is to connect xDrip+ Local or Nightscout.",
+    "reportStartWithPath":  "Start with the {path}.",
+    "@reportStartWithPath":  {
+                                 "placeholders":  {
+                                                      "path":  {
+
+                                                               }
+                                                  }
+                             },
+    "reportLocalFresherThanCloudBody":  "Local xDrip+ evidence looks fresher than the Nightscout stream. Check whether uploads are queued, blocked, rate-limited, or delayed by the Nightscout server or network.",
+    "reportLocalFresherThanCloudTakeaway":  "Local readings look fresher than Nightscout, so the most useful first check is the {path}.",
+    "@reportLocalFresherThanCloudTakeaway":  {
+                                                "placeholders":  {
+                                                                     "path":  {
+
+                                                                              }
+                                                                 }
+                                            },
+    "reportStartWithComponent":  "Start with {component}.",
+    "@reportStartWithComponent":  {
+                                      "placeholders":  {
+                                                           "component":  {
+
+                                                                         }
+                                                       }
+                                  },
+    "reportComponentStrongestIssueTakeaway":  "{component} has the strongest visible issue, so inspect the local acquisition path before cloud or loop context.",
+    "@reportComponentStrongestIssueTakeaway":  {
+                                                  "placeholders":  {
+                                                                       "component":  {
+
+                                                                                    }
+                                                                   }
+                                              },
+    "reportStartWithNightscout":  "Start with Nightscout.",
+    "reportNightscoutFirstTakeaway":  "Nightscout is the most visible watch/issue component, so inspect the cloud server or upload path first.",
+    "reportAapsContextLimited":  "AAPS context is limited, not necessarily broken.",
+    "reportAapsContextLimitedBody":  "The CGM data chain has enough healthy evidence, but current loop context is not visible through the configured source.",
+    "reportAapsContextLimitedTakeaway":  "The glucose data chain looks usable; AAPS context is limited in the available source.",
+    "reportAffectedComponentsTakeaway":  "{affected} {verb} showing watch/issue evidence. Start with {component}, then use the component evidence table to compare the visible checks.",
+    "@reportAffectedComponentsTakeaway":  {
+                                             "placeholders":  {
+                                                                  "affected":  {
+
+                                                                               },
+                                                                  "verb":  {
+
+                                                                           },
+                                                                  "component":  {
+
+                                                                                }
+                                                              }
+                                         },
+    "reportAndOthers":  "and others",
+    "reportUploadServerDelayPath": "upload/server delay",
+    "reportCloudApiPath": "cloud/API path",
+    "reportComponentPair": "{first} and {second}",
+    "@reportComponentPair": {
+      "placeholders": {
+        "first": {},
+        "second": {}
+      }
+    },
+    "reportComponentPairAndOthers": "{first} and {second} {others}",
+    "@reportComponentPairAndOthers": {
+      "placeholders": {
+        "first": {},
+        "second": {},
+        "others": {}
+      }
+    },
+    "reportVerbIs": "is",
+    "reportVerbAre": "are",
+    "reportNoMajorStatusIssue":  "No major status issue is visible.",
+    "reportNoMajorStatusIssueBody":  "Visible checks are currently in the healthy range. Keep this report as supporting context if the issue is intermittent.",
+    "reportIssuePhraseIssue":  "{component} is in Issue",
+    "@reportIssuePhraseIssue":  {
+                                   "placeholders":  {
+                                                        "component":  {
+
+                                                                      }
+                                                    }
+                                },
+    "reportIssuePhraseWatch":  "{component} is in Watch",
+    "@reportIssuePhraseWatch":  {
+                                   "placeholders":  {
+                                                        "component":  {
+
+                                                                      }
+                                                    }
+                                },
+    "reportNoDataSourceConfigured":  "No data source is configured",
+    "reportCurrentIssue":  "Current issue",
+    "reportSourceModeCommunity":  "Source mode",
+    "reportPrivacyCommunity":  "Privacy: URL/credentials/subject id hidden",
+    "reportCommunityQuestion":  "Question: which part of the CGM data chain should I inspect first?",
+    "reportEvidenceScoreBody":  "{available} of {components} components have enough evidence. {passed} of {total} checks passed.",
+    "@reportEvidenceScoreBody":  {
+                                    "placeholders":  {
+                                                         "available":  {
+
+                                                                       },
+                                                         "components":  {
+
+                                                                        },
+                                                         "passed":  {
+
+                                                                    },
+                                                         "total":  {
+
+                                                                  }
+                                                     }
+                                 },
+    "reportEvidenceScoreTitle": "Evidence score",
+    "reportCopyCommunityPost": "Copy for community post",
+    "reportPrivacySafe": "Privacy-safe",
+    "reportObservedFacts": "Observed facts",
+    "reportLimitsOfReport": "Limits of this report",
+    "reportTimelineCurrent": "current",
+    "reportTimelinePartial": "partial",
+    "reportTimelineGap": "gap",
+    "reportProbeNotVisible":  "{label} is not visible in this report.",
+    "@reportProbeNotVisible":  {
+                                  "placeholders":  {
+                                                       "label":  {
+
+                                                                 }
+                                                   }
+                               },
+    "reportProbeIsValue":  "{label} is {value}.",
+    "@reportProbeIsValue":  {
+                               "placeholders":  {
+                                                    "label":  {
+
+                                                              },
+                                                    "value":  {
+
+                                                              }
+                                                }
+                            },
+    "reportLoopContextNotVisible":  "Loop context is not visible through the configured source.",
+    "reportLoopContextEvidence":  "Loop context evidence is {value}; do not treat this as a loop decision evaluation.",
+    "@reportLoopContextEvidence":  {
+                                      "placeholders":  {
+                                                           "value":  {
+
+                                                                    }
+                                                       }
+                                  },
+    "reportLocalFreshnessNotVisible":  "Local or active-stream freshness is not visible. Inspect the configured source path before assuming cloud delay.",
+    "reportXdripResponseIncomplete":  "Glucose data is visible, but direct xDrip+ Local response evidence is incomplete.",
+    "reportActiveSourceVisible":  "Glucose data is visible through the active source path.",
+    "reportNightscoutFreshnessNotVisible":  "Nightscout reading freshness is not visible in this report.",
+    "reportCloudEntriesBehind":  "Cloud entries are behind the active stream. Inspect upload, server, or network delay.",
+    "reportCloudEntriesCurrent":  "Cloud entries are current. If local xDrip+ is expected, inspect local service exposure first.",
+    "reportFirstInspectionPathTitle":  "Treat this as a first inspection path, not proof.",
+    "reportFirstInspectionPathBody":  "The report points to observable evidence. It does not prove the root cause or replace CGM alerts.",
+    "reportNoShareableStatusEvidenceVisible":  "No shareable status evidence is visible.",
+    "reportEvidenceLimitCloud":  "This report cannot prove CGM manufacturer cloud, Dexcom Share, pump radio, or phone OS behavior.",
+    "reportEvidenceLimitDeviceLabels":  "Nightscout device labels are clues, not device truth.",
+    "reportEvidenceLimitAaps":  "AAPS context depends on what is visible through the configured source.",
+    "reportEvidenceLimitNotAlarm":  "This report is not an alarm or diagnosis tool.",
+    "pageEyebrowStatusMonitor":  "Status monitor",
+    "pageHistoryTitle":  "Status History",
+    "pageLowBatterySubtitle":  "Reduces status refresh frequency to save power.",
+    "pageFloatingStatusBar":  "Floating status bar",
+    "pageDashboardSubtitle":  "CGM Sensor · xDrip+ · Nightscout",
+    "pageShowNotificationSubtitle":  "Silent, low-priority status monitor notification.",
+    "pageEyebrowLiveStatus":  "Live status",
+    "pageShowNotificationTitle":  "Show in notification bar",
+    "pageLockScreenStatus":  "Lock screen status",
+    "pageReportTooltip":  "Report",
+    "pageHistorySubtitle":  "7-day component status",
+    "pageWidgetsSubtitle":  "Home screen and persistent status surfaces",
+    "pageStatusNotification":  "Status notification",
+    "pageLowBatteryTitle":  "Low-battery friendly mode",
+    "pageWidgetsTitle":  "Widgets \u0026 Notifications",
+    "pageWidgetTemplates":  "Widget templates",
+    "pageAddToHomeScreen":  "Add to home screen",
+    "pageComponents":  "Components",
+    "pageRefreshNow":  "Refresh now",
+    "pageAapsIobCobProfile":  "IOB / COB / profile",
+    "pageContextVisibility":  "Context visibility",
+    "pageProfileTempTarget":  "Profile / temp target",
+    "pageSourceNightscoutDeviceStatus":  "source: Nightscout device status",
+    "pageNoLocalAapsRestAssumed":  "no local AAPS REST assumed",
+    "pageMissingFieldsReduceConfidence":  "missing fields reduce confidence",
+    "pagePumpLoopContext":  "Pump and loop context",
+    "pageFactualChecksOnly":  "Factual checks only",
+    "pageStatusHealthy":  "Healthy",
+    "pageStatusWatch":  "Watch",
+    "pageStatusIssue":  "Issue",
+    "pageStatusUnknown":  "Unknown",
+    "pageStatusAvailable":  "Available",
+    "pageStatusHistory":  "History",
+    "pageStatusMixed":  "Mixed",
+    "pageStatusLive":  "Live",
+    "pageLatestProbe":  "Latest probe",
+    "pageLast3h":  "Last 3h",
+    "pageLast30m":  "Last 30m",
+    "pageNow":  "now",
+    "pageThreeHoursAgo":  "3h ago",
+    "pageFresh":  "Fresh",
+    "pageStalePartial":  "Stale/partial",
+    "pageMissing":  "Missing",
+    "pageEvidenceMatrix":  "Evidence matrix",
+    "pageLoopEvidenceTimeline":  "Loop evidence timeline",
+    "pageLatestContext":  "Latest {context}",
+    "@pageLatestContext":  {
+                               "placeholders":  {
+                                                    "context":  {
+
+                                                                }
+                                                }
+                           },
+    "pageNightscoutDeviceStatus":  "Nightscout device status",
+    "pageOpenapsContext":  "OpenAPS context",
+    "pageEndpointMatrix":  "Endpoint matrix",
+    "pageReachable":  "reachable",
+    "pageNotReachable":  "not reachable",
+    "pageCheckedRecently":  "checked recently",
+    "pageResponseTimeline":  "Response timeline",
+    "pageNoResponseSamples":  "No response samples yet. Open this page after the next refresh to build the timeline.",
+    "pageMedianMs":  "Median {ms}ms",
+    "@pageMedianMs":  {
+                         "placeholders":  {
+                                              "ms":  {
+
+                                                     }
+                                          }
+                     },
+    "pageTimeouts":  "{count} timeouts",
+    "@pageTimeouts":  {
+                         "placeholders":  {
+                                              "count":  {
+
+                                                       }
+                                          }
+                     },
+    "dashboardWaitingForSource": "Waiting for source",
+    "dashboardTemporarilyUnavailable": "Status temporarily unavailable",
+    "dashboardRefreshFailedBody": "SolgoInsight could not refresh this status view. Please try again or check your data source settings.",
+    "dashboardCheckingStatus": "Checking status",
+    "dashboardPreparingLatest": "SolgoInsight is preparing the latest dashboard state.",
+    "dashboardWaitingTakeaway": "Waiting for a configured data source.",
+    "dashboardNoSourceSummary": "No source configured for this subject.",
+    "dashboardSourceLabel": "Source",
+    "dashboardNotConfigured": "Not configured",
+    "dashboardNoSource": "No source",
+    "dashboardNeedsSourceHeadline": "Status needs a configured data source.",
+    "dashboardNeedsSourceBody": "Connect Nightscout or xDrip+ Local to read CGM, uploader, and server status.",
+    "dashboardNeedsSourceMeta": "No data source - status is not evaluated yet",
+    "dashboardNeedsSourceEmptyReason": "Set up a data source in Profile to monitor CGM, uploader, and server status.",
+    "notificationChannelTitle": "Status Monitor",
+    "notificationChannelDescription": "Silent status monitor notification.",
+    "pageNoRecentTimeouts":  "No timeouts visible in recent probes",
+    "pageRecentTimeoutsVisible":  "Timeouts were visible in recent probes",
+    "pageSensorContext":  "Sensor context",
+    "pageOptionalSourceData":  "Optional source data",
+    "pageSessionAgeRemaining":  "Session age / remaining",
+    "pageCollectorContext":  "Collector context",
+    "pageCollectorHealthyCopy":  "No source-side collector warning was available during the last probe.",
+    "pageReadingSource":  "Reading source",
+    "pageReadingSourceCopy":  "Recent readings came from {source}, then fed into the CGM Sensor engine.",
+    "@pageReadingSourceCopy":  {
+                                  "placeholders":  {
+                                                       "source":  {
+
+                                                                  }
+                                                   }
+                              },
+    "pageSensorNotice":  "SolgoInsight shows observable sensor-data quality. It does not replace xDrip+ sensor handling, calibration, primary alerts, or clinical judgment."
+    ,"pageLast24h":  "Last 24h",
+    "pageContinuous":  "continuous",
+    "pageSparse":  "sparse",
+    "pageGap":  "gap",
+    "pageUnknownLower":  "unknown",
+    "pageLatestAge":  "Latest {age}",
+    "@pageLatestAge":  {
+                           "placeholders":  {
+                                                "age":  {
+
+                                                        }
+                                            }
+                       },
+    "pageNoVisibleGap":  "No visible gap",
+    "pageGapBuckets":  "{count} gap buckets",
+    "@pageGapBuckets":  {
+                            "placeholders":  {
+                                                 "count":  {
+
+                                                          }
+                                             }
+                        },
+    "pageSensorQualityTimeline":  "Sensor quality timeline",
+    "pageSuddenJumps":  "Sudden jumps",
+    "pageMajorJumps":  "{count} major jumps",
+    "@pageMajorJumps":  {
+                            "placeholders":  {
+                                                 "count":  {
+
+                                                          }
+                                             }
+                        },
+    "pageQuietBaseline":  "quiet baseline",
+    "pageWatchJump":  "watch jump",
+    "pageIssueJump":  "issue jump",
+    "pageNoAbruptSensorJumps":  "No abrupt sensor jumps",
+    "pageLargestJump":  "Largest jump {value} mmol/L",
+    "@pageLargestJump":  {
+                             "placeholders":  {
+                                                  "value":  {
+
+                                                           }
+                                              }
+                         },
+    "pageAdjacentReadingsOnly":  "Adjacent readings only | gap must be 10m or less",
+    "pageFlatPeriods":  "Flat periods",
+    "pageLongestMinutes":  "Longest {minutes}m",
+    "@pageLongestMinutes":  {
+                                "placeholders":  {
+                                                     "minutes":  {
+
+                                                                }
+                                                 }
+                            },
+    "pageWatch30m":  "30m watch",
+    "pageIssue60m":  "60m issue",
+    "pageFlatThresholdReached":  "Flat period threshold reached",
+    "pageNo30mFlatPeriod":  "No 30m flat period",
+    "pageFlatContextNote":  "Flat periods are context, not a root-cause label.",
+    "pageVariabilityNoise":  "Variability and noise",
+    "pageReadings24h":  "24h readings",
+    "pageCvNoise":  "CV / noise",
+    "pageContinuity":  "Continuity",
+    "pageCvWatchBody":  "Watch range below 36%. This is variability context, not a diagnosis.",
+    "pageObservedCadenceBody":  "Observed readings compared with expected 5 minute cadence.",
+    "pageCadenceFreshnessBody":  "Cadence plus latest sensor freshness ({age}).",
+    "@pageCadenceFreshnessBody":  {
+                                      "placeholders":  {
+                                                           "age":  {
+
+                                                                   }
+                                                       }
+                                  },
+    "pageServerDataFreshness":  "Server data freshness",
+    "pageFromEntriesEndpoint":  "From entries endpoint",
+    "pageLatestServerReading":  "Latest server reading",
+    "pageAvailableEndpoints":  "Available endpoints",
+    "pageMeasuredLatestEntry":  "Measured from the latest entry returned by Nightscout.",
+    "pageRecentNightscoutEndpoints":  "Recent Nightscout endpoints parsed from API probes.",
+    "pageDataFreshnessTimeline": "Data freshness timeline",
+    "pageHealthyCadence": "healthy cadence",
+    "pageDelayed": "delayed",
+    "pageCompleteness24h": "24h completeness",
+    "pageExpectedReadings": "{observed} / {expected} expected",
+    "@pageExpectedReadings": {
+      "placeholders": {
+        "observed": {},
+        "expected": {}
+      }
+    },
+    "pageCoveragePercent": "{percent}% coverage",
+    "@pageCoveragePercent": {
+      "placeholders": {
+        "percent": {}
+      }
+    },
+    "pageExpectedFiveMinuteCadence": "Expected 5 minute cadence",
+    "pageServiceAndBattery": "Service and battery",
+    "pageLocalService": "Local service",
+    "pageXdripLocalModeNote": "/status.json available only in xDrip+ local mode",
+    "pageUploaderBattery": "Uploader battery",
+    "pageBatteryPebbleNote": "Battery signal from /pebble endpoint",
+    "pageSensorCollectorContext": "Sensor and collector context",
+    "pageOptionalChecks": "Optional checks",
+    "pageUploadLatency": "Upload latency",
+    "pageUploadLatencyUnavailable": "Unavailable in local mode because server receipt timestamps are not present.",
+    "pageObservedActiveXdripSource": "Observed from active xDrip+ source context.",
+    "pageDetectedNightscoutMarkers": "Detected Nightscout markers",
+    "pageMarkerEvidenceNote": "Evidence, not device truth",
+    "pageCapabilityContext": "Capability context",
+    "pageWhatSiteExposes": "What this site exposes",
+    "pageObservedNightscoutApiProbes": "Observed from Nightscout API probes.",
+    "pageFloatingPermissionReady": "Floating permission is ready.",
+    "pageEnableFloatingPermission": "Enable floating permission",
+    "pageSevenDayHistory": "7-Day History",
+    "pageSevenDayHistorySubtitle": "Each row is one day - 24 cells per row, one per hour - Unknown means not enough recorded status samples to judge",
+    "pageToday": "Today",
+    "pageMonthJan": "Jan",
+    "pageMonthFeb": "Feb",
+    "pageMonthMar": "Mar",
+    "pageMonthApr": "Apr",
+    "pageMonthMay": "May",
+    "pageMonthJun": "Jun",
+    "pageMonthJul": "Jul",
+    "pageMonthAug": "Aug",
+    "pageMonthSep": "Sep",
+    "pageMonthOct": "Oct",
+    "pageMonthNov": "Nov",
+    "pageMonthDec": "Dec",
+    "pageXdripSignalMissingReason": "This xDrip+ signal was not included in the latest report"
+    ,"pageConnectNightscout": "Connect Nightscout",
+    "pageSetupSourceBody": "Set up a data source in Profile to monitor CGM, uploader, and server status for this subject.",
+    "pageSetUp": "Set up",
+    "reportCapabilityEntries": "Entries",
+    "reportCapabilityRangeQuery": "Range query",
+    "reportCapabilityPebble": "Pebble",
+    "reportCapabilityUploaderBattery": "Uploader battery",
+    "reportCapabilityDeviceStatus": "Device status",
+    "reportCapabilityNightscoutStatus": "Nightscout status",
+    "reportCapabilityUploadLatency": "Upload latency",
+    "reportConfiguredSource": "Configured source",
+    "reportChecksPassed": "{passed}/{total} passed",
+    "@reportChecksPassed": {
+      "placeholders": {
+        "passed": {},
+        "total": {}
+      }
+    },
+    "reportMeetsExpected": "{value} (meets {expected} expected)",
+    "@reportMeetsExpected": {
+      "placeholders": {
+        "value": {},
+        "expected": {}
+      }
+    },
+    "reportObservedExpected": "{value} ({observed}/{expected} expected)",
+    "@reportObservedExpected": {
+      "placeholders": {
+        "value": {},
+        "observed": {},
+        "expected": {}
+      }
+    },
+    "reportGapsOver15m": "{value}, {count} gaps >15m",
+    "@reportGapsOver15m": {
+      "placeholders": {
+        "value": {},
+        "count": {}
+      }
+    },
+    "widgetStatus": "Status",
+    "widgetStatusUnavailable": "Status unavailable",
+    "widgetNoRecentStatus": "No recent status",
+    "widgetConnectSourceSummary": "Connect a Nightscout source to monitor CGM, uploader, and server status.",
+    "widgetOpenToRefresh": "Open SolgoInsight to refresh the latest status snapshot.",
+    "widgetStatusAvailable": "Status available",
+    "widgetAllSystemsHealthy": "All systems healthy",
+    "widgetWatchStatus": "Watch {component}",
+    "@widgetWatchStatus": {
+      "placeholders": {
+        "component": {}
+      }
+    },
+    "widgetComponentIssue": "{component} issue",
+    "@widgetComponentIssue": {
+      "placeholders": {
+        "component": {}
+      }
+    },
+    "widgetUpdatedJustNow": "Updated just now",
+    "widgetUpdatedMinutesAgo": "Updated {minutes} min ago",
+    "@widgetUpdatedMinutesAgo": {
+      "placeholders": {
+        "minutes": {}
+      }
+    },
+    "widgetUpdatedHoursAgo": "Updated {hours}h ago",
+    "@widgetUpdatedHoursAgo": {
+      "placeholders": {
+        "hours": {}
+      }
+    },
+    "widgetUpdatedDaysAgo": "Updated {days}d ago",
+    "@widgetUpdatedDaysAgo": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "metricAccessToken": "Access token",
+    "metricApiReachable": "API reachable",
+    "metricCobContext": "COB context",
+    "metricCollectorContext": "Collector context",
+    "metricCv24h": "CV (24h)",
+    "metricDeviceStatus": "Device status",
+    "metricDevicestatus": "devicestatus",
+    "metricEntriesEndpoint": "Entries endpoint",
+    "metricFlatLinePeriods": "Flat-line periods",
+    "metricIobCobContext": "IOB / COB context",
+    "metricIobContext": "IOB context",
+    "metricLastReadingFreshness": "Last reading freshness",
+    "metricLatestAapsContext": "Latest AAPS context",
+    "metricLatestServerReading": "Latest server reading",
+    "metricLocalService": "Local service",
+    "metricLoopContext": "Loop context",
+    "metricNightscoutEvidence": "Nightscout evidence",
+    "metricNoReadings": "No readings",
+    "metricP95UploadLatency": "P95 upload latency",
+    "metricProfileTempTarget": "Profile / temp target",
+    "metricProfileContext": "Profile context",
+    "metricPumpContext": "Pump context",
+    "metricResponseTime": "Response time",
+    "metricSensorContext": "Sensor context",
+    "metricSensorDataFreshness": "Sensor data freshness",
+    "metricSensorLifetime": "Sensor lifetime",
+    "metricSensorCollectorContext": "Sensor/collector context",
+    "metricSignalContinuity": "Signal continuity",
+    "metricStatusEndpoint": "Status endpoint",
+    "metricSuddenChanges24h": "Sudden changes (24h)",
+    "metricUploaderBattery": "Uploader battery",
+    "metricVersionContext": "Version context",
+    "metricReadingsCount": "{count} readings",
+    "@metricReadingsCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "metricNotAvailable": "Not available",
+    "pageAapsSync": "AAPS sync",
+    "pagePump": "Pump",
+    "pageProfile": "Profile",
+    "pageNoAapsContext": "No AAPS context",
+    "pageJustNow": "just now",
+    "pageMinutesAgoShort": "{minutes}m ago",
+    "@pageMinutesAgoShort": {
+      "placeholders": {
+        "minutes": {}
+      }
+    },
+    "pageHoursAgoShort": "{hours}h ago",
+    "@pageHoursAgoShort": {
+      "placeholders": {
+        "hours": {}
+      }
+    },
+    "pageDaysAgoShort": "{days}d ago",
+    "@pageDaysAgoShort": {
+      "placeholders": {
+        "days": {}
+      }
+    },
+    "pageOpenapsContextNotVisible": "OpenAPS context is not visible.",
+    "pagePumpContextNotVisibleNightscout": "Pump context is not visible in Nightscout.",
+    "pageIobContextNotVisible": "IOB context is not visible.",
+    "pageCobContextNotVisible": "COB context is not visible.",
+    "pageProfileTempTargetNotVisible": "Profile or temp target context is not visible.",
+    "pageNightscoutApiReachableEvidence": "Reachable. Device status endpoint returned evidence.",
+    "pageNightscoutConfiguredEvidenceUnavailable": "Nightscout is configured but current evidence is unavailable.",
+    "pageNoNightscoutTargetConfigured": "No Nightscout target is configured.",
+    "pageNoOpenapsLoopContextVisible": "No OpenAPS loop context is visible in sampled device status.",
+    "pageNoRecentProfileTempTargetContext": "No recent profile or temp target context in the sampled response.",
+    "pagePartial": "Partial",
+    "pageVisible": "Visible",
+    "pageNoTimelineData": "No timeline data",
+    "pageLatestTimelineLabel": "Latest {label}",
+    "@pageLatestTimelineLabel": {
+      "placeholders": {
+        "label": {}
+      }
+    },
+    "pageNoVisibleIssueCluster": "No visible issue cluster",
+    "pageIssueBucketsInView": "{count} issue buckets in view",
+    "@pageIssueBucketsInView": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "pageOlder": "Older",
+    "pageMid": "Mid",
+    "pageCurrentReadings": "Current readings",
+    "pagePossibleDirections": "Possible directions",
+    "pageModeReadingsQuality": "READINGS QUALITY",
+    "pageModeLocalService": "LOCAL SERVICE",
+    "pageModeNightscoutApi": "NIGHTSCOUT API",
+    "pageModeNightscoutEvidence": "NIGHTSCOUT EVIDENCE",
+    "pageComponentCgmSensor": "CGM Sensor",
+    "pageComponentXdrip": "xDrip+",
+    "pageComponentNightscout": "Nightscout",
+    "pageComponentAapsLoop": "AAPS Loop",
+    "pageLatestSensorReadingObserved": "Latest sensor reading observed",
+    "pageConfidenceAvailableMetrics": "Confidence based on available metrics",
+    "pageConfidenceAvailableEndpoints": "Confidence based on available endpoints",
+    "pageConfidenceAvailableContext": "Confidence based on available context",
+    "pageConfidenceNightscoutEvidence": "Confidence based on Nightscout evidence",
+    "pageChecksPassedShort": "{available}/{total} checks passed",
+    "@pageChecksPassedShort": {
+      "placeholders": {
+        "available": {},
+        "total": {}
+      }
+    },
+    "pageLockScreenDisabled": "Lock screen disabled",
+    "pageNotificationLowPriorityNote": "Low-priority status only. No sound, vibration, snooze, or dismiss.",
+    "pageHowToPlaceWidget": "How to place a widget",
+    "pageWidgetStepLongPress": "Long-press any empty area of your home screen",
+    "pageWidgetStepTapWidgets": "Tap Widgets, then scroll to SolgoInsight Status Monitor",
+    "pageWidgetStepDragTemplate": "Drag one status template onto the screen",
+    "pageStatusDataNotReady": "Status data is not ready yet. Open Status Monitor after configuring a data source.",
+    "pageSamplesRecorded": "{percent}% samples recorded",
+    "@pageSamplesRecorded": {
+      "placeholders": {
+        "percent": {}
+      }
+    },
+    "pageDailySummary7Days": "Daily summary - 7 days",
+    "pageHourlyDetail": "Hourly detail",
+    "pageHistoryScopeNote": "History is scoped to the current subject and data source. It records component snapshots from Status Monitor refreshes; Unknown means there was not enough recorded sample data for that hour."
+    ,
+    "pageHistoryReasonRecordedSample": "Recorded sample",
+    "pageHistoryReasonCarriedForward": "Carried forward",
+    "pageHistoryReasonNoSample": "No sample",
+    "pageHistoryReasonFuture": "Future hour"
+}

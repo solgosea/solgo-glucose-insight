@@ -54,23 +54,28 @@ class ConfiguredFeaturePlugin extends SmartFeaturePlugin {
   PluginNode get node => delegate.node;
 
   @override
-  MainTabPluginEntry? get mainTabEntry => delegate.mainTabEntry;
+  MainTabPluginEntry? get mainTabEntry =>
+      delegate.mainTabEntry?.copyWith(pluginId: id.value);
 
   @override
-  ExplorePluginEntry? get exploreEntry => delegate.exploreEntry;
+  ExplorePluginEntry? get exploreEntry =>
+      delegate.exploreEntry?.copyWith(pluginId: id.value);
 
   @override
-  SectionPluginEntry? get profileEntry => delegate.profileEntry;
+  SectionPluginEntry? get profileEntry =>
+      delegate.profileEntry?.copyWith(pluginId: id.value);
 
   @override
-  SectionPluginEntry? get settingsEntry => delegate.settingsEntry;
+  SectionPluginEntry? get settingsEntry =>
+      delegate.settingsEntry?.copyWith(pluginId: id.value);
 
   @override
-  HomeWidgetPluginEntry? get homeWidgetEntry => delegate.homeWidgetEntry;
+  HomeWidgetPluginEntry? get homeWidgetEntry =>
+      delegate.homeWidgetEntry?.copyWith(pluginId: id.value);
 
   @override
   BackgroundTaskPluginEntry? get backgroundTaskEntry =>
-      delegate.backgroundTaskEntry;
+      delegate.backgroundTaskEntry?.copyWith(pluginId: id.value);
 
   @override
   PluginCapability capability(PluginCapabilityContext context) {

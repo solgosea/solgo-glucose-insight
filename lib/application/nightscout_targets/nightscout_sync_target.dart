@@ -110,7 +110,6 @@ class NightscoutSyncTarget {
   static NightscoutSyncTargetKind? _kind(String? value) {
     return switch (value) {
       'selfDatasource' => NightscoutSyncTargetKind.selfDatasource,
-      'followStream' => NightscoutSyncTargetKind.followStream,
       _ => null,
     };
   }

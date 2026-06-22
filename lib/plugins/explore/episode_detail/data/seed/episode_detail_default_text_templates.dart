@@ -374,6 +374,38 @@ class EpisodeDetailDefaultTextTemplates {
           'If this repeats, review nearby context such as meal timing, activity, sensor status, or routine changes.',
     ),
     PluginTextTemplate(
+      key: 'episode_detail.high.repeat.takeaway.morning.v1',
+      slot: EpisodeDetailTextSlot.highRepeatTakeaway,
+      type: 'episode_detail.high.repeat.morning',
+      bodyTemplate:
+          'High episodes repeated {count} times in the past {windowDays} days, mainly around {blockLabel}{rangeSuffix}.',
+      requiredFacts: ['count', 'windowDays', 'blockLabel', 'rangeSuffix'],
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.high.repeat.takeaway.evening.v1',
+      slot: EpisodeDetailTextSlot.highRepeatTakeaway,
+      type: 'episode_detail.high.repeat.evening',
+      bodyTemplate:
+          'High episodes repeated {count} times in the past {windowDays} days, mainly around {blockLabel}{rangeSuffix}.',
+      requiredFacts: ['count', 'windowDays', 'blockLabel', 'rangeSuffix'],
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.high.repeat.takeaway.same_time.v1',
+      slot: EpisodeDetailTextSlot.highRepeatTakeaway,
+      type: 'episode_detail.high.repeat.same_time',
+      bodyTemplate:
+          'The strongest repeat signal is a same-time cluster around {range} in the past {windowDays} days.',
+      requiredFacts: ['range', 'windowDays'],
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.high.repeat.takeaway.none.v1',
+      slot: EpisodeDetailTextSlot.highRepeatTakeaway,
+      type: 'episode_detail.high.repeat.none',
+      bodyTemplate:
+          'No clear repeated high-episode timing pattern is visible in the past {windowDays} days.',
+      requiredFacts: ['windowDays'],
+    ),
+    PluginTextTemplate(
       key: 'episode_detail.high.reliability.high.v1',
       slot: EpisodeDetailTextSlot.highReliabilityNote,
       type: 'episode_detail.high.reliability.high',
@@ -661,6 +693,45 @@ class EpisodeDetailDefaultTextTemplates {
       type: 'episode_detail.low.repeat.none',
       bodyTemplate:
           'Review nearby context such as sensor gaps, activity, sleep timing, routine changes, or other logged notes.',
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.low.repeat.takeaway.nocturnal.v1',
+      slot: EpisodeDetailTextSlot.lowRepeatTakeaway,
+      type: 'episode_detail.low.repeat.nocturnal',
+      bodyTemplate:
+          'Low episodes repeated {count} times in the past {windowDays} days, mainly around {blockLabel}{rangeSuffix}.',
+      requiredFacts: ['count', 'windowDays', 'blockLabel', 'rangeSuffix'],
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.low.repeat.takeaway.afternoon.v1',
+      slot: EpisodeDetailTextSlot.lowRepeatTakeaway,
+      type: 'episode_detail.low.repeat.afternoon',
+      bodyTemplate:
+          'Low episodes repeated {count} times in the past {windowDays} days, mainly around {blockLabel}{rangeSuffix}.',
+      requiredFacts: ['count', 'windowDays', 'blockLabel', 'rangeSuffix'],
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.low.repeat.takeaway.same_time.v1',
+      slot: EpisodeDetailTextSlot.lowRepeatTakeaway,
+      type: 'episode_detail.low.repeat.same_time',
+      bodyTemplate:
+          'The strongest repeat signal is a same-time low cluster around {range} in the past {windowDays} days.',
+      requiredFacts: ['range', 'windowDays'],
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.low.repeat.takeaway.fast_descent.v1',
+      slot: EpisodeDetailTextSlot.lowRepeatTakeaway,
+      type: 'episode_detail.low.repeat.fast_descent',
+      bodyTemplate:
+          'Recent low episodes often share a fast-descent pattern, so descent speed is worth reviewing alongside timing.',
+    ),
+    PluginTextTemplate(
+      key: 'episode_detail.low.repeat.takeaway.none.v1',
+      slot: EpisodeDetailTextSlot.lowRepeatTakeaway,
+      type: 'episode_detail.low.repeat.none',
+      bodyTemplate:
+          'No clear repeated low-episode timing pattern is visible in the past {windowDays} days.',
+      requiredFacts: ['windowDays'],
     ),
     PluginTextTemplate(
       key: 'episode_detail.low.reliability.high.v1',

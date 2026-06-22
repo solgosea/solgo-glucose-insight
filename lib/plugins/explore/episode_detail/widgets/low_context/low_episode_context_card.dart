@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../low_shared/low_episode_style.dart';
 import '../shared/episode_section_label.dart';
@@ -15,13 +16,14 @@ class LowEpisodeContextCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const EpisodeSectionLabel(
+        EpisodeSectionLabel(
           index: '07',
-          title: 'Personal context',
-          trailing: 'Your baseline',
+          title: l10n.personalContext,
+          trailing: l10n.baseline,
           accent: LowEpisodeStyle.blue,
         ),
         EpisodeSectionCard(
@@ -105,7 +107,7 @@ class _MetricRow extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           _Badge(
-            label: metric.badgeLabel ?? 'Note',
+            label: metric.badgeLabel ?? context.episodeDetailL10n.note,
             color: metric.badgeColor ?? AppColors.amber,
           ),
         ],

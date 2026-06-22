@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 
 class HighEpisodeSummaryCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class HighEpisodeSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
       padding: const EdgeInsets.all(15),
@@ -73,7 +75,7 @@ class HighEpisodeSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _Stat(
-                  label: 'Peak',
+                  label: l10n.peak,
                   value: _compactMetric(viewModel.peakText),
                   color: AppColors.rose,
                 ),
@@ -81,7 +83,7 @@ class HighEpisodeSummaryCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: _Stat(
-                  label: 'Duration',
+                  label: l10n.duration,
                   value: _compactMetric(viewModel.durationText),
                   color: AppColors.amber,
                 ),
@@ -89,8 +91,8 @@ class HighEpisodeSummaryCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: _Stat(
-                  label: 'Recovery',
-                  value: viewModel.recoveryTimeText ?? 'Not visible',
+                  label: l10n.recovery,
+                  value: viewModel.recoveryTimeText ?? l10n.notVisible,
                   color: AppColors.green,
                 ),
               ),
@@ -143,10 +145,10 @@ class _PriorityPill extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          const Text(
-            'REVIEW PRIORITY',
+          Text(
+            context.episodeDetailL10n.reviewPriority.toUpperCase(),
             textAlign: TextAlign.right,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 8,
               color: AppColors.textDim,

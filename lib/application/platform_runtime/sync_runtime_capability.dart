@@ -25,7 +25,7 @@ class SyncRuntimeCapability {
         supportsBackgroundRefresh = true,
         supportsContinuousBackgroundSync = true,
         limitationText =
-            'Android can keep Solgo Insight running with a foreground service.';
+            'Android can keep SolgoInsight running with a foreground service.';
 
   const SyncRuntimeCapability.iosPreview()
       : supportsNightscoutApi = true,

@@ -1,0 +1,12 @@
+﻿{
+    "@@locale":  "zh_Hant",
+    "pluginTitle":  "洞察",
+    "pluginSubtitle":  "產生的回顧洞察與摘要。",
+    "pluginDescription":  "產生的回顧洞察與摘要。",
+    "pluginReportTitle":  "洞察報告",
+    "pluginLoading":  "載入中",
+    "pluginNoData":  "暫無可用資料。",
+    "pluginUnavailable":  "不可用",
+    "insightsDailyBriefToday": "今日摘要",
+    "insightsSectionPatternsDetected": "已發現的模式"
+}

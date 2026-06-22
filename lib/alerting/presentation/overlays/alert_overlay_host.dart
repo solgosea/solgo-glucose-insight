@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../app/di/app_container.dart';
 import '../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/alerting_l10n.dart';
 import '../../domain/action/alert_action.dart';
 import '../../domain/event/alert_event.dart';
 import '../../domain/event/alert_level.dart';
@@ -99,6 +100,7 @@ class _AlertCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color =
         event.level == AlertLevel.critical ? AppColors.rose : AppColors.amber;
+    final l10n = context.alertingL10n;
     return Material(
       color: Colors.transparent,
       child: DecoratedBox(
@@ -154,18 +156,18 @@ class _AlertCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AlertBannerActionRow(
-                      actions: const [
+                      actions: [
                         AlertBannerAction(
                           type: AlertBannerActionType.snooze,
-                          label: 'Snooze 5m',
+                          label: l10n.alertActionSnooze5m,
                         ),
                         AlertBannerAction(
                           type: AlertBannerActionType.dismiss,
-                          label: 'Dismiss',
+                          label: l10n.alertActionDismiss,
                         ),
                         AlertBannerAction(
                           type: AlertBannerActionType.stop,
-                          label: 'Stop',
+                          label: l10n.alertActionStop,
                         ),
                       ],
                       color: color,

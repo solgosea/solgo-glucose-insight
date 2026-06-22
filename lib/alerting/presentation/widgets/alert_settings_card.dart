@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/alerting_l10n.dart';
 
 class AlertSettingsCard extends StatelessWidget {
   final IconData icon;
@@ -76,7 +77,7 @@ class AlertSettingsCard extends StatelessWidget {
                   ),
                   if (onTap != null)
                     IconButton(
-                      tooltip: 'Configure',
+                      tooltip: context.alertingL10n.configureTooltip,
                       onPressed: onTap,
                       icon: const Icon(
                         Icons.chevron_right_rounded,

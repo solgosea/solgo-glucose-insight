@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../application/i18n/home_l10n.dart';
+
 /// Home page insight entry. Visual only; data flow is unchanged.
 class HomeInsightBanner extends StatelessWidget {
   final String text;
@@ -14,6 +16,8 @@ class HomeInsightBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.homeL10n;
+
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -35,17 +39,17 @@ class HomeInsightBanner extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Text(
+                          const Text(
                             '*',
                             style: TextStyle(fontSize: 14, height: 1),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              "TODAY'S INSIGHT",
-                              style: TextStyle(
+                              l10n.homeTodaysInsight,
+                              style: const TextStyle(
                                 fontFamily: 'JetBrainsMono',
                                 fontSize: 9,
                                 fontWeight: FontWeight.w600,
@@ -54,7 +58,7 @@ class HomeInsightBanner extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
+                          const Text(
                             '>',
                             style: TextStyle(
                               fontSize: 16,
@@ -76,9 +80,9 @@ class HomeInsightBanner extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        'See full analysis  >',
-                        style: TextStyle(
+                      Text(
+                        l10n.homeSeeFullAnalysis,
+                        style: const TextStyle(
                           fontFamily: 'JetBrainsMono',
                           fontSize: 11,
                           fontWeight: FontWeight.w500,

@@ -22,18 +22,22 @@ import 'data/sqlite/sqlite_history_template_repository.dart';
 import 'pages/history_page.dart';
 import 'runtime/history_plugin_runtime.dart';
 import 'runtime/history_runtime_cache.dart';
+import 'application/i18n/history_entry_localizer.dart';
+import 'application/i18n/history_l10n_resolver.dart';
 
 class HistoryPlugin extends SmartFeaturePlugin {
   const HistoryPlugin();
+
+  static final _strings = HistoryL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('core.history');
 
   @override
-  String get title => 'History';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Day-level glucose curve, events, and episodes.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -53,15 +57,15 @@ class HistoryPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.mainTab'),
           renderKey: '/history',
-          title: 'History',
+          title: _strings.pluginTitle,
           order: 10,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  MainTabPluginEntry get mainTabEntry => const MainTabPluginEntry(
-        label: 'History',
+  MainTabPluginEntry get mainTabEntry => MainTabPluginEntry(
+        label: _strings.pluginTitle,
         route: '/history',
         icon: Icons.calendar_today_outlined,
         activeIcon: Icons.calendar_today,
@@ -75,6 +79,7 @@ class HistoryPlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const HistoryEntryLocalizer());
     context.registerSchema(const HistoryTemplateSchemaContributor());
     final database = context.services.get<GlucoseDatabase>();
     final templateRepository = SqliteHistoryTemplateRepository(

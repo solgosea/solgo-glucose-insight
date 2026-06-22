@@ -4,6 +4,7 @@ import 'package:smart_xdrip/plugin_platform/runtime/contracts/plugin_runtime_con
 
 import '../application/episode_detail_service.dart';
 import '../domain/episode_detail_entry_intent.dart';
+import '../engine/episode_detail_engine_output.dart';
 import '../mappers/episode_detail_view_model_mapper.dart';
 import '../models/episode_detail_view_model.dart';
 import '../models/episode_kind.dart';
@@ -17,8 +18,9 @@ class EpisodeDetailController extends ChangeNotifier {
   final EpisodeDetailPluginRuntime? runtime;
   final PluginRuntimeContext? runtimeContext;
   final EpisodeDetailService? service;
-  final EpisodeDetailViewModelMapper mapper;
+  EpisodeDetailViewModelMapper _mapper;
 
+  EpisodeDetailEngineOutput? _output;
   EpisodeDetailViewModel? _viewModel;
   bool _disposed = false;
   int _loadVersion = 0;
@@ -29,8 +31,8 @@ class EpisodeDetailController extends ChangeNotifier {
     this.runtime,
     this.runtimeContext,
     this.service,
-    this.mapper = const EpisodeDetailViewModelMapper(),
-  });
+    EpisodeDetailViewModelMapper mapper = const EpisodeDetailViewModelMapper(),
+  }) : _mapper = mapper;
 
   EpisodeDetailViewModel? get viewModel => _viewModel;
 
@@ -45,9 +47,18 @@ class EpisodeDetailController extends ChangeNotifier {
       kind: kind,
       focus: intent.focus,
     );
-    final next = cached?.viewModel ?? await _preheatOrMap(facade: facade);
+    final nextOutput = cached?.output ?? await _preheatOrLoad(facade: facade);
     if (_disposed || version != _loadVersion) return;
-    _viewModel = next;
+    _output = nextOutput;
+    _viewModel = _mapper.map(nextOutput);
+    notifyListeners();
+  }
+
+  void remapWith(EpisodeDetailViewModelMapper mapper) {
+    _mapper = mapper;
+    final output = _output;
+    if (_disposed || output == null) return;
+    _viewModel = _mapper.map(output);
     notifyListeners();
   }
 
@@ -58,7 +69,7 @@ class EpisodeDetailController extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<EpisodeDetailViewModel> _preheatOrMap({
+  Future<EpisodeDetailEngineOutput> _preheatOrLoad({
     required AnalysisFacade facade,
   }) async {
     final context = runtimeContext;
@@ -69,23 +80,22 @@ class EpisodeDetailController extends ChangeNotifier {
             kind: kind,
             reason: 'controller',
           );
-    if (snapshot != null) return snapshot.viewModel;
+    if (snapshot != null) return snapshot.output;
     final effectiveService = service ??
         EpisodeDetailService(
           facadeProvider: AnalysisFacade.current,
         );
     final output = effectiveService.load(intent: intent);
-    final viewModel = mapper.map(output);
     runtimeCache?.put(
       EpisodeDetailRuntimeSnapshot(
         subjectId: output.query.subjectId,
         kind: kind,
         focus: intent.focus,
-        viewModel: viewModel,
+        output: output,
         updatedAt: DateTime.now(),
         reason: intent.isFocused ? 'focused' : 'controller',
       ),
     );
-    return viewModel;
+    return output;
   }
 }

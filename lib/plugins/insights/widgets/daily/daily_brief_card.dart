@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import '../../application/i18n/insights_l10n.dart';
 
 class DailyBriefCard extends StatelessWidget {
   final String text;
@@ -74,13 +75,13 @@ class _BriefEyebrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
-        _PulseDot(),
-        SizedBox(width: 8),
+        const _PulseDot(),
+        const SizedBox(width: 8),
         Text(
-          'DAILY BRIEF - TODAY',
-          style: TextStyle(
+          context.insightsL10n.insightsDailyBriefToday,
+          style: const TextStyle(
             fontFamily: 'JetBrainsMono',
             fontSize: 9,
             color: AppColors.green,

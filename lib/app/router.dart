@@ -2,13 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../plugin_platform/registry/plugin_registry.dart';
+import '../plugin_platform/i18n/plugin_entry_localization_registry.dart';
 import '../plugin_platform/routing/main_tab_branch_planner.dart';
 import '../plugin_platform/routing/plugin_route_binder.dart';
 import '../presentation/common/widgets/bottom_nav_shell.dart';
 
 const _routeBinder = PluginRouteBinder();
 
-GoRouter createRouter(PluginRegistry registry) {
+GoRouter createRouter(
+  PluginRegistry registry, {
+  PluginEntryLocalizationRegistry? entryLocalizers,
+}) {
   final rootNavigatorKey = GlobalKey<NavigatorState>(
     debugLabel: 'root:navigator',
   );
@@ -25,6 +29,7 @@ GoRouter createRouter(PluginRegistry registry) {
         builder: (ctx, state, shell) => BottomNavShell(
           shell: shell,
           tabs: mainTabPlan.tabs,
+          entryLocalizers: entryLocalizers,
         ),
         branches: [
           for (final branch in mainTabPlan.branches)

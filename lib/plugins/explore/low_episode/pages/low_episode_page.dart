@@ -7,7 +7,9 @@ import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dar
 
 import '../../episode_detail/controllers/episode_detail_controller.dart';
 import '../../episode_detail/application/episode_detail_route_codec.dart';
+import '../../episode_detail/application/i18n/episode_detail_l10n.dart';
 import '../../episode_detail/domain/episode_detail_entry_intent.dart';
+import '../../episode_detail/mappers/episode_detail_view_model_mapper.dart';
 import '../../episode_detail/models/episode_kind.dart';
 import '../../episode_detail/runtime/episode_detail_plugin_runtime.dart';
 import '../../episode_detail/runtime/episode_detail_runtime_cache.dart';
@@ -27,7 +29,13 @@ class _LowEpisodePageState extends State<LowEpisodePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_controller != null) return;
+    final existing = _controller;
+    if (existing != null) {
+      existing.remapWith(
+        EpisodeDetailViewModelMapper(l10n: context.episodeDetailL10n),
+      );
+      return;
+    }
     final intent = _routeCodec.decode(
       GoRouterState.of(context).uri,
       kind: EpisodeKind.low,
@@ -45,6 +53,7 @@ class _LowEpisodePageState extends State<LowEpisodePage> {
       runtimeCache: services.get<EpisodeDetailRuntimeCache>(),
       runtime: services.get<EpisodeDetailPluginRuntime>(),
       runtimeContext: runtimeManager.context,
+      mapper: EpisodeDetailViewModelMapper(l10n: context.episodeDetailL10n),
     );
   }
 
@@ -58,6 +67,16 @@ class _LowEpisodePageState extends State<LowEpisodePage> {
     previous?.dispose();
     context.go(_routeCodec.encode(latest));
     next.load();
+  }
+
+  void _openReportPreview() {
+    final controller = _controller;
+    if (controller == null) return;
+    final encoded = Uri.parse(_routeCodec.encode(controller.intent));
+    final previewUri = encoded.replace(
+      path: '/explore/low-episode/report-preview',
+    );
+    context.push(previewUri.toString());
   }
 
   @override
@@ -93,6 +112,8 @@ class _LowEpisodePageState extends State<LowEpisodePage> {
           viewModel: viewModel,
           showResetToLatest: controller.intent.isFocused,
           onResetToLatest: _resetToLatest,
+          showReportAction: true,
+          onExportReport: _openReportPreview,
         );
       },
     );

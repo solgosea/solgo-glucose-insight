@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../application/i18n/alerting_l10n_resolver.dart';
 import '../../domain/config/local_notification_alert_config.dart';
 import '../../domain/event/alert_event.dart';
 import '../../domain/event/alert_level.dart';
 import '../../domain/notification/alert_notification_action_category.dart';
+import '../../l10n/generated/alerting_localizations.dart';
 import 'android_alert_notification_action_factory.dart';
 import 'alert_notification_id.dart';
 import 'alert_notification_action_router.dart';
@@ -20,6 +23,7 @@ class FlutterLocalNotificationGateway {
   final IosAlertNotificationCategoryFactory iosCategoryFactory;
   final DidReceiveBackgroundNotificationResponseCallback?
       backgroundActionHandler;
+  final Locale? Function()? localeProvider;
   AlertNotificationActionRouter? _actionRouter;
   bool _initialized = false;
 
@@ -30,6 +34,7 @@ class FlutterLocalNotificationGateway {
     this.androidActionFactory = const AndroidAlertNotificationActionFactory(),
     this.iosCategoryFactory = const IosAlertNotificationCategoryFactory(),
     this.backgroundActionHandler,
+    this.localeProvider,
   }) : plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   void bindActionRouter(AlertNotificationActionRouter router) {
@@ -40,7 +45,7 @@ class FlutterLocalNotificationGateway {
     if (_initialized) return;
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     final darwin = DarwinInitializationSettings(
-      notificationCategories: iosCategoryFactory.categories(),
+      notificationCategories: iosCategoryFactory.categories(l10n: _l10n()),
     );
     final settings = InitializationSettings(android: android, iOS: darwin);
     await plugin.initialize(
@@ -77,7 +82,7 @@ class FlutterLocalNotificationGateway {
       playSound: true,
       enableVibration: true,
       category: AndroidNotificationCategory.alarm,
-      actions: androidActionFactory.actions(),
+      actions: androidActionFactory.actions(l10n: _l10n()),
     );
     const darwin = DarwinNotificationDetails(
       categoryIdentifier: AlertNotificationActionCategory.alertActions,
@@ -102,5 +107,11 @@ class FlutterLocalNotificationGateway {
   Future<void> cancelAll() async {
     await initialize();
     await plugin.cancelAll();
+  }
+
+  AlertingLocalizations _l10n() {
+    return AlertingL10nResolver.resolve(
+      localeProvider?.call() ?? PlatformDispatcher.instance.locale,
+    );
   }
 }

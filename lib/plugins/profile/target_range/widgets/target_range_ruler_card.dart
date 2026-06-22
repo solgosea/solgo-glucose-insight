@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../application/glucose_unit/glucose_unit_format_service.dart';
 import '../../../../../domain/entities/app_settings.dart';
 import '../../../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/profile_l10n.dart';
 import '../target_range_value_policy.dart';
 import 'target_range_multi_marker_ruler.dart';
 
@@ -24,6 +25,7 @@ class TargetRangeRulerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     final unitLabel = const GlucoseUnitFormatService().unitLabel(unit);
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
@@ -50,10 +52,10 @@ class TargetRangeRulerCard extends StatelessWidget {
                 size: 13,
               ),
               const SizedBox(width: 6),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Drag a handle, or type below',
-                  style: TextStyle(
+                  l10n.targetRangeDragHint,
+                  style: const TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 11,
                     color: AppColors.textDim,

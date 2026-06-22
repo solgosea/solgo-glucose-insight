@@ -21,18 +21,22 @@ import 'composition/home_slots.dart';
 import 'pages/home_page.dart';
 import 'runtime/home_plugin_runtime.dart';
 import 'runtime/home_runtime_cache.dart';
+import 'application/i18n/home_l10n_resolver.dart';
+import 'application/i18n/home_entry_localizer.dart';
 
 class HomePlugin extends SmartFeaturePlugin {
   const HomePlugin();
+
+  static final _strings = HomeL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('core.home');
 
   @override
-  String get title => 'Home';
+  String get title => _strings.pluginTitle;
 
   @override
-  String get description => 'Current glucose overview and sync status.';
+  String get description => _strings.pluginDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -58,15 +62,15 @@ class HomePlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: const PluginSlotKey('app.mainTab'),
           renderKey: '/home',
-          title: 'Home',
+          title: _strings.pluginTitle,
           order: 0,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  MainTabPluginEntry get mainTabEntry => const MainTabPluginEntry(
-        label: 'Home',
+  MainTabPluginEntry get mainTabEntry => MainTabPluginEntry(
+        label: _strings.pluginTitle,
         route: '/home',
         icon: Icons.home_outlined,
         activeIcon: Icons.home,
@@ -80,6 +84,7 @@ class HomePlugin extends SmartFeaturePlugin {
 
   @override
   void install(PluginInstallContext context) {
+    context.entryLocalizers.register(id, const HomeEntryLocalizer());
     final host = context.services.get<AppHostServices>();
     final actions = context.services.get<AppHostActions>();
     final hostServices = HomeHostServices(

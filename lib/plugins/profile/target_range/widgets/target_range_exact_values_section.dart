@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../application/glucose_unit/glucose_unit_format_service.dart';
 import '../../../../../foundation/theme/app_colors.dart';
+import '../../application/i18n/profile_l10n.dart';
 import '../editing/target_range_edit_state.dart';
 import '../target_range_value_policy.dart';
 import 'target_range_exact_value_card.dart';
@@ -32,17 +33,18 @@ class TargetRangeExactValuesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.profileL10n;
     final unitLabel = const GlucoseUnitFormatService().unitLabel(
       state.displayUnit,
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 10),
+        Padding(
+          padding: const EdgeInsets.only(top: 20, bottom: 10),
           child: Text(
-            'EXACT VALUES',
-            style: TextStyle(
+            l10n.targetRangeExactValues,
+            style: const TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 10,
               color: AppColors.textDim,
@@ -53,7 +55,7 @@ class TargetRangeExactValuesSection extends StatelessWidget {
         ),
         TargetRangeExactValueCard(
           marker: TargetRangeMarker.low,
-          label: 'LOW',
+          label: l10n.targetRangeLowLabel,
           color: AppColors.blue,
           unitLabel: unitLabel,
           controller: lowController,
@@ -65,7 +67,7 @@ class TargetRangeExactValuesSection extends StatelessWidget {
         ),
         TargetRangeExactValueCard(
           marker: TargetRangeMarker.high,
-          label: 'HIGH',
+          label: l10n.targetRangeHighLabel,
           color: AppColors.amber,
           unitLabel: unitLabel,
           controller: highController,
@@ -77,7 +79,7 @@ class TargetRangeExactValuesSection extends StatelessWidget {
         ),
         TargetRangeExactValueCard(
           marker: TargetRangeMarker.veryHigh,
-          label: 'VERY HIGH',
+          label: l10n.targetRangeVeryHighLabel,
           color: AppColors.rose,
           unitLabel: unitLabel,
           controller: veryHighController,

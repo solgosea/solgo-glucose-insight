@@ -13,18 +13,21 @@ import '../../plugin_platform/rendering/plugin_renderable.dart';
 import 'composition/home_slots.dart';
 import 'widgets/home_header.dart';
 import 'widgets/home_render_scope.dart';
+import 'application/i18n/home_l10n_resolver.dart';
 
 class HomeHeaderWidgetPlugin extends SmartFeaturePlugin {
   const HomeHeaderWidgetPlugin();
+
+  static final _strings = HomeL10nResolver.fallback;
 
   @override
   PluginId get id => const PluginId('home.header');
 
   @override
-  String get title => 'Home Header';
+  String get title => _strings.homeHeaderTitle;
 
   @override
-  String get description => 'Home title and active sync status.';
+  String get description => _strings.homeHeaderDescription;
 
   @override
   PluginReleaseStage get releaseStage => PluginReleaseStage.stable;
@@ -42,17 +45,17 @@ class HomeHeaderWidgetPlugin extends SmartFeaturePlugin {
           pluginId: id,
           slot: HomeSlots.widget,
           renderKey: 'home.header',
-          title: 'Home Header',
+          title: _strings.homeHeaderTitle,
           order: 10,
           dataRequirements: dataRequirements,
         ),
       ];
 
   @override
-  HomeWidgetPluginEntry get homeWidgetEntry => const HomeWidgetPluginEntry(
+  HomeWidgetPluginEntry get homeWidgetEntry => HomeWidgetPluginEntry(
         widgetKey: 'home.header',
-        title: 'Home Header',
-        description: 'Title and sync status chip',
+        title: _strings.homeHeaderTitle,
+        description: _strings.homeHeaderSubtitle,
         order: 10,
       );
 
@@ -66,7 +69,7 @@ class HomeHeaderWidgetPlugin extends SmartFeaturePlugin {
         pluginId: id,
         slot: HomeSlots.widget,
         renderKey: 'home.header',
-        title: 'Home Header',
+        title: _strings.homeHeaderTitle,
         order: 10,
         builder: (renderContext) {
           final scope = HomeRenderScope.of(renderContext.buildContext);

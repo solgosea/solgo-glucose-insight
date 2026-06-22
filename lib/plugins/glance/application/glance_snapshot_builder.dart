@@ -22,7 +22,7 @@ class GlanceSnapshotBuilder {
     required List<GlucoseReading> trendReadings,
     List<GlucoseReading> tirReadings24h = const [],
     required DateTime now,
-    String sourceLabel = 'Solgo Insight',
+    String sourceLabel = 'SolgoInsight',
   }) {
     final display =
         latest == null ? null : formatter.value(latest.value, settings.unit);

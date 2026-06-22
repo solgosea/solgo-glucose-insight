@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/status_widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/status_widget_bg_dark"
+    android:paddingStart="15dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="14dp">
+
+    <TextView
+        android:id="@+id/status_widget_accent"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="#6EE89E"
+        android:text="" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="9dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/status_widget_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="?"
+                android:textColor="#6EE89E"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_widget_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.10"
+                android:text="SYSTEM STATUS"
+                android:textColor="#4D7264"
+                android:textSize="9.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_widget_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="monospace"
+                android:text="--"
+                android:textColor="#6EE89E"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_widget_updated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="monospace"
+                android:gravity="end"
+                android:maxLines="1"
+                android:text="Not updated"
+                android:textColor="#4D7264"
+                android:textSize="8.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/status_widget_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Status unavailable"
+            android:textColor="#D6EDE3"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/status_widget_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Open SolgoInsight to refresh status"
+            android:textColor="#8FBFAA"
+            android:textSize="9.5sp" />
+
+        <LinearLayout
+            android:id="@+id/status_widget_component_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/status_widget_row_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp">
+
+            <TextView
+                android:id="@+id/status_widget_component_1_glyph"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/status_widget_node_bg"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="?"
+                android:textColor="#6EE89E"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/status_widget_component_1_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="CGM Sensor"
+                    android:textColor="#D6EDE3"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/status_widget_component_1_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="monospace"
+                    android:maxLines="1"
+                    android:text="Open app to refresh"
+                    android:textColor="#4D7264"
+                    android:textSize="8.5sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/status_widget_component_1_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="--"
+                android:textColor="#6EE89E"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/status_widget_component_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/status_widget_row_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp">
+            <TextView
+                android:id="@+id/status_widget_component_2_glyph"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/status_widget_node_bg"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="?"
+                android:textColor="#6EE89E"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/status_widget_component_2_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="xDrip+"
+                    android:textColor="#D6EDE3"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/status_widget_component_2_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="monospace"
+                    android:maxLines="1"
+                    android:text="No recent status"
+                    android:textColor="#4D7264"
+                    android:textSize="8.5sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/status_widget_component_2_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="--"
+                android:textColor="#6EE89E"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/status_widget_component_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/status_widget_row_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp">
+            <TextView
+                android:id="@+id/status_widget_component_3_glyph"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/status_widget_node_bg"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="?"
+                android:textColor="#6EE89E"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/status_widget_component_3_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Nightscout"
+                    android:textColor="#D6EDE3"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/status_widget_component_3_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="monospace"
+                    android:maxLines="1"
+                    android:text="No source"
+                    android:textColor="#4D7264"
+                    android:textSize="8.5sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/status_widget_component_3_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="--"
+                android:textColor="#6EE89E"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/status_widget_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="monospace"
+            android:maxLines="1"
+            android:text="No source"
+            android:textColor="#4D7264"
+            android:textSize="8sp" />
+    </LinearLayout>
+</FrameLayout>

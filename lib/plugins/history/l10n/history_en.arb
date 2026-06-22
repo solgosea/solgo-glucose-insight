@@ -1,0 +1,58 @@
+﻿{
+    "@@locale":  "en",
+    "pluginTitle":  "History",
+    "pluginSubtitle":  "Daily glucose curve, events, and episode review.",
+    "pluginDescription":  "Daily glucose curve, events, and episode review.",
+    "pluginReportTitle":  "History Report",
+    "pluginLoading":  "Loading",
+    "pluginNoData":  "No data available yet.",
+    "pluginUnavailable":  "Unavailable",
+    "dayView": "DAY VIEW",
+    "today": "TODAY",
+    "summaryTir": "TIR",
+    "summaryPeak": "Peak",
+    "summaryCv": "CV",
+    "summaryAverage": "Avg",
+    "statTir": "TIR",
+    "statAverage": "AVG",
+    "statPeak": "PEAK",
+    "statCv": "CV",
+    "curveTitle": "24-HOUR CURVE",
+    "legendInRange": "In range",
+    "legendHigh": "High",
+    "legendLow": "Low",
+    "filterFocusedAround": "Focused around {time}",
+    "@filterFocusedAround": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "filterClear": "Clear",
+    "episodeHigh": "High episode",
+    "episodeLow": "Low episode",
+    "episodeAction": "View episode analysis ->",
+    "eventRiseDetected": "Rise detected",
+    "eventLowEpisode": "Low episode",
+    "eventRecoveryToRange": "Recovery to range",
+    "eventStableWindow": "Stable window",
+    "eventFirstReading": "First reading of day",
+    "eventDawnPhenomenon": "Dawn phenomenon",
+    "tagHighEpisode": "high episode",
+    "tagLowEpisode": "low episode",
+    "tagInRange": "in range",
+    "tagElevated": "elevated",
+    "eventsSectionTitle": "GLUCOSE EVENTS",
+    "eventsEmpty": "No events recorded",
+    "eventBackInRange": "Back in range",
+    "eventNocturnalLow": "Nocturnal low",
+    "eventRatePrefix": "rate {rate}",
+    "@eventRatePrefix": {
+        "placeholders": {
+            "rate": {
+                "type": "String"
+            }
+        }
+    }
+}

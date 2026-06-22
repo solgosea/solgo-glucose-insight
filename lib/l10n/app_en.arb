@@ -1,0 +1,171 @@
+{
+  "@@locale": "en",
+  "appName": "SolgoInsight",
+  "commonCancel": "Cancel",
+  "commonDone": "Done",
+  "commonBack": "Back",
+  "commonLoading": "Loading",
+  "commonRetry": "Retry",
+  "commonSave": "Save",
+  "commonShare": "Share",
+  "commonPrint": "Print",
+  "commonExportPdf": "Export PDF",
+  "commonNoData": "No data",
+  "commonUnavailable": "Unavailable",
+  "settingsTitle": "Settings",
+  "settingsSubtitle": "Display, sync window, storage, and export preferences.",
+  "settingsLanguageTitle": "Language",
+  "settingsLanguageDescription": "App display language",
+  "settingsLanguageSystem": "Follow system",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageSimplifiedChinese": "Simplified Chinese",
+  "settingsLanguageTraditionalChinese": "Traditional Chinese",
+  "settingsLanguageChanged": "Language updated.",
+  "settingsBloodGlucoseUnit": "Blood glucose unit",
+  "settingsInitialSyncWindow": "Initial sync window",
+  "settingsRecommendedBalance": "Recommended balance",
+  "settingsExportData": "Export data",
+  "settingsClearAllData": "Clear all data",
+  "timeJustNow": "just now",
+  "timeNever": "never",
+  "timeMinutesAgo": "{minutes} min ago",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{hours}h ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{days}d ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "durationSecondsShort": "{seconds}s",
+  "@durationSecondsShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutesShort": "{minutes}m",
+  "@durationMinutesShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursShort": "{hours}h",
+  "@durationHoursShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursMinutesShort": "{hours}h {minutes}m",
+  "@durationHoursMinutesShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "dateToday": "Today",
+  "dateYesterday": "Yesterday",
+  "dateTomorrow": "Tomorrow",
+  "dayPeriodDawn": "dawn",
+  "dayPeriodMorning": "morning",
+  "dayPeriodAfternoon": "afternoon",
+  "dayPeriodEvening": "evening",
+  "dayPeriodNight": "night",
+  "relativeDayPeriodToday": "today {period}",
+  "@relativeDayPeriodToday": {
+    "placeholders": {
+      "period": {}
+    }
+  },
+  "relativeDayPeriodYesterday": "yesterday {period}",
+  "@relativeDayPeriodYesterday": {
+    "placeholders": {
+      "period": {}
+    }
+  },
+  "relativeDayPeriodTomorrow": "tomorrow {period}",
+  "@relativeDayPeriodTomorrow": {
+    "placeholders": {
+      "period": {}
+    }
+  },
+  "syncNotSyncing": "Not syncing",
+  "syncWaiting": "waiting",
+  "syncNotConfigured": "Not configured",
+  "syncConfiguredNotSyncing": "Configured, not syncing",
+  "syncWaitingFirstSync": "Waiting for first sync",
+  "syncSynced": "Synced {relative}",
+  "@syncSynced": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
+  "syncLastSynced": "Last synced {relative}",
+  "@syncLastSynced": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
+  "syncFailed": "failed",
+  "syncLastFailed": "Last sync failed",
+  "syncSchedulePending": "Schedule pending",
+  "syncPaused": "Sync paused",
+  "syncWaitingSchedule": "Waiting for schedule",
+  "syncDue": "Sync due",
+  "syncNext": "Next {duration}",
+  "@syncNext": {
+    "placeholders": {
+      "duration": {}
+    }
+  },
+  "syncEstimatedNext": "Est. next {duration}",
+  "@syncEstimatedNext": {
+    "placeholders": {
+      "duration": {}
+    }
+  },
+  "syncForegroundRefresh": "Foreground refresh {relative}",
+  "@syncForegroundRefresh": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
+  "syncNewCount": "{count} new",
+  "@syncNewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncTitleLive": "Live sync active",
+  "syncTitleWarming": "Sync warming up",
+  "syncTitleNeedsAttention": "Sync needs attention",
+  "syncTitleInterrupted": "Sync interrupted",
+  "syncTitleDisabled": "Sync disabled",
+  "syncDetailCollectingFirstSamples": "Collecting the first glucose samples for this source."
+}

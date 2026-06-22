@@ -3,13 +3,17 @@ import 'package:smart_xdrip/application/floating_surface/floating_surface_segmen
 
 import '../../domain/glance_range_state.dart';
 import '../../domain/glance_snapshot.dart';
+import '../../domain/floating/floating_glance_settings.dart';
 
 class GlanceFloatingSurfaceContributor {
   static const segmentId = 'glance';
 
   const GlanceFloatingSurfaceContributor();
 
-  FloatingSurfaceSegment build(GlanceSnapshot snapshot) {
+  FloatingSurfaceSegment build(
+    GlanceSnapshot snapshot, {
+    FloatingGlanceSettings settings = const FloatingGlanceSettings(),
+  }) {
     final hasCurrentReading =
         snapshot.hasReading && !snapshot.freshness.isStale;
     final primaryText = hasCurrentReading
@@ -42,6 +46,9 @@ class GlanceFloatingSurfaceContributor {
         'hasReading': snapshot.hasReading,
         'isStale': snapshot.freshness.isStale,
         'sourceLabel': snapshot.sourceLabel,
+        'sizePreset': settings.sizePreset.code,
+        'formFactor': settings.formFactor.code,
+        'presetSource': settings.presetSource.code,
         'targetLowMmol': snapshot.targetLowMmol,
         'targetHighMmol': snapshot.targetHighMmol,
         'sparklinePoints': [

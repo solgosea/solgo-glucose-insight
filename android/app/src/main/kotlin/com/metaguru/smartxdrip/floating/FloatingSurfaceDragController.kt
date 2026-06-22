@@ -9,7 +9,7 @@ class FloatingSurfaceDragController(
     private val windowManager: WindowManager,
     private val params: WindowManager.LayoutParams,
     private val onPositionChanged: (Int, Int) -> Unit,
-    private val onClick: () -> Unit
+    private val onClick: (Float, Float, Int, Int) -> Unit
 ) : View.OnTouchListener {
     private var startX = 0
     private var startY = 0
@@ -38,7 +38,7 @@ class FloatingSurfaceDragController(
             }
             MotionEvent.ACTION_UP -> {
                 onPositionChanged(params.x, params.y)
-                if (!moved) onClick()
+                if (!moved) onClick(event.x, event.y, view.width, view.height)
                 return true
             }
         }

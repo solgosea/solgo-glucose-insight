@@ -105,7 +105,7 @@ class LowEpisodeRepeatCalculator {
         selected: selected,
       ),
       timeBlockBuckets: buckets,
-      takeaway: _takeaway(dominant, selected.length),
+      takeaway: '',
     );
   }
 
@@ -184,13 +184,6 @@ class LowEpisodeRepeatCalculator {
     return 'Evening';
   }
 
-  String _takeaway(EpisodeRepeatTimeBlockBucket dominant, int repeatCount) {
-    if (repeatCount == 0 || dominant.count == 0) {
-      return 'No clear repeated low-episode timing pattern is visible in the past 30 days.';
-    }
-    return 'Repeated low episodes are most visible around ${dominant.label.toLowerCase()}, so that time-of-day context is a good place to start review.';
-  }
-
   String? _timeRange(List<GlucoseEvent> events) {
     if (events.isEmpty) return null;
     final minutes = events
@@ -213,21 +206,24 @@ class LowEpisodeRepeatCalculator {
       DateTime(value.year, value.month, value.day);
 
   String _shortDate(DateTime value) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[value.month - 1]} ${value.day}';
+    return '${_monthShort(value.month)} ${value.day}';
+  }
+
+  String _monthShort(int month) {
+    return switch (month) {
+      1 => 'Jan',
+      2 => 'Feb',
+      3 => 'Mar',
+      4 => 'Apr',
+      5 => 'May',
+      6 => 'Jun',
+      7 => 'Jul',
+      8 => 'Aug',
+      9 => 'Sep',
+      10 => 'Oct',
+      11 => 'Nov',
+      _ => 'Dec',
+    };
   }
 }
 

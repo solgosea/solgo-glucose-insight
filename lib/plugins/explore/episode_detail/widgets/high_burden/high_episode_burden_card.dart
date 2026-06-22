@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../../application/i18n/episode_detail_l10n.dart';
 import '../../models/episode_detail_view_model.dart';
 import '../shared/episode_section_label.dart';
 
@@ -14,13 +15,14 @@ class HighEpisodeBurdenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.episodeDetailL10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const EpisodeSectionLabel(
+        EpisodeSectionLabel(
           index: '02',
-          title: 'Burden breakdown',
-          trailing: 'Above target',
+          title: l10n.burdenBreakdown,
+          trailing: l10n.toBelowHighThreshold,
         ),
         EpisodeSectionCard(
           child: Column(

@@ -1,4 +1,5 @@
 import '../../data/platform/floating_surface/floating_surface_platform_bridge.dart';
+import 'floating_surface_action.dart';
 import 'floating_surface_registry.dart';
 import 'floating_surface_segment.dart';
 
@@ -14,6 +15,8 @@ class FloatingSurfaceService {
   });
 
   Future<bool> hasPermission() => bridge.hasOverlayPermission();
+
+  Stream<FloatingSurfaceAction> get actions => bridge.actions;
 
   Future<void> requestPermission() => bridge.requestOverlayPermission();
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 
+import '../application/i18n/home_l10n.dart';
+
 class HomeInspectionBadge extends StatelessWidget {
   final bool visible;
 
@@ -23,9 +25,9 @@ class HomeInspectionBadge extends StatelessWidget {
             border: Border.all(color: AppColors.amber.withOpacity(0.30)),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          child: const Text(
-            'INSPECTING PAST · release for now',
-            style: TextStyle(
+          child: Text(
+            context.homeL10n.homeInspectingPast,
+            style: const TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 8.5,
               fontWeight: FontWeight.w700,

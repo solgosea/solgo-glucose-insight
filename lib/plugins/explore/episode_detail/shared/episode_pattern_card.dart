@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../foundation/theme/app_colors.dart';
+import '../application/i18n/episode_detail_l10n.dart';
 
 /// Day indicator (one of N small dots used to visualize past-window
 /// occurrences inside the Pattern card).
@@ -46,9 +47,9 @@ class EpisodePatternCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'PATTERN ANALYSIS',
-            style: TextStyle(
+          Text(
+            context.episodeDetailL10n.patternAnalysis.toUpperCase(),
+            style: const TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 9,
               fontWeight: FontWeight.w600,

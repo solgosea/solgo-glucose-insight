@@ -61,7 +61,7 @@ void main() {
     final source = viewModel.sources.single;
     expect(source.meta, isNull);
     expect(source.syncStatus, isNotNull);
-    expect(source.syncStatus!.label, contains('3 min ago'));
+    expect(source.syncStatus!.label, contains('3m'));
     expect(source.syncStatus!.countdownLabel, contains('Est. next'));
   });
 

@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '../../../../application/glucose_unit/glucose_unit_format_service.dart';
+import '../../../../application/i18n/localized_date_time_formatter.dart';
 import '../../../../domain/entities/app_settings.dart';
 import '../../../../domain/entities/glucose_event.dart';
 import '../domain/report_data_quality.dart';
@@ -13,6 +14,8 @@ import '../domain/sections/report_period_analysis_section.dart';
 import '../domain/sections/report_ranges_section.dart';
 import '../engine/calculators/report_coverage_calculator.dart';
 import '../engine/report_engine_output.dart';
+import '../application/i18n/report_l10n_resolver.dart';
+import '../l10n/generated/report_localizations.dart';
 import '../models/report_period.dart';
 import '../models/report_section.dart';
 import '../models/report_view_model.dart';
@@ -27,7 +30,9 @@ class ReportViewModelMapper {
   ReportViewModel map({
     required ReportEngineOutput output,
     required List<ReportSectionToggle> sections,
+    ReportLocalizations? l10n,
   }) {
+    final strings = l10n ?? ReportL10nResolver.fallback;
     return ReportViewModel(
       selectedPeriod: output.period,
       periodOptions: ReportPeriod.values
@@ -36,28 +41,28 @@ class ReportViewModelMapper {
                 selected: item == output.period,
               ))
           .toList(),
-      header: _header(output.headerSection, output.settings),
-      metrics: _metrics(output.metricsSection, output.settings),
-      ranges: _ranges(output.rangesSection, output.settings),
+      header: _header(output.headerSection, output.settings, strings),
+      metrics: _metrics(output.metricsSection, output.settings, strings),
+      ranges: _ranges(output.rangesSection, output.settings, strings),
       agpSlots: output.agpSection.slots,
-      dailyCurves: _dailyCurves(output.dailyCurvesSection),
+      dailyCurves: _dailyCurves(output.dailyCurvesSection, strings),
       dataQuality:
           _quality(output.metricsSection.quality, output.readings.length),
-      periodAnalysis:
-          _periodAnalysis(output.periodAnalysisSection, output.settings),
+      periodAnalysis: _periodAnalysis(
+          output.periodAnalysisSection, output.settings, strings),
       episodesSummary:
-          _episodesSummary(output.episodesSection, output.settings),
-      sections: sections,
+          _episodesSummary(output.episodesSection, output.settings, strings),
+      sections: _sections(sections, strings),
       settings: output.settings,
       hasData: output.hasData,
-      emptyText:
-          'No report data yet. Connect xDrip+ Local or Nightscout API and sync readings first.',
+      emptyText: strings.emptyNoReportData,
     );
   }
 
   ReportHeaderViewModel _header(
     ReportHeaderSection section,
     AppSettings settings,
+    ReportLocalizations l10n,
   ) {
     final range = glucoseFormatter.range(
       settings.lowThreshold,
@@ -68,34 +73,43 @@ class ReportViewModelMapper {
         ? section.readings.last.timestamp
         : section.generatedAt;
     final start = end.subtract(Duration(days: section.period.days - 1));
-    final dateFmt = DateFormat('MMM d, yyyy');
-    final dateTimeFmt = DateFormat('MMM d, yyyy - HH:mm');
+    final readingCount = _decimal(section.readings.length, l10n.localeName);
     return ReportHeaderViewModel(
+      periodTitle: l10n.headerPeriod,
       periodLabel:
-          '${dateFmt.format(start)} - ${dateFmt.format(end)} - ${section.period.days} days',
-      readingsLabel:
-          '${NumberFormat.decimalPattern().format(section.readings.length)} readings',
-      coverageLabel:
-          '${section.quality.wearPercent.toStringAsFixed(0)}% wear - ${section.quality.activeMinutes} active min',
-      dataSourceLabel: _dataSourceLabel(settings, section.readings.isNotEmpty),
+          '${_dateFull(start, l10n.localeName)} - ${_dateFull(end, l10n.localeName)} - ${l10n.unitDays(section.period.days)}',
+      readingsLabel: l10n.unitReadings(readingCount),
+      coverageLabel: l10n.unitWearActive(
+          section.quality.wearPercent.toStringAsFixed(0),
+          section.quality.activeMinutes),
+      dataSourceTitle: l10n.headerDataSource,
+      dataSourceLabel:
+          _dataSourceLabel(settings, section.readings.isNotEmpty, l10n),
+      targetRangeTitle: l10n.headerTargetRange,
       targetRangeLabel: range.fullLabel,
-      generatedLabel: dateTimeFmt.format(section.generatedAt),
+      generatedTitle: l10n.headerGenerated,
+      generatedLabel: _dateTime(section.generatedAt, l10n.localeName),
     );
   }
 
-  String _dataSourceLabel(AppSettings settings, bool hasReadings) {
+  String _dataSourceLabel(
+    AppSettings settings,
+    bool hasReadings,
+    ReportLocalizations l10n,
+  ) {
     final xdrip = settings.xdripSyncEnabled;
     final nightscout = settings.nightscoutSyncEnabled;
-    if (xdrip && nightscout) return 'Nightscout API + xDrip+ Local';
-    if (xdrip) return 'xDrip+ Local HTTP';
-    if (nightscout) return 'Nightscout API';
-    if (hasReadings) return 'Local canonical cache';
-    return 'No data source';
+    if (xdrip && nightscout) return l10n.sourceNightscoutXdrip;
+    if (xdrip) return l10n.sourceXdrip;
+    if (nightscout) return l10n.sourceNightscout;
+    if (hasReadings) return l10n.sourceLocalCache;
+    return l10n.sourceNoData;
   }
 
   List<ReportMetricViewModel> _metrics(
     ReportMetricsSection section,
     AppSettings settings,
+    ReportLocalizations l10n,
   ) {
     final unit = settings.unit;
     final tir = section.tir;
@@ -105,36 +119,36 @@ class ReportViewModelMapper {
     final tirPercent = quality.percentFor(ReportRangeBand.inRange);
     return [
       ReportMetricViewModel(
-        label: 'TIR',
+        label: l10n.metricTir,
         value: '${tirPercent.toStringAsFixed(0)}%',
-        unit: 'target >=70%',
-        badge: tirPercent >= 70 ? 'On target' : 'Below target',
+        unit: l10n.metricTargetUnit,
+        badge: tirPercent >= 70 ? l10n.metricOnTarget : l10n.metricBelowTarget,
         tone: ReportMetricTone.green,
       ),
       ReportMetricViewModel(
-        label: 'Avg',
+        label: l10n.metricAverage,
         value: mean.valueLabel,
         unit: mean.unitLabel,
       ),
       ReportMetricViewModel(
-        label: 'Wear',
+        label: l10n.metricWear,
         value: '${quality.wearPercent.toStringAsFixed(0)}%',
-        unit: 'sensor active',
+        unit: l10n.metricSensorActive,
         tone: ReportMetricTone.blue,
       ),
       ReportMetricViewModel(
-        label: 'CV',
+        label: l10n.metricCv,
         value: '${tir.cv.toStringAsFixed(0)}%',
-        unit: 'target <36%',
+        unit: l10n.metricCvTargetUnit,
       ),
       ReportMetricViewModel(
-        label: 'GMI',
+        label: l10n.metricGmi,
         value: '${tir.gmi.toStringAsFixed(1)}%',
-        unit: 'est. A1C',
+        unit: l10n.metricGmiUnit,
         tone: ReportMetricTone.amber,
       ),
       ReportMetricViewModel(
-        label: 'SD',
+        label: l10n.metricSd,
         value: sd.valueLabel,
         unit: sd.unitLabel,
       ),
@@ -144,6 +158,7 @@ class ReportViewModelMapper {
   List<ReportRangeViewModel> _ranges(
     ReportRangesSection section,
     AppSettings settings,
+    ReportLocalizations l10n,
   ) {
     ReportRangeViewModel range({
       required String label,
@@ -176,35 +191,35 @@ class ReportViewModelMapper {
         .valueLabel;
     return [
       range(
-        label: 'Very High',
+        label: l10n.rangeVeryHigh,
         thresholdLabel: '>$veryHigh',
         levelLabel: 'L2',
         band: ReportRangeBand.veryHigh,
         tone: ReportRangeTone.veryHigh,
       ),
       range(
-        label: 'High',
+        label: l10n.rangeHigh,
         thresholdLabel: '$high-$veryHigh',
         levelLabel: 'L1',
         band: ReportRangeBand.high,
         tone: ReportRangeTone.high,
       ),
       range(
-        label: 'In Range',
+        label: l10n.rangeInRange,
         thresholdLabel: '$low-$high',
         levelLabel: null,
         band: ReportRangeBand.inRange,
         tone: ReportRangeTone.inRange,
       ),
       range(
-        label: 'Low',
+        label: l10n.rangeLow,
         thresholdLabel: '$veryLow-$low',
         levelLabel: 'L1',
         band: ReportRangeBand.low,
         tone: ReportRangeTone.low,
       ),
       range(
-        label: 'Very Low',
+        label: l10n.rangeVeryLow,
         thresholdLabel: '<$veryLow',
         levelLabel: 'L2',
         band: ReportRangeBand.veryLow,
@@ -215,18 +230,38 @@ class ReportViewModelMapper {
 
   List<ReportDailyCurveViewModel> _dailyCurves(
     ReportDailyCurvesSection section,
+    ReportLocalizations l10n,
   ) {
-    final fmt = DateFormat('MMM d');
     return [
       for (final curve in section.curves)
         ReportDailyCurveViewModel(
           day: curve.day,
-          dayLabel: fmt.format(curve.day),
+          dayLabel: _dateShort(curve.day, l10n.localeName),
           tir: curve.tir,
           readings: curve.readings,
           sparse: curve.sparse,
         ),
     ];
+  }
+
+  String _dateShort(DateTime date, String localeName) {
+    return LocalizedDateTimeFormatter(localeName).dateShort(date);
+  }
+
+  String _dateFull(DateTime date, String localeName) {
+    return LocalizedDateTimeFormatter(localeName).dateFull(date);
+  }
+
+  String _dateTime(DateTime date, String localeName) {
+    return LocalizedDateTimeFormatter(localeName).dateTime(date);
+  }
+
+  String _decimal(int value, String localeName) {
+    try {
+      return NumberFormat.decimalPattern(localeName).format(value);
+    } catch (_) {
+      return value.toString();
+    }
   }
 
   ReportDataQualityViewModel _quality(
@@ -246,21 +281,25 @@ class ReportViewModelMapper {
   ReportPeriodAnalysisViewModel _periodAnalysis(
     ReportPeriodAnalysisSection section,
     AppSettings settings,
+    ReportLocalizations l10n,
   ) {
     final best = section.best;
     final mostVariable = section.mostVariable;
     if (section.rows.isEmpty || best == null || mostVariable == null) {
-      return const ReportPeriodAnalysisViewModel(
+      return ReportPeriodAnalysisViewModel(
         hasData: false,
-        summaryText: 'Insufficient data for period analysis.',
-        rows: [],
+        summaryText: l10n.periodAnalysisInsufficient,
+        rows: const [],
       );
     }
     return ReportPeriodAnalysisViewModel(
       hasData: true,
-      summaryText:
-          '${best.segment.label} had the highest TIR (${best.tir.tir.toStringAsFixed(0)}%). '
-          '${mostVariable.segment.label} was the most variable period (CV ${mostVariable.tir.cv.toStringAsFixed(0)}%).',
+      summaryText: l10n.periodAnalysisSummary(
+        best.segment.label,
+        best.tir.tir.toStringAsFixed(0),
+        mostVariable.segment.label,
+        mostVariable.tir.cv.toStringAsFixed(0),
+      ),
       rows: [
         for (final row in section.rows)
           ReportPeriodRowViewModel(
@@ -277,9 +316,10 @@ class ReportViewModelMapper {
   ReportEpisodesSummaryViewModel _episodesSummary(
     ReportEpisodesSection section,
     AppSettings settings,
+    ReportLocalizations l10n,
   ) {
     if (section.highest == null || section.lowest == null) {
-      return const ReportEpisodesSummaryViewModel(
+      return ReportEpisodesSummaryViewModel(
         hasData: false,
         highCount: 0,
         lowCount: 0,
@@ -288,7 +328,7 @@ class ReportViewModelMapper {
         nocturnalLowCount: 0,
         highestLabel: '-',
         lowestLabel: '-',
-        summaryText: 'Insufficient data for episode summary.',
+        summaryText: l10n.episodeSummaryInsufficient,
       );
     }
     return ReportEpisodesSummaryViewModel(
@@ -302,8 +342,53 @@ class ReportViewModelMapper {
       highestLabel: _formattedValue(section.highest!, settings),
       lowestLabel: _formattedValue(section.lowest!, settings),
       summaryText:
-          '${section.highs.length} high episodes and ${section.lows.length} low episodes were detected in this report window.',
+          l10n.episodeSummary(section.highs.length, section.lows.length),
     );
+  }
+
+  List<ReportSectionToggle> _sections(
+    List<ReportSectionToggle> sections,
+    ReportLocalizations l10n,
+  ) {
+    return [
+      for (final section in sections)
+        ReportSectionToggle(
+          key: section.key,
+          title: _sectionTitle(section.key, l10n),
+          subtitle: _sectionSubtitle(section.key, l10n),
+          enabled: section.enabled,
+        ),
+    ];
+  }
+
+  String _sectionTitle(ReportSectionKey key, ReportLocalizations l10n) {
+    switch (key) {
+      case ReportSectionKey.keyMetrics:
+        return l10n.toggleKeyMetricsTitle;
+      case ReportSectionKey.agpChart:
+        return l10n.toggleAgpChartTitle;
+      case ReportSectionKey.dailyCurves:
+        return l10n.toggleDailyCurvesTitle;
+      case ReportSectionKey.periodAnalysis:
+        return l10n.togglePeriodAnalysisTitle;
+      case ReportSectionKey.episodesSummary:
+        return l10n.toggleEpisodesSummaryTitle;
+    }
+  }
+
+  String _sectionSubtitle(ReportSectionKey key, ReportLocalizations l10n) {
+    switch (key) {
+      case ReportSectionKey.keyMetrics:
+        return l10n.toggleKeyMetricsSubtitle;
+      case ReportSectionKey.agpChart:
+        return l10n.toggleAgpChartSubtitle;
+      case ReportSectionKey.dailyCurves:
+        return l10n.toggleDailyCurvesSubtitle;
+      case ReportSectionKey.periodAnalysis:
+        return l10n.togglePeriodAnalysisSubtitle;
+      case ReportSectionKey.episodesSummary:
+        return l10n.toggleEpisodesSummarySubtitle;
+    }
   }
 
   String _formattedValue(double value, AppSettings settings) {

@@ -1,0 +1,76 @@
+﻿{
+    "homeHeaderSubtitle": "首頁標題和同步狀態",
+    "homeHeroTitle": "目前血糖",
+    "homeTirSubtitle": "目前範圍摘要",
+    "homeHeroSubtitle": "最新血糖值",
+    "homeTirDescription": "目前檢視的目標範圍時間摘要。",
+    "homeRangeChartDescription": "近期血糖範圍曲線。",
+    "homeHeroDescription": "最新血糖值和趨勢摘要。",
+    "homeStatsDescription": "緊湊顯示平均值、CV 和事件統計。",
+    "homeInsightDescription": "緊湊的生成式洞察入口。",
+    "homeStatsTitle": "首頁統計",
+    "homeHeaderDescription": "首頁標題和目前同步狀態。",
+    "homeRangeChartTitle": "範圍曲線",
+    "homeHeaderTitle": "首頁標題",
+    "homeTirTitle": "目標範圍時間",
+    "homeStatsSubtitle": "平均值、CV 和事件統計",
+    "homeInsightTitle": "首頁洞察",
+    "homeRangeChartSubtitle": "近期血糖趨勢",
+    "homeInsightSubtitle": "生成式洞察入口",
+    "pluginUnavailable": "不可用",
+    "pluginReportTitle": "首頁報告",
+    "@@locale": "zh_Hant",
+    "pluginSubtitle": "首頁元件和血糖概覽。",
+    "pluginTitle": "首頁",
+    "pluginDescription": "首頁元件和血糖概覽。",
+    "pluginNoData": "暫無可用資料。",
+    "pluginLoading": "載入中",
+    "homeStatAverage": "平均 {window}",
+    "@homeStatAverage": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeStatTir": "TIR {window}",
+    "@homeStatTir": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeStatCv": "CV {window}",
+    "@homeStatCv": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeInRange": "目標範圍內",
+    "homeStable": "穩定",
+    "homeHighWithThreshold": "高於 {threshold}",
+    "@homeHighWithThreshold": {
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "homeLowWithThreshold": "低於 {threshold}",
+    "@homeLowWithThreshold": {
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "homeLast24h": "過去 24 小時",
+    "homeNotEnoughData": "CGM 資料暫時不足。",
+    "homeCheckingSync": "正在檢查同步",
+    "homeCompanionEyebrow": "CGM 伴侣",
+    "homeTodaysInsight": "今日洞察",
+    "homeSeeFullAnalysis": "查看完整分析  >",
+    "homeMyDevice": "我的设备",
+    "homeInspectingPast": "正在查看歷史 - 鬆開後恢復",
+    "homeRangeOneHour": "1小時",
+    "homeRangeFourHours": "4小時",
+    "homeRangeEightHours": "8小時",
+    "homeRangeTwentyFourHours": "24小時",
+    "homeRangeTitleOneHour": "過去 1 小時",
+    "homeRangeTitleFourHours": "過去 4 小時",
+    "homeRangeTitleEightHours": "過去 8 小時",
+    "homeRangeTitleTwentyFourHours": "過去 24 小時"
+}

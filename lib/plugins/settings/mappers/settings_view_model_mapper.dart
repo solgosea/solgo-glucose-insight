@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:smart_xdrip/core/app_metadata.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
+import '../application/i18n/settings_l10n_resolver.dart';
+import '../l10n/generated/settings_localizations.dart';
 import '../models/settings_analysis_result.dart';
 import '../models/settings_view_model.dart';
 
 class SettingsViewModelMapper {
-  const SettingsViewModelMapper();
+  final SettingsLocalizations l10n;
+
+  SettingsViewModelMapper({
+    SettingsLocalizations? l10n,
+  }) : l10n = l10n ?? SettingsL10nResolver.fallback;
 
   SettingsViewModel map({
     required SettingsAnalysisResult analysis,
@@ -18,8 +24,8 @@ class SettingsViewModelMapper {
       display: SettingsDisplayViewModel(
         unitRow: SettingsRowViewModel(
           icon: Icons.show_chart_rounded,
-          label: 'Units',
-          subtitle: 'Blood glucose unit',
+          label: l10n.settingsUnitsLabel,
+          subtitle: l10n.settingsBloodGlucoseUnitSubtitle,
           valueLabel: _unitLabel(settings.unit),
           chevron: true,
           action: SettingsAction.pickUnit,
@@ -29,22 +35,23 @@ class SettingsViewModelMapper {
         rows: [
           SettingsRowViewModel(
             icon: Icons.sync_rounded,
-            label: 'Initial sync window',
-            subtitle: 'Used when connecting a new source',
-            valueLabel: '${settings.initialSyncDays} days',
+            label: l10n.settingsInitialSyncWindowLabel,
+            subtitle: l10n.settingsInitialSyncWindowSubtitle,
+            valueLabel: '${settings.initialSyncDays} ${l10n.settingsDaysSuffix}',
             chevron: true,
             action: SettingsAction.pickInitialSyncWindow,
           ),
         ],
       ),
       storage: SettingsStorageViewModel(
-        title: 'Local storage',
-        usedLabel: '${_formatBytes(analysis.dbBytes)} used',
+        title: l10n.settingsLocalStorageTitle,
+        usedLabel: '${_formatBytes(analysis.dbBytes)} ${l10n.settingsStorageUsed}',
         leftLabel: '0',
-        coveredLabel: '${analysis.daysCovered} days',
-        maxLabel: '${settings.retentionDays} days max',
+        coveredLabel: '${analysis.daysCovered} ${l10n.settingsDaysCovered}',
+        maxLabel: '${settings.retentionDays} ${l10n.settingsDaysMax}',
         retentionSummary:
-            'Data retention: ${settings.retentionDays} days - No data leaves this device',
+            '${l10n.settingsRetentionSummaryPrefix} ${settings.retentionDays} '
+            '${l10n.settingsDaysSuffix} - ${l10n.settingsRetentionSummarySuffix}',
         fillRatio: _fillRatio(
           daysCovered: analysis.daysCovered,
           retentionDays: settings.retentionDays,
@@ -54,29 +61,29 @@ class SettingsViewModelMapper {
         rows: [
           SettingsRowViewModel(
             icon: Icons.storage_rounded,
-            label: 'Retention period',
-            subtitle: 'Auto-trims older readings',
-            valueLabel: '${settings.retentionDays} days',
+            label: l10n.settingsRetentionPeriodLabel,
+            subtitle: l10n.settingsRetentionPeriodSubtitle,
+            valueLabel: '${settings.retentionDays} ${l10n.settingsDaysSuffix}',
             chevron: true,
             action: SettingsAction.none,
           ),
-          const SettingsRowViewModel(
+          SettingsRowViewModel(
             icon: Icons.file_download_outlined,
-            label: 'Export data',
-            subtitle: 'Save readings as CSV',
+            label: l10n.settingsExportDataLabel,
+            subtitle: l10n.settingsExportDataSubtitle,
             valueLabel: null,
             chevron: true,
             action: SettingsAction.exportCsv,
           ),
         ],
       ),
-      danger: const SettingsDangerViewModel(
-        title: 'Clear all data',
-        subtitle: 'Permanently removes all stored readings',
+      danger: SettingsDangerViewModel(
+        title: l10n.settingsClearAllDataTitle,
+        subtitle: l10n.settingsClearAllDataSubtitle,
       ),
       about: SettingsAboutViewModel(
         title: appMetadata.aboutTitle,
-        links: const ['Privacy', 'Open source'],
+        links: [l10n.settingsPrivacyLink, l10n.settingsOpenSourceLink],
       ),
       saving: saving,
     );

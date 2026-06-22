@@ -1,0 +1,16 @@
+﻿{
+    "glucoseSyncSubtitle": "同步目前血糖資料來源",
+    "sourceHealthSubtitle": "驗證目前資料來源可用性",
+    "sourceHealthTitle": "資料來源健康檢查",
+    "glucoseSyncTitle": "血糖同步",
+    "glucoseSyncDescription": "從目前資料來源同步血糖讀數。",
+    "sourceHealthDescription": "檢查目前 xDrip 或 Nightscout 資料來源是否可存取。",
+    "pluginUnavailable": "不可用",
+    "pluginReportTitle": "背景報告",
+    "@@locale": "zh_Hant",
+    "pluginSubtitle": "背景血糖同步和資料來源健康工作。",
+    "pluginTitle": "背景工作",
+    "pluginDescription": "背景血糖同步和資料來源健康工作。",
+    "pluginNoData": "暫無可用資料。",
+    "pluginLoading": "載入中"
+}

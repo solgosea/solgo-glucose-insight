@@ -1,0 +1,4 @@
+enum ReportPrivacyLevel {
+  standard,
+  private,
+}

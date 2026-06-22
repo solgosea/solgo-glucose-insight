@@ -1,0 +1,76 @@
+﻿{
+    "homeHeaderSubtitle": "首页标题和同步状态",
+    "homeHeroTitle": "当前血糖",
+    "homeTirSubtitle": "当前范围摘要",
+    "homeHeroSubtitle": "最新血糖值",
+    "homeTirDescription": "当前视图的目标范围时间摘要。",
+    "homeRangeChartDescription": "近期血糖范围曲线。",
+    "homeHeroDescription": "最新血糖值和趋势摘要。",
+    "homeStatsDescription": "紧凑展示平均值、CV 和事件统计。",
+    "homeInsightDescription": "紧凑的生成式洞察入口。",
+    "homeStatsTitle": "首页统计",
+    "homeHeaderDescription": "首页标题和当前同步状态。",
+    "homeRangeChartTitle": "范围曲线",
+    "homeHeaderTitle": "首页标题",
+    "homeTirTitle": "目标范围时间",
+    "homeStatsSubtitle": "平均值、CV 和事件统计",
+    "homeInsightTitle": "首页洞察",
+    "homeRangeChartSubtitle": "近期血糖趋势",
+    "homeInsightSubtitle": "生成式洞察入口",
+    "pluginUnavailable": "不可用",
+    "pluginReportTitle": "首页报告",
+    "@@locale": "zh",
+    "pluginSubtitle": "首页组件和血糖概览。",
+    "pluginTitle": "首页",
+    "pluginDescription": "首页组件和血糖概览。",
+    "pluginNoData": "暂无可用数据。",
+    "pluginLoading": "加载中",
+    "homeStatAverage": "平均 {window}",
+    "@homeStatAverage": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeStatTir": "TIR {window}",
+    "@homeStatTir": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeStatCv": "CV {window}",
+    "@homeStatCv": {
+        "placeholders": {
+            "window": {}
+        }
+    },
+    "homeInRange": "目标范围内",
+    "homeStable": "稳定",
+    "homeHighWithThreshold": "高于 {threshold}",
+    "@homeHighWithThreshold": {
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "homeLowWithThreshold": "低于 {threshold}",
+    "@homeLowWithThreshold": {
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "homeLast24h": "过去 24 小时",
+    "homeNotEnoughData": "CGM 数据暂时不足。",
+    "homeCheckingSync": "正在检查同步",
+    "homeCompanionEyebrow": "CGM 伴侣",
+    "homeTodaysInsight": "今日洞察",
+    "homeSeeFullAnalysis": "查看完整分析  >",
+    "homeMyDevice": "我的设备",
+    "homeInspectingPast": "正在查看历史 - 松开后恢复",
+    "homeRangeOneHour": "1小时",
+    "homeRangeFourHours": "4小时",
+    "homeRangeEightHours": "8小时",
+    "homeRangeTwentyFourHours": "24小时",
+    "homeRangeTitleOneHour": "过去 1 小时",
+    "homeRangeTitleFourHours": "过去 4 小时",
+    "homeRangeTitleEightHours": "过去 8 小时",
+    "homeRangeTitleTwentyFourHours": "过去 24 小时"
+}

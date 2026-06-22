@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import '../../../application/analysis/analysis_facade.dart';
 import '../application/history_service.dart';
 import '../application/history_host_services.dart';
+import '../application/i18n/history_l10n_resolver.dart';
 import '../domain/history_time_filter.dart';
+import '../l10n/generated/history_localizations.dart';
 import '../models/history_view_model.dart';
 import '../runtime/history_plugin_runtime.dart';
 import '../runtime/history_runtime_cache.dart';
@@ -16,6 +18,7 @@ class HistoryController extends ChangeNotifier {
 
   DateTime _selectedDay = DateTime.now();
   HistoryTimeFilter? _timeFilter;
+  HistoryLocalizations _l10n = HistoryL10nResolver.fallback;
   HistoryViewModel? viewModel;
 
   HistoryController({
@@ -31,6 +34,15 @@ class HistoryController extends ChangeNotifier {
   HistoryTimeFilter? get timeFilter => _timeFilter;
 
   Future<void> init() => _load();
+
+  void updateLocale(HistoryLocalizations l10n) {
+    if (_l10n.localeName == l10n.localeName) return;
+    _l10n = l10n;
+    if (viewModel != null) {
+      viewModel = _deriveViewModel(hostServices.facadeProvider(), _timeFilter);
+      notifyListeners();
+    }
+  }
 
   void prevDay() {
     _selectedDay = _selectedDay.subtract(const Duration(days: 1));
@@ -70,24 +82,20 @@ class HistoryController extends ChangeNotifier {
       day: _selectedDay,
     );
     if (cached != null) {
-      viewModel = _timeFilter == null
-          ? cached
-          : _deriveFocusedViewModel(facade, _timeFilter!);
+      viewModel = _deriveViewModel(facade, _timeFilter);
       notifyListeners();
       return;
     }
 
     final snapshot = await runtime.preheatDay(day: _selectedDay);
     if (snapshot == null) return;
-    viewModel = _timeFilter == null
-        ? snapshot.viewModel
-        : _deriveFocusedViewModel(facade, _timeFilter!);
+    viewModel = _deriveViewModel(facade, _timeFilter);
     notifyListeners();
   }
 
-  HistoryViewModel _deriveFocusedViewModel(
+  HistoryViewModel _deriveViewModel(
     AnalysisFacade facade,
-    HistoryTimeFilter filter,
+    HistoryTimeFilter? filter,
   ) {
     final selectedDay = DateTime(
       _selectedDay.year,
@@ -108,6 +116,7 @@ class HistoryController extends ChangeNotifier {
       isToday: isToday,
       settings: hostServices.settingsProvider(),
       timeFilter: filter,
+      l10n: _l10n,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:smart_xdrip/application/plugin_text/plugin_text_render_context.dart';
 import 'package:smart_xdrip/plugins/statistics/application/text/statistics_agp_text_builder.dart';
 import 'package:smart_xdrip/plugins/statistics/application/text/statistics_heatmap_text_builder.dart';
 import 'package:smart_xdrip/plugins/statistics/application/text/statistics_metrics_text_builder.dart';
@@ -44,6 +45,29 @@ void main() {
     expect(
       agp.renderNotEnoughWindowGuidance(),
       'AGP is more meaningful with 7+ days of data.',
+    );
+  });
+
+  test('statistics text builders prefer Chinese templates by locale', () {
+    const context = PluginTextRenderContext(locale: 'zh');
+    const metrics = StatisticsMetricsTextBuilder();
+    const tir = StatisticsTirTextBuilder();
+    const heatmap = StatisticsHeatmapTextBuilder();
+    const agp = StatisticsAgpTextBuilder();
+
+    expect(metrics.header('过去 14 天', context: context), '关键指标 - 过去 14 天');
+    expect(metrics.tirLabel(context: context), '目标范围时间');
+    expect(metrics.cvStatus(stable: false, context: context), '偏高');
+    expect(tir.inRangeLegend('72', context: context), '范围内 72%');
+    expect(tir.veryHighExtreme('>13.9', context: context), '很高 >13.9');
+    expect(heatmap.title(context: context), '按小时 TIR 热力图');
+    expect(
+      heatmap.tagLabel(StatisticsHeatmapTag.needsAttention, context: context),
+      '需关注',
+    );
+    expect(
+      agp.renderNotEnoughWindowGuidance(context: context),
+      'AGP 在 7 天以上数据时更有参考意义。',
     );
   });
 }

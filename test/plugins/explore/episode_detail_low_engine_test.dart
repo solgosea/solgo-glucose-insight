@@ -82,7 +82,6 @@ void main() {
       isTrue,
     );
     expect(output.lowReliability?.confidence, EpisodeDataConfidence.high);
-    expect(output.similarSection.title, contains('Past 30 Days'));
     expect(output.similarSection.windowDays, 30);
 
     final viewModel = const EpisodeDetailViewModelMapper().map(output);

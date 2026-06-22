@@ -36,7 +36,7 @@ void main() {
     expect(snapshot.valueLabel, '7.4');
     expect(snapshot.unitLabel, 'mmol/L');
     expect(snapshot.deltaLabel, '+0.3');
-    expect(snapshot.freshness.label, '2 min ago');
+    expect(snapshot.freshness.label, '2m');
     expect(snapshot.rangeState, GlanceRangeState.inRange);
     expect(snapshot.tir24h.percentLabel, '67%');
     expect(snapshot.tir24h.compactLabel, 'TIR 67%');

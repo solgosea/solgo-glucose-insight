@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/app_settings.dart';
 import '../../../domain/entities/glucose_event.dart';
 import '../../../foundation/theme/app_colors.dart';
+import '../application/i18n/history_l10n_resolver.dart';
 import '../application/text/history_event_text_builder.dart';
 import '../domain/sections/history_events_section.dart';
+import '../l10n/generated/history_localizations.dart';
 import '../models/history_view_model.dart';
 
 class HistoryEventsViewModelMapper {
@@ -16,42 +18,47 @@ class HistoryEventsViewModelMapper {
 
   List<HistoryEventRowViewModel> map(
     HistoryEventsSection section,
-    AppSettings settings,
-  ) {
+    AppSettings settings, {
+    HistoryLocalizations? l10n,
+  }) {
+    final strings = l10n ?? HistoryL10nResolver.fallback;
     return [
-      for (final context in section.events) _eventRow(context.event, settings),
+      for (final context in section.events)
+        _eventRow(context.event, settings, strings),
     ];
   }
 
   HistoryEventRowViewModel _eventRow(
     GlucoseEvent event,
     AppSettings settings,
+    HistoryLocalizations l10n,
   ) {
     final spec = _eventIconSpec(event.type);
     final tint =
         _eventIconTint(event.type, event.peakOrNadir ?? event.value, settings);
     return HistoryEventRowViewModel(
       time: _hm(event.time),
-      name: _eventName(event.type),
+      name: _eventName(event.type, l10n),
       icon: spec.icon,
       iconColor: spec.color,
       iconBackground: tint?.bg ?? spec.color.withOpacity(0.10),
       iconBorder: tint?.border ?? spec.color.withOpacity(0.30),
-      detail: textBuilder.detail(event, settings),
-      valueLabel: textBuilder.valueLabel(event, settings),
+      detail: textBuilder.detail(event, settings, l10n: l10n),
+      valueLabel: textBuilder.valueLabel(event, settings, l10n: l10n),
       valueColor: _eventValueColor(event, settings),
-      tag: _eventTag(event, settings),
+      tag: _eventTag(event, settings, l10n),
     );
   }
 
-  String _eventName(GlucoseEventType type) => switch (type) {
-        GlucoseEventType.highEpisode => 'Rise detected',
-        GlucoseEventType.lowEpisode => 'Low episode',
-        GlucoseEventType.rise => 'Rise detected',
-        GlucoseEventType.recovery => 'Recovery to range',
-        GlucoseEventType.stableWindow => 'Stable window',
-        GlucoseEventType.firstReading => 'First reading of day',
-        GlucoseEventType.dawnPhenomenon => 'Dawn phenomenon',
+  String _eventName(GlucoseEventType type, HistoryLocalizations l10n) =>
+      switch (type) {
+        GlucoseEventType.highEpisode => l10n.eventRiseDetected,
+        GlucoseEventType.lowEpisode => l10n.eventLowEpisode,
+        GlucoseEventType.rise => l10n.eventRiseDetected,
+        GlucoseEventType.recovery => l10n.eventRecoveryToRange,
+        GlucoseEventType.stableWindow => l10n.eventStableWindow,
+        GlucoseEventType.firstReading => l10n.eventFirstReading,
+        GlucoseEventType.dawnPhenomenon => l10n.eventDawnPhenomenon,
       };
 
   ({IconData icon, Color color}) _eventIconSpec(GlucoseEventType type) =>
@@ -125,29 +132,30 @@ class HistoryEventsViewModelMapper {
   HistoryEventTagViewModel? _eventTag(
     GlucoseEvent event,
     AppSettings settings,
+    HistoryLocalizations l10n,
   ) {
     if (event.type == GlucoseEventType.highEpisode) {
-      return const HistoryEventTagViewModel(
-        text: 'high episode',
+      return HistoryEventTagViewModel(
+        text: l10n.tagHighEpisode,
         color: AppColors.amber,
       );
     }
     if (event.type == GlucoseEventType.lowEpisode) {
-      return const HistoryEventTagViewModel(
-        text: 'low episode',
+      return HistoryEventTagViewModel(
+        text: l10n.tagLowEpisode,
         color: AppColors.blue,
       );
     }
     if (event.type == GlucoseEventType.recovery) {
-      return const HistoryEventTagViewModel(
-        text: 'in range',
+      return HistoryEventTagViewModel(
+        text: l10n.tagInRange,
         color: AppColors.green,
       );
     }
     final value = event.peakOrNadir ?? event.value;
     if (event.type == GlucoseEventType.rise && _isElevated(value, settings)) {
-      return const HistoryEventTagViewModel(
-        text: 'elevated',
+      return HistoryEventTagViewModel(
+        text: l10n.tagElevated,
         color: AppColors.amber,
       );
     }

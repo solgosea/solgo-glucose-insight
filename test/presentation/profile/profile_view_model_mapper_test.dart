@@ -11,7 +11,7 @@ void main() {
   group('ProfileViewModelMapper', () {
     tearDown(() => AnalysisSessionStore.instance.clear());
 
-    test('formats personal baseline glucose metrics with selected unit', () {
+    test('formats profile glucose metrics with selected unit', () {
       final now = DateTime(2026, 6, 4, 12);
       AnalysisSessionStore.instance.update(
         AnalysisRefreshResult(
@@ -50,15 +50,10 @@ void main() {
       final average = viewModel.stats.singleWhere(
         (stat) => stat.label == 'Avg 14d',
       );
-      final typicalPeak = viewModel.baseline.metrics.singleWhere(
-        (metric) => metric.label == 'Typical peak',
-      );
 
+      expect(viewModel.header.primaryBadge, 'MG/DL');
       expect(average.value, isNot(contains('mg/dL')));
       expect(average.unit, 'mg/dL');
-      expect(typicalPeak.value, isNot(contains('.')));
-      expect(typicalPeak.unit, 'mg/dL');
-      expect(typicalPeak.value, isNot(contains('mg/dL')));
     });
   });
 }

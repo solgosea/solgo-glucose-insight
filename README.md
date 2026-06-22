@@ -14,10 +14,151 @@ systems, or medical alert workflows.
 
 ## Download
 
-**Latest Android APK:**  
+**Latest packaged Android APK:**  
 https://github.com/solgosea/solgo-glucose-insight/releases/download/v0.4.0-community-preview/solgo-insight-community-preview-v0.4.0-android.apk
 
-Latest preview: **v0.4.0 Community Preview**
+Latest packaged preview: **v0.4.0 Community Preview**
+
+This repository branch now includes the next community-preview code update,
+focused on multilingual foundations, report architecture, Low / High Episode
+reporting, Status Monitor beta, and Float Widget sizing improvements.
+
+## What This Update Adds
+
+This update is not only a screen update. It introduces several foundations that
+make Solgo Insight easier to grow from community feedback.
+
+### 1. Multilingual Architecture
+
+Solgo Insight now has a broader localization foundation for app-level text and
+plugin-level text. The goal is to make future language support practical
+without hardcoding every feature page.
+
+This matters because many CGM users are not native English speakers, and the app
+should become easier to understand across different communities.
+
+### 2. Report Layer Architecture
+
+The new Report Layer separates structured analysis data from the final output
+format. Feature plugins can provide report snapshots, while the host app can
+render them as app pages, PDF-ready views, shareable summaries, or future export
+formats.
+
+The direction is:
+
+```text
+Glucose Data
+    |
+    v
+Analysis Engine
+    |
+    v
+Report Snapshot
+    |
+    v
+Report Runtime
+    |
+    v
+App View / PDF / Share Summary
+```
+
+The report layer is designed for personal review and discussion. It does not
+provide diagnosis, dosing advice, or treatment instructions.
+
+### 3. Low / High Episode Report Analysis
+
+Low Episode and High Episode analysis now move beyond a simple event list.
+
+The new structure focuses on:
+
+- episode duration
+- peak or nadir
+- recovery behavior
+- repeat pattern
+- burden and exposure
+- reliability of the data window
+- report-ready summaries
+
+These views are intended to help users and caregivers discuss what happened,
+not to replace clinical judgment.
+
+### 4. Status Monitor Beta
+
+Status Monitor beta is a troubleshooting-oriented plugin for users whose data
+chain depends on several moving parts, for example:
+
+```text
+CGM sensor -> xDrip+ -> Nightscout -> other apps or followers
+```
+
+The beta version tries to make the chain less of a black box by checking whether
+each part looks fresh, delayed, stale, or unavailable.
+
+It is not an alarm system and not a diagnostic tool. It is a quick health-check
+surface that can help users know where to look first.
+
+### 5. Float Widget Sizing Improvements
+
+The Float Widget / Glance Layer has been adjusted to support better sizing and
+display behavior. This is based on community feedback that quick-glance surfaces
+need to be readable, compact, and practical during daily use.
+
+## Preview Screenshots
+
+![Solgo Insight community preview showcase](docs/assets/release/status-monitor-beta/00-release-core-showcase-4up.png)
+
+| Status Monitor beta | Glucose report |
+| --- | --- |
+| <img src="docs/assets/release/status-monitor-beta/01-status-monitor-dashboard-hero.png" alt="Solgo Insight Status Monitor beta dashboard" width="360"> | <img src="docs/assets/release/status-monitor-beta/11-glucose-report-hero.png" alt="Solgo Insight glucose report layer" width="360"> |
+
+| High Episode analysis | Low Episode analysis |
+| --- | --- |
+| <img src="docs/assets/release/status-monitor-beta/06-high-episode-enhanced-hero.png" alt="Solgo Insight high episode analysis" width="360"> | <img src="docs/assets/release/status-monitor-beta/07-low-episode-enhanced-hero.png" alt="Solgo Insight low episode analysis" width="360"> |
+
+| Status Monitor report |
+| --- |
+| <img src="docs/assets/release/status-monitor-beta/10-status-monitor-report-enhanced-hero.png" alt="Solgo Insight Status Monitor report" width="360"> |
+
+## Current Public Preview Scope
+
+The current public preview includes:
+
+- Home view with current glucose, trend, range, TIR, and quick insights.
+- History view with daily review, chart inspection, and high/low episode entry points.
+- Stats view for TIR, variability, AGP-style overview, and selectable time windows.
+- Insights view for readable glucose pattern summaries.
+- High Episode and Low Episode analysis.
+- Report Layer foundation and report-ready analysis pages.
+- Status Monitor beta for data-chain troubleshooting.
+- xDrip+ Local and Nightscout data source setup.
+- Background sync foundation for keeping data fresh.
+- Local glucose alert engine, disabled by default.
+- Glance Layer: Android widgets, floating glance, and lock-screen friendly notification text.
+
+The public repository intentionally does **not** include unreleased or
+experimental plugins outside this preview scope.
+
+## Architecture
+
+Solgo Insight is built around a **host + plugin architecture**.
+
+The host app provides shared foundations such as data source coordination,
+sync runtime, local storage, app settings, unit conversion, plugin lifecycle,
+background runtime, alert runtime foundation, localization, and report runtime.
+
+Feature plugins then build user-facing experiences on top of those shared
+services.
+
+![Solgo Insight v0.4.0 architecture](docs/assets/release/v0.4.0/architecture.png)
+
+For more details, see [Architecture Notes](docs/architecture.md).
+
+## Data Source Setup
+
+Solgo Insight can use xDrip+ Local or Nightscout as data sources.
+
+For xDrip+ Local setup, see the
+[xDrip+ Local Connection Guide](docs/xdrip-local-connection-guide.md).
 
 ## Community
 
@@ -27,127 +168,6 @@ Join the Reddit community to share feedback, report issues, discuss feature
 ideas, and follow updates:
 
 https://www.reddit.com/r/SolgoInsight/
-
-## What This Update Is About
-
-This update is mainly an **architecture-focused community preview update**.
-
-The public repository has been refreshed around the current v0.4.0 scope, with
-larger internal changes to the way analysis features are organized.
-
-The main direction is:
-
-- Keep the public code aligned with the features already described to the community.
-- Separate data analysis logic from UI pages.
-- Move feature logic toward clearer engine, mapper, runtime, and UI boundaries.
-- Make History, Stats, Insights, High Episode, and Low Episode easier to evolve independently.
-- Keep unreleased or experimental plugins out of the public preview repository.
-
-## Architecture
-
-Solgo Insight is built around a **host + plugin architecture**.
-
-The host app provides shared foundations such as data source coordination,
-sync runtime, local storage, app settings, unit conversion, plugin lifecycle,
-background runtime, and alert runtime foundation.
-
-Feature plugins then build user-facing experiences on top of those shared
-services.
-
-![Solgo Insight v0.4.0 architecture](docs/assets/release/v0.4.0/architecture.png)
-
-In this version, the data analysis flow is moving toward:
-
-```text
-xDrip+ Local / Nightscout
-        |
-        v
-Sync & Storage Layer
-        |
-        v
-Analysis Engines
-        |
-        v
-View Models / Text / Report Sections
-        |
-        v
-Plugin UI and Glance Surfaces
-```
-
-This structure is important because Solgo Insight is expected to grow through
-real community feedback. A clearer architecture makes it easier to add,
-improve, or remove features without turning the app into a tightly coupled set
-of screens.
-
-For more details, see [Architecture Notes](docs/architecture.md).
-
-## Current Preview Scope
-
-The current public preview includes:
-
-- Home view with current glucose, trend, range, TIR, and quick insights.
-- History view with daily review, chart inspection, and high/low episode entry points.
-- Stats view for TIR, variability, AGP-style overview, and selectable time windows.
-- Insights view for readable glucose pattern summaries.
-- High Episode and Low Episode analysis.
-- xDrip+ Local and Nightscout data source setup.
-- Background sync foundation for keeping data fresh.
-- Local glucose alert engine, disabled by default.
-- Glance Layer: Android widgets, floating glance, and lock-screen friendly notification text.
-
-The public repository intentionally does **not** include unreleased or
-experimental plugins outside this preview scope.
-
-## History and Episode Review
-
-The latest code update improves the analysis foundation behind History,
-High Episode, and Low Episode.
-
-History is moving toward a daily review surface rather than only a simple list
-or chart. It is designed to help users answer practical questions such as:
-
-- What happened today?
-- When did glucose move out of range?
-- What was the glucose value at a specific point on the chart?
-- Which high or low episode needs closer review?
-
-High Episode and Low Episode analysis are also being organized around clearer
-engine outputs, including episode duration, peak or nadir, recovery behavior,
-context, and repeat-pattern review.
-
-These observations are for personal review and discussion only. They are not
-medical advice.
-
-## Glance Layer
-
-The Glance Layer is designed for quick daily access to current glucose status.
-
-It includes:
-
-- Android home screen widgets.
-- Floating Glance for checking glucose over other apps.
-- Lock-screen friendly notification text.
-- Compact status views for current glucose, trend, delta, update time, and 24h TIR.
-
-Floating Glance requires Android overlay permission. On some devices, users may
-need to allow Solgo Insight to display over other apps.
-
-## Screenshots
-
-| Floating glance with 24h TIR | Floating widget preview |
-| --- | --- |
-| <img src="docs/assets/release/v0.4.0/floating-glance-tir.png" alt="Solgo Insight floating glance with 24 hour TIR" width="360"> | <img src="docs/assets/release/v0.4.0/floating-widget-preview.png" alt="Solgo Insight floating widget preview" width="360"> |
-
-| Home 24h CV | Stats time windows |
-| --- | --- |
-| <img src="docs/assets/release/v0.4.0/home-24h-cv.png" alt="Solgo Insight Home 24 hour CV" width="360"> | <img src="docs/assets/release/v0.4.0/stats-time-windows.png" alt="Solgo Insight Stats time window selection" width="360"> |
-
-## Data Source Setup
-
-Solgo Insight can use xDrip+ Local or Nightscout as data sources.
-
-For xDrip+ Local setup, see the
-[xDrip+ Local Connection Guide](docs/xdrip-local-connection-guide.md).
 
 ## Demo
 
@@ -166,7 +186,7 @@ See the [Solgo Insight FAQ](docs/faq.md).
 
 ## Privacy
 
-- No Solgo Insight account is required.
+- No Solgo Insight account is required for the community preview.
 - Glucose data is stored locally on the device.
 - Network calls are made only to data sources you configure, such as xDrip+
   Local or your own Nightscout site.

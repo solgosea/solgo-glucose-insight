@@ -9,6 +9,7 @@ import 'package:smart_xdrip/domain/entities/glucose_reading.dart';
 import 'package:smart_xdrip/plugins/statistics/application/statistics_host_services.dart';
 import 'package:smart_xdrip/plugins/statistics/application/statistics_service.dart';
 import 'package:smart_xdrip/plugins/statistics/domain/statistics_analysis_window_id.dart';
+import 'package:smart_xdrip/plugins/statistics/l10n/generated/statistics_localizations_zh.dart';
 import 'package:smart_xdrip/plugins/statistics/mappers/statistics_view_model_mapper.dart';
 
 void main() {
@@ -45,6 +46,43 @@ void main() {
     expect(viewModel.agp.note, contains('1.6 mmol/L'));
     expect(viewModel.agp.note, contains('around 13:00'));
     expect(viewModel.agp.note, isNot(contains('1.8 mmol/L')));
+  });
+
+  test('AGP note and metric header follow Chinese locale', () {
+    final now = DateTime(2026, 6, 10, 23);
+    final readings = _readings(now);
+    AnalysisSessionStore.instance.update(
+      AnalysisRefreshResult(
+        snapshot: AnalysisSnapshot(
+          generatedAt: now,
+          windowStart: readings.first.timestamp,
+          windowEnd: readings.last.timestamp,
+          readings: readings,
+          dailySummaries: const [],
+          periodSummaries: const [],
+          events: const [],
+        ),
+        insights: const [],
+      ),
+      settings: const AppSettings(),
+    );
+
+    final output = StatisticsService(hostServices: _hostServices()).load(
+      windowId: StatisticsAnalysisWindowId.last14Days,
+    );
+    final viewModel = const StatisticsViewModelMapper().map(
+      output,
+      l10n: StatisticsLocalizationsZh(),
+    );
+
+    expect(
+        viewModel.periodOptions.map((option) => option.label), contains('14天'));
+    expect(viewModel.metricsHeader, '关键指标 - 过去 14 天');
+    expect(viewModel.metrics.first.label, '目标范围时间');
+    expect(viewModel.agp.title, contains('14天'));
+    expect(viewModel.agp.note, contains('黎明前上升'));
+    expect(viewModel.agp.note, contains('14 个观察日中有 14 天'));
+    expect(viewModel.agp.note, contains('中位曲线'));
   });
 }
 

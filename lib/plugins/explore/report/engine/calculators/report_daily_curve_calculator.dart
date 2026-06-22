@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import '../../../../../domain/entities/app_settings.dart';
 import '../../../../../domain/entities/glucose_reading.dart';
 import '../../../../../engine/statistics/tir_calculator.dart';
@@ -45,6 +43,4 @@ class ReportDailyCurveCalculator {
     }
     return ReportDailyCurvesSection(curves: result);
   }
-
-  String dayLabel(DateTime day) => DateFormat('MMM d').format(day);
 }

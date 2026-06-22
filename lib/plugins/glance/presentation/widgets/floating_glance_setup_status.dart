@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/floating/floating_glance_setup_state.dart';
+import '../../application/i18n/glance_l10n.dart';
+import '../../l10n/generated/glance_localizations.dart';
 import '../styles/glance_theme.dart';
 
 class FloatingGlanceSetupStatus extends StatelessWidget {
@@ -21,6 +23,7 @@ class FloatingGlanceSetupStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = _SetupStatusModel.fromState(
       state,
+      l10n: context.glanceL10n,
       onRequestPermission: onRequestPermission,
       onShow: onShow,
       onHide: onHide,
@@ -127,6 +130,7 @@ class _SetupStatusModel {
 
   factory _SetupStatusModel.fromState(
     FloatingGlanceSetupState state, {
+    required GlanceLocalizations l10n,
     required VoidCallback onRequestPermission,
     required VoidCallback onShow,
     required VoidCallback onHide,
@@ -134,10 +138,9 @@ class _SetupStatusModel {
     return switch (state) {
       FloatingGlanceSetupState.permissionNeeded => _SetupStatusModel(
           icon: Icons.open_in_new_rounded,
-          title: 'Floating permission needed',
-          body:
-              'Allow display over other apps first. Return here after Android grants the permission.',
-          actionLabel: 'Enable floating permission',
+          title: l10n.floatingPermissionNeededTitle,
+          body: l10n.floatingPermissionNeededBody,
+          actionLabel: l10n.floatingPermissionNeededAction,
           actionIcon: Icons.open_in_new_rounded,
           color: GlanceTheme.amber,
           actionColor: GlanceTheme.amber,
@@ -145,9 +148,9 @@ class _SetupStatusModel {
         ),
       FloatingGlanceSetupState.permissionGranted => _SetupStatusModel(
           icon: Icons.check_circle_outline_rounded,
-          title: 'Floating Glance permission granted',
-          body: 'Tap once to place Floating Glance on your screen.',
-          actionLabel: 'Show Floating Glance',
+          title: l10n.floatingPermissionGrantedTitle,
+          body: l10n.floatingPermissionGrantedBody,
+          actionLabel: l10n.floatingShowAction,
           actionIcon: Icons.picture_in_picture_alt_rounded,
           color: GlanceTheme.green,
           actionColor: GlanceTheme.green,
@@ -155,9 +158,9 @@ class _SetupStatusModel {
         ),
       FloatingGlanceSetupState.visible => _SetupStatusModel(
           icon: Icons.visibility_outlined,
-          title: 'Floating Glance is visible now',
-          body: 'Drag it anywhere. Tap the floating view to return to the app.',
-          actionLabel: 'Hide Floating Glance',
+          title: l10n.floatingVisibleTitle,
+          body: l10n.floatingVisibleBody,
+          actionLabel: l10n.floatingHideAction,
           actionIcon: Icons.visibility_off_outlined,
           color: GlanceTheme.green,
           actionColor: GlanceTheme.soft,
@@ -165,10 +168,9 @@ class _SetupStatusModel {
         ),
       FloatingGlanceSetupState.hidden => _SetupStatusModel(
           icon: Icons.visibility_off_outlined,
-          title: 'Floating Glance is hidden',
-          body:
-              'Permission is ready. Show it again when you want a screen overlay.',
-          actionLabel: 'Show Floating Glance',
+          title: l10n.floatingHiddenTitle,
+          body: l10n.floatingHiddenBody,
+          actionLabel: l10n.floatingShowAction,
           actionIcon: Icons.picture_in_picture_alt_rounded,
           color: GlanceTheme.soft,
           actionColor: GlanceTheme.green,
@@ -176,10 +178,9 @@ class _SetupStatusModel {
         ),
       FloatingGlanceSetupState.unavailable => _SetupStatusModel(
           icon: Icons.layers_clear_outlined,
-          title: 'Floating Glance is unavailable',
-          body:
-              'This device does not expose the Android floating overlay service.',
-          actionLabel: 'Unavailable',
+          title: l10n.floatingUnavailableTitle,
+          body: l10n.floatingUnavailableBody,
+          actionLabel: l10n.floatingUnavailableAction,
           actionIcon: Icons.block_rounded,
           color: GlanceTheme.dim,
           actionColor: GlanceTheme.dim,
