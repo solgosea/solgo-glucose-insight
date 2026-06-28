@@ -15,24 +15,21 @@ class PluginEntryLocalizationRegistry {
     MainTabPluginEntry entry,
     Locale locale,
   ) {
-    return _localizers[entry.pluginId]?.localizeMainTab(entry, locale) ??
-        entry;
+    return _localizers[entry.pluginId]?.localizeMainTab(entry, locale) ?? entry;
   }
 
   ExplorePluginEntry localizeExplore(
     ExplorePluginEntry entry,
     Locale locale,
   ) {
-    return _localizers[entry.pluginId]?.localizeExplore(entry, locale) ??
-        entry;
+    return _localizers[entry.pluginId]?.localizeExplore(entry, locale) ?? entry;
   }
 
   SectionPluginEntry localizeSection(
     SectionPluginEntry entry,
     Locale locale,
   ) {
-    return _localizers[entry.pluginId]?.localizeSection(entry, locale) ??
-        entry;
+    return _localizers[entry.pluginId]?.localizeSection(entry, locale) ?? entry;
   }
 
   HomeWidgetPluginEntry localizeHomeWidget(
@@ -47,8 +44,7 @@ class PluginEntryLocalizationRegistry {
     BackgroundTaskPluginEntry entry,
     Locale locale,
   ) {
-    return _localizers[entry.pluginId]
-            ?.localizeBackgroundTask(entry, locale) ??
+    return _localizers[entry.pluginId]?.localizeBackgroundTask(entry, locale) ??
         entry;
   }
 }

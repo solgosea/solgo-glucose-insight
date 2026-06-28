@@ -872,8 +872,7 @@ class StatusMonitorLocalizationsZh extends StatusMonitorLocalizations {
   String get pageSevenDayHistory => '7 天历史';
 
   @override
-  String get pageSevenDayHistorySubtitle =>
-      '每一行代表一天 - 每天 24 个格子，每小时一个 - 未知表示记录的状态样本不足，无法判断';
+  String get pageSevenDayHistorySubtitle => '查看每个组件何时发生状态变化。';
 
   @override
   String get pageToday => '今天';
@@ -1303,6 +1302,15 @@ class StatusMonitorLocalizationsZh extends StatusMonitorLocalizations {
       '历史记录限定在当前用户和数据源内。它记录 Status Monitor 刷新得到的组件快照；Unknown 表示该小时没有足够的样本数据可判断。';
 
   @override
+  String get pageHistoryLoadingComponent => '正在加载该组件的历史记录...';
+
+  @override
+  String get pageHistoryNoComponentData => '该组件还没有已记录的历史数据。';
+
+  @override
+  String get pageHistoryComponentFailed => '无法加载该组件的历史记录。';
+
+  @override
   String get pageHistoryReasonRecordedSample => '已记录样本';
 
   @override
@@ -1313,6 +1321,15 @@ class StatusMonitorLocalizationsZh extends StatusMonitorLocalizations {
 
   @override
   String get pageHistoryReasonFuture => '未来小时';
+
+  @override
+  String get pageDashboardNavDashboard => '总览';
+
+  @override
+  String get pageDashboardNavHub => '中枢';
+
+  @override
+  String get pageDashboardNavChecklist => '检查';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2183,8 +2200,7 @@ class StatusMonitorLocalizationsZhHant extends StatusMonitorLocalizationsZh {
   String get pageSevenDayHistory => '7 天历史';
 
   @override
-  String get pageSevenDayHistorySubtitle =>
-      '每一行代表一天 - 每天 24 个格子，每小时一个 - 未知表示记录的状态样本不足，无法判断';
+  String get pageSevenDayHistorySubtitle => '查看每个组件何时发生状态变化。';
 
   @override
   String get pageToday => '今天';
@@ -2614,6 +2630,15 @@ class StatusMonitorLocalizationsZhHant extends StatusMonitorLocalizationsZh {
       '历史记录限定在当前用户和数据源内。它记录 Status Monitor 刷新得到的组件快照；Unknown 表示该小时没有足够的样本数据可判断。';
 
   @override
+  String get pageHistoryLoadingComponent => '正在加载该组件的历史记录...';
+
+  @override
+  String get pageHistoryNoComponentData => '该组件还没有已记录的历史数据。';
+
+  @override
+  String get pageHistoryComponentFailed => '无法加载该组件的历史记录。';
+
+  @override
   String get pageHistoryReasonRecordedSample => '已记录样本';
 
   @override
@@ -2624,4 +2649,13 @@ class StatusMonitorLocalizationsZhHant extends StatusMonitorLocalizationsZh {
 
   @override
   String get pageHistoryReasonFuture => '未来小时';
+
+  @override
+  String get pageDashboardNavDashboard => '總覽';
+
+  @override
+  String get pageDashboardNavHub => '中樞';
+
+  @override
+  String get pageDashboardNavChecklist => '檢查';
 }

@@ -4,13 +4,9 @@ enum AnalysisModuleCode {
   agp,
   period,
   heatmap,
-  weeklyPattern,
   insights,
-  glucotype,
-  glucoseEvents,
   highEpisode,
   lowEpisode,
-  baseline,
 }
 
 extension AnalysisModuleCodeValue on AnalysisModuleCode {

@@ -1,7 +1,7 @@
 class GlucoseTables {
   static const rawReadings = 'raw_glucose_readings';
   static const readings = 'glucose_readings';
-  static const events = 'glucose_events';
+  static const events = 'glucose_event_records';
   static const dailyStats = 'daily_stats';
   static const periodStats = 'period_stats';
   static const agpSnapshots = 'agp_snapshots';

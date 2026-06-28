@@ -1,13 +1,15 @@
-import 'status_component_history_view_model.dart';
+import 'status_component_history_section_view_model.dart';
 
 class StatusHistoryViewModel {
   final String title;
   final String subtitle;
-  final List<StatusComponentHistoryViewModel> components;
+  final List<StatusComponentHistorySectionViewModel> sections;
+  final bool loading;
 
-  const StatusHistoryViewModel({
+  StatusHistoryViewModel({
     required this.title,
     required this.subtitle,
-    required this.components,
+    required this.sections,
+    this.loading = false,
   });
 }

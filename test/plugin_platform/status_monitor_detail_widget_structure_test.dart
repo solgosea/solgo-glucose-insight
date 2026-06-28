@@ -27,7 +27,8 @@ void main() {
         .where((file) => file.path.endsWith('.dart'));
     for (final file in files) {
       final content = file.readAsStringSync();
-      expect(content, isNot(contains('/application/rules/')), reason: file.path);
+      expect(content, isNot(contains('/application/rules/')),
+          reason: file.path);
       expect(content, isNot(contains('/application/probes/')),
           reason: file.path);
       expect(content, isNot(contains('/data/sources/')), reason: file.path);

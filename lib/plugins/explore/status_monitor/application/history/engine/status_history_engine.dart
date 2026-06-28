@@ -1,8 +1,6 @@
 import '../../../domain/component_health.dart';
 import '../../../domain/history/status_component_history_result.dart';
 import '../../../domain/history/status_component_history_sample.dart';
-import '../../../domain/history/status_history_query.dart';
-import '../../../domain/history/status_history_result.dart';
 import 'status_history_bucket_builder.dart';
 import 'status_history_coverage_calculator.dart';
 import 'status_history_daily_aggregator.dart';
@@ -18,24 +16,17 @@ class StatusHistoryEngine {
     this.coverageCalculator = const StatusHistoryCoverageCalculator(),
   });
 
-  StatusHistoryResult calculate({
-    required StatusHistoryQuery query,
-    required List<ComponentHealth> components,
+  StatusComponentHistoryResult calculateComponent({
+    required ComponentHealth component,
     required List<StatusComponentHistorySample> samples,
     required DateTime now,
   }) {
-    return StatusHistoryResult(
-      query: query,
-      components: [
-        for (final component in components)
-          _componentResult(
-            component: component,
-            samples: samples
-                .where((sample) => sample.component == component.kind)
-                .toList(growable: false),
-            now: now,
-          ),
-      ],
+    return _componentResult(
+      component: component,
+      samples: samples
+          .where((sample) => sample.component == component.kind)
+          .toList(growable: false),
+      now: now,
     );
   }
 

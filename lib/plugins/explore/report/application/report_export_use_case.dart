@@ -4,6 +4,7 @@ import 'package:smart_xdrip/reporting/application/report_export_action.dart';
 import 'package:smart_xdrip/reporting/application/report_export_service.dart';
 import 'package:smart_xdrip/reporting/application/report_runtime.dart';
 
+import '../domain/report_date_filter.dart';
 import '../reports/doctor_glucose_report_filename_builder.dart';
 import '../reports/doctor_glucose_report_provider.dart';
 import '../reports/rendering/doctor_glucose_report_pdf_renderer.dart';
@@ -24,6 +25,7 @@ class ReportExportUseCase {
   Future<void> execute(
     ReportViewModel viewModel, {
     required ReportExportAction action,
+    ReportDateFilter? dateFilter,
   }) async {
     final reportProvider = provider ??
         DoctorGlucoseReportProvider(
@@ -40,6 +42,9 @@ class ReportExportUseCase {
         sections: viewModel.sections,
         sourceLabel: viewModel.header.dataSourceLabel,
         unit: viewModel.settings.unit,
+        start: dateFilter?.selection.start,
+        end: dateFilter?.selection.end,
+        windowKey: dateFilter?.windowKey,
       ),
       filenameBuilder: filenameBuilder.build,
       action: action,

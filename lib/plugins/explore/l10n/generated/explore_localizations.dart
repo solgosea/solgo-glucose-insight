@@ -62,15 +62,18 @@ import 'explore_localizations_zh.dart';
 /// be consistent with the languages listed in the ExploreLocalizations.supportedLocales
 /// property.
 abstract class ExploreLocalizations {
-  ExploreLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ExploreLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ExploreLocalizations of(BuildContext context) {
-    return Localizations.of<ExploreLocalizations>(context, ExploreLocalizations)!;
+    return Localizations.of<ExploreLocalizations>(
+        context, ExploreLocalizations)!;
   }
 
-  static const LocalizationsDelegate<ExploreLocalizations> delegate = _ExploreLocalizationsDelegate();
+  static const LocalizationsDelegate<ExploreLocalizations> delegate =
+      _ExploreLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class ExploreLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -198,12 +202,6 @@ abstract class ExploreLocalizations {
   /// **'Unavailable'**
   String get runtimeUnavailable;
 
-  /// No description provided for @sectionLabs.
-  ///
-  /// In en, this message translates to:
-  /// **'LABS'**
-  String get sectionLabs;
-
   /// No description provided for @sectionTimePatterns.
   ///
   /// In en, this message translates to:
@@ -235,43 +233,48 @@ abstract class ExploreLocalizations {
   String get sectionSystemStatus;
 }
 
-class _ExploreLocalizationsDelegate extends LocalizationsDelegate<ExploreLocalizations> {
+class _ExploreLocalizationsDelegate
+    extends LocalizationsDelegate<ExploreLocalizations> {
   const _ExploreLocalizationsDelegate();
 
   @override
   Future<ExploreLocalizations> load(Locale locale) {
-    return SynchronousFuture<ExploreLocalizations>(lookupExploreLocalizations(locale));
+    return SynchronousFuture<ExploreLocalizations>(
+        lookupExploreLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ExploreLocalizationsDelegate old) => false;
 }
 
 ExploreLocalizations lookupExploreLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh': {
-  switch (locale.scriptCode) {
-    case 'Hant': return ExploreLocalizationsZhHant();
-   }
-  break;
-   }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return ExploreLocalizationsZhHant();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return ExploreLocalizationsEn();
-    case 'zh': return ExploreLocalizationsZh();
+    case 'en':
+      return ExploreLocalizationsEn();
+    case 'zh':
+      return ExploreLocalizationsZh();
   }
 
   throw FlutterError(
-    'ExploreLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'ExploreLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

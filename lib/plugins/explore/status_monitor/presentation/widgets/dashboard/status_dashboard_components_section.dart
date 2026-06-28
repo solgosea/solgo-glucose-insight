@@ -23,8 +23,27 @@ class StatusDashboardComponentsSection extends StatelessWidget {
           title: l10n.pageComponents,
           trailing: l10n.pageRefreshNow,
         ),
-        for (final component in components)
-          StatusComponentCard(viewModel: component),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+          child: GridView.builder(
+            itemCount: components.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              mainAxisExtent: 114,
+            ),
+            itemBuilder: (context, index) {
+              return StatusComponentCard(
+                viewModel: components[index],
+                margin: EdgeInsets.zero,
+                showSummary: false,
+              );
+            },
+          ),
+        ),
       ],
     );
   }

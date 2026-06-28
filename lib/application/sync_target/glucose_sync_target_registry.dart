@@ -15,10 +15,12 @@ class GlucoseSyncTargetRegistry {
   }
 
   Future<List<GlucoseSyncTarget>> targetsFor(AppSettings settings) async {
-    final targets = <GlucoseSyncTarget>[];
-    for (final provider in List<GlucoseSyncTargetProvider>.of(_providers)) {
-      targets.addAll(await provider.targetsFor(settings));
-    }
+    final providerTargets = await Future.wait(
+      List<GlucoseSyncTargetProvider>.of(_providers).map(
+        (provider) => provider.targetsFor(settings),
+      ),
+    );
+    final targets = providerTargets.expand((items) => items);
     final byId = <String, GlucoseSyncTarget>{};
     for (final target in targets) {
       if (!target.enabled) continue;

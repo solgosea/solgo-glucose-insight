@@ -11,7 +11,7 @@ class NightscoutCapabilityContextCalculator {
       (probe) => probe.endpoint.contains('status.json') && probe.reachable,
     );
     final hasEntries = probes.any(
-      (probe) => probe.endpoint.contains('/entries/') && probe.reachable,
+      (probe) => probe.endpoint.contains('/entries') && probe.reachable,
     );
     final hasDeviceStatus = probes.any(
       (probe) => probe.endpoint.contains('/devicestatus') && probe.reachable,

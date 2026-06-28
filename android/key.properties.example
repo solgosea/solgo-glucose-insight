@@ -1,0 +1,7 @@
+# Copy this file to android/key.properties and fill in local signing values.
+# Never commit android/key.properties or the .jks/.keystore file.
+
+storeFile=D:\\path\\to\\solgo-insight-release.jks
+storePassword=REPLACE_WITH_STORE_PASSWORD
+keyAlias=REPLACE_WITH_KEY_ALIAS
+keyPassword=REPLACE_WITH_KEY_PASSWORD

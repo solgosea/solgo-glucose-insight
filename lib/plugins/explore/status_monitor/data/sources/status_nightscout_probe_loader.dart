@@ -30,8 +30,11 @@ class StatusNightscoutProbeLoader {
   Future<StatusNightscoutProbeBundle> load({required DateTime now}) async {
     final status = await client.get('/api/v1/status.json');
     final entries = await client.get(
-      '/api/v1/entries/sgv.json',
-      queryParameters: {'count': 12},
+      '/api/v1/entries.json',
+      queryParameters: {
+        'find[type]': 'sgv',
+        'count': 12,
+      },
     );
     final deviceStatus = await client.get(
       '/api/v1/devicestatus.json',
@@ -46,7 +49,7 @@ class StatusNightscoutProbeLoader {
       ),
       _endpoint(
         label: 'entries',
-        endpoint: '/api/v1/entries/sgv.json',
+        endpoint: '/api/v1/entries.json',
         result: entries,
         now: now,
       ),

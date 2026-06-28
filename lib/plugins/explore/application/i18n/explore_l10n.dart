@@ -11,7 +11,6 @@ extension ExploreL10nContext on BuildContext {
 extension ExploreSectionTitleLocalizations on ExploreLocalizations {
   String sectionTitleFor(String section) {
     return switch (section) {
-      'LABS' => sectionLabs,
       'TIME PATTERNS' => sectionTimePatterns,
       'GLUCOSE PROFILE' => sectionGlucoseProfile,
       'EPISODES' => sectionEpisodes,

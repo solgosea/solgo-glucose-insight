@@ -2,10 +2,12 @@ import 'package:smart_xdrip/domain/entities/glucose_reading.dart';
 
 import '../domain/analysis/status_analysis_context.dart';
 import '../domain/evidence/cgm_reading_evidence.dart';
+import '../domain/evidence/juggluco_broadcast_evidence.dart';
 import '../domain/evidence/nightscout_evidence.dart';
 import '../domain/evidence/status_evidence_bundle.dart';
 import '../domain/evidence/status_evidence_selection.dart';
 import '../domain/evidence/xdrip_local_evidence.dart';
+import '../domain/xdrip/xdrip_broadcast_evidence.dart';
 import '../application/evidence/aaps_evidence_parser.dart';
 
 class FakeStatusRuleContextFactory {
@@ -17,6 +19,7 @@ class FakeStatusRuleContextFactory {
     List<GlucoseReading>? xdripReadings,
     List<GlucoseReading>? nightscoutReadings,
     XdripLocalEvidence? xdrip,
+    XdripBroadcastEvidence? xdripBroadcast,
     NightscoutEvidence? nightscout,
   }) {
     final timestamp = now ?? DateTime.utc(2026, 6, 12, 6);
@@ -61,8 +64,12 @@ class FakeStatusRuleContextFactory {
       evidence: StatusEvidenceBundle(
         subjectId: 'test',
         xdripLocalEvidence: xdripEvidence,
+        xdripBroadcastEvidence: xdripBroadcast ??
+            XdripBroadcastEvidence.none(generatedAt: timestamp),
         nightscoutEvidence: nightscoutEvidence,
         aapsEvidence: aapsEvidence,
+        jugglucoEvidence:
+            JugglucoBroadcastEvidence.none(generatedAt: timestamp),
         cachedReadingEvidence: cachedEvidence,
         selection: StatusEvidenceSelection(
           cgmLiveReadings: selectedCgmLive,

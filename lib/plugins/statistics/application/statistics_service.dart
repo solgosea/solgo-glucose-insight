@@ -1,5 +1,6 @@
 import '../domain/statistics_analysis_window_catalog.dart';
 import '../domain/statistics_analysis_window_id.dart';
+import '../domain/statistics_date_filter.dart';
 import '../engine/statistics_engine.dart';
 import '../engine/statistics_engine_input.dart';
 import '../engine/statistics_engine_output.dart';
@@ -19,18 +20,31 @@ class StatisticsService {
 
   StatisticsEngineOutput load({
     required StatisticsAnalysisWindowId windowId,
+    StatisticsDateFilter? dateFilter,
+    String? rangeLabel,
   }) {
     final facade = hostServices.facadeProvider();
     final window = StatisticsAnalysisWindowCatalog.byId(windowId);
+    final useRollingWindow = dateFilter == null || dateFilter.isPresetWindow;
     return engine.run(
       StatisticsEngineInput(
         selectedWindow: window,
         windows: StatisticsAnalysisWindowCatalog.all,
-        currentReadings: windowReader.readingsForWindow(facade, window),
-        previousReadings: windowReader.previousReadingsForWindow(
-          facade,
-          window,
-        ),
+        rangeLabel: rangeLabel,
+        currentReadings: useRollingWindow
+            ? windowReader.readingsForWindow(facade, window)
+            : windowReader.readingsForSelection(
+                facade,
+                start: dateFilter.selection.start,
+                end: dateFilter.selection.end,
+              ),
+        previousReadings: useRollingWindow
+            ? windowReader.previousReadingsForWindow(facade, window)
+            : windowReader.previousReadingsForSelection(
+                facade,
+                start: dateFilter.selection.start,
+                end: dateFilter.selection.end,
+              ),
         settings: facade.settings,
       ),
     );

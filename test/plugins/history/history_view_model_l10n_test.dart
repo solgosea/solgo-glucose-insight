@@ -13,9 +13,7 @@ void main() {
       GlucoseReading(timestamp: day.add(const Duration(hours: 8)), value: 6.2),
       GlucoseReading(timestamp: day.add(const Duration(hours: 9)), value: 11.4),
       GlucoseReading(
-        timestamp: day.add(const Duration(hours: 10)),
-        value: 12.1,
-      ),
+          timestamp: day.add(const Duration(hours: 10)), value: 12.1),
       GlucoseReading(timestamp: day.add(const Duration(hours: 11)), value: 7.8),
     ];
     final events = [
@@ -58,10 +56,11 @@ void main() {
 
     expect(viewModel.dateNav.dateLabel, '星期六，6月6日');
     expect(viewModel.dateNav.subtitle, '2026 - 日视图');
-    expect(viewModel.episodeCallouts.single.label, '高血糖片段');
-    expect(viewModel.episodeCallouts.single.summary, contains('持续 60 分钟'));
-    expect(viewModel.events.first.detail, contains('高于'));
-    expect(viewModel.events.first.valueLabel, contains('峰值'));
-    expect(viewModel.events.last.name, '回到目标范围');
+    expect(viewModel.episodeCallouts.single.title, '高血糖片段');
+    expect(viewModel.episodeCallouts.single.meta, contains('60 分钟'));
+    expect(viewModel.episodeCallouts.single.meta, contains('高于'));
+    expect(viewModel.events.first.name, '回到目标范围');
+    expect(viewModel.events.last.detail, contains('高于'));
+    expect(viewModel.events.last.valueLabel, contains('峰值'));
   });
 }

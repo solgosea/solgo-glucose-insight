@@ -72,7 +72,7 @@ class NightscoutEntriesEndpointRule implements StatusMetricRule {
 
   dynamic _probe(StatusAnalysisContext context) {
     for (final probe in evidenceSelector.nightscout(context).endpointProbes) {
-      if (probe.endpoint.contains('/entries/')) return probe;
+      if (probe.endpoint.contains('/entries')) return probe;
     }
     return null;
   }

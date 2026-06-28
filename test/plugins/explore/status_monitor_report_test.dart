@@ -63,7 +63,8 @@ void main() {
               section.rendererKey == StatusMonitorReportSectionKeys.dataChain,
         )
         .payload as StatusMonitorChainPayload;
-    expect(chain.nodes, hasLength(4));
+    expect(chain.nodes, hasLength(5));
+    expect(chain.nodes.map((node) => node.title), contains('Juggluco'));
     final supportTriage = snapshot.sections
         .singleWhere(
           (section) =>

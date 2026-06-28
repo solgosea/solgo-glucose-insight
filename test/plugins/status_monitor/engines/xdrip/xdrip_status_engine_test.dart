@@ -42,7 +42,7 @@ void main() {
     );
 
     expect(component.level, StatusLevel.watch);
-    expect(component.score?.value, 65);
+    expect(component.score?.value, 55);
     expect(component.score?.label, 'Nightscout reading fallback');
     expect(component.score?.availabilityLabel, '3 of 5 checks passed');
     expect(component.metrics.map((metric) => metric.id), contains('freshness'));

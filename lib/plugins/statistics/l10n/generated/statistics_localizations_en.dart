@@ -36,6 +36,41 @@ class StatisticsLocalizationsEn extends StatisticsLocalizations {
   String get exportAction => 'Export ->';
 
   @override
+  String get dateFilterTooltip => 'Choose dates';
+
+  @override
+  String get dateFilterTitle => 'Analysis period';
+
+  @override
+  String get dateFilterSubtitle =>
+      'Choose a preset or drag across dates to analyze a range.';
+
+  @override
+  String get dateFilterApply => 'Apply filter';
+
+  @override
+  String get dateFilterReset => 'Today';
+
+  @override
+  String get dateFilterCancel => 'Cancel';
+
+  @override
+  String get dateFilterSelectedDates => 'Selected period';
+
+  @override
+  String get dateFilterDay => 'day';
+
+  @override
+  String get dateFilterDays => 'days';
+
+  @override
+  String get dateFilterReadings => 'readings';
+
+  @override
+  String get dateFilterDragHint =>
+      'Use presets for common windows, or drag across dates for a custom analysis period.';
+
+  @override
   String get tirBreakdownTitle => 'Time in range breakdown';
 
   @override

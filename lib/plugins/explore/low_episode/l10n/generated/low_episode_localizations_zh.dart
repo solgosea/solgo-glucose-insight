@@ -32,7 +32,7 @@ class LowEpisodeLocalizationsZh extends LowEpisodeLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class LowEpisodeLocalizationsZhHant extends LowEpisodeLocalizationsZh {
-  LowEpisodeLocalizationsZhHant(): super('zh_Hant');
+  LowEpisodeLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get pluginTitle => '低血糖事件';

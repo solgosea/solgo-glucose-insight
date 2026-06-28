@@ -2,6 +2,7 @@ import '../../../domain/aaps/aaps_pipeline_gate_result.dart';
 import '../../../domain/analysis/status_analysis_context.dart';
 import '../../../domain/analysis/status_rule_result.dart';
 import '../../../domain/status_level.dart';
+import '../../../domain/xdrip/xdrip_broadcast_state.dart';
 import 'aaps_metric_ids.dart';
 
 class AapsPipelineGatePolicy {
@@ -14,8 +15,13 @@ class AapsPipelineGatePolicy {
     final evidence = context.evidence.aapsEvidence;
     final loopLevel = _metricLevel(results, AapsMetricIds.loopContext);
     final syncLevel = _metricLevel(results, AapsMetricIds.syncFreshness);
+    final bgSourceLevel = _metricLevel(results, AapsMetricIds.xdripBgSource);
+    final xdripBroadcastState =
+        context.evidence.xdripBroadcastEvidence.state(context.now);
     final hasFreshLoopContext =
         loopLevel == StatusLevel.healthy && syncLevel == StatusLevel.healthy;
+    final hasFreshXdripBroadcast = bgSourceLevel == StatusLevel.healthy &&
+        xdripBroadcastState == XdripBroadcastState.fresh;
 
     if (!evidence.nightscoutReachable) {
       return const AapsPipelineGateResult(
@@ -46,6 +52,17 @@ class AapsPipelineGatePolicy {
         maxScore: 70,
         maxLevel: StatusLevel.watch,
         message: 'AAPS context is visible, but loop freshness needs attention.',
+      );
+    }
+    if (!hasFreshXdripBroadcast) {
+      return const AapsPipelineGateResult(
+        nightscoutReachable: true,
+        hasAapsContext: true,
+        hasFreshLoopContext: true,
+        maxScore: 70,
+        maxLevel: StatusLevel.watch,
+        message:
+            'AAPS context is visible, but xDrip+ local broadcast is not fresh.',
       );
     }
     return const AapsPipelineGateResult(

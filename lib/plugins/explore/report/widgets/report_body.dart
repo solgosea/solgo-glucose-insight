@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../foundation/theme/app_colors.dart';
+import '../../../../presentation/common/date_filter/widgets/date_filter_icon_button.dart';
 import '../../../../presentation/common/navigation/safe_navigation.dart';
 import '../../../../presentation/common/widgets/page_header.dart';
 import '../../../../presentation/common/widgets/section_label.dart';
 import '../application/i18n/report_l10n.dart';
-import '../models/report_period.dart';
 import '../models/report_section.dart';
 import '../models/report_view_model.dart';
 import 'package:smart_xdrip/reporting/application/report_export_action.dart';
@@ -14,7 +14,6 @@ import 'report_daily_curves_card.dart';
 import 'report_export_panel.dart';
 import 'report_header_card.dart';
 import 'report_metrics_grid.dart';
-import 'report_period_selector.dart';
 import 'report_ranges_card.dart';
 import 'report_sections_card.dart';
 
@@ -22,7 +21,7 @@ class ReportBody extends StatelessWidget {
   final ReportViewModel viewModel;
   final bool loading;
   final bool exporting;
-  final ValueChanged<ReportPeriod> onPeriodChanged;
+  final VoidCallback onDateFilterPressed;
   final Future<void> Function() onRefresh;
   final ValueChanged<ReportSectionKey> onToggleSection;
   final ValueChanged<ReportExportAction> onExport;
@@ -32,7 +31,7 @@ class ReportBody extends StatelessWidget {
     required this.viewModel,
     required this.loading,
     required this.exporting,
-    required this.onPeriodChanged,
+    required this.onDateFilterPressed,
     required this.onRefresh,
     required this.onToggleSection,
     required this.onExport,
@@ -55,10 +54,10 @@ class ReportBody extends StatelessWidget {
                 title: l10n.pluginTitle,
                 subtitle: l10n.pageSubtitle,
                 onBack: () => context.safePopOrHome(),
-              ),
-              ReportPeriodSelector(
-                options: viewModel.periodOptions,
-                onChanged: onPeriodChanged,
+                trailing: DateFilterIconButton(
+                  onPressed: onDateFilterPressed,
+                  tooltip: l10n.dateFilterTooltip,
+                ),
               ),
               if (loading)
                 const LinearProgressIndicator(

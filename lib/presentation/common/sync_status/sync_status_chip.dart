@@ -41,7 +41,7 @@ class SyncStatusChip extends StatelessWidget {
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
-                    viewModel.label,
+                    viewModel.statusLabel,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(

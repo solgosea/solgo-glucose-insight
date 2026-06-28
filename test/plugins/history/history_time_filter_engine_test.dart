@@ -22,6 +22,18 @@ void main() {
     expect(viewModel.timeFilter, isNull);
     expect(viewModel.episodeCallouts, hasLength(2));
     expect(viewModel.events, hasLength(events.length));
+    expect(
+      viewModel.episodeCallouts.map((episode) => episode.title),
+      ['Low episode', 'High episode'],
+    );
+    expect(
+      viewModel.episodeCallouts.map((episode) => episode.kind),
+      ['low', 'high'],
+    );
+    expect(
+      viewModel.events.map((event) => event.time),
+      ['14:00', '08:45', '08:00'],
+    );
   });
 
   test('selected time inside episode filters callouts and nearby events', () {
@@ -40,7 +52,8 @@ void main() {
 
     expect(viewModel.timeFilter?.label, 'Focused around 08:10');
     expect(viewModel.episodeCallouts, hasLength(1));
-    expect(viewModel.episodeCallouts.single.label, 'High episode');
+    expect(viewModel.episodeCallouts.single.title, 'High episode');
+    expect(viewModel.episodeCallouts.single.meta, contains('40 min'));
     expect(viewModel.events.map((event) => event.time), contains('08:00'));
     expect(
         viewModel.events.map((event) => event.time), isNot(contains('14:00')));

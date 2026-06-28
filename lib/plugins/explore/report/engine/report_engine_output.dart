@@ -11,6 +11,8 @@ import '../models/report_period.dart';
 
 class ReportEngineOutput {
   final ReportPeriod period;
+  final DateTime start;
+  final DateTime end;
   final AppSettings settings;
   final List<GlucoseReading> readings;
   final DateTime generatedAt;
@@ -24,6 +26,8 @@ class ReportEngineOutput {
 
   const ReportEngineOutput({
     required this.period,
+    required this.start,
+    required this.end,
     required this.settings,
     required this.readings,
     required this.generatedAt,

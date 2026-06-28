@@ -14,6 +14,6 @@ class HistoryEventFilterCalculator {
     HistoryTimeFilter? filter,
   ) {
     return events.where((event) => policy.includesEvent(event, filter)).toList()
-      ..sort((a, b) => a.time.compareTo(b.time));
+      ..sort((a, b) => b.time.compareTo(a.time));
   }
 }

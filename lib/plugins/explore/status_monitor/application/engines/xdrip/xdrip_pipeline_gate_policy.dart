@@ -1,6 +1,7 @@
 import '../../../domain/analysis/status_analysis_context.dart';
 import '../../../domain/evidence/status_evidence_source_kind.dart';
 import '../../../domain/status_level.dart';
+import '../../../domain/xdrip/xdrip_broadcast_state.dart';
 import '../../../domain/xdrip/xdrip_pipeline_gate_result.dart';
 import '../../../domain/xdrip/xdrip_reading_source_state.dart';
 
@@ -9,8 +10,11 @@ class XdripPipelineGatePolicy {
 
   XdripPipelineGateResult evaluate(StatusAnalysisContext context) {
     final xdrip = context.evidence.xdripLocalEvidence;
+    final broadcast = context.evidence.xdripBroadcastEvidence;
     final readings = context.evidence.selection.xdripLiveReadings;
     final hasLocalService = xdrip.serviceProbe?.reachable == true;
+    final hasFreshBroadcast =
+        broadcast.state(context.now) == XdripBroadcastState.fresh;
     final hasLiveReadings = readings.readings.isNotEmpty;
     final sourceState = switch (readings.sourceKind) {
       StatusEvidenceSourceKind.xdripLocal => XdripReadingSourceState.xdripLocal,
@@ -44,7 +48,7 @@ class XdripPipelineGatePolicy {
       );
     }
 
-    if (!hasLocalService && hasLiveReadings) {
+    if (!hasLocalService && hasLiveReadings && !hasFreshBroadcast) {
       return XdripPipelineGateResult(
         hasLocalService: false,
         hasLiveReadings: true,
@@ -56,21 +60,24 @@ class XdripPipelineGatePolicy {
       );
     }
 
-    if (!hasLocalService && !hasLiveReadings) {
+    if (!hasLocalService && !hasLiveReadings && !hasFreshBroadcast) {
       return const XdripPipelineGateResult(
         hasLocalService: false,
         hasLiveReadings: false,
         readingSourceState: XdripReadingSourceState.none,
         maxScore: 0,
-        message: 'No xDrip+ service or live glucose readings are visible.',
+        message:
+            'No xDrip+ service, local broadcast, or live glucose readings are visible.',
       );
     }
 
-    return const XdripPipelineGateResult(
-      hasLocalService: true,
-      hasLiveReadings: true,
-      readingSourceState: XdripReadingSourceState.xdripLocal,
-      message: 'xDrip+ Local service and live readings are visible.',
+    return XdripPipelineGateResult(
+      hasLocalService: hasLocalService,
+      hasLiveReadings: hasLiveReadings,
+      readingSourceState: sourceState == XdripReadingSourceState.none
+          ? XdripReadingSourceState.xdripLocal
+          : sourceState,
+      message: 'xDrip+ readings and local broadcast path are visible.',
     );
   }
 }

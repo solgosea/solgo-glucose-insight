@@ -15,7 +15,23 @@ if (keystorePropertiesFile.exists()) {
     }
 }
 val hasReleaseKeystore =
-    keystoreProperties["storeFile"]?.toString()?.isNotBlank() == true
+    listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+        .all { key -> keystoreProperties[key]?.toString()?.isNotBlank() == true } &&
+        file(keystoreProperties["storeFile"].toString()).exists()
+
+gradle.taskGraph.whenReady {
+    val buildingReleaseArtifact = allTasks.any { task ->
+        task.name.contains("Release", ignoreCase = true) &&
+            (task.name.contains("assemble", ignoreCase = true) ||
+                task.name.contains("bundle", ignoreCase = true) ||
+                task.name.contains("package", ignoreCase = true))
+    }
+    if (buildingReleaseArtifact && !hasReleaseKeystore) {
+        throw GradleException(
+            "Release signing is not configured. Fill android/key.properties with storeFile, storePassword, keyAlias, and keyPassword. The storeFile path must exist."
+        )
+    }
+}
 
 android {
     namespace = "com.metaguru.smartxdrip"
@@ -54,11 +70,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig = if (hasReleaseKeystore) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

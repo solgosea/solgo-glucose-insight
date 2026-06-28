@@ -8,6 +8,7 @@ enum StatisticsDeltaTone { up, down, flat }
 
 class StatisticsViewModel {
   final StatisticsAnalysisWindowId selectedWindowId;
+  final String dateFilterLabel;
   final List<StatisticsPeriodOptionViewModel> periodOptions;
   final String metricsHeader;
   final List<StatisticsMetricCardViewModel> metrics;
@@ -17,6 +18,7 @@ class StatisticsViewModel {
 
   const StatisticsViewModel({
     required this.selectedWindowId,
+    this.dateFilterLabel = '',
     required this.periodOptions,
     required this.metricsHeader,
     required this.metrics,

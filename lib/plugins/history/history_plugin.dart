@@ -48,7 +48,7 @@ class HistoryPlugin extends SmartFeaturePlugin {
   @override
   Set<PluginDataRequirement> get dataRequirements => const {
         PluginDataRequirement.glucoseReadings,
-        PluginDataRequirement.glucoseEvents,
+        PluginDataRequirement.episodeEvents,
         PluginDataRequirement.appSettings,
       };
   @override

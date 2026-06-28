@@ -6,6 +6,8 @@ import 'package:smart_xdrip/plugins/explore/status_monitor/domain/detail/status_
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/nightscout_evidence.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_component_kind.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_level.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/xdrip/xdrip_broadcast_evidence.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/xdrip/xdrip_broadcast_payload.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/test_support/fake_status_rule_context_factory.dart';
 
 void main() {
@@ -17,7 +19,7 @@ void main() {
     expect(component.kind, StatusComponentKind.aapsLoop);
     expect(component.level, StatusLevel.unknown);
     expect(component.score?.availableSignals, 0);
-    expect(component.score?.totalSignals, 3);
+    expect(component.score?.totalSignals, 4);
   });
 
   test(
@@ -60,6 +62,17 @@ void main() {
     final now = DateTime.utc(2026, 6, 15, 12);
     final context = const FakeStatusRuleContextFactory().build(
       now: now,
+      xdripBroadcast: XdripBroadcastEvidence(
+        receiverConfigured: true,
+        broadcastObserved: true,
+        latestBroadcastAt: now.subtract(const Duration(seconds: 30)),
+        generatedAt: now,
+        payload: const XdripBroadcastPayload(
+          glucose: 126,
+          unit: 'mg/dL',
+          slopeName: 'Flat',
+        ),
+      ),
       nightscout: NightscoutEvidence(
         configured: true,
         enabled: true,
@@ -92,10 +105,10 @@ void main() {
     final component = await const AapsStatusEngine().evaluate(context);
 
     expect(component.level, StatusLevel.healthy);
-    expect(component.score?.availableSignals, 3);
+    expect(component.score?.availableSignals, 4);
     expect(component.detailData, isA<AapsDetailData>());
     final detail = component.detailData! as AapsDetailData;
     expect(detail.timeline.length, 36);
-    expect(detail.evidenceMatrix.length, 4);
+    expect(detail.evidenceMatrix.length, 5);
   });
 }

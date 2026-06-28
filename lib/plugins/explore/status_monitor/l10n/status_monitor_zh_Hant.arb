@@ -460,7 +460,7 @@
     "pageFloatingPermissionReady": "浮窗权限已就绪。",
     "pageEnableFloatingPermission": "启用浮窗权限",
     "pageSevenDayHistory": "7 天历史",
-    "pageSevenDayHistorySubtitle": "每一行代表一天 - 每天 24 个格子，每小时一个 - 未知表示记录的状态样本不足，无法判断",
+    "pageSevenDayHistorySubtitle": "查看每个组件何时发生状态变化。",
     "pageToday": "今天",
     "pageMonthJan": "1月",
     "pageMonthFeb": "2月",
@@ -681,8 +681,14 @@
     "pageDailySummary7Days": "每日汇总 - 7 天",
     "pageHourlyDetail": "小时详情",
     "pageHistoryScopeNote": "历史记录限定在当前用户和数据源内。它记录 Status Monitor 刷新得到的组件快照；Unknown 表示该小时没有足够的样本数据可判断。",
+    "pageHistoryLoadingComponent": "正在加载该组件的历史记录...",
+    "pageHistoryNoComponentData": "该组件还没有已记录的历史数据。",
+    "pageHistoryComponentFailed": "无法加载该组件的历史记录。",
     "pageHistoryReasonRecordedSample": "已记录样本",
     "pageHistoryReasonCarriedForward": "沿用上一状态",
     "pageHistoryReasonNoSample": "无样本",
-    "pageHistoryReasonFuture": "未来小时"
+    "pageHistoryReasonFuture": "未来小时",
+    "pageDashboardNavDashboard": "總覽",
+    "pageDashboardNavHub": "中樞",
+    "pageDashboardNavChecklist": "檢查"
 }

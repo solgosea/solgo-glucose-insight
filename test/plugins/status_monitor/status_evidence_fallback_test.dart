@@ -6,11 +6,13 @@ import 'package:smart_xdrip/plugins/explore/status_monitor/application/evidence/
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/analysis/status_analysis_context.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/detail/status_endpoint_probe.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/cgm_reading_evidence.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/juggluco_broadcast_evidence.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/nightscout_evidence.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/status_evidence_bundle.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/status_evidence_selection.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/evidence/xdrip_local_evidence.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_level.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/xdrip/xdrip_broadcast_evidence.dart';
 
 void main() {
   test(
@@ -112,11 +114,11 @@ void main() {
       final completeness = component.metrics
           .firstWhere((metric) => metric.id == 'completeness_24h');
 
-      expect(component.level, StatusLevel.watch);
+      expect(component.level, StatusLevel.unknown);
       expect(component.score?.value, lessThan(100));
-      expect(component.score?.value, 25);
+      expect(component.score?.value, 0);
       expect(component.score?.label, 'Service reachable, no readings');
-      expect(component.score?.confidence, closeTo(.25, .001));
+      expect(component.score?.confidence, closeTo(0, .001));
       expect(freshness.level, StatusLevel.unknown);
       expect(completeness.level, StatusLevel.unknown);
     },
@@ -218,11 +220,13 @@ StatusEvidenceBundle _evidence({
   return StatusEvidenceBundle(
     subjectId: 'self',
     xdripLocalEvidence: xdrip,
+    xdripBroadcastEvidence: XdripBroadcastEvidence.none(generatedAt: now),
     nightscoutEvidence: nightscout,
     aapsEvidence: const AapsEvidenceParser().parse(
       nightscout: nightscout,
       now: now,
     ),
+    jugglucoEvidence: JugglucoBroadcastEvidence.none(generatedAt: now),
     cachedReadingEvidence: cached,
     selection: StatusEvidenceSelection(
       cgmLiveReadings: cgmLive,

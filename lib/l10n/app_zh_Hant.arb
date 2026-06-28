@@ -131,18 +131,28 @@
     }
   },
   "syncFailed": "失敗",
+  "syncStatusWaiting": "等待同步",
+  "syncStatusSynced": "已同步",
+  "syncStatusNeedsSync": "需要同步",
+  "syncStatusFailed": "同步失敗",
   "syncLastFailed": "上次同步失敗",
+  "syncLastAttempt": "上次嘗試 {relative}",
+  "@syncLastAttempt": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
   "syncSchedulePending": "同步排程待定",
   "syncPaused": "同步已暫停",
   "syncWaitingSchedule": "等待同步排程",
   "syncDue": "需要同步",
-  "syncNext": "下次 {duration}",
+  "syncNext": "{duration} 後同步",
   "@syncNext": {
     "placeholders": {
       "duration": {}
     }
   },
-  "syncEstimatedNext": "預計下次 {duration}",
+  "syncEstimatedNext": "預計 {duration} 後同步",
   "@syncEstimatedNext": {
     "placeholders": {
       "duration": {}

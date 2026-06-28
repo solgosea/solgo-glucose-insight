@@ -4,7 +4,11 @@ import 'glucose_sync_plan.dart';
 import 'glucose_sync_policy.dart';
 
 class GlucoseSyncCursorResolver {
-  const GlucoseSyncCursorResolver();
+  final Duration futureCursorTolerance;
+
+  const GlucoseSyncCursorResolver({
+    this.futureCursorTolerance = const Duration(minutes: 10),
+  });
 
   GlucoseSyncPlan resolve({
     required SourceSyncState? state,
@@ -13,7 +17,7 @@ class GlucoseSyncCursorResolver {
   }) {
     final current = now ?? DateTime.now();
     final cursor = _cursorFrom(state?.lastCursor);
-    if (cursor == null) {
+    if (cursor == null || cursor.isAfter(current.add(futureCursorTolerance))) {
       return GlucoseSyncPlan(
         from: current.subtract(Duration(days: policy.initialSyncDays)),
         to: current,

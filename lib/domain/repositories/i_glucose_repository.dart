@@ -24,7 +24,4 @@ abstract class IGlucoseRepository {
 
   /// Personal baseline (rolling 60-day percentile ranges).
   Future<PersonalBaseline> baseline();
-
-  /// Glucotype classification (Hall et al. 2018 categories).
-  Future<GlucotypeResult> glucotype();
 }

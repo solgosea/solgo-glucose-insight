@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_component_kind.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_component_history_load_state.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_level.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/presentation/history/models/status_component_history_section_view_model.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/presentation/history/models/status_component_history_view_model.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/presentation/history/models/status_history_cell_view_model.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/presentation/history/models/status_history_view_model.dart';
@@ -47,7 +49,15 @@ void main() {
               viewModel: StatusHistoryViewModel(
                 title: '7-Day History',
                 subtitle: 'Each row is one day',
-                components: [component],
+                sections: [
+                  StatusComponentHistorySectionViewModel(
+                    component: component.component,
+                    title: component.title,
+                    currentLevel: component.currentLevel,
+                    state: StatusComponentHistoryLoadState.ready,
+                    history: component,
+                  ),
+                ],
               ),
             ),
           ),
@@ -55,7 +65,7 @@ void main() {
       ),
     );
 
-    expect(find.text('7-Day History'), findsOneWidget);
+    expect(find.text('7-Day History'), findsNothing);
     expect(find.text('Healthy'), findsOneWidget);
     expect(find.text('Watch'), findsOneWidget);
     expect(find.text('Issue'), findsWidgets);

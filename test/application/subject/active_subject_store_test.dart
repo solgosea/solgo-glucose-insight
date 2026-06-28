@@ -13,7 +13,7 @@ void main() {
   test('persists and restores a remote active subject', () async {
     final store = ActiveSubjectStore();
     const child = AnalysisSubject(
-      id: 'remote:child_1',
+      id: 'remote:fg_child_1',
       displayName: 'Xiao Ming',
       sourceLabel: 'Remote Nightscout',
       origin: AnalysisSubjectOrigin('remote'),
@@ -35,7 +35,7 @@ void main() {
     final store = ActiveSubjectStore();
     await store.set(
       const AnalysisSubject(
-        id: 'remote:child_2',
+        id: 'remote:fg_child_2',
         displayName: 'Child',
         sourceLabel: 'Remote Nightscout',
         origin: AnalysisSubjectOrigin('remote'),

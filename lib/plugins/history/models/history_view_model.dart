@@ -91,18 +91,24 @@ class HistoryStatCardViewModel {
 class HistoryEpisodeCalloutViewModel {
   final Color color;
   final IconData icon;
-  final String label;
-  final String summary;
-  final String actionLabel;
+  final String kind;
+  final String timeLabel;
+  final String title;
+  final String meta;
+  final String value;
+  final String unit;
   final String route;
   final HistoryEpisodeNavigationTarget navigationTarget;
 
   const HistoryEpisodeCalloutViewModel({
     required this.color,
     required this.icon,
-    required this.label,
-    required this.summary,
-    required this.actionLabel,
+    required this.kind,
+    required this.timeLabel,
+    required this.title,
+    required this.meta,
+    required this.value,
+    required this.unit,
     required this.route,
     required this.navigationTarget,
   });

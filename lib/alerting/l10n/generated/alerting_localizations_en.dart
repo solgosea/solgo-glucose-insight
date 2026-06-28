@@ -12,7 +12,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get alertingTitle => 'Alert Settings';
 
   @override
-  String get alertingSubtitle => 'Configure notification, sound, vibration, and in-app behavior.';
+  String get alertingSubtitle =>
+      'Configure notification, sound, vibration, and in-app behavior.';
 
   @override
   String get pluginTitle => 'Alerting';
@@ -21,7 +22,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get pluginDescription => 'Configurable alert delivery strategies.';
 
   @override
-  String get settingsEntrySubtitle => 'Sound, vibration, notification strategies';
+  String get settingsEntrySubtitle =>
+      'Sound, vibration, notification strategies';
 
   @override
   String get alertSystemSection => 'Alert System';
@@ -33,13 +35,15 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get enableAlertsTitle => 'Enable alerts';
 
   @override
-  String get enableAlertsSubtitle => 'Master switch for glucose safety alerts and future alert sources.';
+  String get enableAlertsSubtitle =>
+      'Master switch for glucose safety alerts and future alert sources.';
 
   @override
   String get criticalOnlyTitle => 'Critical only';
 
   @override
-  String get criticalOnlySubtitle => 'Only urgent events can trigger delivery strategies.';
+  String get criticalOnlySubtitle =>
+      'Only urgent events can trigger delivery strategies.';
 
   @override
   String get detailCriticalOnly => 'Critical only';
@@ -51,7 +55,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get inAppAlertTitle => 'In-app alert';
 
   @override
-  String get inAppAlertSubtitle => 'Show a visible alert card while the app is open.';
+  String get inAppAlertSubtitle =>
+      'Show a visible alert card while the app is open.';
 
   @override
   String get detailCriticalFullScreenReady => 'Critical full screen ready';
@@ -63,7 +68,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get systemNotificationTitle => 'System notification';
 
   @override
-  String get systemNotificationSubtitle => 'Use the operating system notification channel.';
+  String get systemNotificationSubtitle =>
+      'Use the operating system notification channel.';
 
   @override
   String get detailHighPriorityChannel => 'High priority channel';
@@ -72,7 +78,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get soundAlertTitle => 'Sound alert';
 
   @override
-  String get soundAlertSubtitle => 'Choose system, built-in, custom, or silent sound behavior.';
+  String get soundAlertSubtitle =>
+      'Choose system, built-in, custom, or silent sound behavior.';
 
   @override
   String soundMaxDuration(int seconds) {
@@ -89,7 +96,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get vibrationAlertTitle => 'Vibration alert';
 
   @override
-  String get vibrationAlertSubtitle => 'Use vibration patterns for warning and critical events.';
+  String get vibrationAlertSubtitle =>
+      'Use vibration patterns for warning and critical events.';
 
   @override
   String vibrationCritical(String label) {
@@ -108,19 +116,23 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get alertSettingsEntryTitle => 'Alert Settings';
 
   @override
-  String get alertSettingsEntrySubtitle => 'Sound, vibration, notifications, and in-app alert behavior';
+  String get alertSettingsEntrySubtitle =>
+      'Sound, vibration, notifications, and in-app alert behavior';
 
   @override
   String get alertRuntimeTitle => 'Alert runtime';
 
   @override
-  String get runtimeAndroidHelperAlerts => 'Android alerts can run through the foreground service, but SolgoInsight still treats them as helper alerts.';
+  String get runtimeAndroidHelperAlerts =>
+      'Android alerts can run through the foreground service, but SolgoInsight still treats them as helper alerts.';
 
   @override
-  String get runtimeIosBestEffort => 'iOS can evaluate helper alerts during best-effort background refresh when the system allows it. It is not real-time.';
+  String get runtimeIosBestEffort =>
+      'iOS can evaluate helper alerts during best-effort background refresh when the system allows it. It is not real-time.';
 
   @override
-  String get runtimePlatformLimited => 'This platform does not provide reliable background alerts.';
+  String get runtimePlatformLimited =>
+      'This platform does not provide reliable background alerts.';
 
   @override
   String get runtimeForegroundAlerts => 'Foreground alerts';
@@ -144,7 +156,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get chooseSoundSourceTitle => 'Choose sound source';
 
   @override
-  String get chooseSoundSourceSubtitle => 'The selected sound is saved globally and used whenever an alert rule requests Sound.';
+  String get chooseSoundSourceSubtitle =>
+      'The selected sound is saved globally and used whenever an alert rule requests Sound.';
 
   @override
   String get builtInSoundsSection => 'Built-in sounds';
@@ -170,7 +183,8 @@ class AlertingLocalizationsEn extends AlertingLocalizations {
   String get couldNotPreviewSound => 'Could not preview this sound';
 
   @override
-  String get couldNotImportAudioTrySmaller => 'Could not import this audio file. Try a smaller local file.';
+  String get couldNotImportAudioTrySmaller =>
+      'Could not import this audio file. Try a smaller local file.';
 
   @override
   String get couldNotImportAudio => 'Could not import this audio file';

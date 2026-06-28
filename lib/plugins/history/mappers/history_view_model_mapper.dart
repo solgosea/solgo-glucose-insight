@@ -3,6 +3,7 @@ import '../../../application/glucose_unit/glucose_unit_format_service.dart';
 import '../../../application/i18n/localized_date_time_formatter.dart';
 import '../../../domain/entities/app_settings.dart';
 import '../../../domain/entities/glucose_reading.dart';
+import '../../../domain/time/date_range_granularity.dart';
 import '../../../foundation/theme/app_colors.dart';
 import '../application/text/history_filter_text_builder.dart';
 import '../domain/sections/history_date_section.dart';
@@ -69,10 +70,12 @@ class HistoryViewModelMapper {
   ) {
     final yearLabel = section.selectedDay.year.toString();
     return HistoryDateNavViewModel(
-      dateLabel: _dateLabel(section.selectedDay, l10n),
+      dateLabel: _dateLabel(section, l10n),
       subtitle: section.isToday
           ? '$yearLabel - ${l10n.dayView}  -  ${l10n.today}'
-          : '$yearLabel - ${l10n.dayView}',
+          : section.isSingleDay
+              ? '$yearLabel - ${l10n.dayView}'
+              : l10n.dateFilterRangeSubtitle,
       isToday: section.isToday,
     );
   }
@@ -162,10 +165,17 @@ class HistoryViewModelMapper {
         );
   }
 
-  String _dateLabel(DateTime day, HistoryLocalizations l10n) {
+  String _dateLabel(HistoryDateSection section, HistoryLocalizations l10n) {
     final formatter = LocalizedDateTimeFormatter(l10n.localeName);
-    final weekday = formatter.weekdayFull(day);
-    final date = formatter.dateShort(day);
+    if (!section.isSingleDay) {
+      return formatter.dateRange(
+        section.rangeStart,
+        section.rangeEnd,
+        granularity: DateRangeGranularity.short,
+      );
+    }
+    final weekday = formatter.weekdayFull(section.selectedDay);
+    final date = formatter.dateShort(section.selectedDay);
     return l10n.localeName.startsWith('zh')
         ? '$weekday，$date'
         : '$weekday, $date';

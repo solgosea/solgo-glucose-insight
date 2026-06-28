@@ -1,8 +1,10 @@
 # Contributing
 
-## Before you start
+Thank you for taking a look at Solgo Insight.
 
-Run the full check locally before opening a PR:
+## Before You Start
+
+Run the local checks before opening a pull request:
 
 ```bash
 flutter pub get
@@ -11,43 +13,33 @@ flutter analyze
 flutter test
 ```
 
-All three must pass. CI will reject PRs that fail any of them.
-
 ## Branches
 
-- `main` — always releasable. Never push directly.
+- `main` should stay releasable.
 - Feature branches: `feat/<short-description>`
 - Bug fixes: `fix/<short-description>`
 
 ## Commits
 
-One logical change per commit. Subject line in imperative mood, under 72 chars:
+Prefer one logical change per commit when possible. A clear subject is more useful than a clever one:
 
-```
-fix: correct TIR calculation for partial-day windows
-feat: add calendar heatmap zoom gesture
-```
-
-## Pull requests
-
-- Keep PRs small and focused — one feature or one bug per PR.
-- Fill in the PR template (what changed, how to test).
-- Link the related issue if one exists.
-
-## Running with mock data
-
-No CGM hardware needed. Launch the Python mock server, then run the app:
-
-```bash
-# Terminal 1
-cd mockserver && pip install -r requirements.txt && python server.py
-
-# Terminal 2
-flutter run
+```text
+fix: correct stale source status mapping
+feat: add status monitor probe summary
 ```
 
-See `mockserver/README.md` for all scenarios.
+Some early public releases may still contain larger commits because the app architecture is actively changing. Future changes should become easier to review as the public scope stabilizes.
 
-## Code of conduct
+## Pull Requests
 
-Be respectful. See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+- Keep PRs focused.
+- Explain what changed and how it was tested.
+- Avoid committing private health data, signing keys, API secrets, local databases, or generated release artifacts unless they are intentionally public assets.
+
+## Development Data
+
+Use mock or synthetic glucose data for development and tests. Do not add personal CGM exports to the repository.
+
+## Conduct
+
+Be respectful. This project touches health-related workflows, so clarity and care matter.

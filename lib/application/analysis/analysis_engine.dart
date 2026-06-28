@@ -78,8 +78,8 @@ class AnalysisEngine {
 
   Future<AnalysisWindow> _defaultWindow(String subjectId) async {
     final latest = await database.latest(subjectId: subjectId);
-    final anchor = latest?.timestamp.add(const Duration(minutes: 1)) ??
-        DateTime.now();
+    final anchor =
+        latest?.timestamp.add(const Duration(minutes: 1)) ?? DateTime.now();
     return AnalysisWindow.lastDays(14, now: anchor);
   }
 

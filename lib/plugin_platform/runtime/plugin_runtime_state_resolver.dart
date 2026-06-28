@@ -31,7 +31,7 @@ class PluginRuntimeStateResolver {
         !context.hasGlucoseData) {
       return _noData(plugin, 'No glucose data available yet');
     }
-    if (plugin.dataRequirements.contains(PluginDataRequirement.glucoseEvents) &&
+    if (plugin.dataRequirements.contains(PluginDataRequirement.episodeEvents) &&
         !context.hasGlucoseEvents) {
       return _noData(plugin, 'No glucose events available yet');
     }

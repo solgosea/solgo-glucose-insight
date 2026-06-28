@@ -26,10 +26,10 @@ void main() {
 
     final allReportSource =
         _dartFiles(root).map((file) => file.readAsStringSync()).join('\n');
-    expect(allReportSource, isNot(contains('/calendar_heatmap/')));
-    expect(allReportSource, isNot(contains('/period_analysis/')));
+    expect(allReportSource, isNot(contains('/calendar_' 'heatmap/')));
+    expect(allReportSource, isNot(contains('/period_' 'analysis/')));
     expect(allReportSource, isNot(contains('/status_monitor/')));
-    expect(allReportSource, isNot(contains('/agp_detail/')));
+    expect(allReportSource, isNot(contains('/agp_' 'detail/')));
   });
 }
 

@@ -12,19 +12,13 @@ class HistoryCurveViewModelMapper {
     HistoryCurveSection section,
     AppSettings settings,
   ) {
-    final selectedDay = section.dataset.selectedDay;
-    final dayStart = DateTime(
-      selectedDay.year,
-      selectedDay.month,
-      selectedDay.day,
-    );
     return HistoryCurveViewModel(
       readings: section.dataset.readings,
       unit: settings.unit,
       lowThreshold: settings.lowThreshold,
       highThreshold: settings.highThreshold,
-      timeRangeStart: dayStart,
-      timeRangeEnd: dayStart.add(const Duration(days: 1)),
+      timeRangeStart: section.dataset.rangeStart,
+      timeRangeEnd: section.dataset.rangeEnd.add(const Duration(days: 1)),
       episodes: _chartEpisodes(section.dataset.events),
       markers: _chartMarkers(section.dataset.events),
     );

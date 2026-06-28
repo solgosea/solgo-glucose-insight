@@ -42,7 +42,8 @@ class ExploreLocalizationsEn extends ExploreLocalizations {
   String get featuredReportTitle => 'Doctor-ready glucose report';
 
   @override
-  String get featuredReportBody => 'AGP standard PDF. Export & share in seconds.';
+  String get featuredReportBody =>
+      'AGP standard PDF. Export & share in seconds.';
 
   @override
   String get runtimeNoData => 'No data';
@@ -58,9 +59,6 @@ class ExploreLocalizationsEn extends ExploreLocalizations {
 
   @override
   String get runtimeUnavailable => 'Unavailable';
-
-  @override
-  String get sectionLabs => 'LABS';
 
   @override
   String get sectionTimePatterns => 'TIME PATTERNS';

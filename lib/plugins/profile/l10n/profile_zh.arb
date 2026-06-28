@@ -32,7 +32,6 @@
     "targetRangeReset": "重置",
     "targetRangeSheetSubtitle": "拖动标记或输入精确数值，两者会保持同步。",
     "profileHeaderTitle": "我的档案",
-    "profileBuildingBaseline": "正在建立基线",
     "profileDaysRecorded": "已记录 {days} 天",
     "@profileDaysRecorded": {
         "placeholders": {
@@ -41,39 +40,11 @@
             }
         }
     },
-    "profileGlucotype": "血糖类型：{label}",
-    "@profileGlucotype": {
-        "placeholders": {
-            "label": {
-                "type": "String"
-            }
-        }
-    },
-    "profileGlucotypeLow": "平稳",
-    "profileGlucotypeModerate": "中等波动",
-    "profileGlucotypeSevere": "高波动",
     "profileStatTir14d": "TIR 14天",
     "profileStatAvg14d": "平均 14天",
     "profileStatCv14d": "CV 14天",
     "profileSettingsSummary": "设置",
-    "profileSectionMyBaseline": "我的基线",
     "profileSectionAppSettings": "App 设置",
-    "profileBaselineTitle": "个人血糖基线",
-    "profileBaselineBuiltFrom": "基于 {days} 天建立 - 更新于 {date}",
-    "@profileBaselineBuiltFrom": {
-        "placeholders": {
-            "days": {
-                "type": "int"
-            },
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "profileBaselineNotEnough": "数据还不够",
-    "profileBaselineTir": "TIR 基线",
-    "profileBaselineTypicalPeak": "典型峰值",
-    "profileBaselineCvRange": "CV 范围",
     "targetRangeLowHighGapMessage": "低血糖阈值至少要比高血糖阈值低 {gap} {unit}。",
     "@targetRangeLowHighGapMessage": {
         "placeholders": {

@@ -77,8 +77,11 @@ class NightscoutApiSource implements IGlucoseSource {
   @override
   Future<List<GlucoseReading>> recent({int count = 24}) async {
     final r = await _dio.get(
-      '/api/v1/entries/sgv.json',
-      queryParameters: {'count': count},
+      '/api/v1/entries.json',
+      queryParameters: {
+        'find[type]': 'sgv',
+        'count': count,
+      },
     );
     return _parse(r.data);
   }
@@ -89,11 +92,12 @@ class NightscoutApiSource implements IGlucoseSource {
     required DateTime to,
   }) async {
     final r = await _dio.get(
-      '/api/v1/entries/sgv.json',
+      '/api/v1/entries.json',
       queryParameters: {
+        'find[type]': 'sgv',
         'find[date][\$gte]': from.millisecondsSinceEpoch,
         'find[date][\$lte]': to.millisecondsSinceEpoch,
-        'count': 100000,
+        'count': _countForWindow(from, to),
       },
     );
     return _parse(r.data);
@@ -118,5 +122,11 @@ class NightscoutApiSource implements IGlucoseSource {
       );
     }
     return const GlucoseTrendEnrichmentService().enrichSamples(samples);
+  }
+
+  int _countForWindow(DateTime from, DateTime to) {
+    final minutes = to.difference(from).inMinutes.abs();
+    final expectedFiveMinuteReadings = (minutes / 5).ceil();
+    return expectedFiveMinuteReadings.clamp(24, 2000);
   }
 }

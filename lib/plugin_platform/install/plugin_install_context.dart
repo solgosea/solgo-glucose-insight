@@ -22,8 +22,7 @@ class PluginInstallContext {
     PluginEntryLocalizationRegistry? entryLocalizers,
   })  : compositionRegistry =
             compositionRegistry ?? PluginCompositionRegistry(),
-        entryLocalizers =
-            entryLocalizers ?? PluginEntryLocalizationRegistry();
+        entryLocalizers = entryLocalizers ?? PluginEntryLocalizationRegistry();
 
   void registerRuntime(
     PluginRuntime runtime, {

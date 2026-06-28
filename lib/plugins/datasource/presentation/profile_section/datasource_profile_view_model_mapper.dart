@@ -7,6 +7,8 @@ import 'package:smart_xdrip/domain/data_source/data_source_kind.dart';
 import 'package:smart_xdrip/domain/data_source/data_source_sync_strategy_action.dart';
 import 'package:smart_xdrip/domain/sync_status/sync_status_snapshot.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import 'package:smart_xdrip/plugins/datasource/domain/profile_state/datasource_profile_section_phase.dart';
+import 'package:smart_xdrip/plugins/datasource/domain/profile_state/datasource_profile_state.dart';
 import 'package:smart_xdrip/presentation/common/sync_status/sync_status_view_model.dart';
 import 'package:smart_xdrip/presentation/common/sync_status/sync_status_view_model_mapper.dart';
 
@@ -21,8 +23,10 @@ class DatasourceProfileViewModelMapper {
 
   DatasourceProfileViewModel map({
     required List<DataSourceConnectionSnapshot> snapshots,
-    required SyncStatusSnapshot syncStatus,
+    SyncStatusSnapshot? syncStatus,
     SyncRuntimeStatus? syncRuntimeStatus,
+    bool refreshing = false,
+    String? recoverableErrorText,
   }) {
     return DatasourceProfileViewModel(
       sources: snapshots
@@ -35,11 +39,13 @@ class DatasourceProfileViewModelMapper {
               name: snapshot.title,
               subtitle: snapshot.subtitle,
               meta: _sourceMeta(snapshot),
-              syncStatus: _sourceSyncStatus(
-                snapshot,
-                syncStatus: syncStatus,
-                syncRuntimeStatus: syncRuntimeStatus,
-              ),
+              syncStatus: syncStatus == null
+                  ? null
+                  : _sourceSyncStatus(
+                      snapshot,
+                      syncStatus: syncStatus,
+                      syncRuntimeStatus: syncRuntimeStatus,
+                    ),
               trailing: snapshot.trailing,
               secondaryTrailing:
                   snapshot.kind == DataSourceKind.nightscout ? 'Edit' : null,
@@ -51,20 +57,42 @@ class DatasourceProfileViewModelMapper {
               actionEnabled: snapshot.action != DataSourceConnectionAction.none,
               strategyActionEnabled:
                   snapshot.strategyAction != DataSourceSyncStrategyAction.none,
-              pulsing: snapshot.status == DataSourceConnectionStatus.syncing,
+              pulsing: snapshot.status == DataSourceConnectionStatus.syncing ||
+                  snapshot.status == DataSourceConnectionStatus.connecting,
+              checking:
+                  snapshot.status == DataSourceConnectionStatus.connecting,
               muted: _muted(snapshot),
             ),
           )
           .toList(growable: false),
       runtimeLimitationText: '',
       foregroundReconcileLabel: '',
+      refreshing: refreshing,
+      recoverableErrorText: recoverableErrorText,
+    );
+  }
+
+  DatasourceProfileViewModel mapState({
+    required DatasourceProfileState state,
+    SyncRuntimeStatus? syncRuntimeStatus,
+  }) {
+    return map(
+      snapshots: state.snapshots,
+      syncStatus: state.syncStatus,
+      syncRuntimeStatus: syncRuntimeStatus,
+      refreshing: state.refreshing,
+      recoverableErrorText:
+          state.phase == DatasourceProfileSectionPhase.errorRecoverable
+              ? 'Could not refresh data source status'
+              : null,
     );
   }
 
   Color _statusColor(DataSourceConnectionSnapshot snapshot) {
     return switch (snapshot.status) {
       DataSourceConnectionStatus.detected ||
-      DataSourceConnectionStatus.syncing =>
+      DataSourceConnectionStatus.syncing ||
+      DataSourceConnectionStatus.connecting =>
         AppColors.green,
       DataSourceConnectionStatus.connected ||
       DataSourceConnectionStatus.configured =>
@@ -102,6 +130,9 @@ class DatasourceProfileViewModelMapper {
 
   String? _sourceMeta(DataSourceConnectionSnapshot snapshot) {
     final state = snapshot.syncState;
+    if (snapshot.status == DataSourceConnectionStatus.connecting) {
+      return 'Checking source...';
+    }
     if (snapshot.active) return null;
     if (!snapshot.active &&
         snapshot.status == DataSourceConnectionStatus.failed) {

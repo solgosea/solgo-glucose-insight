@@ -8,24 +8,18 @@ import '../../../plugin_platform/contracts/plugin_runtime_status.dart';
 import '../application/i18n/explore_l10n.dart';
 
 class ExploreFeaturedSection extends StatelessWidget {
-  final ExplorePluginEntry? statusMonitorEntry;
-  final PluginRuntimeState? statusMonitorState;
   final ExplorePluginEntry? reportEntry;
   final PluginRuntimeState? reportState;
 
   const ExploreFeaturedSection({
     super.key,
-    this.statusMonitorEntry,
-    this.statusMonitorState,
     this.reportEntry,
     this.reportState,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (statusMonitorEntry == null && reportEntry == null) {
-      return const SizedBox();
-    }
+    if (reportEntry == null) return const SizedBox();
     final l10n = context.exploreL10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,21 +37,6 @@ class ExploreFeaturedSection extends StatelessWidget {
             ),
           ),
         ),
-        if (statusMonitorEntry != null)
-          _FeaturedPluginCard(
-            entry: statusMonitorEntry!,
-            state: statusMonitorState,
-            eyebrow: 'STATUS MONITOR',
-            badge: 'BETA',
-            badgeColor: AppColors.amber,
-            title: statusMonitorEntry!.title,
-            body: statusMonitorEntry!.subtitle,
-            cta: '',
-            color: AppColors.green,
-            icon: Icons.monitor_heart_rounded,
-            gradientEnd: AppColors.amber,
-            showFooter: false,
-          ),
         if (reportEntry != null)
           _FeaturedPluginCard(
             entry: reportEntry!,
@@ -89,7 +68,6 @@ class _FeaturedPluginCard extends StatelessWidget {
   final Color gradientEnd;
   final IconData icon;
   final bool showFooter;
-  final Color? badgeColor;
 
   const _FeaturedPluginCard({
     required this.entry,
@@ -103,7 +81,6 @@ class _FeaturedPluginCard extends StatelessWidget {
     required this.gradientEnd,
     required this.icon,
     this.showFooter = true,
-    this.badgeColor,
   });
 
   @override
@@ -254,8 +231,7 @@ class _FeaturedPluginCard extends StatelessWidget {
                   fontSize: 9,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.8,
-                  color:
-                      enabled ? badgeColor ?? effectiveColor : effectiveColor,
+                  color: effectiveColor,
                 ),
               ),
             ),

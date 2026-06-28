@@ -20,10 +20,8 @@ class PluginComposer {
     PluginSlotKey slot, {
     PluginCapabilityContext context = const PluginCapabilityContext(),
   }) {
-    final visibleIds = registry
-        .visible(context: context)
-        .map((plugin) => plugin.id)
-        .toSet();
+    final visibleIds =
+        registry.visible(context: context).map((plugin) => plugin.id).toSet();
     final renderables = compositionRegistry
         .renderablesFor(slot)
         .where((renderable) => visibleIds.contains(renderable.pluginId))
@@ -35,10 +33,8 @@ class PluginComposer {
     PluginSlotKey slot, {
     PluginCapabilityContext context = const PluginCapabilityContext(),
   }) {
-    final visibleIds = registry
-        .visible(context: context)
-        .map((plugin) => plugin.id)
-        .toSet();
+    final visibleIds =
+        registry.visible(context: context).map((plugin) => plugin.id).toSet();
     final placements = catalogComposer
         .placementsFor(registry.all)
         .where((placement) => placement.slot == slot)

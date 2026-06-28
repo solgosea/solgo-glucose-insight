@@ -62,7 +62,36 @@ void main() {
       expect(await database.count(), 10);
       expect(await database.rawReadings.count(), 10);
       expect(source.availabilityChecks, 2);
-      expect(source.rangeCalls, 2);
+      expect(source.rangeCalls, greaterThan(2));
+    });
+
+    test('initial sync uses smart daily chunks before persisting', () async {
+      final database = TestDatabase.create();
+      addTearDown(database.close);
+      final readings = CgmReadingsFixture.stableDay(
+        start: DateTime.now().subtract(const Duration(days: 6)),
+        count: 12,
+      );
+      final source = FakeGlucoseSource(
+        type: DataSource.nightscout,
+        readings: readings,
+      );
+
+      final result = await GlucoseSyncCoordinator(database: database).syncOnce(
+        source: source,
+        settings: AppSettingsFixture.nightscout,
+      );
+
+      expect(result.success, isTrue);
+      expect(source.rangeCalls, greaterThan(1));
+      expect(source.rangeWindows.first.from.isBefore(readings.first.timestamp),
+          isTrue);
+      for (final window in source.rangeWindows) {
+        expect(
+          window.to.difference(window.from),
+          lessThanOrEqualTo(const Duration(days: 1)),
+        );
+      }
     });
 
     test('unavailable source records error and does not fetch readings',

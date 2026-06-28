@@ -105,26 +105,9 @@ class ProfileLocalizationsZh extends ProfileLocalizations {
   String get profileHeaderTitle => '我的档案';
 
   @override
-  String get profileBuildingBaseline => '正在建立基线';
-
-  @override
   String profileDaysRecorded(int days) {
     return '已记录 $days 天';
   }
-
-  @override
-  String profileGlucotype(String label) {
-    return '血糖类型：$label';
-  }
-
-  @override
-  String get profileGlucotypeLow => '平稳';
-
-  @override
-  String get profileGlucotypeModerate => '中等波动';
-
-  @override
-  String get profileGlucotypeSevere => '高波动';
 
   @override
   String get profileStatTir14d => 'TIR 14天';
@@ -139,30 +122,7 @@ class ProfileLocalizationsZh extends ProfileLocalizations {
   String get profileSettingsSummary => '设置';
 
   @override
-  String get profileSectionMyBaseline => '我的基线';
-
-  @override
   String get profileSectionAppSettings => 'App 设置';
-
-  @override
-  String get profileBaselineTitle => '个人血糖基线';
-
-  @override
-  String profileBaselineBuiltFrom(int days, String date) {
-    return '基于 $days 天建立 - 更新于 $date';
-  }
-
-  @override
-  String get profileBaselineNotEnough => '数据还不够';
-
-  @override
-  String get profileBaselineTir => 'TIR 基线';
-
-  @override
-  String get profileBaselineTypicalPeak => '典型峰值';
-
-  @override
-  String get profileBaselineCvRange => 'CV 范围';
 
   @override
   String targetRangeLowHighGapMessage(String gap, String unit) {
@@ -276,26 +236,9 @@ class ProfileLocalizationsZhHant extends ProfileLocalizationsZh {
   String get profileHeaderTitle => '我的個人資料';
 
   @override
-  String get profileBuildingBaseline => '正在建立基線';
-
-  @override
   String profileDaysRecorded(int days) {
     return '已記錄 $days 天';
   }
-
-  @override
-  String profileGlucotype(String label) {
-    return '血糖類型：$label';
-  }
-
-  @override
-  String get profileGlucotypeLow => '平穩';
-
-  @override
-  String get profileGlucotypeModerate => '中等波動';
-
-  @override
-  String get profileGlucotypeSevere => '高波動';
 
   @override
   String get profileStatTir14d => 'TIR 14天';
@@ -310,30 +253,7 @@ class ProfileLocalizationsZhHant extends ProfileLocalizationsZh {
   String get profileSettingsSummary => '設定';
 
   @override
-  String get profileSectionMyBaseline => '我的基線';
-
-  @override
   String get profileSectionAppSettings => 'App 設定';
-
-  @override
-  String get profileBaselineTitle => '個人血糖基線';
-
-  @override
-  String profileBaselineBuiltFrom(int days, String date) {
-    return '基於 $days 天建立 - 更新於 $date';
-  }
-
-  @override
-  String get profileBaselineNotEnough => '資料還不夠';
-
-  @override
-  String get profileBaselineTir => 'TIR 基線';
-
-  @override
-  String get profileBaselineTypicalPeak => '典型峰值';
-
-  @override
-  String get profileBaselineCvRange => 'CV 範圍';
 
   @override
   String targetRangeLowHighGapMessage(String gap, String unit) {

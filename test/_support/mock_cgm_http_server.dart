@@ -7,6 +7,7 @@ class MockCgmHttpServer {
   final bool requireToken;
   final String token;
   HttpServer? _server;
+  final requestUris = <Uri>[];
 
   MockCgmHttpServer({
     required this.entries,
@@ -36,6 +37,7 @@ class MockCgmHttpServer {
     final server = _server;
     if (server == null) return;
     await for (final request in server) {
+      requestUris.add(request.uri);
       if (requireToken && request.uri.queryParameters['token'] != token) {
         request.response.statusCode = HttpStatus.unauthorized;
         await request.response.close();
@@ -44,7 +46,8 @@ class MockCgmHttpServer {
       request.response.headers.contentType = ContentType.json;
       if (request.uri.path == '/api/v1/status.json') {
         request.response.write(jsonEncode({'status': 'ok'}));
-      } else if (request.uri.path == '/api/v1/entries/sgv.json') {
+      } else if (request.uri.path == '/api/v1/entries/sgv.json' ||
+          request.uri.path == '/api/v1/entries.json') {
         request.response.write(jsonEncode(_filterEntries(request.uri)));
       } else {
         request.response.statusCode = HttpStatus.notFound;

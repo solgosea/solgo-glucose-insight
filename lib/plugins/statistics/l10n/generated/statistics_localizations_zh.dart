@@ -36,6 +36,39 @@ class StatisticsLocalizationsZh extends StatisticsLocalizations {
   String get exportAction => '导出 ->';
 
   @override
+  String get dateFilterTooltip => '选择日期';
+
+  @override
+  String get dateFilterTitle => '分析时段';
+
+  @override
+  String get dateFilterSubtitle => '选择常用时段，或拖动日期来分析连续范围。';
+
+  @override
+  String get dateFilterApply => '应用筛选';
+
+  @override
+  String get dateFilterReset => '今天';
+
+  @override
+  String get dateFilterCancel => '取消';
+
+  @override
+  String get dateFilterSelectedDates => '已选择时段';
+
+  @override
+  String get dateFilterDay => '天';
+
+  @override
+  String get dateFilterDays => '天';
+
+  @override
+  String get dateFilterReadings => '条读数';
+
+  @override
+  String get dateFilterDragHint => '可使用常用时段，也可以按住拖动日期，选择自定义分析范围。';
+
+  @override
   String get tirBreakdownTitle => '目标范围时间分布';
 
   @override
@@ -141,6 +174,39 @@ class StatisticsLocalizationsZhHant extends StatisticsLocalizationsZh {
 
   @override
   String get exportAction => '匯出 ->';
+
+  @override
+  String get dateFilterTooltip => '選擇日期';
+
+  @override
+  String get dateFilterTitle => '分析時段';
+
+  @override
+  String get dateFilterSubtitle => '選擇常用時段，或拖動日期來分析連續範圍。';
+
+  @override
+  String get dateFilterApply => '套用篩選';
+
+  @override
+  String get dateFilterReset => '今天';
+
+  @override
+  String get dateFilterCancel => '取消';
+
+  @override
+  String get dateFilterSelectedDates => '已選擇時段';
+
+  @override
+  String get dateFilterDay => '天';
+
+  @override
+  String get dateFilterDays => '天';
+
+  @override
+  String get dateFilterReadings => '筆讀數';
+
+  @override
+  String get dateFilterDragHint => '可使用常用時段，也可以按住拖動日期，選擇自訂分析範圍。';
 
   @override
   String get tirBreakdownTitle => '目標範圍時間分布';

@@ -24,6 +24,7 @@ class StatusDashboardController extends ChangeNotifier {
   }) {
     _dashboardState = stateMapper.map(
       viewModel: null,
+      sessionState: null,
       error: null,
       loading: true,
     );
@@ -47,6 +48,7 @@ class StatusDashboardController extends ChangeNotifier {
     if (report == null) {
       final nextState = stateMapper.map(
         viewModel: _viewModel,
+        sessionState: cache.sessionState,
         error: cache.error,
         loading: cache.loading,
       );
@@ -56,6 +58,7 @@ class StatusDashboardController extends ChangeNotifier {
     _viewModel = mapper.dashboard(report, l10n: _l10n);
     final nextState = stateMapper.map(
       viewModel: _viewModel,
+      sessionState: cache.sessionState,
       error: cache.error,
       loading: cache.loading,
     );
@@ -66,12 +69,30 @@ class StatusDashboardController extends ChangeNotifier {
     final current = _dashboardState;
     final changed =
         !identical(current.viewModel.report, nextState.viewModel.report) ||
+            _componentSignature(current.viewModel) !=
+                _componentSignature(nextState.viewModel) ||
             current.notice?.title != nextState.notice?.title ||
             current.notice?.body != nextState.notice?.body ||
             current.setupPrompt?.title != nextState.setupPrompt?.title ||
-            current.setupPrompt?.body != nextState.setupPrompt?.body;
+            current.setupPrompt?.body != nextState.setupPrompt?.body ||
+            current.refreshing != nextState.refreshing;
     _dashboardState = nextState;
     if (changed && !_disposed) notifyListeners();
+  }
+
+  String _componentSignature(StatusDashboardViewModel viewModel) {
+    return viewModel.components
+        .map(
+          (component) => [
+            component.component.kind.name,
+            component.component.level.name,
+            component.component.score?.value,
+            component.freshnessText,
+            component.checkPhase?.name,
+            component.checkStepLabel,
+          ].join(':'),
+        )
+        .join('|');
   }
 
   @override

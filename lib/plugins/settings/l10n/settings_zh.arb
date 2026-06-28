@@ -16,7 +16,7 @@
     "settingsStorageTitle": "数据存储",
     "settingsAboutSubtitle": "应用信息和支持链接",
     "settingsStorageDescription": "本地血糖数据存储摘要。",
-    "settingsSyncDescription": "初始同步窗口和数据源同步偏好。",
+    "settingsSyncDescription": "同步窗口和数据源同步偏好。",
     "pluginUnavailable": "不可用",
     "pluginReportTitle": "设置报告",
     "@@locale": "zh",
@@ -33,6 +33,53 @@
     "settingsRetentionPeriodLabel": "保留周期",
     "settingsDaysSuffix": "天",
     "settingsInitialSyncWindowLabel": "初始同步窗口",
+    "settingsSyncWindowLabel": "同步窗口",
+    "settingsSyncWindowSubtitle": "历史范围和同步间隔",
+    "settingsSyncWindowValue": "{days} 天 · 每 {minutes} 分钟",
+    "@settingsSyncWindowValue": {
+        "placeholders": {
+            "days": {"type": "int"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSyncWindowSheetTitle": "同步窗口",
+    "settingsSyncWindowSheetSubtitle": "选择要加载的历史范围，以及 SolgoInsight 检查新读数的频率。",
+    "settingsSyncPlanLabel": "同步计划",
+    "settingsHistoryRangeLabel": "历史范围",
+    "settingsHistoryRangeValue": "{days} 天",
+    "@settingsHistoryRangeValue": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "settingsSyncIntervalLabel": "同步间隔",
+    "settingsSyncIntervalValue": "每 {minutes} 分钟",
+    "@settingsSyncIntervalValue": {
+        "placeholders": {
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsDaysShort": "{days}天",
+    "@settingsDaysShort": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "settingsMinutesShort": "{minutes}分",
+    "@settingsMinutesShort": {
+        "placeholders": {
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSyncPreviewTitle": "保存后会怎样",
+    "settingsSyncPreviewBody": "初始同步最多加载 {days} 天历史数据。之后在同步运行时，大约每 {minutes} 分钟检查一次新读数。",
+    "@settingsSyncPreviewBody": {
+        "placeholders": {
+            "days": {"type": "int"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSaveSyncWindow": "保存",
     "settingsRetentionSummarySuffix": "不会有数据离开此设备",
     "settingsClearAllDataDialogTitle": "清除所有数据？",
     "settingsDaysMax": "天上限",

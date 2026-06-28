@@ -100,7 +100,6 @@ void main() {
     expect(facade.hourlyTirForReadings(facade.readingsForLastHours(24)),
         hasLength(24));
     expect(facade.dailyTirMapForLastDays(7, now: now), hasLength(7));
-    expect(facade.glucotypeFromDaily(now: now)?.dailyPeakAvg, 10.6);
     expect(facade.baselineFromDaily(now: now)?.daysUsed, 7);
     expect(facade.eventsForLastDays(1, now: now), hasLength(1));
     expect(

@@ -6,6 +6,8 @@ import '../domain/history_time_filter.dart';
 
 class HistoryEngineInput {
   final DateTime selectedDay;
+  final DateTime rangeStart;
+  final DateTime rangeEnd;
   final List<GlucoseReading> readings;
   final List<GlucoseEvent> events;
   final AnalysisTirResult? tir;
@@ -15,6 +17,8 @@ class HistoryEngineInput {
 
   const HistoryEngineInput({
     required this.selectedDay,
+    required this.rangeStart,
+    required this.rangeEnd,
     required this.readings,
     required this.events,
     required this.tir,

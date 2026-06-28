@@ -60,7 +60,7 @@ class SettingsLocalizationsZh extends SettingsLocalizations {
   String get settingsStorageDescription => '本地血糖数据存储摘要。';
 
   @override
-  String get settingsSyncDescription => '初始同步窗口和数据源同步偏好。';
+  String get settingsSyncDescription => '同步窗口和数据源同步偏好。';
 
   @override
   String get pluginUnavailable => '不可用';
@@ -106,6 +106,64 @@ class SettingsLocalizationsZh extends SettingsLocalizations {
 
   @override
   String get settingsInitialSyncWindowLabel => '初始同步窗口';
+
+  @override
+  String get settingsSyncWindowLabel => '同步窗口';
+
+  @override
+  String get settingsSyncWindowSubtitle => '历史范围和同步间隔';
+
+  @override
+  String settingsSyncWindowValue(int days, int minutes) {
+    return '$days 天 · 每 $minutes 分钟';
+  }
+
+  @override
+  String get settingsSyncWindowSheetTitle => '同步窗口';
+
+  @override
+  String get settingsSyncWindowSheetSubtitle =>
+      '选择要加载的历史范围，以及 SolgoInsight 检查新读数的频率。';
+
+  @override
+  String get settingsSyncPlanLabel => '同步计划';
+
+  @override
+  String get settingsHistoryRangeLabel => '历史范围';
+
+  @override
+  String settingsHistoryRangeValue(int days) {
+    return '$days 天';
+  }
+
+  @override
+  String get settingsSyncIntervalLabel => '同步间隔';
+
+  @override
+  String settingsSyncIntervalValue(int minutes) {
+    return '每 $minutes 分钟';
+  }
+
+  @override
+  String settingsDaysShort(int days) {
+    return '$days天';
+  }
+
+  @override
+  String settingsMinutesShort(int minutes) {
+    return '$minutes分';
+  }
+
+  @override
+  String get settingsSyncPreviewTitle => '保存后会怎样';
+
+  @override
+  String settingsSyncPreviewBody(int days, int minutes) {
+    return '初始同步最多加载 $days 天历史数据。之后在同步运行时，大约每 $minutes 分钟检查一次新读数。';
+  }
+
+  @override
+  String get settingsSaveSyncWindow => '保存';
 
   @override
   String get settingsRetentionSummarySuffix => '不会有数据离开此设备';
@@ -162,12 +220,13 @@ class SettingsLocalizationsZh extends SettingsLocalizations {
   String get settingsLocalStorageTitle => '本地存储';
 
   @override
-  String get settingsClearAllDataDialogBody => '这会永久删除所有已存储的 CGM 读数、事件和分析快照。此操作无法撤销。';
+  String get settingsClearAllDataDialogBody =>
+      '这会永久删除所有已存储的 CGM 读数、事件和分析快照。此操作无法撤销。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class SettingsLocalizationsZhHant extends SettingsLocalizationsZh {
-  SettingsLocalizationsZhHant(): super('zh_Hant');
+  SettingsLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get settingsDangerDescription => '會破壞本機資料的操作。';
@@ -221,7 +280,7 @@ class SettingsLocalizationsZhHant extends SettingsLocalizationsZh {
   String get settingsStorageDescription => '本機血糖資料儲存摘要。';
 
   @override
-  String get settingsSyncDescription => '初始同步視窗和資料來源同步偏好。';
+  String get settingsSyncDescription => '同步視窗和資料來源同步偏好。';
 
   @override
   String get pluginUnavailable => '不可用';
@@ -267,6 +326,64 @@ class SettingsLocalizationsZhHant extends SettingsLocalizationsZh {
 
   @override
   String get settingsInitialSyncWindowLabel => '初始同步視窗';
+
+  @override
+  String get settingsSyncWindowLabel => '同步視窗';
+
+  @override
+  String get settingsSyncWindowSubtitle => '歷史範圍和同步間隔';
+
+  @override
+  String settingsSyncWindowValue(int days, int minutes) {
+    return '$days 天 · 每 $minutes 分鐘';
+  }
+
+  @override
+  String get settingsSyncWindowSheetTitle => '同步視窗';
+
+  @override
+  String get settingsSyncWindowSheetSubtitle =>
+      '選擇要載入的歷史範圍，以及 SolgoInsight 檢查新讀數的頻率。';
+
+  @override
+  String get settingsSyncPlanLabel => '同步計畫';
+
+  @override
+  String get settingsHistoryRangeLabel => '歷史範圍';
+
+  @override
+  String settingsHistoryRangeValue(int days) {
+    return '$days 天';
+  }
+
+  @override
+  String get settingsSyncIntervalLabel => '同步間隔';
+
+  @override
+  String settingsSyncIntervalValue(int minutes) {
+    return '每 $minutes 分鐘';
+  }
+
+  @override
+  String settingsDaysShort(int days) {
+    return '$days天';
+  }
+
+  @override
+  String settingsMinutesShort(int minutes) {
+    return '$minutes分';
+  }
+
+  @override
+  String get settingsSyncPreviewTitle => '儲存後會怎樣';
+
+  @override
+  String settingsSyncPreviewBody(int days, int minutes) {
+    return '初始同步最多載入 $days 天歷史資料。之後在同步執行時，大約每 $minutes 分鐘檢查一次新讀數。';
+  }
+
+  @override
+  String get settingsSaveSyncWindow => '儲存';
 
   @override
   String get settingsRetentionSummarySuffix => '不會有資料離開此裝置';
@@ -323,5 +440,6 @@ class SettingsLocalizationsZhHant extends SettingsLocalizationsZh {
   String get settingsLocalStorageTitle => '本機儲存';
 
   @override
-  String get settingsClearAllDataDialogBody => '這會永久刪除所有已儲存的 CGM 讀數、事件和分析快照。此操作無法復原。';
+  String get settingsClearAllDataDialogBody =>
+      '這會永久刪除所有已儲存的 CGM 讀數、事件和分析快照。此操作無法復原。';
 }

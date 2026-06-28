@@ -5,4 +5,5 @@ enum StatusMetricSource {
   pebble,
   localProbe,
   localCache,
+  broadcast,
 }

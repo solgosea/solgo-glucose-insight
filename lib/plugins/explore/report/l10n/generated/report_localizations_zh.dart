@@ -33,6 +33,49 @@ class ReportLocalizationsZh extends ReportLocalizations {
   String get pageSubtitle => 'AGP 标准 · 本地生成 · 导出 PDF 或分享';
 
   @override
+  String get dateFilterTooltip => '选择报告日期';
+
+  @override
+  String get dateFilterTitle => '报告周期';
+
+  @override
+  String get dateFilterSubtitle => '选择标准医生报告窗口，或拖动日期来自定义报告范围。';
+
+  @override
+  String get dateFilterApply => '应用周期';
+
+  @override
+  String get dateFilterReset => '今天';
+
+  @override
+  String get dateFilterCancel => '取消';
+
+  @override
+  String get dateFilterSelectedDates => '已选周期';
+
+  @override
+  String get dateFilterDay => '天';
+
+  @override
+  String get dateFilterDays => '天';
+
+  @override
+  String get dateFilterReadings => '条读数';
+
+  @override
+  String get dateFilterDragHint =>
+      'Glucose Report 建议使用 14-90 天数据。自定义范围会按所选日期精确导出。';
+
+  @override
+  String get windowShortLast14Days => '14天';
+
+  @override
+  String get windowShortLast30Days => '30天';
+
+  @override
+  String get windowShortLast90Days => '90天';
+
+  @override
   String get sectionKeyMetrics => '关键指标';
 
   @override
@@ -261,6 +304,49 @@ class ReportLocalizationsZhHant extends ReportLocalizationsZh {
 
   @override
   String get pageSubtitle => 'AGP 標準 · 本地產生 · 匯出 PDF 或分享';
+
+  @override
+  String get dateFilterTooltip => '選擇報告日期';
+
+  @override
+  String get dateFilterTitle => '報告週期';
+
+  @override
+  String get dateFilterSubtitle => '選擇標準醫師報告視窗，或拖動日期來自訂報告範圍。';
+
+  @override
+  String get dateFilterApply => '套用週期';
+
+  @override
+  String get dateFilterReset => '今天';
+
+  @override
+  String get dateFilterCancel => '取消';
+
+  @override
+  String get dateFilterSelectedDates => '已選週期';
+
+  @override
+  String get dateFilterDay => '天';
+
+  @override
+  String get dateFilterDays => '天';
+
+  @override
+  String get dateFilterReadings => '筆讀數';
+
+  @override
+  String get dateFilterDragHint =>
+      'Glucose Report 建議使用 14-90 天資料。自訂範圍會依所選日期精確匯出。';
+
+  @override
+  String get windowShortLast14Days => '14天';
+
+  @override
+  String get windowShortLast30Days => '30天';
+
+  @override
+  String get windowShortLast90Days => '90天';
 
   @override
   String get sectionKeyMetrics => '關鍵指標';

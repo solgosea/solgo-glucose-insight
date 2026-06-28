@@ -5,8 +5,15 @@ class HistoryDateSectionBuilder {
 
   HistoryDateSection build({
     required DateTime selectedDay,
+    required DateTime rangeStart,
+    required DateTime rangeEnd,
     required bool isToday,
   }) {
-    return HistoryDateSection(selectedDay: selectedDay, isToday: isToday);
+    return HistoryDateSection(
+      selectedDay: selectedDay,
+      rangeStart: rangeStart,
+      rangeEnd: rangeEnd,
+      isToday: isToday,
+    );
   }
 }

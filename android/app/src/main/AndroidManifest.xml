@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -34,6 +35,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.metaguru.smartxdrip.DEBUG_OPEN_ROUTE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <service
@@ -138,6 +143,41 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/status_monitor_widget_detailed" />
         </receiver>
+        <receiver
+            android:name=".statusmonitor.juggluco.JugglucoBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.metaguru.smartxdrip.statusmonitor.CLEAR_JUGGLUCO_PROBE" />
+                <action android:name="glucodata.Minute" />
+                <action android:name="com.eveningoutpost.dexdrip.BgEstimate" />
+                <action android:name="com.librelink.app.ThirdPartyIntegration.GLUCOSE_READING" />
+                <action android:name="com.eveningoutpost.dexdrip.NS_EMULATOR" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".statusmonitor.xdrip.XdripBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.metaguru.smartxdrip.statusmonitor.CLEAR_XDRIP_PROBE" />
+                <action android:name="com.eveningoutpost.dexdrip.BgEstimate" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".statusmonitor.aaps.AapsEvidenceReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.metaguru.smartxdrip.statusmonitor.CLEAR_AAPS_PROBE" />
+                <action android:name="com.metaguru.probe.AAPS_CONTEXT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".statusmonitor.watch.WatchEvidenceReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.metaguru.smartxdrip.statusmonitor.CLEAR_WATCH_PROBE" />
+                <action android:name="com.metaguru.probe.WATCHDRIP_DISPLAY" />
+            </intent-filter>
+        </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
@@ -150,6 +190,23 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <package android:name="tk.glucodata" />
+        <package android:name="tk.glucodata.debug" />
+        <package android:name="tk.glucodata.dub" />
+        <package android:name="com.eveningoutpost.dexdrip" />
+        <package android:name="jamorham.xdrip.plus" />
+        <package android:name="jamorham.xdrip.plus.variant1" />
+        <package android:name="jamorham.xdrip.plus.variant2" />
+        <package android:name="jamorham.xdrip.plus.variant3" />
+        <package android:name="jamorham.xdrip.plus.variant4" />
+        <package android:name="info.nightscout.androidaps" />
+        <package android:name="info.nightscout.aapspumpcontrol" />
+        <package android:name="info.nightscout.aapsclient" />
+        <package android:name="info.nightscout.aapsclient2" />
+        <package android:name="app.aaps" />
+        <package android:name="com.thatguysservice.huami_xdrip" />
+        <package android:name="com.thatguysservice.watchdrip" />
+        <package android:name="com.thatguysservice.watchdripplus" />
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

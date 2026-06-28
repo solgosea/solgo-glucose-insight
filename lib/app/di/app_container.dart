@@ -47,7 +47,6 @@ import '../../application/ios_background_refresh/ios_bg_refresh_result.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_scheduler.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_status_store.dart';
 import '../../application/ios_background_refresh/ios_bg_refresh_task_handler.dart';
-import '../../application/nightscout_targets/nightscout_sync_target_registry.dart';
 import '../../application/polling/polling_context_builder.dart';
 import '../../application/polling/polling_decision_service.dart';
 import '../../application/plugin_host/app_host_actions.dart';
@@ -63,12 +62,18 @@ import '../../application/subject/active_subject_validator_registry.dart';
 import '../../application/subject_data/subject_data_sync_actions.dart';
 import '../../application/sync_status/sync_schedule_reporter.dart';
 import '../../application/sync_status/sync_schedule_store.dart';
+import '../../application/sync_status/subject_sync_status_store.dart';
 import '../../application/sync_status/sync_status_service.dart';
 import '../../application/sync_status/sync_status_store.dart';
+import '../../application/sync_window/active_subject_sync_target_resolver.dart';
+import '../../application/sync_window/sync_window_backfill_coordinator.dart';
+import '../../application/sync_window/sync_window_coverage_resolver.dart';
 import '../../application/sync_strategy/data_source_sync_strategy_coordinator.dart';
 import '../../application/sync/glucose_sync_coordinator.dart';
+import '../../application/sync_orchestration/glucose_source_sync_result.dart';
 import '../../application/sync_target/glucose_sync_target_runner.dart';
 import '../../application/sync_target/glucose_sync_target_registry.dart';
+import '../../application/sync_target/glucose_sync_target_submitter.dart';
 import '../../application/sync_target/providers/self_data_source_sync_target_provider.dart';
 import '../../application/sync_runtime/sync_runtime_coordinator.dart';
 import '../../application/sync_runtime/unified_glucose_sync_runtime.dart';
@@ -124,7 +129,6 @@ class AppContainer extends ChangeNotifier {
   late final DataSourceRuntimeCoordinator dataSourceRuntimeCoordinator;
   late final DataSourceSyncStrategyCoordinator syncStrategyCoordinator;
   late final GlucoseSyncTargetRegistry syncTargetRegistry;
-  late final NightscoutSyncTargetRegistry nightscoutSyncTargetRegistry;
   late final BackgroundRuntimeStrategyRegistry
       backgroundRuntimeStrategyRegistry;
   late final BackgroundSyncPostTaskRegistry backgroundSyncPostTaskRegistry;
@@ -132,12 +136,15 @@ class AppContainer extends ChangeNotifier {
   late final SyncStatusService syncStatusService;
   late final SyncScheduleStore syncScheduleStore;
   late final SyncScheduleReporter syncScheduleReporter;
+  late final SubjectSyncStatusStore subjectSyncStatusStore;
   late final SyncStatusStore syncStatusStore;
   late final FlutterBackgroundServiceAdapter backgroundServiceAdapter;
   late final BackgroundRuntimeOrchestrator backgroundRuntimeOrchestrator;
   late final ForegroundReconcileOrchestrator foregroundReconcileOrchestrator;
   late final SyncRuntimeCoordinator syncRuntimeCoordinator;
   late final UnifiedGlucoseSyncRuntime unifiedSyncRuntime;
+  late final SyncWindowBackfillCoordinator syncWindowBackfillCoordinator;
+  late final GlucoseSyncTargetSubmitter syncTargetSubmitter;
   late final IosBgRefreshStatusStore iosBgRefreshStatusStore;
   late final IosBgRefreshRegistrar iosBgRefreshRegistrar;
   late final ForegroundPollingScheduler foregroundPollingScheduler;
@@ -186,6 +193,7 @@ class AppContainer extends ChangeNotifier {
     syncStatusService = const SyncStatusService();
     syncScheduleStore = SyncScheduleStore();
     syncScheduleReporter = SyncScheduleReporter(store: syncScheduleStore);
+    subjectSyncStatusStore = SubjectSyncStatusStore();
     syncStatusStore = SyncStatusStore();
     syncScheduleStore.addListener(_scheduleStatusChangedNotification);
     backgroundServiceAdapter = FlutterBackgroundServiceAdapter();
@@ -204,9 +212,6 @@ class AppContainer extends ChangeNotifier {
     localeStore = AppLocaleStore();
     localeController = AppLocaleController(localeStore);
     await localeController.load();
-    nightscoutSyncTargetRegistry = NightscoutSyncTargetRegistry(
-      eventBus: pluginRuntimeManager.eventBus,
-    );
     pluginSchemaRegistry = PluginSchemaRegistry();
     activeSubjectStore = ActiveSubjectStore();
     activeSubjectService = ActiveSubjectService(store: activeSubjectStore);
@@ -263,15 +268,30 @@ class AppContainer extends ChangeNotifier {
     );
     unifiedSyncRuntime = UnifiedGlucoseSyncRuntime(
       executor: glucoseRepository.syncWithResult,
-      targetExecutor: ({required target, required settings}) {
+      targetExecutor: ({required target, required settings, explicitPlan}) {
         return GlucoseSyncTargetRunner(
           syncCoordinator: GlucoseSyncCoordinator(database: glucoseDatabase),
         ).run(
           target: target,
           settings: settings,
+          explicitPlan: explicitPlan,
         );
       },
       onCompleted: _handleUnifiedSyncCompleted,
+    );
+    syncWindowBackfillCoordinator = SyncWindowBackfillCoordinator(
+      targetResolver: ActiveSubjectSyncTargetResolver(
+        activeSubjectService: activeSubjectService,
+        targetRegistry: syncTargetRegistry,
+      ),
+      coverageResolver: SyncWindowCoverageResolver(database: glucoseDatabase),
+      syncRuntime: unifiedSyncRuntime,
+    );
+    syncTargetSubmitter = GlucoseSyncTargetSubmitter(
+      registry: syncTargetRegistry,
+      runtime: unifiedSyncRuntime,
+      subjectStatusStore: subjectSyncStatusStore,
+      settingsProvider: () => settings,
     );
     iosBgRefreshStatusStore = IosBgRefreshStatusStore();
     final iosBgTaskChannel = MethodChannelIosBgTask();
@@ -390,6 +410,40 @@ class AppContainer extends ChangeNotifier {
       successEventType: DatasourceEventType.connected,
     );
     return result;
+  }
+
+  Future<DataSourceConnectionResult> syncDataSource(
+    DataSourceKind kind,
+  ) async {
+    final targetId = 'self:${kind.name}';
+    final result = await _syncTargetAndPublish(
+      targetId: targetId,
+      trigger: 'manualDataSourceSync',
+      payload: {'source': kind.name},
+    );
+    if (result == null) {
+      return DataSourceConnectionResult.failure(
+        '${_sourceTitle(kind)} sync is already running.',
+      );
+    }
+    final sourceResult = result.sourceResult.sourceResults.isEmpty
+        ? null
+        : result.sourceResult.sourceResults.first;
+    if (sourceResult == null) {
+      return DataSourceConnectionResult.failure(
+        '${_sourceTitle(kind)} is not enabled for sync.',
+      );
+    }
+    if (!sourceResult.success) {
+      return DataSourceConnectionResult.failure(
+        sourceResult.error ?? '${_sourceTitle(kind)} sync could not finish.',
+      );
+    }
+    return DataSourceConnectionResult.success(
+      message:
+          '${_sourceTitle(kind)} synced ${sourceResult.storedCount} readings.',
+      nextSettings: settings,
+    );
   }
 
   Future<DataSourceConnectionResult> disconnectDataSource(
@@ -712,9 +766,6 @@ class AppContainer extends ChangeNotifier {
       syncStrategyCoordinator,
     );
     pluginServices.register<GlucoseSyncTargetRegistry>(syncTargetRegistry);
-    pluginServices.register<NightscoutSyncTargetRegistry>(
-      nightscoutSyncTargetRegistry,
-    );
     pluginServices.register<BackgroundRuntimeStrategyRegistry>(
       backgroundRuntimeStrategyRegistry,
     );
@@ -729,11 +780,16 @@ class AppContainer extends ChangeNotifier {
     );
     pluginServices.register<SyncRuntimeCoordinator>(syncRuntimeCoordinator);
     pluginServices.register<UnifiedGlucoseSyncRuntime>(unifiedSyncRuntime);
+    pluginServices.register<SyncWindowBackfillCoordinator>(
+      syncWindowBackfillCoordinator,
+    );
+    pluginServices.register<GlucoseSyncTargetSubmitter>(syncTargetSubmitter);
     pluginServices.register<IosBgRefreshStatusStore>(iosBgRefreshStatusStore);
     pluginServices.register<IosBgRefreshRegistrar>(iosBgRefreshRegistrar);
     pluginServices.register<SyncStatusService>(syncStatusService);
     pluginServices.register<SyncScheduleStore>(syncScheduleStore);
     pluginServices.register<SyncScheduleReporter>(syncScheduleReporter);
+    pluginServices.register<SubjectSyncStatusStore>(subjectSyncStatusStore);
     pluginServices.register<SyncStatusStore>(syncStatusStore);
     pluginServices.register<GlucoseRepositoryImpl>(glucoseRepository);
     pluginServices.register<IGlucoseRepository>(glucoseRepository);
@@ -816,6 +872,7 @@ class AppContainer extends ChangeNotifier {
         connectXdripLocal: connectXdripLocal,
         connectNightscout: connectNightscout,
         useConfiguredNightscout: useConfiguredNightscout,
+        syncDataSource: syncDataSource,
         disconnectDataSource: disconnectDataSource,
         enableDataSourceSync: enableDataSourceSync,
         disableDataSourceSync: disableDataSourceSync,
@@ -1074,15 +1131,54 @@ class AppContainer extends ChangeNotifier {
     required String trigger,
     Map<String, Object?> payload = const {},
   }) async {
+    if (unifiedSyncRuntime.running) return;
+    final targets = await syncTargetRegistry.targetsFor(settings);
+    subjectSyncStatusStore.markStartedForAll(
+      subjectIds: targets.map((target) => target.subjectId),
+      at: DateTime.now(),
+    );
     await unifiedSyncRuntime.run(
       trigger: trigger,
       payload: payload,
     );
   }
 
+  Future<UnifiedSyncRunResult?> _syncTargetAndPublish({
+    required String targetId,
+    required String trigger,
+    Map<String, Object?> payload = const {},
+  }) async {
+    final targets = await syncTargetRegistry.targetsFor(settings);
+    for (final target in targets) {
+      if (target.targetId != targetId) continue;
+      if (unifiedSyncRuntime.running) return null;
+      subjectSyncStatusStore.markStarted(
+        subjectId: target.subjectId,
+        at: DateTime.now(),
+      );
+      return unifiedSyncRuntime.runTarget(
+        target: target,
+        settings: settings,
+        trigger: trigger,
+        payload: {...payload, 'targetId': targetId},
+      );
+    }
+    return UnifiedSyncRunResult(
+      trigger: trigger,
+      payload: {...payload, 'targetId': targetId},
+      sourceResult: const GlucoseSourceSyncResult(sourceResults: []),
+      startedAt: DateTime.now(),
+      completedAt: DateTime.now(),
+    );
+  }
+
   Future<void> _handleUnifiedSyncCompleted(
     UnifiedSyncRunResult result,
   ) {
+    subjectSyncStatusStore.applyResults(
+      results: result.sourceResult.sourceResults,
+      completedAt: result.completedAt,
+    );
     return _handleSyncCompleted(
       result.updatedSubjectIds,
       trigger: result.trigger,

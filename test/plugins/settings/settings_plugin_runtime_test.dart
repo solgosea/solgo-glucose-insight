@@ -7,6 +7,8 @@ import 'package:smart_xdrip/plugin_platform/runtime/events/plugin_runtime_event_
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugins/settings/application/settings_host_services.dart';
 import 'package:smart_xdrip/plugins/settings/application/settings_snapshot_preheater.dart';
+import 'package:smart_xdrip/plugins/settings/mappers/settings_view_model_mapper.dart';
+import 'package:smart_xdrip/plugins/settings/models/settings_analysis_result.dart';
 import 'package:smart_xdrip/plugins/settings/runtime/settings_plugin_runtime.dart';
 import 'package:smart_xdrip/plugins/settings/runtime/settings_runtime_cache.dart';
 
@@ -61,6 +63,28 @@ void main() {
 
     expect(cache.stale, isTrue);
     expect(cache.staleReason, PluginRuntimeEventType.settingsChanged.name);
+  });
+
+  test('settings mapper shows sync window and interval together', () {
+    final now = DateTime(2026, 6, 6, 12);
+    final vm = SettingsViewModelMapper().map(
+      analysis: SettingsAnalysisResult(
+        settings: const AppSettings(
+          initialSyncDays: 30,
+          syncIntervalMinutes: 5,
+        ),
+        dbBytes: 4096,
+        readingCount: 24,
+        earliestReading: now.subtract(const Duration(hours: 2)),
+        latestReading: now,
+        daysCovered: 1,
+      ),
+      saving: false,
+    );
+
+    final row = vm.sync.rows.single;
+    expect(row.label, 'Sync window');
+    expect(row.valueLabel, '30 days · every 5 min');
   });
 }
 

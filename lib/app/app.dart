@@ -15,6 +15,7 @@ import '../plugin_platform/i18n/plugin_entry_localization_registry.dart';
 import '../plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import '../plugin_platform/services/plugin_service_registry.dart';
 import 'di/app_container.dart';
+import 'debug_route_launcher.dart';
 import 'router.dart';
 
 class SmartXDripApp extends StatefulWidget {
@@ -32,6 +33,7 @@ class SmartXDripApp extends StatefulWidget {
 class _SmartXDripAppState extends State<SmartXDripApp>
     with WidgetsBindingObserver {
   late GoRouter _router;
+  DebugRouteLauncher? _debugRouteLauncher;
 
   @override
   void initState() {
@@ -41,11 +43,13 @@ class _SmartXDripAppState extends State<SmartXDripApp>
       widget.container.pluginRegistry,
       entryLocalizers: widget.container.pluginEntryLocalizers,
     );
+    _debugRouteLauncher = DebugRouteLauncher(router: _router)..attach();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _debugRouteLauncher?.detach();
     super.dispose();
   }
 
@@ -57,6 +61,8 @@ class _SmartXDripAppState extends State<SmartXDripApp>
         widget.container.pluginRegistry,
         entryLocalizers: widget.container.pluginEntryLocalizers,
       );
+      _debugRouteLauncher?.detach();
+      _debugRouteLauncher = DebugRouteLauncher(router: _router)..attach();
     }
   }
 

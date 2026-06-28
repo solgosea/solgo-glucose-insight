@@ -6,9 +6,11 @@ import 'package:smart_xdrip/domain/subject/glucose_subject.dart';
 import 'glucose_sync_context.dart';
 import 'glucose_sync_cursor_resolver.dart';
 import 'glucose_sync_error_classifier.dart';
+import 'glucose_sync_plan.dart';
 import 'glucose_sync_pipeline.dart';
 import 'glucose_sync_result.dart';
 import 'glucose_sync_retry_policy.dart';
+import '../sync_scheduler/limiters/glucose_sync_persistence_limiter.dart';
 import 'steps/check_source_availability_step.dart';
 import 'steps/fetch_glucose_readings_step.dart';
 import 'steps/persist_glucose_readings_step.dart';
@@ -35,12 +37,16 @@ class GlucoseSyncCoordinator {
     required IGlucoseSource source,
     required AppSettings settings,
     String subjectId = GlucoseSubject.selfId,
+    GlucoseSyncPersistenceLimiter? persistenceLimiter,
+    GlucoseSyncPlan? explicitPlan,
   }) async {
     final context = GlucoseSyncContext(
       database: database,
       source: source,
       settings: settings,
       subjectId: subjectId,
+      persistenceLimiter: persistenceLimiter,
+      explicitPlan: explicitPlan,
     );
     try {
       await _pipeline().run(context);

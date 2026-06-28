@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/aaps/aaps_detail_data.dart';
 import '../../../domain/component_health.dart';
+import 'bg_source/aaps_bg_source_readiness_card.dart';
 import 'context/aaps_iob_cob_profile_panel.dart';
 import 'context/aaps_pump_loop_context_cards.dart';
 import 'evidence/aaps_evidence_matrix_card.dart';
@@ -26,6 +27,9 @@ class AapsDetailBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AapsBgSourceReadinessCard(
+                readiness: data.xdripBgSource,
+              ),
               AapsLoopEvidenceTimelineCard(data: data),
               AapsEvidenceMatrixCard(data: data),
             ],

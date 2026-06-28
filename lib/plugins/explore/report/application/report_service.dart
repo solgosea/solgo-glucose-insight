@@ -26,6 +26,8 @@ class ReportService {
     required AppSettings settings,
     required ReportPeriod period,
     required List<ReportSectionToggle> sections,
+    DateTime? start,
+    DateTime? end,
     DateTime? generatedAt,
     ReportLocalizations? l10n,
   }) {
@@ -33,6 +35,8 @@ class ReportService {
       readings: readings,
       settings: settings,
       period: period,
+      start: start,
+      end: end,
       generatedAt: generatedAt,
     );
     return mapper.map(output: output, sections: sections, l10n: l10n);
@@ -42,13 +46,17 @@ class ReportService {
     required AnalysisFacade facade,
     required ReportPeriod period,
     required List<ReportSectionToggle> sections,
+    DateTime? start,
+    DateTime? end,
     ReportLocalizations? l10n,
   }) {
     return buildViewModel(
-      readings: facade.readingsForLastDays(period.days),
+      readings: facade.readings,
       settings: facade.settings,
       period: period,
       sections: sections,
+      start: start,
+      end: end,
       l10n: l10n,
     );
   }
@@ -57,15 +65,42 @@ class ReportService {
     required List<GlucoseReading> readings,
     required AppSettings settings,
     required ReportPeriod period,
+    DateTime? start,
+    DateTime? end,
     DateTime? generatedAt,
   }) {
+    final generated = generatedAt ?? now();
+    final range = _rangeFor(readings, period, start: start, end: end);
     return engine.run(
       ReportEngineInput(
         readings: readings,
         settings: settings,
         period: period,
-        generatedAt: generatedAt ?? now(),
+        start: range.start,
+        end: range.end,
+        generatedAt: generated,
       ),
+    );
+  }
+
+  ({DateTime start, DateTime end}) _rangeFor(
+    List<GlucoseReading> readings,
+    ReportPeriod period, {
+    DateTime? start,
+    DateTime? end,
+  }) {
+    if (start != null && end != null) {
+      final startDay = DateTime(start.year, start.month, start.day);
+      final endDay = DateTime(end.year, end.month, end.day);
+      return startDay.isAfter(endDay)
+          ? (start: endDay, end: startDay)
+          : (start: startDay, end: endDay);
+    }
+    final anchor = readings.isEmpty ? now() : readings.last.timestamp;
+    final endDay = DateTime(anchor.year, anchor.month, anchor.day);
+    return (
+      start: endDay.subtract(Duration(days: period.days - 1)),
+      end: endDay,
     );
   }
 }

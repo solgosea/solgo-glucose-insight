@@ -19,6 +19,6 @@ class HistoryEpisodeFilterCalculator {
             event.type == GlucoseEventType.lowEpisode)
         .where((event) => policy.includesEpisode(event, filter))
         .toList()
-      ..sort((a, b) => a.time.compareTo(b.time));
+      ..sort((a, b) => b.time.compareTo(a.time));
   }
 }

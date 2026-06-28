@@ -87,6 +87,20 @@ class ReadingsDao {
     return rows.isEmpty ? null : _toReading(rows.first);
   }
 
+  Future<GlucoseReading?> earliest({
+    String subjectId = GlucoseSubject.selfId,
+  }) async {
+    final database = await _db();
+    final rows = await database.query(
+      GlucoseTables.readings,
+      where: 'subject_id = ?',
+      whereArgs: [subjectId],
+      orderBy: 'ts_ms ASC',
+      limit: 1,
+    );
+    return rows.isEmpty ? null : _toReading(rows.first);
+  }
+
   Future<GlucoseReading?> latestAnySubject() async {
     final database = await _db();
     final rows = await database.query(

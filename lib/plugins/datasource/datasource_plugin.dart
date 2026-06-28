@@ -18,10 +18,8 @@ import 'package:smart_xdrip/plugins/profile/composition/profile_slots.dart';
 
 import 'alert_source/local_glucose_alert_source.dart';
 import 'application/datasource_capability_adapter.dart';
-import 'application/datasource_nightscout_target_publisher.dart';
 import 'presentation/profile_section/datasource_profile_section.dart';
 import 'runtime/datasource_plugin_runtime.dart';
-import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target_registry.dart';
 import 'application/i18n/datasource_l10n_resolver.dart';
 import 'application/i18n/datasource_entry_localizer.dart';
 
@@ -73,16 +71,15 @@ class DatasourcePlugin extends SmartFeaturePlugin {
         context.services.get<AlertingRuntimeFactory>();
     final coordinator = context.services.get<DataSourceRuntimeCoordinator>();
     final settingsProvider = context.services.get<AppSettings Function()>();
-      final source = LocalGlucoseAlertSource(
-        database: context.services.get<GlucoseDatabase>(),
-        settingsProvider: settingsProvider,
-        subjectIdProvider: () =>
-            context.services.get<ActiveSubjectService>().current.id,
-        ruleProvider: alertingRuntimeFactory.ruleProvider(),
-        eventFactory: alertingRuntimeFactory.eventFactory(),
-        localeProvider: () =>
-            context.services.get<AppLocaleController>().locale,
-      );
+    final source = LocalGlucoseAlertSource(
+      database: context.services.get<GlucoseDatabase>(),
+      settingsProvider: settingsProvider,
+      subjectIdProvider: () =>
+          context.services.get<ActiveSubjectService>().current.id,
+      ruleProvider: alertingRuntimeFactory.ruleProvider(),
+      eventFactory: alertingRuntimeFactory.eventFactory(),
+      localeProvider: () => context.services.get<AppLocaleController>().locale,
+    );
     alertingRuntimeFactory.sourceRegistry().register(source);
     context.services.register<LocalGlucoseAlertSource>(source);
     context.services.register(
@@ -108,9 +105,6 @@ class DatasourcePlugin extends SmartFeaturePlugin {
         coordinator: coordinator,
         settingsProvider: settingsProvider,
         alertSource: source,
-        nightscoutTargetPublisher: DatasourceNightscoutTargetPublisher(
-          registry: context.services.get<NightscoutSyncTargetRegistry>(),
-        ),
       ),
       startPolicy: PluginRuntimeStartPolicy.appStart,
     );

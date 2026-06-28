@@ -19,7 +19,7 @@ import 'application/explore_entry_state_refresh_service.dart';
 import 'composition/explore_slots.dart';
 import 'pages/explore_page.dart';
 import 'runtime/explore_entry_state_store.dart';
-import 'runtime/explore_plugin_runtime.dart';
+import 'runtime/explore_plugin_runtime.dart';
 import 'application/i18n/explore_l10n_resolver.dart';
 import 'application/i18n/explore_entry_localizer.dart';
 

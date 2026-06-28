@@ -2,6 +2,7 @@ import '../../../domain/status_component_kind.dart';
 import 'aaps_loop_history_policy.dart';
 import 'cgm_sensor_history_policy.dart';
 import 'component_history_policy.dart';
+import 'juggluco_history_policy.dart';
 import 'nightscout_history_policy.dart';
 import 'xdrip_history_policy.dart';
 
@@ -14,6 +15,7 @@ class ComponentHistoryPolicyRegistry {
           for (final policy in policies ??
               [
                 CgmSensorHistoryPolicy(),
+                JugglucoHistoryPolicy(),
                 XdripHistoryPolicy(),
                 NightscoutHistoryPolicy(),
                 AapsLoopHistoryPolicy(),

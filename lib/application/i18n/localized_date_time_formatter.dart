@@ -6,13 +6,15 @@ class LocalizedDateTimeFormatter {
   const LocalizedDateTimeFormatter(this.localeName);
 
   String dateShort(DateTime date) {
-    if (_isChinese) return '${date.month}月${date.day}日';
-    return '${_shortMonth(date.month)} ${date.day}';
+    final local = date.toLocal();
+    if (_isChinese) return '${local.month}月${local.day}日';
+    return '${_shortMonth(local.month)} ${local.day}';
   }
 
   String dateFull(DateTime date) {
-    if (_isChinese) return '${date.year}年${date.month}月${date.day}日';
-    return '${_shortMonth(date.month)} ${date.day}, ${date.year}';
+    final local = date.toLocal();
+    if (_isChinese) return '${local.year}年${local.month}月${local.day}日';
+    return '${_shortMonth(local.month)} ${local.day}, ${local.year}';
   }
 
   String dateTime(DateTime date) {
@@ -20,14 +22,16 @@ class LocalizedDateTimeFormatter {
   }
 
   String time(DateTime date) {
-    return '${date.hour.toString().padLeft(2, '0')}:'
-        '${date.minute.toString().padLeft(2, '0')}';
+    final local = date.toLocal();
+    return '${local.hour.toString().padLeft(2, '0')}:'
+        '${local.minute.toString().padLeft(2, '0')}';
   }
 
   String weekdayFull(DateTime date) {
+    final local = date.toLocal();
     if (_isChinese) {
       const weekdays = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
-      return weekdays[(date.weekday - 1).clamp(0, weekdays.length - 1)];
+      return weekdays[(local.weekday - 1).clamp(0, weekdays.length - 1)];
     }
     const weekdays = [
       'Monday',
@@ -38,16 +42,17 @@ class LocalizedDateTimeFormatter {
       'Saturday',
       'Sunday',
     ];
-    return weekdays[(date.weekday - 1).clamp(0, weekdays.length - 1)];
+    return weekdays[(local.weekday - 1).clamp(0, weekdays.length - 1)];
   }
 
   String weekdayShort(DateTime date) {
+    final local = date.toLocal();
     if (_isChinese) {
       const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-      return weekdays[(date.weekday - 1).clamp(0, weekdays.length - 1)];
+      return weekdays[(local.weekday - 1).clamp(0, weekdays.length - 1)];
     }
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    return weekdays[(date.weekday - 1).clamp(0, weekdays.length - 1)];
+    return weekdays[(local.weekday - 1).clamp(0, weekdays.length - 1)];
   }
 
   String dateRange(
@@ -55,17 +60,19 @@ class LocalizedDateTimeFormatter {
     DateTime end, {
     DateRangeGranularity granularity = DateRangeGranularity.short,
   }) {
+    final localStart = start.toLocal();
+    final localEnd = end.toLocal();
     final startLabel = switch (granularity) {
-      DateRangeGranularity.full => dateFull(start),
-      DateRangeGranularity.month => _yearMonth(start),
-      DateRangeGranularity.day => '${start.day}',
-      DateRangeGranularity.short => _rangeStart(start, end),
+      DateRangeGranularity.full => dateFull(localStart),
+      DateRangeGranularity.month => _yearMonth(localStart),
+      DateRangeGranularity.day => '${localStart.day}',
+      DateRangeGranularity.short => _rangeStart(localStart, localEnd),
     };
     final endLabel = switch (granularity) {
-      DateRangeGranularity.full => dateFull(end),
-      DateRangeGranularity.month => _yearMonth(end),
-      DateRangeGranularity.day => '${end.day}',
-      DateRangeGranularity.short => dateShort(end),
+      DateRangeGranularity.full => dateFull(localEnd),
+      DateRangeGranularity.month => _yearMonth(localEnd),
+      DateRangeGranularity.day => '${localEnd.day}',
+      DateRangeGranularity.short => dateShort(localEnd),
     };
     return '$startLabel - $endLabel';
   }
@@ -81,8 +88,9 @@ class LocalizedDateTimeFormatter {
   }
 
   String _yearMonth(DateTime date) {
-    if (_isChinese) return '${date.year}年${date.month}月';
-    return '${_fullMonth(date.month)} ${date.year}';
+    final local = date.toLocal();
+    if (_isChinese) return '${local.year}年${local.month}月';
+    return '${_fullMonth(local.month)} ${local.year}';
   }
 
   String _shortMonth(int month) {

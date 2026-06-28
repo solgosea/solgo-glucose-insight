@@ -32,8 +32,12 @@ class StatusMonitorRefreshCoordinator {
 
   Future<StatusReport> refresh() async {
     final report = await service.evaluate();
+    await publish(report);
+    return report;
+  }
+
+  Future<void> publish(StatusReport report) async {
     await widgetRefreshPipeline.publish(report);
     await floatingCoordinator?.refresh(report);
-    return report;
   }
 }

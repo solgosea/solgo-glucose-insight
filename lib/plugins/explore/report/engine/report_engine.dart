@@ -1,5 +1,6 @@
 import '../../../../engine/statistics/agp_calculator.dart';
 import '../../../../engine/statistics/tir_calculator.dart';
+import '../../../../domain/entities/glucose_reading.dart';
 import 'calculators/report_coverage_calculator.dart';
 import 'calculators/report_daily_curve_calculator.dart';
 import 'calculators/report_episode_summary_calculator.dart';
@@ -36,13 +37,14 @@ class ReportEngine {
   });
 
   ReportEngineOutput run(ReportEngineInput input) {
-    final normalized = normalizer.normalize(input.readings);
+    final normalized = normalizer.normalize(_readingsInRange(input));
     final rows = normalized.readings;
     final reportEnd = rows.isNotEmpty ? rows.last.timestamp : input.generatedAt;
+    final periodDays = input.end.difference(input.start).inDays + 1;
     final quality = coverageCalculator.calculate(
       rows,
       settings: input.settings,
-      periodDays: input.period.days,
+      periodDays: periodDays,
       duplicateCount: normalized.duplicateCount,
     );
     final tir = TirCalculator.calculate(
@@ -55,18 +57,25 @@ class ReportEngine {
 
     return ReportEngineOutput(
       period: input.period,
+      start: input.start,
+      end: input.end,
       settings: input.settings,
       readings: rows,
       generatedAt: input.generatedAt,
       headerSection: headerSectionBuilder.build(
         readings: rows,
         period: input.period,
+        start: input.start,
+        end: input.end,
         generatedAt: input.generatedAt,
         quality: quality,
       ),
       metricsSection: metricsSectionBuilder.build(tir: tir, quality: quality),
-      rangesSection:
-          rangesSectionBuilder.build(quality: quality, period: input.period),
+      rangesSection: rangesSectionBuilder.build(
+        quality: quality,
+        period: input.period,
+        periodDays: periodDays,
+      ),
       agpSection: agpSectionBuilder.build(AgpCalculator.calculate(rows)),
       dailyCurvesSection:
           dailyCurveCalculator.calculate(rows, input.settings, reportEnd),
@@ -74,5 +83,16 @@ class ReportEngine {
           periodAnalysisCalculator.calculate(rows, input.settings),
       episodesSection: episodeSummaryCalculator.calculate(rows, input.settings),
     );
+  }
+
+  List<GlucoseReading> _readingsInRange(ReportEngineInput input) {
+    final exclusiveEnd = input.end.add(const Duration(days: 1));
+    return input.readings
+        .where(
+          (reading) =>
+              !reading.timestamp.isBefore(input.start) &&
+              reading.timestamp.isBefore(exclusiveEnd),
+        )
+        .toList();
   }
 }

@@ -16,6 +16,7 @@ class AppSettings {
   final bool dataHealthCheckEnabled;
   final int retentionDays;
   final int initialSyncDays;
+  final int syncIntervalMinutes;
 
   const AppSettings({
     this.unit = GlucoseUnit.mmolL,
@@ -33,6 +34,7 @@ class AppSettings {
     this.dataHealthCheckEnabled = true,
     this.retentionDays = 90,
     this.initialSyncDays = 14,
+    this.syncIntervalMinutes = 1,
   });
 
   AppSettings copyWith({
@@ -53,6 +55,7 @@ class AppSettings {
     bool? dataHealthCheckEnabled,
     int? retentionDays,
     int? initialSyncDays,
+    int? syncIntervalMinutes,
   }) =>
       AppSettings(
         unit: unit ?? this.unit,
@@ -78,5 +81,6 @@ class AppSettings {
             dataHealthCheckEnabled ?? this.dataHealthCheckEnabled,
         retentionDays: retentionDays ?? this.retentionDays,
         initialSyncDays: initialSyncDays ?? this.initialSyncDays,
+        syncIntervalMinutes: syncIntervalMinutes ?? this.syncIntervalMinutes,
       );
 }

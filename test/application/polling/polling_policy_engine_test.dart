@@ -9,7 +9,7 @@ void main() {
   const engine = PollingPolicyEngine();
   final now = DateTime.utc(2026, 1, 1, 8);
 
-  test('xDrip foreground normal polls every 60 seconds', () {
+  test('xDrip foreground normal uses configured sync interval', () {
     final decision = engine.decide(
       PollingContext(
         sourceKind: DataSourceKind.xdripLocal,
@@ -17,14 +17,15 @@ void main() {
         now: now,
         lastReadingAt: now.subtract(const Duration(minutes: 2)),
         latestGlucoseValue: 6.2,
+        normalSyncInterval: const Duration(minutes: 2),
       ),
     );
 
-    expect(decision.nextInterval, const Duration(seconds: 60));
+    expect(decision.nextInterval, const Duration(minutes: 2));
     expect(decision.riskLevel, PollingRiskLevel.normal);
   });
 
-  test('xDrip background normal polls every 120 seconds', () {
+  test('xDrip background normal uses configured sync interval', () {
     final decision = engine.decide(
       PollingContext(
         sourceKind: DataSourceKind.xdripLocal,
@@ -32,10 +33,11 @@ void main() {
         now: now,
         lastReadingAt: now.subtract(const Duration(minutes: 2)),
         latestGlucoseValue: 6.2,
+        normalSyncInterval: const Duration(minutes: 4),
       ),
     );
 
-    expect(decision.nextInterval, const Duration(seconds: 120));
+    expect(decision.nextInterval, const Duration(minutes: 4));
   });
 
   test('danger glucose accelerates xDrip polling to 30 seconds', () {
@@ -53,7 +55,7 @@ void main() {
     expect(decision.riskLevel, PollingRiskLevel.dangerous);
   });
 
-  test('Nightscout background normal polls every 300 seconds', () {
+  test('Nightscout background normal uses configured sync interval', () {
     final decision = engine.decide(
       PollingContext(
         sourceKind: DataSourceKind.nightscout,
@@ -61,10 +63,11 @@ void main() {
         now: now,
         lastReadingAt: now.subtract(const Duration(minutes: 2)),
         latestGlucoseValue: 6.2,
+        normalSyncInterval: const Duration(minutes: 5),
       ),
     );
 
-    expect(decision.nextInterval, const Duration(seconds: 300));
+    expect(decision.nextInterval, const Duration(minutes: 5));
   });
 
   test('failure backoff grows but is capped by source profile', () {

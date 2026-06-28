@@ -47,7 +47,8 @@ void main() {
     final completions = <UnifiedSyncRunResult>[];
     final runtime = UnifiedGlucoseSyncRuntime(
       executor: () async => const GlucoseSourceSyncResult(sourceResults: []),
-      targetExecutor: ({required target, required settings}) async {
+      targetExecutor: (
+          {required target, required settings, explicitPlan}) async {
         return GlucoseSyncResult(
           source: target.source.type,
           subjectId: target.subjectId,
@@ -68,10 +69,10 @@ void main() {
 
     final result = await runtime.runTarget(
       target: const GlucoseSyncTarget(
-        targetId: 'target.remote_nightscout.1',
+        targetId: 'target.remote.1',
         subjectId: 'remote-1',
-        label: 'Remote Nightscout 1',
-        kind: GlucoseSyncTargetKind('remote.nightscout'),
+        label: 'Remote 1',
+        kind: GlucoseSyncTargetKind('remote'),
         source: _FakeGlucoseSource(),
       ),
       settings: const AppSettings(),
@@ -83,6 +84,83 @@ void main() {
     expect(result.updatedSubjectIds, {'remote-1'});
     expect(completions.single.trigger, 'remoteFullAnalysis');
   });
+
+  test(
+      'target sync runs different targets concurrently but dedupes same target',
+      () async {
+    final completions = <UnifiedSyncRunResult>[];
+    final pending = <String, Completer<GlucoseSyncResult>>{};
+    var executorCalls = 0;
+    final runtime = UnifiedGlucoseSyncRuntime(
+      executor: () async => const GlucoseSourceSyncResult(sourceResults: []),
+      targetExecutor: ({required target, required settings, explicitPlan}) {
+        executorCalls++;
+        final completer = Completer<GlucoseSyncResult>();
+        pending[target.targetId] = completer;
+        return completer.future;
+      },
+      onCompleted: (result) async {
+        completions.add(result);
+      },
+      now: () => DateTime(2026, 1, 1, 12),
+    );
+
+    final targetA = _target('target.remote.a', 'remote-a');
+    final targetB = _target('target.remote.b', 'remote-b');
+    final firstA = runtime.runTarget(
+      target: targetA,
+      settings: const AppSettings(),
+      trigger: 'remoteList',
+    );
+    final secondA = await runtime.runTarget(
+      target: targetA,
+      settings: const AppSettings(),
+      trigger: 'remoteList',
+    );
+    final firstB = runtime.runTarget(
+      target: targetB,
+      settings: const AppSettings(),
+      trigger: 'remoteList',
+    );
+
+    expect(secondA, isNull);
+    expect(executorCalls, 2);
+    expect(pending.keys, containsAll(['target.remote.a', 'target.remote.b']));
+
+    pending['target.remote.a']!.complete(_resultFor(targetA));
+    pending['target.remote.b']!.complete(_resultFor(targetB));
+
+    expect(await firstA, isNotNull);
+    expect(await firstB, isNotNull);
+    expect(completions.map((result) => result.updatedSubjectIds).toList(), [
+      {'remote-a'},
+      {'remote-b'},
+    ]);
+  });
+}
+
+GlucoseSyncTarget _target(String targetId, String subjectId) {
+  return GlucoseSyncTarget(
+    targetId: targetId,
+    subjectId: subjectId,
+    label: targetId,
+    kind: const GlucoseSyncTargetKind('remote'),
+    source: const _FakeGlucoseSource(),
+  );
+}
+
+GlucoseSyncResult _resultFor(GlucoseSyncTarget target) {
+  return GlucoseSyncResult(
+    source: target.source.type,
+    subjectId: target.subjectId,
+    success: true,
+    available: true,
+    fetchedCount: 1,
+    storedCount: 1,
+    cursor: DateTime(2026, 1, 1, 12, 5),
+    error: null,
+    readings: const [],
+  );
 }
 
 class _FakeGlucoseSource implements IGlucoseSource {

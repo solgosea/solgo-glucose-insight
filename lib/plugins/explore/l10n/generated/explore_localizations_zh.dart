@@ -60,9 +60,6 @@ class ExploreLocalizationsZh extends ExploreLocalizations {
   String get runtimeUnavailable => '不可用';
 
   @override
-  String get sectionLabs => '实验室';
-
-  @override
   String get sectionTimePatterns => '时间模式';
 
   @override
@@ -80,7 +77,7 @@ class ExploreLocalizationsZh extends ExploreLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class ExploreLocalizationsZhHant extends ExploreLocalizationsZh {
-  ExploreLocalizationsZhHant(): super('zh_Hant');
+  ExploreLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get pluginTitle => '探索';
@@ -132,9 +129,6 @@ class ExploreLocalizationsZhHant extends ExploreLocalizationsZh {
 
   @override
   String get runtimeUnavailable => '不可用';
-
-  @override
-  String get sectionLabs => '實驗室';
 
   @override
   String get sectionTimePatterns => '時間模式';

@@ -1,6 +1,6 @@
 enum PluginDataRequirement {
   glucoseReadings,
-  glucoseEvents,
+  episodeEvents,
   dailySummaries,
   periodSummaries,
   agpSlots,

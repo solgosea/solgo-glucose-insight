@@ -8,6 +8,9 @@ import 'package:smart_xdrip/domain/data_source/data_source_kind.dart';
 import 'package:smart_xdrip/domain/data_source/data_source_sync_strategy_action.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/rendering/plugin_render_context.dart';
+import 'package:smart_xdrip/plugins/datasource/application/profile_section/datasource_profile_state_controller.dart';
+import 'package:smart_xdrip/plugins/datasource/domain/profile_state/datasource_profile_refresh_reason.dart';
+import 'package:smart_xdrip/plugins/datasource/domain/profile_state/datasource_profile_refresh_scope.dart';
 
 import 'datasource_profile_card.dart';
 import 'datasource_profile_view_model.dart';
@@ -29,8 +32,10 @@ class DatasourceProfileSection extends StatefulWidget {
 
 class _DatasourceProfileSectionState extends State<DatasourceProfileSection> {
   final _mapper = const DatasourceProfileViewModelMapper();
+  final _stateController = DatasourceProfileStateController();
   DatasourceProfileViewModel? _viewModel;
   bool _loading = false;
+  DateTime? _lastCountdownRefreshAt;
 
   DatasourceProfileSectionServices get _services =>
       widget.renderContext.services.get<DatasourceProfileSectionServices>();
@@ -42,7 +47,8 @@ class _DatasourceProfileSectionState extends State<DatasourceProfileSection> {
   void initState() {
     super.initState();
     _services.changeSignal.addListener(_handleHostChanged);
-    unawaited(_load());
+    _showInitialShell();
+    unawaited(_refresh(DatasourceProfileRefreshReason.initial));
   }
 
   @override
@@ -55,48 +61,63 @@ class _DatasourceProfileSectionState extends State<DatasourceProfileSection> {
   Widget build(BuildContext context) {
     final viewModel = _viewModel;
     if (viewModel == null) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Center(
-          child: SizedBox(
-            width: 18,
-            height: 18,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: AppColors.green,
-            ),
-          ),
-        ),
-      );
+      _showInitialShell();
     }
     return DatasourceProfileCard(
-      viewModel: viewModel,
+      viewModel: _viewModel!,
       onSourceAction: _handleSourceAction,
       onSourceStrategyAction: _handleSourceStrategyAction,
       onSourceSecondaryAction: _handleSourceSecondaryAction,
+      onSyncCountdownDue: _handleSyncCountdownDue,
     );
   }
 
   void _handleHostChanged() {
-    unawaited(_load());
+    unawaited(_refresh(DatasourceProfileRefreshReason.hostChanged));
   }
 
-  Future<void> _load() async {
+  void _handleSyncCountdownDue() {
+    final now = DateTime.now();
+    final last = _lastCountdownRefreshAt;
+    if (last != null && now.difference(last) < const Duration(seconds: 8)) {
+      return;
+    }
+    _lastCountdownRefreshAt = now;
+    unawaited(_refresh(DatasourceProfileRefreshReason.syncStatusChanged));
+  }
+
+  void _showInitialShell() {
+    final state = _stateController.buildInitial(_services);
+    _viewModel = _mapper.mapState(
+      state: state,
+      syncRuntimeStatus: _services.syncRuntimeStatus(),
+    );
+  }
+
+  Future<void> _refresh(DatasourceProfileRefreshReason reason) async {
     if (_loading) return;
     _loading = true;
     try {
-      final syncStatus = await _services.syncStatusSnapshot();
-      final snapshots = await _services.dataSourceSnapshots(
-        xdripSupported: _services.xdripSupported(),
-      );
+      final scope = _stateController.scopeFor(reason);
+      var state = _stateController.startRefresh(reason: reason, scope: scope);
+      if (mounted) {
+        setState(() {
+          _viewModel = _mapper.mapState(
+            state: state,
+            syncRuntimeStatus: _services.syncRuntimeStatus(),
+          );
+        });
+      }
+      state = scope == DatasourceProfileRefreshScope.syncStatusOnly
+          ? await _stateController.loadSyncStatus(_services)
+          : await _stateController.loadSnapshots(_services);
       if (!mounted) return;
-      setState(() {
-        _viewModel = _mapper.map(
-          snapshots: snapshots,
-          syncStatus: syncStatus,
+      setState(
+        () => _viewModel = _mapper.mapState(
+          state: state,
           syncRuntimeStatus: _services.syncRuntimeStatus(),
-        );
-      });
+        ),
+      );
     } finally {
       _loading = false;
     }
@@ -174,15 +195,12 @@ class _DatasourceProfileSectionState extends State<DatasourceProfileSection> {
         onTestAndConnect: _actions.connectNightscout,
       ),
     );
-    await _load();
+    _showInitialShell();
+    await _refresh(DatasourceProfileRefreshReason.sourceActionCompleted);
   }
 
   Future<void> _syncDataSource(DataSourceKind kind) async {
-    final message = switch (kind) {
-      DataSourceKind.xdripLocal => (await _actions.connectXdripLocal()).message,
-      DataSourceKind.nightscout =>
-        (await _actions.useConfiguredNightscout()).message,
-    };
+    final message = (await _actions.syncDataSource(kind)).message;
     await _reloadAndToast(message);
   }
 
@@ -202,7 +220,7 @@ class _DatasourceProfileSectionState extends State<DatasourceProfileSection> {
   }
 
   Future<void> _reloadAndToast(String message) async {
-    await _load();
+    await _refresh(DatasourceProfileRefreshReason.sourceActionCompleted);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

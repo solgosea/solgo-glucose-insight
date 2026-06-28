@@ -129,7 +129,8 @@ class EpisodeDetailLocalizationsZh extends EpisodeDetailLocalizations {
   String get returnLabel => '回落';
 
   @override
-  String get lowReportContextBody => '除非有记录，本报告无法判断压迫性低血糖、饮食、胰岛素、活动、校准或传感器特定背景。';
+  String get lowReportContextBody =>
+      '除非有记录，本报告无法判断压迫性低血糖、饮食、胰岛素、活动、校准或传感器特定背景。';
 
   @override
   String get printSave => '打印 / 保存';
@@ -165,7 +166,8 @@ class EpisodeDetailLocalizationsZh extends EpisodeDetailLocalizations {
   String get lowExposureSummary => '低血糖暴露摘要';
 
   @override
-  String get highReportNoCauseBody => '如有相关信息，请结合饮食、胰岛素、活动、输注部位变化、压力和传感器状态一起查看。';
+  String get highReportNoCauseBody =>
+      '如有相关信息，请结合饮食、胰岛素、活动、输注部位变化、压力和传感器状态一起查看。';
 
   @override
   String get episodeLifecycle => '事件生命周期';
@@ -192,7 +194,8 @@ class EpisodeDetailLocalizationsZh extends EpisodeDetailLocalizations {
   String get detectedEvents => '检测到的事件';
 
   @override
-  String get highReportDisclaimer => '本地报告。在设备上生成，仅在你选择时分享。本报告只观察高血糖事件，不是医疗建议，也不能替代 CGM 警报、xDrip+、Nightscout 或医疗团队指导。';
+  String get highReportDisclaimer =>
+      '本地报告。在设备上生成，仅在你选择时分享。本报告只观察高血糖事件，不是医疗建议，也不能替代 CGM 警报、xDrip+、Nightscout 或医疗团队指导。';
 
   @override
   String get betweenReadings => '读数之间';
@@ -222,7 +225,8 @@ class EpisodeDetailLocalizationsZh extends EpisodeDetailLocalizations {
   String get highestPeak => '最高峰值';
 
   @override
-  String get lowReportDisclaimer => '本地报告。在设备上生成，仅在你选择时分享。本报告只观察低血糖事件，不是医疗建议，也不能替代 CGM 警报、xDrip+、Nightscout 或医疗团队指导。';
+  String get lowReportDisclaimer =>
+      '本地报告。在设备上生成，仅在你选择时分享。本报告只观察低血糖事件，不是医疗建议，也不能替代 CGM 警报、xDrip+、Nightscout 或医疗团队指导。';
 
   @override
   String get highDriverFastRise => '快速上升是主要负担驱动。';
@@ -648,10 +652,12 @@ class EpisodeDetailLocalizationsZh extends EpisodeDetailLocalizations {
   String get timeVsPeak => '时间 vs 峰值';
 
   @override
-  String get highReportHeroSummary => '聚焦高血糖暴露的报告，包含事件曲线、峰值、持续时间、回到范围、重复时段、相似事件和数据质量。';
+  String get highReportHeroSummary =>
+      '聚焦高血糖暴露的报告，包含事件曲线、峰值、持续时间、回到范围、重复时段、相似事件和数据质量。';
 
   @override
-  String get lowReportHeroSummary => '聚焦低血糖暴露的报告，包含事件曲线、最低值、持续时间、下降、恢复、重复时段和数据质量。';
+  String get lowReportHeroSummary =>
+      '聚焦低血糖暴露的报告，包含事件曲线、最低值、持续时间、下降、恢复、重复时段和数据质量。';
 
   @override
   String highThresholds(Object high, Object veryHigh) {
@@ -855,7 +861,7 @@ class EpisodeDetailLocalizationsZh extends EpisodeDetailLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class EpisodeDetailLocalizationsZhHant extends EpisodeDetailLocalizationsZh {
-  EpisodeDetailLocalizationsZhHant(): super('zh_Hant');
+  EpisodeDetailLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get pluginTitle => '事件詳情';
@@ -978,7 +984,8 @@ class EpisodeDetailLocalizationsZhHant extends EpisodeDetailLocalizationsZh {
   String get returnLabel => '回落';
 
   @override
-  String get lowReportContextBody => '除非有記錄，本報告無法判斷壓迫性低血糖、飲食、胰島素、活動、校準或感測器特定背景。';
+  String get lowReportContextBody =>
+      '除非有記錄，本報告無法判斷壓迫性低血糖、飲食、胰島素、活動、校準或感測器特定背景。';
 
   @override
   String get printSave => '列印 / 儲存';
@@ -1014,7 +1021,8 @@ class EpisodeDetailLocalizationsZhHant extends EpisodeDetailLocalizationsZh {
   String get lowExposureSummary => '低血糖暴露摘要';
 
   @override
-  String get highReportNoCauseBody => '如有相關資訊，請結合飲食、胰島素、活動、輸注部位變化、壓力和感測器狀態一起查看。';
+  String get highReportNoCauseBody =>
+      '如有相關資訊，請結合飲食、胰島素、活動、輸注部位變化、壓力和感測器狀態一起查看。';
 
   @override
   String get episodeLifecycle => '事件生命週期';
@@ -1041,7 +1049,8 @@ class EpisodeDetailLocalizationsZhHant extends EpisodeDetailLocalizationsZh {
   String get detectedEvents => '偵測到的事件';
 
   @override
-  String get highReportDisclaimer => '本機報告。在裝置上產生，僅在你選擇時分享。本報告只觀察高血糖事件，不是醫療建議，也不能取代 CGM 警報、xDrip+、Nightscout 或醫療團隊指導。';
+  String get highReportDisclaimer =>
+      '本機報告。在裝置上產生，僅在你選擇時分享。本報告只觀察高血糖事件，不是醫療建議，也不能取代 CGM 警報、xDrip+、Nightscout 或醫療團隊指導。';
 
   @override
   String get betweenReadings => '讀數之間';
@@ -1071,7 +1080,8 @@ class EpisodeDetailLocalizationsZhHant extends EpisodeDetailLocalizationsZh {
   String get highestPeak => '最高峰值';
 
   @override
-  String get lowReportDisclaimer => '本機報告。在裝置上產生，僅在你選擇時分享。本報告只觀察低血糖事件，不是醫療建議，也不能取代 CGM 警報、xDrip+、Nightscout 或醫療團隊指導。';
+  String get lowReportDisclaimer =>
+      '本機報告。在裝置上產生，僅在你選擇時分享。本報告只觀察低血糖事件，不是醫療建議，也不能取代 CGM 警報、xDrip+、Nightscout 或醫療團隊指導。';
 
   @override
   String get highDriverFastRise => '快速上升是主要負擔驅動。';
@@ -1497,10 +1507,12 @@ class EpisodeDetailLocalizationsZhHant extends EpisodeDetailLocalizationsZh {
   String get timeVsPeak => '时间 vs 峰值';
 
   @override
-  String get highReportHeroSummary => '聚焦高血糖暴露的报告，包含事件曲线、峰值、持续时间、回到范围、重复时段、相似事件和数据质量。';
+  String get highReportHeroSummary =>
+      '聚焦高血糖暴露的报告，包含事件曲线、峰值、持续时间、回到范围、重复时段、相似事件和数据质量。';
 
   @override
-  String get lowReportHeroSummary => '聚焦低血糖暴露的报告，包含事件曲线、最低值、持续时间、下降、恢复、重复时段和数据质量。';
+  String get lowReportHeroSummary =>
+      '聚焦低血糖暴露的报告，包含事件曲线、最低值、持续时间、下降、恢复、重复时段和数据质量。';
 
   @override
   String highThresholds(Object high, Object veryHigh) {

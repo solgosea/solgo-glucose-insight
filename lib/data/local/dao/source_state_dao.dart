@@ -23,6 +23,9 @@ class SourceStateDao {
     String subjectId = GlucoseSubject.selfId,
     int? fetchedCount,
     int? storedCount,
+    DateTime? coveredFrom,
+    DateTime? coveredTo,
+    int? syncWindowDays,
   }) async {
     final now = DateTime.now();
     await _upsert(
@@ -33,6 +36,9 @@ class SourceStateDao {
       lastCursor: cursor,
       lastFetchedCount: fetchedCount,
       lastStoredCount: storedCount,
+      coveredFrom: coveredFrom,
+      coveredTo: coveredTo,
+      syncWindowDays: syncWindowDays,
     );
   }
 
@@ -70,6 +76,9 @@ class SourceStateDao {
       lastError: row['last_error'] as String?,
       lastFetchedCount: (row['last_fetched_count'] as num?)?.toInt(),
       lastStoredCount: (row['last_stored_count'] as num?)?.toInt(),
+      coveredFrom: _date(row['covered_from_ms']),
+      coveredTo: _date(row['covered_to_ms']),
+      syncWindowDays: (row['sync_window_days'] as num?)?.toInt(),
       updatedAt: _date(row['updated_at_ms']) ?? DateTime.now(),
     );
   }
@@ -83,6 +92,9 @@ class SourceStateDao {
     String? lastError,
     int? lastFetchedCount,
     int? lastStoredCount,
+    DateTime? coveredFrom,
+    DateTime? coveredTo,
+    int? syncWindowDays,
   }) async {
     final database = await _db();
     final existing = await get(sourceKey, subjectId: subjectId);
@@ -99,6 +111,11 @@ class SourceStateDao {
         'last_error': lastError,
         'last_fetched_count': lastFetchedCount ?? existing?.lastFetchedCount,
         'last_stored_count': lastStoredCount ?? existing?.lastStoredCount,
+        'covered_from_ms':
+            (coveredFrom ?? existing?.coveredFrom)?.millisecondsSinceEpoch,
+        'covered_to_ms':
+            (coveredTo ?? existing?.coveredTo)?.millisecondsSinceEpoch,
+        'sync_window_days': syncWindowDays ?? existing?.syncWindowDays,
         'updated_at_ms': DateTime.now().millisecondsSinceEpoch,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,

@@ -21,6 +21,8 @@ class HistoryService {
 
   HistoryEngineOutput buildOutput({
     required DateTime selectedDay,
+    DateTime? rangeStart,
+    DateTime? rangeEnd,
     required List<GlucoseReading> readings,
     required List<GlucoseEvent> events,
     required AnalysisTirResult? tir,
@@ -31,6 +33,8 @@ class HistoryService {
     return engine.run(
       HistoryEngineInput(
         selectedDay: selectedDay,
+        rangeStart: rangeStart ?? selectedDay,
+        rangeEnd: rangeEnd ?? selectedDay,
         readings: readings,
         events: events,
         tir: tir,
@@ -43,6 +47,8 @@ class HistoryService {
 
   HistoryViewModel buildViewModel({
     required DateTime selectedDay,
+    DateTime? rangeStart,
+    DateTime? rangeEnd,
     required List<GlucoseReading> readings,
     required List<GlucoseEvent> events,
     required AnalysisTirResult? tir,
@@ -54,6 +60,8 @@ class HistoryService {
     return mapper.map(
       buildOutput(
         selectedDay: selectedDay,
+        rangeStart: rangeStart,
+        rangeEnd: rangeEnd,
         readings: readings,
         events: events,
         tir: tir,

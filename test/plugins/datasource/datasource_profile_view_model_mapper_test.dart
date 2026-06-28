@@ -15,6 +15,36 @@ import 'package:smart_xdrip/domain/sync_status/sync_status_snapshot.dart';
 import 'package:smart_xdrip/plugins/datasource/presentation/profile_section/datasource_profile_view_model_mapper.dart';
 
 void main() {
+  test('datasource profile maps visible rows before sync status is loaded', () {
+    final viewModel = const DatasourceProfileViewModelMapper().map(
+      refreshing: true,
+      snapshots: [
+        const DataSourceConnectionSnapshot(
+          kind: DataSourceKind.nightscout,
+          status: DataSourceConnectionStatus.connecting,
+          action: DataSourceConnectionAction.none,
+          strategyAction: DataSourceSyncStrategyAction.disable,
+          title: 'Nightscout API',
+          subtitle: 'Checking Nightscout',
+          trailing: 'Configured',
+          strategyTrailing: 'Disable',
+          active: true,
+          detected: true,
+          configured: true,
+          strategyEnabled: true,
+          supported: true,
+        ),
+      ],
+    );
+
+    expect(viewModel.refreshing, isTrue);
+    expect(viewModel.sources, hasLength(1));
+    expect(viewModel.sources.single.name, 'Nightscout API');
+    expect(viewModel.sources.single.syncStatus, isNull);
+    expect(viewModel.sources.single.checking, isTrue);
+    expect(viewModel.sources.single.meta, 'Checking source...');
+  });
+
   test('active datasource uses shared sync status instead of meta text', () {
     final now = DateTime.now();
 
@@ -61,7 +91,8 @@ void main() {
     final source = viewModel.sources.single;
     expect(source.meta, isNull);
     expect(source.syncStatus, isNotNull);
-    expect(source.syncStatus!.label, contains('3m'));
+    expect(source.syncStatus!.statusLabel, 'Synced');
+    expect(source.syncStatus!.timeLabel, contains('3 min ago'));
     expect(source.syncStatus!.countdownLabel, contains('Est. next'));
   });
 

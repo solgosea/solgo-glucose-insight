@@ -16,8 +16,7 @@ class PluginRuntimeStore extends ChangeNotifier {
   List<PluginRuntimeSnapshot> get snapshots =>
       List.unmodifiable(_snapshots.values);
 
-  PluginRuntimeSnapshot? snapshotFor(PluginId pluginId) =>
-      _snapshots[pluginId];
+  PluginRuntimeSnapshot? snapshotFor(PluginId pluginId) => _snapshots[pluginId];
 
   void register(
     PluginId pluginId, {

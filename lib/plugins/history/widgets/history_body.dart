@@ -4,7 +4,7 @@ import '../application/i18n/history_l10n.dart';
 import '../models/history_view_model.dart';
 import 'history_curve_card.dart';
 import 'history_date_nav.dart';
-import 'history_episode_callouts.dart';
+import 'history_episodes_panel.dart';
 import 'history_events_list.dart';
 import 'history_page_title.dart';
 import 'history_stats_grid.dart';
@@ -17,6 +17,7 @@ class HistoryBody extends StatelessWidget {
   final VoidCallback onNextDay;
   final ValueChanged<DateTime> onTimeSelected;
   final VoidCallback onClearTimeFilter;
+  final VoidCallback onDateFilterPressed;
   final ValueChanged<String> onRouteSelected;
 
   const HistoryBody({
@@ -26,6 +27,7 @@ class HistoryBody extends StatelessWidget {
     required this.onNextDay,
     required this.onTimeSelected,
     required this.onClearTimeFilter,
+    required this.onDateFilterPressed,
     required this.onRouteSelected,
   });
 
@@ -37,7 +39,7 @@ class HistoryBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HistoryPageTitle(),
+            HistoryPageTitle(onDateFilterPressed: onDateFilterPressed),
             HistoryDateNav(
               viewModel: viewModel.dateNav,
               onPrevious: onPreviousDay,
@@ -56,8 +58,8 @@ class HistoryBody extends StatelessWidget {
                 onClear: onClearTimeFilter,
               ),
             HistoryStatsGrid(stats: viewModel.stats),
-            HistoryEpisodeCallouts(
-              callouts: viewModel.episodeCallouts,
+            HistoryEpisodesPanel(
+              episodes: viewModel.episodeCallouts,
               onRouteSelected: onRouteSelected,
             ),
             SectionLabel(context.historyL10n.eventsSectionTitle),

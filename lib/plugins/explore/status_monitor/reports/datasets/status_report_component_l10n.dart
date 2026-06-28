@@ -9,9 +9,11 @@ String statusReportComponentTitle(
 ) {
   return switch (kind) {
     StatusComponentKind.cgmSensor => strings.pageComponentCgmSensor,
+    StatusComponentKind.juggluco => 'Juggluco',
     StatusComponentKind.xdrip => strings.pageComponentXdrip,
     StatusComponentKind.nightscout => strings.pageComponentNightscout,
     StatusComponentKind.aapsLoop => strings.pageComponentAapsLoop,
+    StatusComponentKind.watchDisplay => 'Watch display',
   };
 }
 
@@ -21,9 +23,11 @@ String statusReportComponentRole(
 ) {
   return switch (kind) {
     StatusComponentKind.cgmSensor => strings.pageModeReadingsQuality,
+    StatusComponentKind.juggluco => 'Primary broadcast path',
     StatusComponentKind.xdrip => strings.pageModeLocalService,
     StatusComponentKind.nightscout => strings.pageModeNightscoutApi,
     StatusComponentKind.aapsLoop => strings.pageModeNightscoutEvidence,
+    StatusComponentKind.watchDisplay => 'Display bridge',
   };
 }
 

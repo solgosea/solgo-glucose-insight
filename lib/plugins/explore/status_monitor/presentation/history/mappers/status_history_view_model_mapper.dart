@@ -1,13 +1,16 @@
 import '../../../domain/component_health.dart';
+import '../../../domain/history/status_component_history_load_result.dart';
+import '../../../domain/history/status_component_history_load_state.dart';
 import '../../../domain/history/status_component_history_result.dart';
 import '../../../domain/history/status_history_bucket.dart';
 import '../../../domain/history/status_history_bucket_reason.dart';
-import '../../../domain/history/status_history_result.dart';
+import '../../../domain/status_component_kind.dart';
 import '../../../domain/status_report.dart';
 import '../../../domain/status_level.dart';
 import '../../../application/i18n/status_monitor_l10n_resolver.dart';
 import '../../../l10n/generated/status_monitor_localizations.dart';
 import '../models/status_component_history_view_model.dart';
+import '../models/status_component_history_section_view_model.dart';
 import '../models/status_history_cell_view_model.dart';
 import '../models/status_history_view_model.dart';
 
@@ -19,23 +22,42 @@ class StatusHistoryViewModelMapper {
   StatusMonitorLocalizations get _strings =>
       l10n ?? StatusMonitorL10nResolver.fallback;
 
-  StatusHistoryViewModel map({
-    required StatusHistoryResult? result,
+  StatusHistoryViewModel mapProgressive({
     required StatusReport? report,
+    required Map<StatusComponentKind, StatusComponentHistoryLoadResult> loads,
     required DateTime now,
+    bool loading = false,
   }) {
     final components = report?.components ?? const <ComponentHealth>[];
     return StatusHistoryViewModel(
       title: _strings.pageSevenDayHistory,
       subtitle: _strings.pageSevenDayHistorySubtitle,
-      components: [
+      loading: loading,
+      sections: [
         for (final component in components)
-          _component(
-            component,
-            _historyFor(result, component),
-            now,
+          _section(
+            component: component,
+            load: loads[component.kind],
+            now: now,
           ),
       ],
+    );
+  }
+
+  StatusComponentHistorySectionViewModel _section({
+    required ComponentHealth component,
+    required StatusComponentHistoryLoadResult? load,
+    required DateTime now,
+  }) {
+    final state = load?.state ?? StatusComponentHistoryLoadState.queued;
+    final result = load?.result;
+    return StatusComponentHistorySectionViewModel(
+      component: component.kind,
+      title: _componentTitle(component),
+      currentLevel: component.level,
+      state: state,
+      history: result == null ? null : _component(component, result, now),
+      errorMessage: load?.error?.toString(),
     );
   }
 
@@ -79,6 +101,8 @@ class StatusHistoryViewModelMapper {
     );
   }
 
+  String _componentTitle(ComponentHealth component) => component.title;
+
   StatusHistoryCellViewModel _cell({
     required StatusHistoryBucket? bucket,
     required DateTime at,
@@ -106,17 +130,6 @@ class StatusHistoryViewModelMapper {
       StatusHistoryBucketReason.noSample => _strings.pageHistoryReasonNoSample,
       StatusHistoryBucketReason.future => _strings.pageHistoryReasonFuture,
     };
-  }
-
-  StatusComponentHistoryResult? _historyFor(
-    StatusHistoryResult? result,
-    ComponentHealth component,
-  ) {
-    if (result == null) return null;
-    for (final history in result.components) {
-      if (history.component == component.kind) return history;
-    }
-    return null;
   }
 
   List<StatusHistoryBucket>? _rowAt(

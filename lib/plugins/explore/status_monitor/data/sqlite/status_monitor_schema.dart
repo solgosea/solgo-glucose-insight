@@ -49,17 +49,190 @@ class StatusMonitorSchema {
         subject_id TEXT NOT NULL,
         source_target_id TEXT,
         endpoint TEXT NOT NULL,
+        probe_id TEXT,
+        suite_id TEXT,
+        run_mode TEXT,
+        category TEXT,
         level TEXT NOT NULL,
         reachable INTEGER NOT NULL,
         status_code INTEGER,
         elapsed_ms INTEGER NOT NULL,
+        confidence REAL,
+        summary TEXT,
+        payload_json TEXT,
         at_ms INTEGER NOT NULL
       )
     ''');
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'probe_id',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'suite_id',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'run_mode',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'category',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'confidence',
+      'REAL',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'summary',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeSamples,
+      'payload_json',
+      'TEXT',
+    );
     await database.execute('''
       CREATE INDEX IF NOT EXISTS idx_status_monitor_probe_subject_endpoint_at
       ON ${StatusMonitorTables.probeSamples}(subject_id, endpoint, at_ms DESC)
     ''');
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${StatusMonitorTables.probeCatalogSuites} (
+        suite_id TEXT PRIMARY KEY,
+        kind TEXT NOT NULL,
+        title_key TEXT NOT NULL,
+        description_key TEXT NOT NULL,
+        icon_key TEXT,
+        role TEXT NOT NULL DEFAULT 'core',
+        score_scope TEXT NOT NULL DEFAULT 'included',
+        priority INTEGER NOT NULL,
+        enabled INTEGER NOT NULL
+      )
+    ''');
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeCatalogSuites,
+      'role',
+      "TEXT NOT NULL DEFAULT 'core'",
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeCatalogSuites,
+      'score_scope',
+      "TEXT NOT NULL DEFAULT 'included'",
+    );
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${StatusMonitorTables.probeCatalogProbes} (
+        probe_id TEXT PRIMARY KEY,
+        suite_id TEXT NOT NULL,
+        driver_id TEXT NOT NULL,
+        title_key TEXT NOT NULL,
+        description_key TEXT NOT NULL,
+        icon_key TEXT,
+        guide_route TEXT,
+        role TEXT NOT NULL DEFAULT 'core',
+        score_scope TEXT NOT NULL DEFAULT 'included',
+        required INTEGER NOT NULL,
+        activation_probe INTEGER NOT NULL DEFAULT 0,
+        priority INTEGER NOT NULL,
+        enabled INTEGER NOT NULL
+      )
+    ''');
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeCatalogProbes,
+      'role',
+      "TEXT NOT NULL DEFAULT 'core'",
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeCatalogProbes,
+      'score_scope',
+      "TEXT NOT NULL DEFAULT 'included'",
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeCatalogProbes,
+      'activation_probe',
+      'INTEGER NOT NULL DEFAULT 0',
+    );
+    await database.execute('''
+      CREATE INDEX IF NOT EXISTS idx_status_probe_catalog_probes_suite
+      ON ${StatusMonitorTables.probeCatalogProbes}(suite_id, priority)
+    ''');
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${StatusMonitorTables.probeScenarios} (
+        scenario_id TEXT PRIMARY KEY,
+        title_key TEXT NOT NULL,
+        description_key TEXT NOT NULL,
+        enabled INTEGER NOT NULL
+      )
+    ''');
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${StatusMonitorTables.probeScenarioItems} (
+        scenario_id TEXT NOT NULL,
+        suite_id TEXT NOT NULL,
+        probe_id TEXT,
+        section_id TEXT,
+        order_index INTEGER NOT NULL,
+        enabled INTEGER NOT NULL,
+        weight REAL NOT NULL DEFAULT 1.0,
+        score_scope TEXT,
+        hard_gate INTEGER NOT NULL DEFAULT 0,
+        activation_probe INTEGER NOT NULL DEFAULT 0,
+        score_cap INTEGER,
+        PRIMARY KEY (scenario_id, suite_id, probe_id)
+      )
+    ''');
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeScenarioItems,
+      'section_id',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeScenarioItems,
+      'weight',
+      'REAL NOT NULL DEFAULT 1.0',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeScenarioItems,
+      'score_scope',
+      'TEXT',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeScenarioItems,
+      'hard_gate',
+      'INTEGER NOT NULL DEFAULT 0',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeScenarioItems,
+      'activation_probe',
+      'INTEGER NOT NULL DEFAULT 0',
+    );
+    await _ensureColumn(
+      database,
+      StatusMonitorTables.probeScenarioItems,
+      'score_cap',
+      'INTEGER',
+    );
     await database.execute('''
       CREATE TABLE IF NOT EXISTS ${StatusMonitorTables.settings} (
         subject_id TEXT PRIMARY KEY,

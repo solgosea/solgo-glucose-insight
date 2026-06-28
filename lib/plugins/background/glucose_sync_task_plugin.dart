@@ -6,7 +6,7 @@ import '../../plugin_platform/contracts/plugin_id.dart';
 import '../../plugin_platform/contracts/plugin_placement.dart';
 import '../../plugin_platform/contracts/plugin_release_stage.dart';
 import '../../plugin_platform/contracts/plugin_route.dart';
-import '../../plugin_platform/contracts/smart_feature_plugin.dart';
+import '../../plugin_platform/contracts/smart_feature_plugin.dart';
 import 'application/i18n/background_l10n_resolver.dart';
 
 class GlucoseSyncTaskPlugin extends SmartFeaturePlugin {

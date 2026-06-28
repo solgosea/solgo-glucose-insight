@@ -7,10 +7,12 @@ import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dar
 import '../../runtime/status_monitor_runtime.dart';
 import '../../runtime/status_monitor_runtime_cache.dart';
 import '../../application/i18n/status_monitor_l10n.dart';
+import '../flow/status_dashboard_page_flow_controller.dart';
 import '../controllers/status_dashboard_controller.dart';
 import '../styles/status_monitor_theme.dart';
 import '../widgets/dashboard/status_dashboard_content.dart';
 import '../widgets/status_monitor_page_header.dart';
+import '../widgets/status_monitor_top_nav.dart';
 
 class StatusDashboardPage extends StatefulWidget {
   const StatusDashboardPage({super.key});
@@ -21,6 +23,7 @@ class StatusDashboardPage extends StatefulWidget {
 
 class _StatusDashboardPageState extends State<StatusDashboardPage> {
   StatusDashboardController? _controller;
+  StatusDashboardPageFlowController? _flowController;
 
   @override
   void didChangeDependencies() {
@@ -32,14 +35,17 @@ class _StatusDashboardPageState extends State<StatusDashboardPage> {
       return;
     }
     final services = context.read<PluginServiceRegistry>();
-    context.read<PluginRuntimeManager>().resume(StatusMonitorRuntime.id);
+    final flowController = StatusDashboardPageFlowController();
+    _flowController = flowController;
     _controller = StatusDashboardController(
       cache: services.get<StatusMonitorRuntimeCache>(),
     )..setLocalizations(l10n);
+    flowController.start(context.read<PluginRuntimeManager>());
   }
 
   @override
   void dispose() {
+    _flowController?.dispose();
     _controller?.dispose();
     super.dispose();
   }
@@ -75,16 +81,24 @@ class _StatusDashboardPageState extends State<StatusDashboardPage> {
                         onBack: () => context.canPop()
                             ? context.pop()
                             : context.go('/explore'),
-                        trailing: IconButton(
-                          tooltip: l10n.pageReportTooltip,
-                          onPressed: () =>
-                              context.push('/explore/status/report-preview'),
-                          icon: const Icon(Icons.picture_as_pdf_rounded),
-                          color: StatusMonitorTheme.green,
-                          style: IconButton.styleFrom(
-                            backgroundColor: StatusMonitorTheme.card2,
-                          ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              tooltip: l10n.pageReportTooltip,
+                              onPressed: () => context
+                                  .push('/explore/status/report-preview'),
+                              icon: const Icon(Icons.picture_as_pdf_rounded),
+                              color: StatusMonitorTheme.green,
+                              style: IconButton.styleFrom(
+                                backgroundColor: StatusMonitorTheme.card2,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      const StatusMonitorTopNav(
+                        current: StatusMonitorTopNavDestination.dashboard,
                       ),
                       StatusDashboardContent(
                         controller: controller,

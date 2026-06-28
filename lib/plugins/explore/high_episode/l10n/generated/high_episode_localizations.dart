@@ -62,15 +62,18 @@ import 'high_episode_localizations_zh.dart';
 /// be consistent with the languages listed in the HighEpisodeLocalizations.supportedLocales
 /// property.
 abstract class HighEpisodeLocalizations {
-  HighEpisodeLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  HighEpisodeLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static HighEpisodeLocalizations of(BuildContext context) {
-    return Localizations.of<HighEpisodeLocalizations>(context, HighEpisodeLocalizations)!;
+    return Localizations.of<HighEpisodeLocalizations>(
+        context, HighEpisodeLocalizations)!;
   }
 
-  static const LocalizationsDelegate<HighEpisodeLocalizations> delegate = _HighEpisodeLocalizationsDelegate();
+  static const LocalizationsDelegate<HighEpisodeLocalizations> delegate =
+      _HighEpisodeLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class HighEpisodeLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -139,43 +143,48 @@ abstract class HighEpisodeLocalizations {
   String get pluginUnavailable;
 }
 
-class _HighEpisodeLocalizationsDelegate extends LocalizationsDelegate<HighEpisodeLocalizations> {
+class _HighEpisodeLocalizationsDelegate
+    extends LocalizationsDelegate<HighEpisodeLocalizations> {
   const _HighEpisodeLocalizationsDelegate();
 
   @override
   Future<HighEpisodeLocalizations> load(Locale locale) {
-    return SynchronousFuture<HighEpisodeLocalizations>(lookupHighEpisodeLocalizations(locale));
+    return SynchronousFuture<HighEpisodeLocalizations>(
+        lookupHighEpisodeLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_HighEpisodeLocalizationsDelegate old) => false;
 }
 
 HighEpisodeLocalizations lookupHighEpisodeLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh': {
-  switch (locale.scriptCode) {
-    case 'Hant': return HighEpisodeLocalizationsZhHant();
-   }
-  break;
-   }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return HighEpisodeLocalizationsZhHant();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return HighEpisodeLocalizationsEn();
-    case 'zh': return HighEpisodeLocalizationsZh();
+    case 'en':
+      return HighEpisodeLocalizationsEn();
+    case 'zh':
+      return HighEpisodeLocalizationsZh();
   }
 
   throw FlutterError(
-    'HighEpisodeLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'HighEpisodeLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

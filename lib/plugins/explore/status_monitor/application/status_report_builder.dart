@@ -6,21 +6,27 @@ import '../domain/status_timeline_point.dart';
 import '../domain/analysis/status_analysis_context.dart';
 import 'engines/aaps/aaps_status_engine.dart';
 import 'engines/cgm_sensor/cgm_sensor_status_engine.dart';
+import 'engines/juggluco/juggluco_status_engine.dart';
 import 'engines/nightscout/nightscout_status_engine.dart';
 import 'engines/status_component_engine_registry.dart';
+import 'engines/watch/watch_status_engine.dart';
 import 'engines/xdrip/xdrip_status_engine.dart';
 
 class StatusReportBuilder {
   final CgmSensorStatusEngine cgmEngine;
+  final JugglucoStatusEngine jugglucoEngine;
   final XdripStatusEngine xdripEngine;
   final NightscoutStatusEngine nightscoutEngine;
   final AapsStatusEngine aapsEngine;
+  final WatchStatusEngine watchEngine;
 
   const StatusReportBuilder({
     this.cgmEngine = const CgmSensorStatusEngine(),
+    this.jugglucoEngine = const JugglucoStatusEngine(),
     this.xdripEngine = const XdripStatusEngine(),
     this.nightscoutEngine = const NightscoutStatusEngine(),
     this.aapsEngine = const AapsStatusEngine(),
+    this.watchEngine = const WatchStatusEngine(),
   });
 
   Future<StatusReport> build({
@@ -35,11 +41,27 @@ class StatusReportBuilder {
     final components = await StatusComponentEngineRegistry(
       engines: [
         cgmEngine,
+        jugglucoEngine,
         xdripEngine,
         nightscoutEngine,
         aapsEngine,
+        watchEngine,
       ],
     ).evaluateAll(context);
+    return buildFromComponents(
+      now: now,
+      evidence: evidence,
+      history: history,
+      components: components,
+    );
+  }
+
+  StatusReport buildFromComponents({
+    required DateTime now,
+    required StatusEvidenceBundle evidence,
+    required List<StatusTimelinePoint> history,
+    required List<ComponentHealth> components,
+  }) {
     return StatusReport(
       subjectId: evidence.subjectId,
       sourceTargetId: evidence.primarySourceTargetId,

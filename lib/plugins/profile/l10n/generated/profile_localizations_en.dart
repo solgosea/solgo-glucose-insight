@@ -110,26 +110,9 @@ class ProfileLocalizationsEn extends ProfileLocalizations {
   String get profileHeaderTitle => 'My Profile';
 
   @override
-  String get profileBuildingBaseline => 'Building baseline';
-
-  @override
   String profileDaysRecorded(int days) {
     return '$days days recorded';
   }
-
-  @override
-  String profileGlucotype(String label) {
-    return 'Glucotype: $label';
-  }
-
-  @override
-  String get profileGlucotypeLow => 'Low';
-
-  @override
-  String get profileGlucotypeModerate => 'Moderate';
-
-  @override
-  String get profileGlucotypeSevere => 'Severe';
 
   @override
   String get profileStatTir14d => 'TIR 14d';
@@ -144,30 +127,7 @@ class ProfileLocalizationsEn extends ProfileLocalizations {
   String get profileSettingsSummary => 'Settings';
 
   @override
-  String get profileSectionMyBaseline => 'My Baseline';
-
-  @override
   String get profileSectionAppSettings => 'App Settings';
-
-  @override
-  String get profileBaselineTitle => 'Personal Glucose Baseline';
-
-  @override
-  String profileBaselineBuiltFrom(int days, String date) {
-    return 'Built from $days days - Updated $date';
-  }
-
-  @override
-  String get profileBaselineNotEnough => 'Not enough data yet';
-
-  @override
-  String get profileBaselineTir => 'TIR baseline';
-
-  @override
-  String get profileBaselineTypicalPeak => 'Typical peak';
-
-  @override
-  String get profileBaselineCvRange => 'CV range';
 
   @override
   String targetRangeLowHighGapMessage(String gap, String unit) {

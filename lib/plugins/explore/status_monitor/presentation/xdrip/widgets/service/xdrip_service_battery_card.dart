@@ -24,8 +24,8 @@ class XdripServiceBatteryCard extends StatelessWidget {
             : 'Offline';
     final l10n = context.statusMonitorL10n;
     return XdripDetailSectionFrame(
-      title: l10n.pageServiceAndBattery,
-      trailing: l10n.pageLatestProbe,
+      title: 'Optional inspection',
+      trailing: 'not required for AAPS',
       child: LayoutBuilder(
         builder: (context, constraints) {
           final two = constraints.maxWidth >= 320;

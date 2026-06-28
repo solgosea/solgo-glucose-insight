@@ -6,6 +6,9 @@ class SourceSyncState {
   final String? lastError;
   final int? lastFetchedCount;
   final int? lastStoredCount;
+  final DateTime? coveredFrom;
+  final DateTime? coveredTo;
+  final int? syncWindowDays;
   final DateTime updatedAt;
 
   const SourceSyncState({
@@ -17,5 +20,8 @@ class SourceSyncState {
     this.lastError,
     this.lastFetchedCount,
     this.lastStoredCount,
+    this.coveredFrom,
+    this.coveredTo,
+    this.syncWindowDays,
   });
 }

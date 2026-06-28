@@ -12,7 +12,7 @@ import 'package:smart_xdrip/domain/sources/i_glucose_source.dart';
 import '../../_support/test_database.dart';
 
 void main() {
-  test('Nightscout foreground normal polling uses a 60 second interval',
+  test('Nightscout foreground normal polling uses configured sync interval',
       () async {
     final database = TestDatabase.create();
     addTearDown(database.close);
@@ -39,11 +39,12 @@ void main() {
       settings: const AppSettings(
         nightscoutBaseUrl: 'http://localhost:1337',
         nightscoutSyncEnabled: true,
+        syncIntervalMinutes: 3,
       ),
       mode: PollingMode.foreground,
     );
 
-    expect(decision.nextInterval, const Duration(seconds: 60));
+    expect(decision.nextInterval, const Duration(minutes: 3));
     expect(decision.reason, 'Foreground normal polling');
   });
 }

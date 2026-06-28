@@ -1,0 +1,23 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:theme="@style/ProbeFixtureTheme"
+        android:label="AAPS Probe Fixture"
+        android:allowBackup="false"
+        android:supportsRtl="true">
+        <activity
+            android:name=".ProbeFixtureActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name=".probe.AapsProbeFixtureReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.metaguru.probe.AAPS_SEND_CONTEXT" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

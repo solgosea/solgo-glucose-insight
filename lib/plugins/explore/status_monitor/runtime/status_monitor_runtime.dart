@@ -8,6 +8,7 @@ import 'package:smart_xdrip/plugin_platform/runtime/events/plugin_runtime_event.
 import 'package:smart_xdrip/plugin_platform/runtime/events/plugin_runtime_event_type.dart';
 
 import '../application/status_monitor_refresh_coordinator.dart';
+import '../application/status_monitor_check_service.dart';
 import '../application/text/status_text_template_installer.dart';
 import 'status_monitor_polling_runtime_binding.dart';
 import 'status_monitor_runtime_cache.dart';
@@ -16,6 +17,7 @@ class StatusMonitorRuntime implements PluginRuntime {
   static const id = PluginId('explore.statusMonitor');
 
   final StatusMonitorRefreshCoordinator refreshCoordinator;
+  final StatusMonitorCheckService checkService;
   final StatusMonitorRuntimeCache cache;
   final StatusTextTemplateInstaller textTemplateInstaller;
   final StatusMonitorPollingRuntimeBinding? pollingBinding;
@@ -25,6 +27,7 @@ class StatusMonitorRuntime implements PluginRuntime {
 
   StatusMonitorRuntime({
     required this.refreshCoordinator,
+    required this.checkService,
     required this.cache,
     required this.textTemplateInstaller,
     this.pollingBinding,
@@ -78,8 +81,14 @@ class StatusMonitorRuntime implements PluginRuntime {
     _refreshing = true;
     cache.markLoading(subjectId: refreshCoordinator.currentSubjectId);
     try {
-      final report = await refreshCoordinator.refresh();
-      cache.update(report);
+      await for (final update in checkService.startFreshSession()) {
+        cache.updateSession(update.state);
+        final report = update.report;
+        if (report != null) {
+          await refreshCoordinator.publish(report);
+          cache.update(report);
+        }
+      }
     } catch (error) {
       cache.markError(error);
       context.markFailed(pluginId, error);

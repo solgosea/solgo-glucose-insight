@@ -6,13 +6,17 @@ class TrimRetentionDataStep extends GlucoseSyncStep {
 
   @override
   Future<void> execute(GlucoseSyncContext context) async {
-    await context.database.trimOlderThan(
-      context.settings.retentionDays,
-      subjectId: context.subjectId,
-    );
-    await context.database.trimRawOlderThan(
-      context.settings.retentionDays,
-      subjectId: context.subjectId,
+    await context.runPersistence(
+      () async {
+        await context.database.trimOlderThan(
+          context.settings.retentionDays,
+          subjectId: context.subjectId,
+        );
+        await context.database.trimRawOlderThan(
+          context.settings.retentionDays,
+          subjectId: context.subjectId,
+        );
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ import '../../domain/detail/status_component_detail_data.dart';
 import '../../domain/status_metric.dart';
 import '../../domain/status_report.dart';
 import '../../domain/status_timeline_point.dart';
+import '../../application/checking/models/status_check_component_phase.dart';
 
 class StatusDashboardViewModel {
   final StatusReport report;
@@ -17,10 +18,14 @@ class StatusDashboardViewModel {
 class StatusDashboardComponentViewModel {
   final ComponentHealth component;
   final String freshnessText;
+  final StatusCheckComponentPhase? checkPhase;
+  final String checkStepLabel;
 
   const StatusDashboardComponentViewModel({
     required this.component,
     required this.freshnessText,
+    this.checkPhase,
+    this.checkStepLabel = '',
   });
 }
 

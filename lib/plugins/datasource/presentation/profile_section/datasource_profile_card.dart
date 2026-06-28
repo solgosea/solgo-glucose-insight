@@ -12,6 +12,7 @@ class DatasourceProfileCard extends StatelessWidget {
   final ValueChanged<DatasourceProfileSourceViewModel> onSourceAction;
   final ValueChanged<DatasourceProfileSourceViewModel> onSourceStrategyAction;
   final ValueChanged<DatasourceProfileSourceViewModel> onSourceSecondaryAction;
+  final VoidCallback? onSyncCountdownDue;
 
   const DatasourceProfileCard({
     super.key,
@@ -19,6 +20,7 @@ class DatasourceProfileCard extends StatelessWidget {
     required this.onSourceAction,
     required this.onSourceStrategyAction,
     required this.onSourceSecondaryAction,
+    this.onSyncCountdownDue,
   });
 
   @override
@@ -33,6 +35,14 @@ class DatasourceProfileCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
+          if (viewModel.refreshing)
+            LinearProgressIndicator(
+              minHeight: 2,
+              backgroundColor: AppColors.bgCard2,
+              color: AppColors.green.withOpacity(0.72),
+            ),
+          if (viewModel.recoverableErrorText != null)
+            _RecoverableErrorBanner(message: viewModel.recoverableErrorText!),
           for (var i = 0; i < viewModel.sources.length; i++) ...[
             _SourceRow(
               source: viewModel.sources[i],
@@ -43,6 +53,7 @@ class DatasourceProfileCard extends StatelessWidget {
                   ? () => onSourceStrategyAction(viewModel.sources[i])
                   : null,
               onEditUrl: () => onSourceSecondaryAction(viewModel.sources[i]),
+              onSyncCountdownDue: onSyncCountdownDue,
             ),
             if (i != viewModel.sources.length - 1) const Divider(height: 1),
           ],
@@ -58,17 +69,54 @@ class DatasourceProfileCard extends StatelessWidget {
   }
 }
 
+class _RecoverableErrorBanner extends StatelessWidget {
+  final String message;
+
+  const _RecoverableErrorBanner({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
+      color: AppColors.amber.withOpacity(0.08),
+      child: Row(
+        children: [
+          Icon(
+            Icons.info_outline_rounded,
+            size: 14,
+            color: AppColors.amber.withOpacity(0.95),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 11,
+                color: AppColors.amber.withOpacity(0.95),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _SourceRow extends StatelessWidget {
   final DatasourceProfileSourceViewModel source;
   final VoidCallback? onAction;
   final VoidCallback? onStrategyAction;
   final VoidCallback onEditUrl;
+  final VoidCallback? onSyncCountdownDue;
 
   const _SourceRow({
     required this.source,
     required this.onAction,
     required this.onStrategyAction,
     required this.onEditUrl,
+    this.onSyncCountdownDue,
   });
 
   bool get _showEditUrl =>
@@ -186,6 +234,7 @@ class _SourceRow extends StatelessWidget {
                             SyncStatusInlineRow(
                               viewModel: source.syncStatus!,
                               muted: source.muted,
+                              onCountdownDue: onSyncCountdownDue,
                             ),
                           ] else if (source.meta != null &&
                               source.meta!.isNotEmpty) ...[

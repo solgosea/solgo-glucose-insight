@@ -8,7 +8,7 @@ class EventAnalysisModule implements AnalysisModule<List<GlucoseEvent>> {
   const EventAnalysisModule();
 
   @override
-  AnalysisModuleCode get code => AnalysisModuleCode.glucoseEvents;
+  AnalysisModuleCode get code => AnalysisModuleCode.highEpisode;
 
   @override
   Future<List<GlucoseEvent>> run(AnalysisContext context) async =>

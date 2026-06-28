@@ -22,6 +22,24 @@ class StatusMonitorTheme {
   static const mono = TextStyle(fontFamily: 'JetBrains Mono');
   static const inter = TextStyle(fontFamily: 'Inter');
 
+  // ----- Responsive -----
+  /// Width at/above which the layout switches to a tablet (two-column) form.
+  /// Matches the app-wide convention used by analysis detail pages.
+  static const tabletBreakpoint = 600.0;
+
+  /// Max content width on phones (single column, centered).
+  static const phoneContentWidth = 520.0;
+
+  /// Max content width on tablets (two columns, centered).
+  static const tabletContentWidth = 980.0;
+
+  static bool isTablet(BuildContext context) =>
+      MediaQuery.sizeOf(context).width >= tabletBreakpoint;
+
+  /// Horizontal page padding, slightly roomier on tablet.
+  static double horizontalGutter(BuildContext context) =>
+      isTablet(context) ? 24 : 20;
+
   static Color colorFor(StatusLevel level) {
     return switch (level) {
       StatusLevel.healthy => green,

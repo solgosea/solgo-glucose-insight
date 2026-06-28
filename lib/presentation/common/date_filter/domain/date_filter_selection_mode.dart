@@ -1,0 +1,4 @@
+enum DateFilterSelectionMode {
+  singleDay,
+  singleOrRange,
+}

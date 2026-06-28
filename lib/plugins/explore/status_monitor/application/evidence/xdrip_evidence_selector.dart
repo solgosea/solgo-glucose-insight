@@ -1,6 +1,7 @@
 import '../../domain/analysis/status_analysis_context.dart';
 import '../../domain/evidence/status_live_reading_evidence.dart';
 import '../../domain/evidence/xdrip_local_evidence.dart';
+import '../../domain/xdrip/xdrip_broadcast_evidence.dart';
 import 'status_evidence_selector.dart';
 
 class XdripEvidenceSelector extends StatusEvidenceSelector {
@@ -13,5 +14,9 @@ class XdripEvidenceSelector extends StatusEvidenceSelector {
 
   XdripLocalEvidence local(StatusAnalysisContext context) {
     return context.evidence.xdripLocalEvidence;
+  }
+
+  XdripBroadcastEvidence broadcast(StatusAnalysisContext context) {
+    return context.evidence.xdripBroadcastEvidence;
   }
 }

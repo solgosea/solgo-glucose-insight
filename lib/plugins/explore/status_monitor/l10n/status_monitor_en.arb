@@ -460,7 +460,7 @@
     "pageFloatingPermissionReady": "Floating permission is ready.",
     "pageEnableFloatingPermission": "Enable floating permission",
     "pageSevenDayHistory": "7-Day History",
-    "pageSevenDayHistorySubtitle": "Each row is one day - 24 cells per row, one per hour - Unknown means not enough recorded status samples to judge",
+    "pageSevenDayHistorySubtitle": "See when each component changed state.",
     "pageToday": "Today",
     "pageMonthJan": "Jan",
     "pageMonthFeb": "Feb",
@@ -680,10 +680,15 @@
     },
     "pageDailySummary7Days": "Daily summary - 7 days",
     "pageHourlyDetail": "Hourly detail",
-    "pageHistoryScopeNote": "History is scoped to the current subject and data source. It records component snapshots from Status Monitor refreshes; Unknown means there was not enough recorded sample data for that hour."
-    ,
+    "pageHistoryScopeNote": "History is scoped to the current subject and data source. It records component snapshots from Status Monitor refreshes; Unknown means there was not enough recorded sample data for that hour.",
+    "pageHistoryLoadingComponent": "Loading history for this component...",
+    "pageHistoryNoComponentData": "No recorded history for this component yet.",
+    "pageHistoryComponentFailed": "Could not load this component history.",
     "pageHistoryReasonRecordedSample": "Recorded sample",
     "pageHistoryReasonCarriedForward": "Carried forward",
     "pageHistoryReasonNoSample": "No sample",
-    "pageHistoryReasonFuture": "Future hour"
+    "pageHistoryReasonFuture": "Future hour",
+    "pageDashboardNavDashboard": "Dashboard",
+    "pageDashboardNavHub": "Hub",
+    "pageDashboardNavChecklist": "Checklist"
 }

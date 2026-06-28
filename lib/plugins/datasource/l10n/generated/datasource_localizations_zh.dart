@@ -71,7 +71,7 @@ class DatasourceLocalizationsZh extends DatasourceLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class DatasourceLocalizationsZhHant extends DatasourceLocalizationsZh {
-  DatasourceLocalizationsZhHant(): super('zh_Hant');
+  DatasourceLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get pluginTitle => '資料來源';

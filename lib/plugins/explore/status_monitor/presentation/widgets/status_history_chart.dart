@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../application/i18n/status_monitor_l10n.dart';
 import '../styles/status_monitor_theme.dart';
 import '../history/models/status_history_view_model.dart';
-import '../history/widgets/status_component_history_card.dart';
+import '../history/widgets/status_component_history_section.dart';
 import '../history/widgets/status_history_scope_note.dart';
 import '../history/widgets/status_history_legend.dart';
 import '../history/widgets/status_history_section_label.dart';
@@ -14,41 +15,22 @@ class StatusHistoryChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.components.isEmpty) {
+    if (viewModel.sections.isEmpty) {
+      if (viewModel.loading) {
+        return StatusEmptyHistory(
+          message: context.statusMonitorL10n.pageHistoryLoadingComponent,
+          loading: true,
+        );
+      }
       return const StatusEmptyHistory();
     }
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                viewModel.title,
-                style: StatusMonitorTheme.inter.copyWith(
-                  color: StatusMonitorTheme.text,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                viewModel.subtitle,
-                style: StatusMonitorTheme.inter.copyWith(
-                  color: StatusMonitorTheme.soft,
-                  fontSize: 12.5,
-                  height: 1.35,
-                ),
-              ),
-            ],
-          ),
-        ),
         const StatusHistoryScopeNote(),
         const StatusHistoryLegend(),
-        for (final component in viewModel.components) ...[
-          StatusHistorySectionLabel(component.title),
-          StatusComponentHistoryCard(component: component),
+        for (final section in viewModel.sections) ...[
+          StatusHistorySectionLabel(section.title),
+          StatusComponentHistorySection(section: section),
         ],
       ],
     );
@@ -56,7 +38,14 @@ class StatusHistoryChart extends StatelessWidget {
 }
 
 class StatusEmptyHistory extends StatelessWidget {
-  const StatusEmptyHistory({super.key});
+  final String? message;
+  final bool loading;
+
+  const StatusEmptyHistory({
+    super.key,
+    this.message,
+    this.loading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +53,31 @@ class StatusEmptyHistory extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(18),
       decoration: StatusMonitorTheme.cardDecoration(),
-      child: Text(
-        'No status changes recorded yet. This page only records component-level changes, not every background refresh.',
-        style: StatusMonitorTheme.inter.copyWith(
-          color: StatusMonitorTheme.soft,
-          fontSize: 13,
-          height: 1.4,
-        ),
+      child: Row(
+        children: [
+          if (loading) ...[
+            const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.2,
+                color: StatusMonitorTheme.green,
+              ),
+            ),
+            const SizedBox(width: 12),
+          ],
+          Expanded(
+            child: Text(
+              message ??
+                  'No status changes recorded yet. This page only records component-level changes, not every background refresh.',
+              style: StatusMonitorTheme.inter.copyWith(
+                color: StatusMonitorTheme.soft,
+                fontSize: 13,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

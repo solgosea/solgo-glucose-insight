@@ -15,12 +15,16 @@ void main() {
     expect(segment.order, 20);
     expect(segment.primaryText, contains('Sensor'));
     expect(segment.primaryText, contains('92'));
+    expect(segment.primaryText, contains('Juggluco'));
+    expect(segment.primaryText, contains('89'));
     expect(segment.primaryText, contains('xDrip+'));
     expect(segment.primaryText, contains('91'));
     expect(segment.primaryText, contains('Nightscout'));
     expect(segment.primaryText, contains('100'));
     expect(segment.primaryText, contains('AAPS'));
     expect(segment.primaryText, contains('88'));
+    expect(segment.primaryText, contains('Watch'));
+    expect(segment.primaryText, contains('90'));
     expect(segment.level, 'healthy');
   });
 }
@@ -37,15 +41,17 @@ StatusReport _report() {
       level: StatusLevel.healthy,
       headline: 'All links are healthy',
       body: 'Status summary',
-      meta: '4 components',
-      healthyCount: 4,
-      totalCount: 4,
+      meta: '6 components',
+      healthyCount: 6,
+      totalCount: 6,
     ),
     components: [
       _component(StatusComponentKind.cgmSensor),
+      _component(StatusComponentKind.juggluco),
       _component(StatusComponentKind.xdrip),
       _component(StatusComponentKind.nightscout),
       _component(StatusComponentKind.aapsLoop),
+      _component(StatusComponentKind.watchDisplay),
     ],
     recentEvents: const [],
     capabilities: const StatusSourceCapabilities.nightscout(),
@@ -64,9 +70,11 @@ ComponentHealth _component(StatusComponentKind kind) {
     score: StatusComponentScore(
       value: switch (kind) {
         StatusComponentKind.cgmSensor => 92,
+        StatusComponentKind.juggluco => 89,
         StatusComponentKind.xdrip => 91,
         StatusComponentKind.nightscout => 100,
         StatusComponentKind.aapsLoop => 88,
+        StatusComponentKind.watchDisplay => 90,
       },
       label: 'Healthy',
       confidence: 1,

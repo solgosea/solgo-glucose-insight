@@ -8,11 +8,15 @@ class DatasourceProfileViewModel {
   final List<DatasourceProfileSourceViewModel> sources;
   final String runtimeLimitationText;
   final String foregroundReconcileLabel;
+  final bool refreshing;
+  final String? recoverableErrorText;
 
   const DatasourceProfileViewModel({
     required this.sources,
     this.runtimeLimitationText = '',
     this.foregroundReconcileLabel = '',
+    this.refreshing = false,
+    this.recoverableErrorText,
   });
 }
 
@@ -33,6 +37,7 @@ class DatasourceProfileSourceViewModel {
   final bool actionEnabled;
   final bool strategyActionEnabled;
   final bool pulsing;
+  final bool checking;
   final bool muted;
 
   const DatasourceProfileSourceViewModel({
@@ -52,6 +57,7 @@ class DatasourceProfileSourceViewModel {
     required this.actionEnabled,
     required this.strategyActionEnabled,
     required this.pulsing,
+    this.checking = false,
     required this.muted,
   });
 }

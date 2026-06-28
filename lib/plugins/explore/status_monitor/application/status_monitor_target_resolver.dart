@@ -1,14 +1,14 @@
-import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target.dart';
-import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target_registry.dart';
-import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target_status.dart';
 import 'package:smart_xdrip/application/data_source/data_source_connection_service.dart';
+import 'package:smart_xdrip/application/sync_target/glucose_sync_target_registry.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
 import 'package:smart_xdrip/domain/subject/analysis_subject.dart';
+import 'package:smart_xdrip/domain/sync_target/glucose_sync_target.dart';
+import 'package:smart_xdrip/domain/sync_target/glucose_sync_target_kind.dart';
 
 import 'status_monitor_target_resolution.dart';
 
 class StatusMonitorTargetResolver {
-  final NightscoutSyncTargetRegistry targetRegistry;
+  final GlucoseSyncTargetRegistry targetRegistry;
   final AppSettings Function() settingsProvider;
 
   const StatusMonitorTargetResolver({
@@ -16,13 +16,13 @@ class StatusMonitorTargetResolver {
     required this.settingsProvider,
   });
 
-  StatusMonitorTargetResolution resolve(AnalysisSubject subject) {
+  Future<StatusMonitorTargetResolution> resolve(AnalysisSubject subject) async {
     if (subject.isSelf) {
       final xdrip = _selfXdripFallback(subject.id);
       if (xdrip != null && xdrip.enabled) return xdrip;
     }
 
-    final enabledTarget = _enabledTargetForSubject(subject.id);
+    final enabledTarget = await _enabledTargetForSubject(subject.id);
     if (enabledTarget != null) {
       return _nightscoutResolution(subject.id, enabledTarget);
     }
@@ -32,18 +32,13 @@ class StatusMonitorTargetResolver {
       if (xdrip != null) return xdrip;
     }
 
-    final target = _disabledOrLatestTargetForSubject(subject.id);
-    if (target != null) {
-      return _nightscoutResolution(subject.id, target);
-    }
-
     return StatusMonitorTargetResolution.none(subjectId: subject.id);
   }
 
-  StatusMonitorTargetResolution? resolveEnabledNightscout(
+  Future<StatusMonitorTargetResolution?> resolveEnabledNightscout(
     AnalysisSubject subject,
-  ) {
-    final target = _enabledTargetForSubject(subject.id);
+  ) async {
+    final target = await _enabledTargetForSubject(subject.id);
     if (target == null) return null;
     return _nightscoutResolution(subject.id, target);
   }
@@ -54,44 +49,32 @@ class StatusMonitorTargetResolver {
     return _selfXdripFallback(subject.id);
   }
 
-  NightscoutSyncTarget? _enabledTargetForSubject(String subjectId) {
-    final targets = targetRegistry.targetsForSubject(subjectId);
-    if (targets.isEmpty) return null;
-    final active = targets.where((target) => target.enabled).toList();
-    return active.isEmpty ? null : _latest(active);
-  }
-
-  NightscoutSyncTarget? _disabledOrLatestTargetForSubject(String subjectId) {
-    final targets = targetRegistry.targetsForSubject(subjectId);
-    if (targets.isEmpty) return null;
-    final disabled = targets
-        .where((target) => target.status == NightscoutSyncTargetStatus.disabled)
-        .toList();
-    if (disabled.isNotEmpty) return _latest(disabled);
-    return _latest(targets);
-  }
-
-  NightscoutSyncTarget _latest(List<NightscoutSyncTarget> targets) {
-    return targets.reduce(
-      (a, b) => a.updatedAt.isAfter(b.updatedAt) ? a : b,
-    );
+  Future<GlucoseSyncTarget?> _enabledTargetForSubject(String subjectId) async {
+    final targets = await targetRegistry.targetsFor(settingsProvider());
+    for (final target in targets) {
+      if (target.subjectId != subjectId) continue;
+      if (target.kind == GlucoseSyncTargetKind.selfNightscout ||
+          target.kind == GlucoseSyncTargetKind.remoteNightscout) {
+        return target;
+      }
+    }
+    return null;
   }
 
   StatusMonitorTargetResolution _nightscoutResolution(
     String subjectId,
-    NightscoutSyncTarget target,
+    GlucoseSyncTarget target,
   ) {
     return StatusMonitorTargetResolution(
       subjectId: subjectId,
       sourceKind: StatusMonitorTargetSourceKind.nightscout,
       targetId: target.targetId,
       sourceLabel: target.label,
-      baseUrl: target.normalizedUrl,
-      token: target.accessToken,
+      baseUrl: target.metadata.nightscoutUrl,
+      token: target.metadata.accessToken,
       enabled: target.enabled,
       unavailableReason:
           target.enabled ? null : '${target.label} is configured but disabled.',
-      target: target,
     );
   }
 

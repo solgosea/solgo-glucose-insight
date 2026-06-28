@@ -7,10 +7,12 @@ class StatisticsPeriodSectionBuilder {
   StatisticsPeriodSection build({
     required StatisticsAnalysisWindow selectedWindow,
     required List<StatisticsAnalysisWindow> windows,
+    String? rangeLabel,
   }) {
     return StatisticsPeriodSection(
       selectedWindow: selectedWindow,
       metricsHeader: 'KEY METRICS - ${selectedWindow.headerLabel}',
+      rangeLabel: rangeLabel,
       options: windows
           .map(
             (window) => StatisticsPeriodOption(

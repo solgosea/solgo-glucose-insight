@@ -21,6 +21,7 @@ class SyncStatusCompactPanel extends StatelessWidget {
       children: [
         SyncStatusChip(viewModel: viewModel),
         if (viewModel.syncCountLabel.isNotEmpty ||
+            viewModel.scheduleLabel.isNotEmpty ||
             viewModel.countdownLabel.isNotEmpty ||
             viewModel.nextSyncAt != null) ...[
           const SizedBox(height: 5),

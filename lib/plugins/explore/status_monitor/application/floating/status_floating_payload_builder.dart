@@ -24,9 +24,11 @@ class StatusFloatingPayloadBuilder {
     final stale = age > staleAfter;
     final components = [
       _component(report.component(StatusComponentKind.cgmSensor)),
+      _component(report.component(StatusComponentKind.juggluco)),
       _component(report.component(StatusComponentKind.xdrip)),
       _component(report.component(StatusComponentKind.nightscout)),
       _component(report.component(StatusComponentKind.aapsLoop)),
+      _component(report.component(StatusComponentKind.watchDisplay)),
     ];
     return StatusFloatingPayload(
       level: report.summary.level,
@@ -68,9 +70,11 @@ class StatusFloatingPayloadBuilder {
   String _shortName(StatusComponentKind kind) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => 'Sensor',
+      StatusComponentKind.juggluco => 'Juggluco',
       StatusComponentKind.xdrip => 'xDrip+',
       StatusComponentKind.nightscout => 'Nightscout',
       StatusComponentKind.aapsLoop => 'AAPS',
+      StatusComponentKind.watchDisplay => 'Watch',
     };
   }
 

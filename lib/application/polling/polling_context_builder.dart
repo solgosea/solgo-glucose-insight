@@ -40,6 +40,9 @@ class PollingContextBuilder {
       latestGlucoseValue: latest?.value,
       latestRatePerMin: latest?.ratePerMin,
       consecutiveFailures: _failureCount(sourceState),
+      normalSyncInterval: Duration(
+        minutes: settings.syncIntervalMinutes.clamp(1, 5),
+      ),
     );
   }
 

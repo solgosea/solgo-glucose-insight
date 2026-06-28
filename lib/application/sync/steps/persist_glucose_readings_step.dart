@@ -9,12 +9,14 @@ class PersistGlucoseReadingsStep extends GlucoseSyncStep {
   @override
   Future<void> execute(GlucoseSyncContext context) async {
     if (context.readings.isEmpty) return;
-    context.etlResult = await GlucoseEtlPipeline(
-      database: context.database,
-    ).run(
-      source: context.sourceKey,
-      readings: context.readings,
-      subjectId: context.subjectId,
+    context.etlResult = await context.runPersistence(
+      () => GlucoseEtlPipeline(
+        database: context.database,
+      ).run(
+        source: context.sourceKey,
+        readings: context.readings,
+        subjectId: context.subjectId,
+      ),
     );
   }
 }

@@ -1,5 +1,3 @@
-import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target.dart';
-
 enum StatusMonitorTargetSourceKind {
   nightscout,
   xdripLocal,
@@ -15,7 +13,6 @@ class StatusMonitorTargetResolution {
   final String? token;
   final bool enabled;
   final String? unavailableReason;
-  final NightscoutSyncTarget? target;
 
   const StatusMonitorTargetResolution({
     required this.subjectId,
@@ -26,7 +23,6 @@ class StatusMonitorTargetResolution {
     this.token,
     this.enabled = false,
     this.unavailableReason,
-    this.target,
   });
 
   bool get hasConfiguredSource =>
@@ -41,6 +37,5 @@ class StatusMonitorTargetResolution {
         sourceLabel = 'No source',
         baseUrl = null,
         token = null,
-        enabled = false,
-        target = null;
+        enabled = false;
 }

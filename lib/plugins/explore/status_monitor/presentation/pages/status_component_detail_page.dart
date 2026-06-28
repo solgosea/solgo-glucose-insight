@@ -7,9 +7,11 @@ import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dar
 import '../../domain/cgm_sensor/cgm_sensor_detail_data.dart';
 import '../../domain/aaps/aaps_detail_data.dart';
 import '../../domain/detail/status_signal_summary.dart';
+import '../../domain/juggluco/juggluco_detail_data.dart';
 import '../../domain/nightscout/nightscout_detail_data.dart';
 import '../../domain/status_component_kind.dart';
 import '../../domain/status_level.dart';
+import '../../domain/watch/watch_detail_data.dart';
 import '../../domain/xdrip/xdrip_detail_data.dart';
 import '../../l10n/generated/status_monitor_localizations.dart';
 import '../../runtime/status_monitor_runtime.dart';
@@ -19,12 +21,14 @@ import '../../application/i18n/status_monitor_l10n.dart';
 import '../aaps/widgets/aaps_detail_body.dart';
 import '../cgm_sensor/widgets/cgm_sensor_detail_body.dart';
 import '../controllers/status_component_detail_controller.dart';
+import '../juggluco/widgets/juggluco_detail_body.dart';
 import '../nightscout/widgets/nightscout_detail_body.dart';
 import '../styles/status_monitor_theme.dart';
 import '../widgets/status_direction_card.dart';
 import '../widgets/detail/status_detail_shared_widgets.dart';
 import '../widgets/status_metric_card.dart';
 import '../widgets/status_monitor_page_header.dart';
+import '../watch/widgets/watch_detail_body.dart';
 import '../xdrip/widgets/xdrip_detail_body.dart';
 
 class StatusComponentDetailPage extends StatefulWidget {
@@ -84,19 +88,31 @@ class _StatusComponentDetailPageState extends State<StatusComponentDetailPage> {
                       );
                     }
                     final l10n = context.statusMonitorL10n;
+                    final isJuggluco =
+                        vm.component.kind == StatusComponentKind.juggluco;
+                    final isWatch =
+                        vm.component.kind == StatusComponentKind.watchDisplay;
                     return ListView(
                       padding: const EdgeInsets.only(bottom: 32),
                       children: [
                         StatusMonitorPageHeader(
                           eyebrow: l10n.pluginTitle,
                           title: _componentTitle(vm.component.kind, l10n),
-                          subtitle: _modePill(vm.component.kind, l10n),
+                          subtitle: isJuggluco
+                              ? null
+                              : _modePill(vm.component.kind, l10n),
                           onBack: () => context.pop(),
+                          compact: isJuggluco,
+                          trailing: isJuggluco ? const _ModePill() : null,
                         ),
-                        _Hero(component: vm.component),
+                        if (!isJuggluco && !isWatch)
+                          _Hero(component: vm.component),
                         if (vm.component.kind ==
                             StatusComponentKind.cgmSensor) ...[
                           CgmSensorDetailBody(component: vm.component),
+                        ] else if (vm.component.kind ==
+                            StatusComponentKind.juggluco) ...[
+                          JugglucoDetailBody(component: vm.component),
                         ] else if (vm.component.kind ==
                             StatusComponentKind.xdrip) ...[
                           XdripDetailBody(component: vm.component),
@@ -106,6 +122,9 @@ class _StatusComponentDetailPageState extends State<StatusComponentDetailPage> {
                         ] else if (vm.component.kind ==
                             StatusComponentKind.aapsLoop) ...[
                           AapsDetailBody(component: vm.component),
+                        ] else if (vm.component.kind ==
+                            StatusComponentKind.watchDisplay) ...[
+                          WatchDetailBody(component: vm.component),
                         ] else ...[
                           _SectionLabel(l10n.pageCurrentReadings),
                           Padding(
@@ -126,10 +145,12 @@ class _StatusComponentDetailPageState extends State<StatusComponentDetailPage> {
                             ),
                           ),
                         ],
-                        _SectionLabel(l10n.pagePossibleDirections),
-                        StatusDirectionCard(
-                          directions: vm.component.directions,
-                        ),
+                        if (!isJuggluco && !isWatch) ...[
+                          _SectionLabel(l10n.pagePossibleDirections),
+                          StatusDirectionCard(
+                            directions: vm.component.directions,
+                          ),
+                        ],
                         if (vm.component.kind == StatusComponentKind.aapsLoop)
                           const AapsSafetyNotice(),
                       ],
@@ -147,9 +168,11 @@ class _StatusComponentDetailPageState extends State<StatusComponentDetailPage> {
   ) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => l10n.pageModeReadingsQuality,
+      StatusComponentKind.juggluco => 'Primary path',
       StatusComponentKind.xdrip => l10n.pageModeLocalService,
       StatusComponentKind.nightscout => l10n.pageModeNightscoutApi,
       StatusComponentKind.aapsLoop => l10n.pageModeNightscoutEvidence,
+      StatusComponentKind.watchDisplay => 'Display bridge',
     };
   }
 
@@ -159,10 +182,37 @@ class _StatusComponentDetailPageState extends State<StatusComponentDetailPage> {
   ) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => l10n.pageComponentCgmSensor,
+      StatusComponentKind.juggluco => 'Juggluco',
       StatusComponentKind.xdrip => l10n.pageComponentXdrip,
       StatusComponentKind.nightscout => l10n.pageComponentNightscout,
       StatusComponentKind.aapsLoop => l10n.pageComponentAapsLoop,
+      StatusComponentKind.watchDisplay => 'Watch display',
     };
+  }
+}
+
+class _ModePill extends StatelessWidget {
+  const _ModePill();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+      decoration: BoxDecoration(
+        color: StatusMonitorTheme.teal.withOpacity(.09),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: StatusMonitorTheme.teal.withOpacity(.30)),
+      ),
+      child: Text(
+        'PRIMARY PATH',
+        style: StatusMonitorTheme.mono.copyWith(
+          color: StatusMonitorTheme.teal,
+          fontSize: 10,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 1,
+        ),
+      ),
+    );
   }
 }
 
@@ -321,9 +371,11 @@ class _Hero extends StatelessWidget {
   IconData _iconFor(StatusComponentKind kind) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => Icons.sensors_rounded,
+      StatusComponentKind.juggluco => Icons.sensors_rounded,
       StatusComponentKind.xdrip => Icons.phone_android_rounded,
       StatusComponentKind.nightscout => Icons.cloud_queue_rounded,
       StatusComponentKind.aapsLoop => Icons.all_inclusive_rounded,
+      StatusComponentKind.watchDisplay => Icons.watch_rounded,
     };
   }
 
@@ -353,6 +405,16 @@ class _Hero extends StatelessWidget {
           ) ??
           component.summary;
     }
+    if (component.kind == StatusComponentKind.juggluco) {
+      return _ageValue(
+              _signalValue(component, 'juggluco_broadcast_freshness'), l10n) ??
+          component.summary;
+    }
+    if (component.kind == StatusComponentKind.watchDisplay) {
+      return _ageValue(
+              _signalValue(component, 'watch.display.evidence'), l10n) ??
+          component.summary;
+    }
     return component.summary;
   }
 
@@ -362,9 +424,11 @@ class _Hero extends StatelessWidget {
   ) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => l10n.pageComponentCgmSensor,
+      StatusComponentKind.juggluco => 'Juggluco',
       StatusComponentKind.xdrip => l10n.pageComponentXdrip,
       StatusComponentKind.nightscout => l10n.pageComponentNightscout,
       StatusComponentKind.aapsLoop => l10n.pageComponentAapsLoop,
+      StatusComponentKind.watchDisplay => 'Watch display',
     };
   }
 
@@ -376,7 +440,9 @@ class _Hero extends StatelessWidget {
       StatusComponentKind.xdrip => l10n.metricLastReadingFreshness,
       StatusComponentKind.nightscout => l10n.metricLatestServerReading,
       StatusComponentKind.cgmSensor => l10n.pageLatestSensorReadingObserved,
+      StatusComponentKind.juggluco => 'Latest Juggluco broadcast',
       StatusComponentKind.aapsLoop => l10n.metricLatestAapsContext,
+      StatusComponentKind.watchDisplay => 'Latest watch evidence',
     };
   }
 
@@ -388,7 +454,9 @@ class _Hero extends StatelessWidget {
       StatusComponentKind.xdrip => l10n.pageConfidenceAvailableMetrics,
       StatusComponentKind.nightscout => l10n.pageConfidenceAvailableEndpoints,
       StatusComponentKind.cgmSensor => l10n.pageConfidenceAvailableContext,
+      StatusComponentKind.juggluco => 'Primary path evidence',
       StatusComponentKind.aapsLoop => l10n.pageConfidenceNightscoutEvidence,
+      StatusComponentKind.watchDisplay => 'Display evidence',
     };
   }
 
@@ -426,9 +494,11 @@ class _Hero extends StatelessWidget {
   List<StatusSignalSummary> _signalsFor(dynamic component) {
     final data = component.detailData;
     if (data is CgmSensorDetailData) return data.signals;
+    if (data is JugglucoDetailData) return data.signals;
     if (data is XdripDetailData) return data.signals;
     if (data is NightscoutDetailData) return data.signals;
     if (data is AapsDetailData) return data.signals;
+    if (data is WatchDetailData) return data.signals;
     return const [];
   }
 }

@@ -57,6 +57,7 @@ class StatisticsEngine {
       periodSection: periodSectionBuilder.build(
         selectedWindow: input.selectedWindow,
         windows: input.windows,
+        rangeLabel: input.rangeLabel,
       ),
       metricsSection: metricsSectionBuilder.build(
         current: currentTir,

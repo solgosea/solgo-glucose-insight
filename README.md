@@ -1,199 +1,115 @@
 # Solgo Insight Community Preview
 
-**Solgo Insight is an open-source CGM companion app for people who already use
-[xDrip+](https://github.com/NightscoutFoundation/xDrip) and
-[Nightscout](https://github.com/nightscout/cgm-remote-monitor).**
+> **Not a medical device.** Solgo Insight is a personal CGM companion app for review, troubleshooting, and daily data understanding. It does not diagnose, treat, cure, or prevent disease. Do not make treatment decisions based only on this app. Always use your CGM official app, xDrip+, Nightscout, pump/AAPS tools, and professional medical advice as appropriate.
 
-It helps users review, understand, and discuss the glucose data they already
-collect. Solgo Insight is not an official xDrip+ project, not a fork of xDrip+,
-and not a replacement for xDrip+, Nightscout, CGM manufacturer apps, pump
-systems, or medical alert workflows.
-
-> Previously published under an earlier preview name. The project was renamed
-> to Solgo Insight to make its companion-app position clearer.
+Solgo Insight is built as a companion around the glucose data people already collect through tools such as **xDrip+** and **Nightscout**. The community preview focuses on making that data easier to review, explain, and troubleshoot without replacing the collector or existing diabetes workflow.
 
 ## Download
 
-**Latest packaged Android APK:**  
-https://github.com/solgosea/solgo-glucose-insight/releases/download/v0.5.0-community-preview/solgo-insight-community-preview-v0.5.0-android.apk
+Latest community preview:
 
-Latest packaged preview: **v0.5.0 Community Preview**
+**Android APK:** https://github.com/solgosea/solgo-glucose-insight/releases/download/v0.6.0/solgo-insight-community-preview-v0.6.0-android.apk
 
-This repository branch now includes the next community-preview code update,
-focused on multilingual foundations, report architecture, Low / High Episode
-reporting, Status Monitor beta, and Float Widget sizing improvements.
+If Android blocks the APK, uninstalling an older preview build may be required before installing the new one. Local app settings may be removed by uninstalling, but glucose history can be synced again from the configured source.
 
-## What This Update Adds
+## Preview
 
-This update is not only a screen update. It introduces several foundations that
-make Solgo Insight easier to grow from community feedback.
+![Solgo Insight v0.6.0 preview](docs/assets/release/v0.6.0/00-v0.6.0-showcase-3up.png)
 
-### 1. Multilingual Architecture
+## v0.6.0 Major Update
 
-Solgo Insight now has a broader localization foundation for app-level text and
-plugin-level text. The goal is to make future language support practical
-without hardcoding every feature page.
+This release is a major update around three areas:
 
-This matters because many CGM users are not native English speakers, and the app
-should become easier to understand across different communities.
+### Smart Sync
 
-### 2. Report Layer Architecture
+The data sync layer has been optimized again. Solgo Insight can switch sync behavior based on time windows, perform incremental sync for recent data, and use the sync window configured in Settings.
 
-The new Report Layer separates structured analysis data from the final output
-format. Feature plugins can provide report snapshots, while the host app can
-render them as app pages, PDF-ready views, shareable summaries, or future export
-formats.
+This gives Home, History, Stats, Reports, and Status Monitor a more consistent data foundation.
 
-The direction is:
+### Smart Date Selection
 
-```text
-Glucose Data
-    |
-    v
-Analysis Engine
-    |
-    v
-Report Snapshot
-    |
-    v
-Report Runtime
-    |
-    v
-App View / PDF / Share Summary
-```
+Date selection has been updated across the app. Common review windows and custom date ranges are handled through a more consistent shared model, so analysis and report pages can feel less fragmented.
 
-The report layer is designed for personal review and discussion. It does not
-provide diagnosis, dosing advice, or treatment instructions.
+### Status Monitor
 
-### 3. Low / High Episode Report Analysis
+Status Monitor is now implemented as a complete beta feature:
 
-Low Episode and High Episode analysis now move beyond a simple event list.
+- probe setup
+- xDrip-centered connection health analysis
+- component-level monitoring
+- Status Monitor report output
+- support for practical checks around xDrip+, Nightscout, Juggluco, AAPS, and watch display paths where evidence is available
 
-The new structure focuses on:
+The purpose is to help users understand where to look first when the glucose data chain stops working or becomes delayed.
 
-- episode duration
-- peak or nadir
-- recovery behavior
-- repeat pattern
-- burden and exposure
-- reliability of the data window
-- report-ready summaries
+Read the full release notes: [Solgo Insight v0.6.0 Major Update](docs/releases/v0.6.0.md)
 
-These views are intended to help users and caregivers discuss what happened,
-not to replace clinical judgment.
+## Included Preview Scope
 
-### 4. Status Monitor Beta
+- **Home / History / Stats**: core daily glucose review surfaces.
+- **High / Low Episode review**: richer episode analysis and report-ready summaries.
+- **Report Layer**: structured reports for review and sharing.
+- **Glance surfaces**: Android widgets, floating glance improvements, and compact status surfaces.
+- **Local alerts**: on-device glucose alert support.
+- **Multilingual architecture**: foundation for wider language support.
 
-Status Monitor beta is a troubleshooting-oriented plugin for users whose data
-chain depends on several moving parts, for example:
+## Product Direction
 
-```text
-CGM sensor -> xDrip+ -> Nightscout -> other apps or followers
-```
+Solgo Insight is not trying to become a new CGM collector in this preview. The goal is to sit beside existing ecosystem tools and help users understand:
 
-The beta version tries to make the chain less of a black box by checking whether
-each part looks fresh, delayed, stale, or unavailable.
+- Is my latest glucose value fresh?
+- Where did the data come from?
+- Did xDrip+ receive local data?
+- Is Nightscout reachable or delayed?
+- Are downstream tools such as watch displays or AAPS likely receiving usable data?
+- What happened during recent high or low episodes?
 
-It is not an alarm system and not a diagnostic tool. It is a quick health-check
-surface that can help users know where to look first.
-
-### 5. Float Widget Sizing Improvements
-
-The Float Widget / Glance Layer has been adjusted to support better sizing and
-display behavior. This is based on community feedback that quick-glance surfaces
-need to be readable, compact, and practical during daily use.
-
-## Preview Screenshots
-
-![Solgo Insight community preview showcase](docs/assets/release/status-monitor-beta/00-release-core-showcase-4up.png)
-
-![Solgo Insight Status Monitor beta showcase](docs/assets/release/status-monitor-beta/00-status-monitor-showcase-4up.png)
-
-## Current Public Preview Scope
-
-The current public preview includes:
-
-- Home view with current glucose, trend, range, TIR, and quick insights.
-- History view with daily review, chart inspection, and high/low episode entry points.
-- Stats view for TIR, variability, AGP-style overview, and selectable time windows.
-- Insights view for readable glucose pattern summaries.
-- High Episode and Low Episode analysis.
-- Report Layer foundation and report-ready analysis pages.
-- Status Monitor beta for data-chain troubleshooting.
-- xDrip+ Local and Nightscout data source setup.
-- Background sync foundation for keeping data fresh.
-- Local glucose alert engine, disabled by default.
-- Glance Layer: Android widgets, floating glance, and lock-screen friendly notification text.
-
-The public repository intentionally does **not** include unreleased or
-experimental plugins outside this preview scope.
-
-## Architecture
-
-Solgo Insight is built around a **host + plugin architecture**.
-
-The host app provides shared foundations such as data source coordination,
-sync runtime, local storage, app settings, unit conversion, plugin lifecycle,
-background runtime, alert runtime foundation, localization, and report runtime.
-
-Feature plugins then build user-facing experiences on top of those shared
-services.
-
-![Solgo Insight v0.4.0 architecture](docs/assets/release/v0.4.0/architecture.png)
-
-For more details, see [Architecture Notes](docs/architecture.md).
-
-## Data Source Setup
-
-Solgo Insight can use xDrip+ Local or Nightscout as data sources.
-
-For xDrip+ Local setup, see the
-[xDrip+ Local Connection Guide](docs/xdrip-local-connection-guide.md).
-
-## Community
-
-Solgo Insight is shaped by community feedback.
-
-Join the Reddit community to share feedback, report issues, discuss feature
-ideas, and follow updates:
-
-https://www.reddit.com/r/SolgoInsight/
-
-## Demo
-
-**Demo video:**  
-https://www.youtube.com/watch?v=UfjxgaeEwZA
-
-**Playlist:**  
-https://www.youtube.com/watch?v=QZl0NSckXYI&list=PLKDhx_9jUu-74px9PGC62dwRQwsXWhLxi
-
-## FAQ
-
-Have questions about local xDrip+ data, Nightscout, widget sizes, delta
-differences, or whether Solgo Insight replaces xDrip+?
-
-See the [Solgo Insight FAQ](docs/faq.md).
+The long-term direction is a companion layer for daily review, caregiver support, troubleshooting, and practical insight.
 
 ## Privacy
 
-- No Solgo Insight account is required for the community preview.
+- No account is required for the community preview.
 - Glucose data is stored locally on the device.
-- Network calls are made only to data sources you configure, such as xDrip+
-  Local or your own Nightscout site.
-- This repository does not include telemetry or advertising SDKs.
+- Network calls are made only to data sources the user configures, such as their own Nightscout URL or local xDrip+ endpoint.
+- API secrets are stored with platform secure storage where supported.
+- Users choose what to export or share.
 
-## Medical Disclaimer
+## Data Sources
 
-Solgo Insight is not a medical device. It is for personal data review,
-education, and community feedback. Do not make treatment decisions based only
-on this app. Always follow your care plan and consult qualified healthcare
-professionals.
+Supported preview paths include:
 
-## Development
+- xDrip+ Local / xDrip+ service evidence where available
+- Nightscout API
+- Juggluco-related evidence for Status Monitor scenarios
+- Built-in mock/demo data for development and testing
+
+The exact available checks depend on how each external app is configured.
+
+## Build From Source
 
 ```bash
 flutter pub get
 flutter run -d android
 ```
 
-This public preview is Android-first.
+For release signing, copy:
+
+```text
+android/key.properties.example
+```
+
+to:
+
+```text
+android/key.properties
+```
+
+and fill in your own local signing values. Do not commit private signing files.
+
+## Project Scope
+
+This repository contains the public community preview scope. Some experimental or internal modules are intentionally not included in this build. The current public scope is centered on glucose review, high/low episode analysis, reporting, local alerts, glance surfaces, and Status Monitor beta.
+
+## Respect For The Ecosystem
+
+Solgo Insight depends on the work and ideas of the wider diabetes technology community. It is designed to complement, not replace, projects such as xDrip+, Nightscout, AAPS, Juggluco, WatchDrip, and CGM manufacturer apps.

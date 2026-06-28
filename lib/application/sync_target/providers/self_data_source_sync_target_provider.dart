@@ -3,6 +3,8 @@ import '../../../domain/entities/app_settings.dart';
 import '../../../domain/subject/glucose_subject.dart';
 import '../../../domain/sync_target/glucose_sync_target.dart';
 import '../../../domain/sync_target/glucose_sync_target_kind.dart';
+import '../../../domain/sync_target/glucose_sync_target_owner.dart';
+import '../../../domain/sync_target/glucose_sync_target_source_metadata.dart';
 import '../../sync_strategy/data_source_sync_strategy_registry.dart';
 import '../glucose_sync_target_provider.dart';
 
@@ -26,6 +28,8 @@ class SelfDataSourceSyncTargetProvider implements GlucoseSyncTargetProvider {
           kind: _kindFor(strategy.kind),
           source: strategy.buildSource(settings),
           primaryHistory: strategy.kind == DataSourceKind.nightscout,
+          owner: GlucoseSyncTargetOwner.self,
+          metadata: _metadataFor(settings, strategy.kind),
         ),
       );
     }
@@ -43,6 +47,19 @@ class SelfDataSourceSyncTargetProvider implements GlucoseSyncTargetProvider {
     return switch (kind) {
       DataSourceKind.xdripLocal => 'Self xDrip+ Local',
       DataSourceKind.nightscout => 'Self Nightscout',
+    };
+  }
+
+  GlucoseSyncTargetSourceMetadata _metadataFor(
+    AppSettings settings,
+    DataSourceKind kind,
+  ) {
+    return switch (kind) {
+      DataSourceKind.nightscout => GlucoseSyncTargetSourceMetadata(
+          nightscoutUrl: settings.nightscoutBaseUrl,
+          accessToken: settings.nightscoutToken,
+        ),
+      DataSourceKind.xdripLocal => const GlucoseSyncTargetSourceMetadata(),
     };
   }
 }

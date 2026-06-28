@@ -35,9 +35,12 @@ class SettingsViewModelMapper {
         rows: [
           SettingsRowViewModel(
             icon: Icons.sync_rounded,
-            label: l10n.settingsInitialSyncWindowLabel,
-            subtitle: l10n.settingsInitialSyncWindowSubtitle,
-            valueLabel: '${settings.initialSyncDays} ${l10n.settingsDaysSuffix}',
+            label: l10n.settingsSyncWindowLabel,
+            subtitle: l10n.settingsSyncWindowSubtitle,
+            valueLabel: l10n.settingsSyncWindowValue(
+              settings.initialSyncDays,
+              settings.syncIntervalMinutes,
+            ),
             chevron: true,
             action: SettingsAction.pickInitialSyncWindow,
           ),
@@ -45,7 +48,8 @@ class SettingsViewModelMapper {
       ),
       storage: SettingsStorageViewModel(
         title: l10n.settingsLocalStorageTitle,
-        usedLabel: '${_formatBytes(analysis.dbBytes)} ${l10n.settingsStorageUsed}',
+        usedLabel:
+            '${_formatBytes(analysis.dbBytes)} ${l10n.settingsStorageUsed}',
         leftLabel: '0',
         coveredLabel: '${analysis.daysCovered} ${l10n.settingsDaysCovered}',
         maxLabel: '${settings.retentionDays} ${l10n.settingsDaysMax}',

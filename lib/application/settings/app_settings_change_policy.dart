@@ -49,7 +49,7 @@ class AppSettingsChangePolicy {
           change.thresholdChanged || change.insightPreferenceChanged,
       applyRepositorySettings: sourceOrSyncChanged,
       syncBackgroundService: sourceOrSyncChanged,
-      updateForegroundPolling: change.dataSourceConfigChanged,
+      updateForegroundPolling: sourceOrSyncChanged,
       updateRuntime: change.dataSourceConfigChanged,
     );
   }

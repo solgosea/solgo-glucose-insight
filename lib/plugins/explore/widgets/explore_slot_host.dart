@@ -19,4 +19,3 @@ class ExploreSlotHost extends StatelessWidget {
     );
   }
 }
-

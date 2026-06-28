@@ -27,7 +27,7 @@ import 'glucose_tables.dart';
 
 class GlucoseDatabase {
   static const _dbName = 'smart_xdrip.db';
-  static const _dbVersion = 9;
+  static const _dbVersion = 10;
   final DatabaseFactory? databaseFactoryOverride;
   final String? databasePathOverride;
 
@@ -76,6 +76,7 @@ class GlucoseDatabase {
         await _createV7(database);
         await _createV8(database);
         await _createV9(database);
+        await _createV10(database);
       },
       onUpgrade: (database, oldVersion, newVersion) async {
         if (oldVersion < 2) {
@@ -101,6 +102,9 @@ class GlucoseDatabase {
         }
         if (oldVersion < 9) {
           await _createV9(database);
+        }
+        if (oldVersion < 10) {
+          await _createV10(database);
         }
       },
     );
@@ -273,6 +277,9 @@ class GlucoseDatabase {
         last_error TEXT,
         last_fetched_count INTEGER,
         last_stored_count INTEGER,
+        covered_from_ms INTEGER,
+        covered_to_ms INTEGER,
+        sync_window_days INTEGER,
         updated_at_ms INTEGER NOT NULL,
         PRIMARY KEY(subject_id, source_key)
       )
@@ -452,6 +459,27 @@ class GlucoseDatabase {
       database,
       sourceStateTable,
       'last_stored_count',
+      'INTEGER',
+    );
+  }
+
+  Future<void> _createV10(Database database) async {
+    await _addColumnIfMissing(
+      database,
+      sourceStateTable,
+      'covered_from_ms',
+      'INTEGER',
+    );
+    await _addColumnIfMissing(
+      database,
+      sourceStateTable,
+      'covered_to_ms',
+      'INTEGER',
+    );
+    await _addColumnIfMissing(
+      database,
+      sourceStateTable,
+      'sync_window_days',
       'INTEGER',
     );
   }
@@ -740,15 +768,18 @@ class GlucoseDatabase {
         last_error TEXT,
         last_fetched_count INTEGER,
         last_stored_count INTEGER,
+        covered_from_ms INTEGER,
+        covered_to_ms INTEGER,
+        sync_window_days INTEGER,
         updated_at_ms INTEGER NOT NULL,
         PRIMARY KEY(subject_id, source_key)
       )
     ''');
     await db.execute('''
       INSERT OR REPLACE INTO $sourceStateTable
-      (subject_id, source_key, last_success_at_ms, last_attempt_at_ms, last_cursor, last_error, last_fetched_count, last_stored_count, updated_at_ms)
+      (subject_id, source_key, last_success_at_ms, last_attempt_at_ms, last_cursor, last_error, last_fetched_count, last_stored_count, covered_from_ms, covered_to_ms, sync_window_days, updated_at_ms)
       SELECT '${GlucoseSubject.selfId}', source_key, last_success_at_ms, last_attempt_at_ms,
-             last_cursor, last_error, NULL, NULL, updated_at_ms
+             last_cursor, last_error, NULL, NULL, NULL, NULL, NULL, updated_at_ms
       FROM ${sourceStateTable}_v5
     ''');
     await db.execute('DROP TABLE ${sourceStateTable}_v5');
@@ -830,6 +861,11 @@ class GlucoseDatabase {
     String subjectId = GlucoseSubject.selfId,
   }) =>
       readings.latest(subjectId: subjectId);
+
+  Future<GlucoseReading?> earliest({
+    String subjectId = GlucoseSubject.selfId,
+  }) =>
+      readings.earliest(subjectId: subjectId);
 
   Future<GlucoseReading?> latestAnySubject() => readings.latestAnySubject();
 
@@ -992,6 +1028,9 @@ class GlucoseDatabase {
     String subjectId = GlucoseSubject.selfId,
     int? fetchedCount,
     int? storedCount,
+    DateTime? coveredFrom,
+    DateTime? coveredTo,
+    int? syncWindowDays,
   }) =>
       sourceState.recordSuccess(
         sourceKey,
@@ -999,6 +1038,9 @@ class GlucoseDatabase {
         subjectId: subjectId,
         fetchedCount: fetchedCount,
         storedCount: storedCount,
+        coveredFrom: coveredFrom,
+        coveredTo: coveredTo,
+        syncWindowDays: syncWindowDays,
       );
 
   Future<void> recordSourceError(

@@ -15,6 +15,7 @@ class FakeGlucoseSource implements IGlucoseSource {
   int latestCalls = 0;
   DateTime? lastRangeFrom;
   DateTime? lastRangeTo;
+  final rangeWindows = <({DateTime from, DateTime to})>[];
 
   FakeGlucoseSource({
     required this.type,
@@ -58,6 +59,7 @@ class FakeGlucoseSource implements IGlucoseSource {
     rangeCalls += 1;
     lastRangeFrom = from;
     lastRangeTo = to;
+    rangeWindows.add((from: from, to: to));
     final error = rangeError;
     if (error != null) throw error;
     return readings

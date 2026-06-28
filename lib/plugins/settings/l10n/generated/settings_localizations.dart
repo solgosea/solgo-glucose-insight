@@ -62,15 +62,18 @@ import 'settings_localizations_zh.dart';
 /// be consistent with the languages listed in the SettingsLocalizations.supportedLocales
 /// property.
 abstract class SettingsLocalizations {
-  SettingsLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  SettingsLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static SettingsLocalizations of(BuildContext context) {
-    return Localizations.of<SettingsLocalizations>(context, SettingsLocalizations)!;
+    return Localizations.of<SettingsLocalizations>(
+        context, SettingsLocalizations)!;
   }
 
-  static const LocalizationsDelegate<SettingsLocalizations> delegate = _SettingsLocalizationsDelegate();
+  static const LocalizationsDelegate<SettingsLocalizations> delegate =
+      _SettingsLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class SettingsLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -201,7 +205,7 @@ abstract class SettingsLocalizations {
   /// No description provided for @settingsSyncDescription.
   ///
   /// In en, this message translates to:
-  /// **'Initial sync window and source sync preferences.'**
+  /// **'Sync window and source sync preferences.'**
   String get settingsSyncDescription;
 
   /// No description provided for @pluginUnavailable.
@@ -293,6 +297,96 @@ abstract class SettingsLocalizations {
   /// In en, this message translates to:
   /// **'Initial sync window'**
   String get settingsInitialSyncWindowLabel;
+
+  /// No description provided for @settingsSyncWindowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync window'**
+  String get settingsSyncWindowLabel;
+
+  /// No description provided for @settingsSyncWindowSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History range and sync interval'**
+  String get settingsSyncWindowSubtitle;
+
+  /// No description provided for @settingsSyncWindowValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days · every {minutes} min'**
+  String settingsSyncWindowValue(int days, int minutes);
+
+  /// No description provided for @settingsSyncWindowSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync window'**
+  String get settingsSyncWindowSheetTitle;
+
+  /// No description provided for @settingsSyncWindowSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how much history to load, then how often SolgoInsight checks for new readings.'**
+  String get settingsSyncWindowSheetSubtitle;
+
+  /// No description provided for @settingsSyncPlanLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SYNC PLAN'**
+  String get settingsSyncPlanLabel;
+
+  /// No description provided for @settingsHistoryRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'History range'**
+  String get settingsHistoryRangeLabel;
+
+  /// No description provided for @settingsHistoryRangeValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days'**
+  String settingsHistoryRangeValue(int days);
+
+  /// No description provided for @settingsSyncIntervalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync interval'**
+  String get settingsSyncIntervalLabel;
+
+  /// No description provided for @settingsSyncIntervalValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {minutes} min'**
+  String settingsSyncIntervalValue(int minutes);
+
+  /// No description provided for @settingsDaysShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d'**
+  String settingsDaysShort(int days);
+
+  /// No description provided for @settingsMinutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m'**
+  String settingsMinutesShort(int minutes);
+
+  /// No description provided for @settingsSyncPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What happens next'**
+  String get settingsSyncPreviewTitle;
+
+  /// No description provided for @settingsSyncPreviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial sync loads up to {days} days. After that, new readings are checked about every {minutes} minute(s) when sync is active.'**
+  String settingsSyncPreviewBody(int days, int minutes);
+
+  /// No description provided for @settingsSaveSyncWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get settingsSaveSyncWindow;
 
   /// No description provided for @settingsRetentionSummarySuffix.
   ///
@@ -409,43 +503,48 @@ abstract class SettingsLocalizations {
   String get settingsClearAllDataDialogBody;
 }
 
-class _SettingsLocalizationsDelegate extends LocalizationsDelegate<SettingsLocalizations> {
+class _SettingsLocalizationsDelegate
+    extends LocalizationsDelegate<SettingsLocalizations> {
   const _SettingsLocalizationsDelegate();
 
   @override
   Future<SettingsLocalizations> load(Locale locale) {
-    return SynchronousFuture<SettingsLocalizations>(lookupSettingsLocalizations(locale));
+    return SynchronousFuture<SettingsLocalizations>(
+        lookupSettingsLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SettingsLocalizationsDelegate old) => false;
 }
 
 SettingsLocalizations lookupSettingsLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh': {
-  switch (locale.scriptCode) {
-    case 'Hant': return SettingsLocalizationsZhHant();
-   }
-  break;
-   }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return SettingsLocalizationsZhHant();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return SettingsLocalizationsEn();
-    case 'zh': return SettingsLocalizationsZh();
+    case 'en':
+      return SettingsLocalizationsEn();
+    case 'zh':
+      return SettingsLocalizationsZh();
   }
 
   throw FlutterError(
-    'SettingsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'SettingsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

@@ -31,6 +31,7 @@ class AapsPipelineScorePolicy {
     required AapsPipelineGateResult gate,
   }) {
     const scoreRuleIds = {
+      'aaps.xdrip_bg_source',
       'aaps.sync_freshness',
       'aaps.loop_context',
       'aaps.nightscout_dependency',

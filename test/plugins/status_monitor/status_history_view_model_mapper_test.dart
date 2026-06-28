@@ -1,12 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/component_health.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_component_history_load_result.dart';
+import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_component_history_load_state.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_component_history_result.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_history_bucket.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_history_bucket_reason.dart';
-import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_history_query.dart';
-import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_history_result.dart';
-import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_history_scope.dart';
-import 'package:smart_xdrip/plugins/explore/status_monitor/domain/history/status_history_window.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_component_kind.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_level.dart';
 import 'package:smart_xdrip/plugins/explore/status_monitor/domain/status_report.dart';
@@ -45,62 +43,58 @@ void main() {
       capabilities: const StatusSourceCapabilities.nightscout(),
       hasConfiguredSource: true,
     );
-    final result = StatusHistoryResult(
-      query: StatusHistoryQuery(
-        scope: const StatusHistoryScope(
-          subjectId: 'self',
-          sourceTargetId: 'nightscout',
-        ),
-        window: StatusHistoryWindow.lastSevenDays(now),
-      ),
-      components: [
-        StatusComponentHistoryResult(
-          component: StatusComponentKind.xdrip,
-          currentLevel: StatusLevel.watch,
-          coverage: .25,
-          dailyBuckets: [
-            for (var day = 6; day >= 0; day--)
+    final history = StatusComponentHistoryResult(
+      component: StatusComponentKind.xdrip,
+      currentLevel: StatusLevel.watch,
+      coverage: .25,
+      dailyBuckets: [
+        for (var day = 6; day >= 0; day--)
+          _bucket(
+            now.subtract(Duration(days: day)),
+            StatusLevel.watch,
+            reason: StatusHistoryBucketReason.recordedSample,
+          ),
+      ],
+      hourlyBuckets: [
+        for (var day = 6; day >= 0; day--)
+          [
+            for (var hour = 0; hour < 24; hour++)
               _bucket(
-                now.subtract(Duration(days: day)),
-                StatusLevel.watch,
-                reason: StatusHistoryBucketReason.recordedSample,
+                DateTime.utc(2026, 6, 12 - day, hour),
+                hour == 8 ? StatusLevel.watch : StatusLevel.unknown,
+                reason: hour == 8
+                    ? StatusHistoryBucketReason.recordedSample
+                    : StatusHistoryBucketReason.noSample,
+                score: hour == 8 ? 68 : null,
               ),
           ],
-          hourlyBuckets: [
-            for (var day = 6; day >= 0; day--)
-              [
-                for (var hour = 0; hour < 24; hour++)
-                  _bucket(
-                    DateTime.utc(2026, 6, 12 - day, hour),
-                    hour == 8 ? StatusLevel.watch : StatusLevel.unknown,
-                    reason: hour == 8
-                        ? StatusHistoryBucketReason.recordedSample
-                        : StatusHistoryBucketReason.noSample,
-                    score: hour == 8 ? 68 : null,
-                  ),
-              ],
-          ],
-        ),
       ],
     );
 
-    final vm = const StatusHistoryViewModelMapper().map(
-      result: result,
+    final vm = const StatusHistoryViewModelMapper().mapProgressive(
       report: report,
+      loads: {
+        StatusComponentKind.xdrip: StatusComponentHistoryLoadResult(
+          component: report.components.single,
+          state: StatusComponentHistoryLoadState.ready,
+          result: history,
+        ),
+      },
       now: now,
     );
 
-    expect(vm.components, hasLength(1));
-    expect(vm.components.first.dailyCells, hasLength(7));
-    expect(vm.components.first.hourlyRows, hasLength(7));
-    expect(vm.components.first.hourlyRows.first, hasLength(24));
-    expect(vm.components.first.currentLevel, StatusLevel.watch);
-    expect(vm.components.first.coverage, .25);
+    expect(vm.sections, hasLength(1));
+    final component = vm.sections.single.history!;
+    expect(component.dailyCells, hasLength(7));
+    expect(component.hourlyRows, hasLength(7));
+    expect(component.hourlyRows.first, hasLength(24));
+    expect(component.currentLevel, StatusLevel.watch);
+    expect(component.coverage, .25);
     expect(
-      vm.components.first.hourlyRows.last[8].reason,
+      component.hourlyRows.last[8].reason,
       StatusHistoryBucketReason.recordedSample,
     );
-    expect(vm.components.first.hourlyRows.last[8].score, 68);
+    expect(component.hourlyRows.last[8].score, 68);
   });
 }
 

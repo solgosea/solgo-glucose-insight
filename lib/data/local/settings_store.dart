@@ -19,6 +19,7 @@ class SettingsStore {
   static const _kHealth = 'data_health_enabled';
   static const _kRetention = 'retention_days';
   static const _kInitialSyncDays = 'initial_sync_days';
+  static const _kSyncIntervalMinutes = 'sync_interval_minutes';
 
   static const _secXdripSecret = 'sec_xdrip_api_secret';
   static const _secNsToken = 'sec_nightscout_token';
@@ -43,6 +44,7 @@ class SettingsStore {
       dataHealthCheckEnabled: sp.getBool(_kHealth) ?? true,
       retentionDays: sp.getInt(_kRetention) ?? 90,
       initialSyncDays: sp.getInt(_kInitialSyncDays) ?? 14,
+      syncIntervalMinutes: sp.getInt(_kSyncIntervalMinutes) ?? 1,
     );
   }
 
@@ -61,6 +63,7 @@ class SettingsStore {
     await sp.setBool(_kHealth, s.dataHealthCheckEnabled);
     await sp.setInt(_kRetention, s.retentionDays);
     await sp.setInt(_kInitialSyncDays, s.initialSyncDays);
+    await sp.setInt(_kSyncIntervalMinutes, s.syncIntervalMinutes);
     await _setOrRemoveSecret(_secXdripSecret, s.xdripApiSecret);
     await _setOrRemoveSecret(_secNsToken, s.nightscoutToken);
   }

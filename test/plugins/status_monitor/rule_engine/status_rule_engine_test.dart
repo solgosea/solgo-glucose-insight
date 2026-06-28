@@ -25,7 +25,7 @@ void main() {
     final nightscout = const NightscoutRuleCatalog().build().definitions;
 
     expect(cgm, hasLength(6));
-    expect(xdrip, hasLength(6));
+    expect(xdrip, hasLength(7));
     expect(nightscout, hasLength(5));
     expect(
       cgm.map((definition) => definition.weight).reduce((a, b) => a + b),

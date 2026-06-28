@@ -62,15 +62,18 @@ import 'alerting_localizations_zh.dart';
 /// be consistent with the languages listed in the AlertingLocalizations.supportedLocales
 /// property.
 abstract class AlertingLocalizations {
-  AlertingLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AlertingLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static AlertingLocalizations of(BuildContext context) {
-    return Localizations.of<AlertingLocalizations>(context, AlertingLocalizations)!;
+    return Localizations.of<AlertingLocalizations>(
+        context, AlertingLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AlertingLocalizations> delegate = _AlertingLocalizationsDelegate();
+  static const LocalizationsDelegate<AlertingLocalizations> delegate =
+      _AlertingLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class AlertingLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -606,34 +610,36 @@ abstract class AlertingLocalizations {
   String get alertFallbackBody;
 }
 
-class _AlertingLocalizationsDelegate extends LocalizationsDelegate<AlertingLocalizations> {
+class _AlertingLocalizationsDelegate
+    extends LocalizationsDelegate<AlertingLocalizations> {
   const _AlertingLocalizationsDelegate();
 
   @override
   Future<AlertingLocalizations> load(Locale locale) {
-    return SynchronousFuture<AlertingLocalizations>(lookupAlertingLocalizations(locale));
+    return SynchronousFuture<AlertingLocalizations>(
+        lookupAlertingLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AlertingLocalizationsDelegate old) => false;
 }
 
 AlertingLocalizations lookupAlertingLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AlertingLocalizationsEn();
-    case 'zh': return AlertingLocalizationsZh();
+    case 'en':
+      return AlertingLocalizationsEn();
+    case 'zh':
+      return AlertingLocalizationsZh();
   }
 
   throw FlutterError(
-    'AlertingLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'AlertingLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

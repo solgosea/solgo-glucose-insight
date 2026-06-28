@@ -42,6 +42,32 @@ void main() {
       expect(result.first.value, closeTo(6, 0.06));
     });
 
+    test('uses bounded count for an atomic range request', () async {
+      final readings = CgmReadingsFixture.stableDay(
+        start: DateTime(2026, 6, 1),
+        count: 12 * 24,
+        value: 6,
+      );
+      final server = MockCgmHttpServer(
+        entries: CgmReadingsFixture.nightscoutEntries(readings),
+      );
+      await server.start();
+      addTearDown(server.stop);
+
+      final source = NightscoutApiSource(baseUrl: server.baseUri.toString());
+      final result = await source.range(
+        from: DateTime(2026, 6, 1),
+        to: DateTime(2026, 6, 2),
+      );
+
+      expect(result, hasLength(readings.length));
+      final entryRequests = server.requestUris
+          .where((uri) => uri.path == '/api/v1/entries.json')
+          .toList();
+      expect(entryRequests, hasLength(1));
+      expect(entryRequests.single.queryParameters['count'], isNot('100000'));
+    });
+
     test('passes token query parameter when configured', () async {
       final readings = CgmReadingsFixture.stableDay(count: 1);
       final server = MockCgmHttpServer(

@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:smart_xdrip/core/app_metadata.dart';
 import 'package:smart_xdrip/domain/entities/app_settings.dart';
+import 'package:smart_xdrip/application/sync_window/sync_window_backfill_coordinator.dart';
 import '../application/settings_actions.dart';
 import '../application/settings_export_actions.dart';
 import '../application/settings_host_services.dart';
 import '../application/settings_sync_window_options.dart';
+import '../application/settings_sync_interval_options.dart';
 import '../application/settings_storage_actions.dart';
 import '../mappers/settings_view_model_mapper.dart';
 import '../models/settings_analysis_result.dart';
@@ -20,6 +24,7 @@ class SettingsController extends ChangeNotifier {
   final SettingsExportActions exportActions;
   final SettingsRuntimeCache runtimeCache;
   final SettingsPluginRuntime runtime;
+  final SyncWindowBackfillCoordinator? syncWindowBackfillCoordinator;
   SettingsViewModelMapper mapper;
 
   SettingsController({
@@ -29,6 +34,7 @@ class SettingsController extends ChangeNotifier {
     required this.exportActions,
     required this.runtimeCache,
     required this.runtime,
+    this.syncWindowBackfillCoordinator,
     SettingsViewModelMapper? mapper,
   })  : mapper = mapper ?? SettingsViewModelMapper(),
         _settings = settingsActions.settingsProvider();
@@ -72,7 +78,31 @@ class SettingsController extends ChangeNotifier {
 
   Future<void> setInitialSyncDays(int days) async {
     final normalized = SettingsSyncWindowOptions.normalize(days);
-    await _save(_settings.copyWith(initialSyncDays: normalized));
+    await _save(
+      _settings.copyWith(initialSyncDays: normalized),
+      recheckSyncWindow: true,
+    );
+  }
+
+  Future<void> setSyncWindow({
+    required int days,
+    required int intervalMinutes,
+  }) async {
+    final normalizedDays = SettingsSyncWindowOptions.normalize(days);
+    final normalizedInterval =
+        SettingsSyncIntervalOptions.normalize(intervalMinutes);
+    await _save(
+      _settings.copyWith(
+        initialSyncDays: normalizedDays,
+        syncIntervalMinutes: normalizedInterval,
+      ),
+      recheckSyncWindow: true,
+    );
+  }
+
+  Future<void> setSyncIntervalMinutes(int minutes) async {
+    final normalized = SettingsSyncIntervalOptions.normalize(minutes);
+    await _save(_settings.copyWith(syncIntervalMinutes: normalized));
   }
 
   Future<void> setDataHealthCheckEnabled(bool enabled) async {
@@ -97,17 +127,44 @@ class SettingsController extends ChangeNotifier {
     return exportActions.exportReadingsCsv(_settings);
   }
 
-  Future<void> _save(AppSettings next) async {
-    if (_saving || next == _settings) return;
+  Future<void> _save(
+    AppSettings next, {
+    bool recheckSyncWindow = false,
+  }) async {
+    if (_saving) return;
+    if (next == _settings) {
+      if (recheckSyncWindow) {
+        _requestSyncWindowBackfill(previous: _settings, next: next);
+      }
+      return;
+    }
+    final previous = _settings;
     _saving = true;
     _settings = next;
     _analysis = _analysisWithSettings(next);
     _refreshViewModel();
 
     await settingsActions.updateSettings(next);
+    if (recheckSyncWindow) {
+      _requestSyncWindowBackfill(previous: previous, next: next);
+    }
     _saving = false;
     runtimeCache.markStale('settingsSaved');
     await load();
+  }
+
+  void _requestSyncWindowBackfill({
+    required AppSettings previous,
+    required AppSettings next,
+  }) {
+    final backfillCoordinator = syncWindowBackfillCoordinator;
+    if (backfillCoordinator == null) return;
+    unawaited(
+      backfillCoordinator.handleSettingsChange(
+        previous: previous,
+        next: next,
+      ),
+    );
   }
 
   SettingsAnalysisResult? _analysisWithSettings(AppSettings settings) {

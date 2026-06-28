@@ -50,6 +50,8 @@ class HistoryEngine {
     );
     final curveDataset = curveDatasetCalculator.calculate(
       selectedDay: input.selectedDay,
+      rangeStart: input.rangeStart,
+      rangeEnd: input.rangeEnd,
       readings: input.readings,
       events: input.events,
     );
@@ -67,6 +69,8 @@ class HistoryEngine {
       timeFilter: input.timeFilter,
       dateSection: dateSectionBuilder.build(
         selectedDay: input.selectedDay,
+        rangeStart: input.rangeStart,
+        rangeEnd: input.rangeEnd,
         isToday: input.isToday,
       ),
       summarySection: summarySectionBuilder.build(

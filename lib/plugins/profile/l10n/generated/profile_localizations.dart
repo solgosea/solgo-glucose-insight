@@ -292,41 +292,11 @@ abstract class ProfileLocalizations {
   /// **'My Profile'**
   String get profileHeaderTitle;
 
-  /// No description provided for @profileBuildingBaseline.
-  ///
-  /// In en, this message translates to:
-  /// **'Building baseline'**
-  String get profileBuildingBaseline;
-
   /// No description provided for @profileDaysRecorded.
   ///
   /// In en, this message translates to:
   /// **'{days} days recorded'**
   String profileDaysRecorded(int days);
-
-  /// No description provided for @profileGlucotype.
-  ///
-  /// In en, this message translates to:
-  /// **'Glucotype: {label}'**
-  String profileGlucotype(String label);
-
-  /// No description provided for @profileGlucotypeLow.
-  ///
-  /// In en, this message translates to:
-  /// **'Low'**
-  String get profileGlucotypeLow;
-
-  /// No description provided for @profileGlucotypeModerate.
-  ///
-  /// In en, this message translates to:
-  /// **'Moderate'**
-  String get profileGlucotypeModerate;
-
-  /// No description provided for @profileGlucotypeSevere.
-  ///
-  /// In en, this message translates to:
-  /// **'Severe'**
-  String get profileGlucotypeSevere;
 
   /// No description provided for @profileStatTir14d.
   ///
@@ -352,53 +322,11 @@ abstract class ProfileLocalizations {
   /// **'Settings'**
   String get profileSettingsSummary;
 
-  /// No description provided for @profileSectionMyBaseline.
-  ///
-  /// In en, this message translates to:
-  /// **'My Baseline'**
-  String get profileSectionMyBaseline;
-
   /// No description provided for @profileSectionAppSettings.
   ///
   /// In en, this message translates to:
   /// **'App Settings'**
   String get profileSectionAppSettings;
-
-  /// No description provided for @profileBaselineTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Personal Glucose Baseline'**
-  String get profileBaselineTitle;
-
-  /// No description provided for @profileBaselineBuiltFrom.
-  ///
-  /// In en, this message translates to:
-  /// **'Built from {days} days - Updated {date}'**
-  String profileBaselineBuiltFrom(int days, String date);
-
-  /// No description provided for @profileBaselineNotEnough.
-  ///
-  /// In en, this message translates to:
-  /// **'Not enough data yet'**
-  String get profileBaselineNotEnough;
-
-  /// No description provided for @profileBaselineTir.
-  ///
-  /// In en, this message translates to:
-  /// **'TIR baseline'**
-  String get profileBaselineTir;
-
-  /// No description provided for @profileBaselineTypicalPeak.
-  ///
-  /// In en, this message translates to:
-  /// **'Typical peak'**
-  String get profileBaselineTypicalPeak;
-
-  /// No description provided for @profileBaselineCvRange.
-  ///
-  /// In en, this message translates to:
-  /// **'CV range'**
-  String get profileBaselineCvRange;
 
   /// No description provided for @targetRangeLowHighGapMessage.
   ///

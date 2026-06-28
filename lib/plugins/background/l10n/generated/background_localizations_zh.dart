@@ -50,7 +50,7 @@ class BackgroundLocalizationsZh extends BackgroundLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class BackgroundLocalizationsZhHant extends BackgroundLocalizationsZh {
-  BackgroundLocalizationsZhHant(): super('zh_Hant');
+  BackgroundLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get glucoseSyncSubtitle => '同步目前血糖資料來源';

@@ -10,7 +10,7 @@ import 'package:smart_xdrip/alerting/domain/queue/alert_queue_priority.dart';
 import '../_support/test_database.dart';
 
 void main() {
-  test('same dedupe key keeps remote message over Local datasource', () async {
+  test('same dedupe key keeps Remote message over Local datasource', () async {
     final database = await TestDatabase.createWithAlerting();
     addTearDown(database.close);
     final repository = SqliteAlertQueueRepository(
@@ -36,13 +36,13 @@ void main() {
     await service.enqueue(_message(
       id: 'remote',
       dedupeKey: dedupeKey,
-      sourcePriority: AlertSourcePriority.remoteCompanion,
+      sourcePriority: AlertSourcePriority.remote,
       now: now,
     ));
 
     final stored = await repository.findByDedupeKey(dedupeKey);
     expect(stored?.id, 'remote');
-    expect(stored?.sourcePriority, AlertSourcePriority.remoteCompanion);
+    expect(stored?.sourcePriority, AlertSourcePriority.remote);
   });
 }
 

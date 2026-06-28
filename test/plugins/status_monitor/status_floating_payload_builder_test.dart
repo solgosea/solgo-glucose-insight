@@ -16,30 +16,38 @@ void main() {
       report: _report(
         generatedAt: now,
         cgm: StatusLevel.healthy,
+        juggluco: StatusLevel.healthy,
         xdrip: StatusLevel.watch,
         nightscout: StatusLevel.issue,
         aaps: StatusLevel.watch,
+        watch: StatusLevel.healthy,
       ),
       now: now,
     );
 
     expect(payload.components.map((component) => component.label), [
       'Sensor',
+      'Juggluco',
       'xDrip+',
       'Nightscout',
       'AAPS',
+      'Watch',
     ]);
     expect(payload.components.map((component) => component.glyph), [
+      '\u25CF',
       '\u25CF',
       '\u25B2',
       '\u25A0',
       '\u25B2',
+      '\u25CF',
     ]);
     expect(payload.components.map((component) => component.scoreLabel), [
       '92',
+      '88',
       '78',
       '45',
       '66',
+      '90',
     ]);
   });
 
@@ -49,9 +57,11 @@ void main() {
       report: _report(
         generatedAt: now.subtract(const Duration(minutes: 20)),
         cgm: StatusLevel.healthy,
+        juggluco: StatusLevel.healthy,
         xdrip: StatusLevel.healthy,
         nightscout: StatusLevel.healthy,
         aaps: StatusLevel.healthy,
+        watch: StatusLevel.healthy,
       ),
       now: now,
     );
@@ -59,9 +69,11 @@ void main() {
       report: _report(
         generatedAt: now,
         cgm: StatusLevel.unknown,
+        juggluco: StatusLevel.unknown,
         xdrip: StatusLevel.unknown,
         nightscout: StatusLevel.unknown,
         aaps: StatusLevel.unknown,
+        watch: StatusLevel.unknown,
         hasConfiguredSource: false,
       ),
       now: now,
@@ -77,12 +89,14 @@ void main() {
 StatusReport _report({
   required DateTime generatedAt,
   required StatusLevel cgm,
+  required StatusLevel juggluco,
   required StatusLevel xdrip,
   required StatusLevel nightscout,
   required StatusLevel aaps,
+  required StatusLevel watch,
   bool hasConfiguredSource = true,
 }) {
-  final level = [cgm, xdrip, nightscout, aaps].reduce(
+  final level = [cgm, juggluco, xdrip, nightscout, aaps, watch].reduce(
     (a, b) => a.severity >= b.severity ? a : b,
   );
   return StatusReport(
@@ -97,15 +111,17 @@ StatusReport _report({
           ? 'All links are healthy'
           : '${level.label} status',
       body: 'Status summary',
-      meta: '4 components',
+      meta: '6 components',
       healthyCount: 0,
-      totalCount: 4,
+      totalCount: 6,
     ),
     components: [
       _component(StatusComponentKind.cgmSensor, cgm),
+      _component(StatusComponentKind.juggluco, juggluco),
       _component(StatusComponentKind.xdrip, xdrip),
       _component(StatusComponentKind.nightscout, nightscout),
       _component(StatusComponentKind.aapsLoop, aaps),
+      _component(StatusComponentKind.watchDisplay, watch),
     ],
     recentEvents: const [],
     capabilities: hasConfiguredSource
@@ -128,9 +144,11 @@ ComponentHealth _component(StatusComponentKind kind, StatusLevel level) {
         : StatusComponentScore(
             value: switch (kind) {
               StatusComponentKind.cgmSensor => 92,
+              StatusComponentKind.juggluco => 88,
               StatusComponentKind.xdrip => 78,
               StatusComponentKind.nightscout => 45,
               StatusComponentKind.aapsLoop => 66,
+              StatusComponentKind.watchDisplay => 90,
             },
             label: 'Score',
             confidence: 1,

@@ -63,11 +63,7 @@ class DoctorGlucoseReportAdapter {
   }
 
   ReportDateRange _range(ReportEngineOutput output) {
-    final end = output.readings.isNotEmpty
-        ? output.readings.last.timestamp
-        : output.generatedAt;
-    final start = end.subtract(Duration(days: output.period.days - 1));
-    return ReportDateRange(start: start, end: end);
+    return ReportDateRange(start: output.start, end: output.end);
   }
 
   ReportDataQualitySummary _quality(

@@ -7,7 +7,7 @@ void main() {
   group('SyncStatusFormatter', () {
     const formatter = SyncStatusFormatter();
 
-    test('shows active source and relative freshness', () {
+    test('separates active source status from relative freshness', () {
       final snapshot = SyncStatusSnapshot(
         sourceLabel: 'xDrip+ Local',
         level: SyncStatusLevel.fresh,
@@ -15,7 +15,9 @@ void main() {
         lastSuccessAt: DateTime.now().subtract(const Duration(minutes: 5)),
       );
 
-      expect(formatter.compactText(snapshot), 'xDrip+ Local - 5m');
+      expect(formatter.compactText(snapshot), 'xDrip+ Local - Synced');
+      expect(formatter.statusText(snapshot), 'Synced');
+      expect(formatter.activityText(snapshot), 'Synced 5 min ago');
     });
 
     test('does not pretend unconfigured inactive sources are syncing', () {

@@ -17,6 +17,13 @@ import 'presentation/pages/status_component_detail_page.dart';
 import 'presentation/pages/status_dashboard_page.dart';
 import 'presentation/pages/status_history_page.dart';
 import 'presentation/pages/status_widgets_notifications_page.dart';
+import 'presentation/hub/pages/status_hub_page.dart';
+import 'presentation/probe/pages/aaps_downstream_checks_page.dart';
+import 'presentation/probe/pages/juggluco_probe_guide_page.dart';
+import 'presentation/probe/pages/nightscout_probe_guide_page.dart';
+import 'presentation/probe/pages/status_probe_checklist_page.dart';
+import 'presentation/probe/pages/watch_probe_guide_page.dart';
+import 'presentation/probe/pages/xdrip_probe_guide_page.dart';
 import 'reports/presentation/status_monitor_report_preview_page.dart';
 import 'runtime/status_monitor_runtime.dart';
 import 'application/i18n/status_monitor_entry_localizer.dart';
@@ -85,6 +92,38 @@ class StatusMonitorPlugin extends SmartFeaturePlugin {
         PluginRoute(
           path: '/explore/status/history',
           builder: (_) => const StatusHistoryPage(),
+        ),
+        PluginRoute(
+          path: '/explore/status/hub',
+          builder: (_) => const StatusHubPage(),
+        ),
+        PluginRoute.state(
+          path: '/explore/status/probe-checklist',
+          builder: (_, state) => StatusProbeChecklistPage(
+            debugNightscoutBaseUrl: state.uri.queryParameters['nightscoutUrl'],
+            debugNightscoutToken: state.uri.queryParameters['nightscoutToken'],
+            debugRunId: state.uri.queryParameters['probeRunId'],
+          ),
+        ),
+        PluginRoute(
+          path: '/explore/status/probe/xdrip-guide',
+          builder: (_) => const XdripProbeGuidePage(),
+        ),
+        PluginRoute(
+          path: '/explore/status/probe/juggluco-guide',
+          builder: (_) => const JugglucoProbeGuidePage(),
+        ),
+        PluginRoute(
+          path: '/explore/status/probe/nightscout-guide',
+          builder: (_) => const NightscoutProbeGuidePage(),
+        ),
+        PluginRoute(
+          path: '/explore/status/probe/aaps-guide',
+          builder: (_) => const AapsDownstreamChecksPage(),
+        ),
+        PluginRoute(
+          path: '/explore/status/probe/watch-guide',
+          builder: (_) => const WatchProbeGuidePage(),
         ),
         PluginRoute(
           path: '/explore/status/widgets',

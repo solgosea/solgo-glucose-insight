@@ -7,11 +7,13 @@ import 'sync_status_view_model.dart';
 class SyncStatusInlineRow extends StatefulWidget {
   final SyncStatusViewModel viewModel;
   final bool muted;
+  final VoidCallback? onCountdownDue;
 
   const SyncStatusInlineRow({
     super.key,
     required this.viewModel,
     this.muted = false,
+    this.onCountdownDue,
   });
 
   @override
@@ -33,7 +35,7 @@ class _SyncStatusInlineRowState extends State<SyncStatusInlineRow> {
               const SizedBox(width: 5),
               Flexible(
                 child: Text(
-                  _primaryLabel(widget.viewModel.label),
+                  widget.viewModel.statusLabel,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -48,24 +50,18 @@ class _SyncStatusInlineRowState extends State<SyncStatusInlineRow> {
             ],
           ),
           if (widget.viewModel.syncCountLabel.isNotEmpty ||
+              widget.viewModel.scheduleLabel.isNotEmpty ||
               widget.viewModel.countdownLabel.isNotEmpty ||
               widget.viewModel.nextSyncAt != null) ...[
             const SizedBox(height: 5),
             SyncStatusMetaLine(
               viewModel: widget.viewModel,
               muted: widget.muted,
+              onCountdownDue: widget.onCountdownDue,
             ),
           ],
         ],
       ),
     );
-  }
-
-  String _primaryLabel(String label) {
-    final delimiter = label.indexOf(' - ');
-    if (delimiter >= 0 && delimiter + 3 < label.length) {
-      return label.substring(delimiter + 3);
-    }
-    return label;
   }
 }

@@ -15,7 +15,8 @@ class DatasourceLocalizationsEn extends DatasourceLocalizations {
   String get pluginSubtitle => 'Configure xDrip+ Local and Nightscout sources.';
 
   @override
-  String get pluginDescription => 'Configure xDrip+ Local and Nightscout sources.';
+  String get pluginDescription =>
+      'Configure xDrip+ Local and Nightscout sources.';
 
   @override
   String get pluginReportTitle => 'Data Source Report';
@@ -36,10 +37,12 @@ class DatasourceLocalizationsEn extends DatasourceLocalizations {
   String get nightscoutApiTitle => 'Nightscout API';
 
   @override
-  String get nightscoutUpdateSubtitle => 'Update your site URL or access token below.';
+  String get nightscoutUpdateSubtitle =>
+      'Update your site URL or access token below.';
 
   @override
-  String get nightscoutSetupSubtitle => 'Enter your Nightscout site URL and optional access token.';
+  String get nightscoutSetupSubtitle =>
+      'Enter your Nightscout site URL and optional access token.';
 
   @override
   String get nightscoutSiteUrl => 'Site URL';

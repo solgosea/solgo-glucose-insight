@@ -40,11 +40,11 @@ class BottomNavShell extends StatelessWidget {
               for (final tab in [
                 entryLocalizers?.localizeMainTab(rawTab, locale) ?? rawTab,
               ])
-              BottomNavigationBarItem(
-                icon: Icon(tab.icon),
-                activeIcon: Icon(tab.activeIcon),
-                label: tab.label,
-              ),
+                BottomNavigationBarItem(
+                  icon: Icon(tab.icon),
+                  activeIcon: Icon(tab.activeIcon),
+                  label: tab.label,
+                ),
           ],
         ),
       ),

@@ -147,6 +147,90 @@ abstract class ReportLocalizations {
   /// **'AGP-standard - local - export to PDF or share'**
   String get pageSubtitle;
 
+  /// No description provided for @dateFilterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose report dates'**
+  String get dateFilterTooltip;
+
+  /// No description provided for @dateFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report period'**
+  String get dateFilterTitle;
+
+  /// No description provided for @dateFilterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a standard doctor-ready window, or drag across dates for a custom report range.'**
+  String get dateFilterSubtitle;
+
+  /// No description provided for @dateFilterApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply period'**
+  String get dateFilterApply;
+
+  /// No description provided for @dateFilterReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateFilterReset;
+
+  /// No description provided for @dateFilterCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dateFilterCancel;
+
+  /// No description provided for @dateFilterSelectedDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected period'**
+  String get dateFilterSelectedDates;
+
+  /// No description provided for @dateFilterDay.
+  ///
+  /// In en, this message translates to:
+  /// **'day'**
+  String get dateFilterDay;
+
+  /// No description provided for @dateFilterDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get dateFilterDays;
+
+  /// No description provided for @dateFilterReadings.
+  ///
+  /// In en, this message translates to:
+  /// **'readings'**
+  String get dateFilterReadings;
+
+  /// No description provided for @dateFilterDragHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Glucose Report works best with 14-90 days. Custom ranges are exported exactly as selected.'**
+  String get dateFilterDragHint;
+
+  /// No description provided for @windowShortLast14Days.
+  ///
+  /// In en, this message translates to:
+  /// **'14d'**
+  String get windowShortLast14Days;
+
+  /// No description provided for @windowShortLast30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'30d'**
+  String get windowShortLast30Days;
+
+  /// No description provided for @windowShortLast90Days.
+  ///
+  /// In en, this message translates to:
+  /// **'90d'**
+  String get windowShortLast90Days;
+
   /// No description provided for @sectionKeyMetrics.
   ///
   /// In en, this message translates to:

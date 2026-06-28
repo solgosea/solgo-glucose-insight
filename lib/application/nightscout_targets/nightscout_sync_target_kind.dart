@@ -1,3 +1,0 @@
-enum NightscoutSyncTargetKind {
-  selfDatasource,
-}

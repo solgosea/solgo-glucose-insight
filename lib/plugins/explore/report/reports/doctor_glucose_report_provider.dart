@@ -17,6 +17,9 @@ import 'doctor_glucose_report_adapter.dart';
 
 class DoctorGlucoseReportProvider implements ReportProvider {
   static const optionPeriodDays = 'periodDays';
+  static const optionWindowKey = 'windowKey';
+  static const optionStart = 'start';
+  static const optionEnd = 'end';
   static const optionSections = 'sections';
 
   final AnalysisFacade Function() facadeProvider;
@@ -47,9 +50,11 @@ class DoctorGlucoseReportProvider implements ReportProvider {
     final sections = _sectionsFromContext(context);
     final facade = facadeProvider();
     final output = service.buildOutput(
-      readings: facade.readingsForLastDays(period.days),
+      readings: facade.readings,
       settings: facade.settings,
       period: period,
+      start: _dateOption(context, optionStart),
+      end: _dateOption(context, optionEnd),
     );
     return adapter.map(
       output: output,
@@ -62,16 +67,27 @@ class DoctorGlucoseReportProvider implements ReportProvider {
     required ReportPeriod period,
     required List<ReportSectionToggle> sections,
     required String? sourceLabel,
+    DateTime? start,
+    DateTime? end,
+    String? windowKey,
   }) {
     final now = DateTime.now();
     return ReportContext(
-      range: smartReportDateRange(now, period.days),
+      range: smartReportDateRange(
+        now,
+        period.days,
+        start: start,
+        rangeEnd: end,
+      ),
       unit: facadeProvider().settings.unit,
       privacyLevel: defaultPrivacyLevel,
       locale: PlatformDispatcher.instance.locale,
       sourceLabel: sourceLabel,
       options: {
         optionPeriodDays: period.days,
+        optionWindowKey: windowKey ?? period.label,
+        if (start != null) optionStart: _dateKey(start),
+        if (end != null) optionEnd: _dateKey(end),
         optionSections: sections,
       },
     );
@@ -92,6 +108,23 @@ class DoctorGlucoseReportProvider implements ReportProvider {
     if (sections is List<ReportSectionToggle>) return sections;
     return ReportDefaultSections.values;
   }
+
+  DateTime? _dateOption(ReportContext context, String key) {
+    final value = context.options[key];
+    if (value is DateTime) return DateTime(value.year, value.month, value.day);
+    if (value is String) return _parseDate(value);
+    return null;
+  }
+
+  DateTime? _parseDate(String value) {
+    final parts = value.split('-');
+    if (parts.length != 3) return null;
+    final year = int.tryParse(parts[0]);
+    final month = int.tryParse(parts[1]);
+    final day = int.tryParse(parts[2]);
+    if (year == null || month == null || day == null) return null;
+    return DateTime(year, month, day);
+  }
 }
 
 ReportContext smartDoctorGlucoseReportContext({
@@ -99,24 +132,55 @@ ReportContext smartDoctorGlucoseReportContext({
   required List<ReportSectionToggle> sections,
   required String? sourceLabel,
   required GlucoseUnit unit,
+  DateTime? start,
+  DateTime? end,
+  String? windowKey,
 }) {
   final now = DateTime.now();
   return ReportContext(
-    range: smartReportDateRange(now, period.days),
+    range: smartReportDateRange(
+      now,
+      period.days,
+      start: start,
+      rangeEnd: end,
+    ),
     unit: unit,
     privacyLevel: ReportPrivacyLevel.standard,
     locale: PlatformDispatcher.instance.locale,
     sourceLabel: sourceLabel,
     options: {
       DoctorGlucoseReportProvider.optionPeriodDays: period.days,
+      DoctorGlucoseReportProvider.optionWindowKey: windowKey ?? period.label,
+      if (start != null)
+        DoctorGlucoseReportProvider.optionStart: _dateKey(start),
+      if (end != null) DoctorGlucoseReportProvider.optionEnd: _dateKey(end),
       DoctorGlucoseReportProvider.optionSections: sections,
     },
   );
 }
 
-ReportDateRange smartReportDateRange(DateTime end, int days) {
+ReportDateRange smartReportDateRange(
+  DateTime end,
+  int days, {
+  DateTime? start,
+  DateTime? rangeEnd,
+}) {
+  if (start != null && rangeEnd != null) {
+    final startDay = DateTime(start.year, start.month, start.day);
+    final endDay = DateTime(rangeEnd.year, rangeEnd.month, rangeEnd.day);
+    return ReportDateRange(
+      start: startDay.isAfter(endDay) ? endDay : startDay,
+      end: startDay.isAfter(endDay) ? startDay : endDay,
+    );
+  }
   return ReportDateRange(
     start: end.subtract(Duration(days: days - 1)),
     end: end,
   );
+}
+
+String _dateKey(DateTime value) {
+  return '${value.year.toString().padLeft(4, '0')}-'
+      '${value.month.toString().padLeft(2, '0')}-'
+      '${value.day.toString().padLeft(2, '0')}';
 }

@@ -11,6 +11,8 @@ class DatasourceActions {
   }) connectNightscout;
   final Future<DataSourceConnectionResult> Function() useConfiguredNightscout;
   final Future<DataSourceConnectionResult> Function(DataSourceKind kind)
+      syncDataSource;
+  final Future<DataSourceConnectionResult> Function(DataSourceKind kind)
       disconnectDataSource;
   final Future<DataSourceConnectionResult> Function(DataSourceKind kind)
       enableDataSourceSync;
@@ -22,6 +24,7 @@ class DatasourceActions {
     required this.connectXdripLocal,
     required this.connectNightscout,
     required this.useConfiguredNightscout,
+    required this.syncDataSource,
     required this.disconnectDataSource,
     required this.enableDataSourceSync,
     required this.disableDataSourceSync,

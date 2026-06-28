@@ -2,8 +2,11 @@ import '../detail/status_component_detail_data.dart';
 import '../detail/status_signal_summary.dart';
 import '../detail/status_timeline_bucket.dart';
 import '../nightscout_markers/nightscout_marker_analysis.dart';
+import '../status_level.dart';
+import 'xdrip_broadcast_state.dart';
 import 'xdrip_completeness_bucket.dart';
 import 'xdrip_context_signal.dart';
+import 'xdrip_broadcast_readiness.dart';
 import 'xdrip_health_score_breakdown.dart';
 import 'xdrip_local_service_probe.dart';
 
@@ -14,6 +17,7 @@ class XdripDetailData extends StatusComponentDetailData {
   final List<StatusTimelineBucket> freshnessTimeline;
   final List<XdripCompletenessBucket> completenessBuckets;
   final XdripLocalServiceProbe? localService;
+  final XdripBroadcastReadiness broadcastReadiness;
   final List<XdripContextSignal> contextSignals;
   final String modeLabel;
   final NightscoutMarkerAnalysis markerAnalysis;
@@ -23,6 +27,7 @@ class XdripDetailData extends StatusComponentDetailData {
     required this.signals,
     required this.freshnessTimeline,
     required this.completenessBuckets,
+    required this.broadcastReadiness,
     required this.contextSignals,
     required this.modeLabel,
     this.markerAnalysis = const NightscoutMarkerAnalysis.empty(),
@@ -42,6 +47,7 @@ class XdripDetailData extends StatusComponentDetailData {
         'completenessBuckets':
             completenessBuckets.map((bucket) => bucket.toJson()).toList(),
         'localService': localService?.toJson(),
+        'broadcastReadiness': broadcastReadiness.toJson(),
         'contextSignals':
             contextSignals.map((signal) => signal.toJson()).toList(),
         'modeLabel': modeLabel,
@@ -55,6 +61,15 @@ class XdripDetailData extends StatusComponentDetailData {
       freshnessTimeline: const [],
       completenessBuckets: const [],
       contextSignals: const [],
+      broadcastReadiness: const XdripBroadcastReadiness(
+        state: XdripBroadcastState.unknown,
+        level: StatusLevel.unknown,
+        stateLabel: 'Unknown',
+        latestLabel: 'Not observed',
+        payloadLabel: 'No payload',
+        receiverPackage: 'info.nightscout.androidaps',
+        guidance: 'Waiting for xDrip+ local broadcast evidence.',
+      ),
       modeLabel: json['modeLabel']?.toString() ?? '',
       markerAnalysis: json['markerAnalysis'] is Map
           ? NightscoutMarkerAnalysis.fromJson(

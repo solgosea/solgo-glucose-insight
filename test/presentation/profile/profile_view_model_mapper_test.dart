@@ -51,7 +51,6 @@ void main() {
         (stat) => stat.label == 'Avg 14d',
       );
 
-      expect(viewModel.header.primaryBadge, 'MG/DL');
       expect(average.value, isNot(contains('mg/dL')));
       expect(average.unit, 'mg/dL');
     });

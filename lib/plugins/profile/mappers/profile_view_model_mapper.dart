@@ -29,7 +29,7 @@ class ProfileViewModelMapper {
     return ProfileViewModel(
       header: ProfileHeaderViewModel(
         title: strings.profileHeaderTitle,
-        primaryBadge: _unitBadge(settings.unit),
+        primaryBadge: strings.profileDaysRecorded(14),
       ),
       stats: [
         ProfileStatViewModel(
@@ -53,10 +53,6 @@ class ProfileViewModelMapper {
       ],
       appSettingsSummary: strings.profileSettingsSummary,
     );
-  }
-
-  String _unitBadge(GlucoseUnit unit) {
-    return unit == GlucoseUnit.mgDl ? 'MG/DL' : 'MMOL/L';
   }
 
   Color _tirColor(double value) {

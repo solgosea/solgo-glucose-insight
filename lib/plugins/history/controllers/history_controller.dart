@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../application/analysis/analysis_facade.dart';
+import '../../../domain/entities/glucose_event.dart';
+import '../../../domain/entities/glucose_reading.dart';
+import '../../../presentation/common/date_filter/domain/date_filter_selection.dart';
 import '../application/history_service.dart';
 import '../application/history_host_services.dart';
 import '../application/i18n/history_l10n_resolver.dart';
@@ -16,7 +19,8 @@ class HistoryController extends ChangeNotifier {
   final HistoryPluginRuntime runtime;
   final HistoryService service;
 
-  DateTime _selectedDay = DateTime.now();
+  DateFilterSelection _dateSelection =
+      DateFilterSelection.single(DateTime.now());
   HistoryTimeFilter? _timeFilter;
   HistoryLocalizations _l10n = HistoryL10nResolver.fallback;
   HistoryViewModel? viewModel;
@@ -30,8 +34,11 @@ class HistoryController extends ChangeNotifier {
     hostServices.changeSignal.addListener(_handleHostChanged);
   }
 
-  DateTime get selectedDay => _selectedDay;
+  DateTime get selectedDay => _dateSelection.start;
+  DateFilterSelection get dateSelection => _dateSelection;
   HistoryTimeFilter? get timeFilter => _timeFilter;
+  Map<DateTime, int> get dayReadingCounts =>
+      _dayReadingCounts(hostServices.facadeProvider().readings);
 
   Future<void> init() => _load();
 
@@ -45,14 +52,24 @@ class HistoryController extends ChangeNotifier {
   }
 
   void prevDay() {
-    _selectedDay = _selectedDay.subtract(const Duration(days: 1));
+    _dateSelection = DateFilterSelection.single(
+      _dateSelection.start.subtract(const Duration(days: 1)),
+    );
     _timeFilter = null;
     _load();
   }
 
   void nextDay() {
     if (isToday) return;
-    _selectedDay = _selectedDay.add(const Duration(days: 1));
+    _dateSelection = DateFilterSelection.single(
+      _dateSelection.start.add(const Duration(days: 1)),
+    );
+    _timeFilter = null;
+    _load();
+  }
+
+  void selectDateRange(DateFilterSelection selection) {
+    _dateSelection = DateFilterSelection.single(selection.start);
     _timeFilter = null;
     _load();
   }
@@ -70,16 +87,17 @@ class HistoryController extends ChangeNotifier {
 
   bool get isToday {
     final today = DateTime.now();
-    return _selectedDay.year == today.year &&
-        _selectedDay.month == today.month &&
-        _selectedDay.day == today.day;
+    return _dateSelection.isSingleDay &&
+        _dateSelection.start.year == today.year &&
+        _dateSelection.start.month == today.month &&
+        _dateSelection.start.day == today.day;
   }
 
   Future<void> _load() async {
     final facade = hostServices.facadeProvider();
     final cached = runtimeCache.freshViewModel(
       subjectId: facade.activeSubject.id,
-      day: _selectedDay,
+      day: _dateSelection.start,
     );
     if (cached != null) {
       viewModel = _deriveViewModel(facade, _timeFilter);
@@ -87,7 +105,7 @@ class HistoryController extends ChangeNotifier {
       return;
     }
 
-    final snapshot = await runtime.preheatDay(day: _selectedDay);
+    final snapshot = await runtime.preheatDay(day: _dateSelection.start);
     if (snapshot == null) return;
     viewModel = _deriveViewModel(facade, _timeFilter);
     notifyListeners();
@@ -97,19 +115,20 @@ class HistoryController extends ChangeNotifier {
     AnalysisFacade facade,
     HistoryTimeFilter? filter,
   ) {
-    final selectedDay = DateTime(
-      _selectedDay.year,
-      _selectedDay.month,
-      _selectedDay.day,
-    );
-    final readings = facade.readingsForDay(selectedDay);
+    final selectedDay = _dateSelection.start;
+    final readings = _readingsInSelection(facade.readings, _dateSelection);
     final tir = readings.isNotEmpty ? facade.tirForReadings(readings) : null;
-    final facadeEvents = facade.eventsForDay(selectedDay);
+    final facadeEvents = _eventsInSelection(
+      facade.snapshot?.events ?? const <GlucoseEvent>[],
+      _dateSelection,
+    );
     final events = facadeEvents.isNotEmpty
         ? facadeEvents
         : facade.detectEventsForReadings(readings);
     return service.buildViewModel(
       selectedDay: selectedDay,
+      rangeStart: _dateSelection.start,
+      rangeEnd: _dateSelection.end,
       readings: readings,
       events: events,
       tir: tir,
@@ -118,6 +137,41 @@ class HistoryController extends ChangeNotifier {
       timeFilter: filter,
       l10n: _l10n,
     );
+  }
+
+  List<GlucoseReading> _readingsInSelection(
+    List<GlucoseReading> readings,
+    DateFilterSelection selection,
+  ) {
+    return readings
+        .where((reading) =>
+            !reading.timestamp.isBefore(selection.start) &&
+            reading.timestamp.isBefore(selection.exclusiveEnd))
+        .toList();
+  }
+
+  List<GlucoseEvent> _eventsInSelection(
+    List<GlucoseEvent> events,
+    DateFilterSelection selection,
+  ) {
+    return events
+        .where((event) =>
+            !event.time.isBefore(selection.start) &&
+            event.time.isBefore(selection.exclusiveEnd))
+        .toList();
+  }
+
+  Map<DateTime, int> _dayReadingCounts(List<GlucoseReading> readings) {
+    final output = <DateTime, int>{};
+    for (final reading in readings) {
+      final day = DateTime(
+        reading.timestamp.year,
+        reading.timestamp.month,
+        reading.timestamp.day,
+      );
+      output[day] = (output[day] ?? 0) + 1;
+    }
+    return output;
   }
 
   void _handleHostChanged() {

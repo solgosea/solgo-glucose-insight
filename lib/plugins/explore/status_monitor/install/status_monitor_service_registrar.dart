@@ -1,4 +1,4 @@
-import 'package:smart_xdrip/application/nightscout_targets/nightscout_sync_target_registry.dart';
+import 'package:smart_xdrip/application/sync_target/glucose_sync_target_registry.dart';
 import 'package:smart_xdrip/application/floating_surface/floating_surface_service.dart';
 import 'package:smart_xdrip/application/polling_runtime/polling_runtime.dart';
 import 'package:smart_xdrip/application/subject/active_subject_service.dart';
@@ -8,6 +8,15 @@ import 'package:smart_xdrip/plugin_platform/install/plugin_install_context.dart'
 
 import '../application/history/status_history_service.dart';
 import '../application/history/status_history_recorder.dart';
+import '../application/checking/status_check_component_registry.dart';
+import '../application/checking/status_check_session_runner.dart';
+import '../application/components/aaps/aaps_check_definition.dart';
+import '../application/components/cgm_sensor/cgm_sensor_check_definition.dart';
+import '../application/components/juggluco/juggluco_check_definition.dart';
+import '../application/components/nightscout/nightscout_check_definition.dart';
+import '../application/components/watch/watch_check_definition.dart';
+import '../application/components/xdrip/xdrip_check_definition.dart';
+import '../application/status_monitor_check_service.dart';
 import '../application/status_monitor_refresh_coordinator.dart';
 import '../application/status_monitor_service.dart';
 import '../application/status_monitor_target_resolver.dart';
@@ -21,13 +30,13 @@ import '../data/platform/method_channel_status_widget_bridge.dart';
 import '../data/platform/status_widget_platform_bridge.dart';
 import '../data/sqlite/sqlite_status_floating_settings_repository.dart';
 import '../data/sqlite/sqlite_status_monitor_template_repository.dart';
-import '../data/sqlite/status_monitor_probe_repository.dart';
 import '../data/sqlite/status_monitor_repository.dart';
 import '../data/sqlite/status_monitor_template_repository.dart';
 import '../runtime/status_monitor_polling_runtime_binding.dart';
 import '../runtime/status_monitor_runtime.dart';
 import '../runtime/status_monitor_runtime_cache.dart';
 import 'status_monitor_service_bundle.dart';
+import 'status_monitor_probe_registrar.dart';
 
 class StatusMonitorServiceRegistrar {
   const StatusMonitorServiceRegistrar();
@@ -35,9 +44,6 @@ class StatusMonitorServiceRegistrar {
   StatusMonitorServiceBundle install(PluginInstallContext context) {
     final database = context.services.get<GlucoseDatabase>();
     final repository = StatusMonitorRepository(
-      databaseProvider: () => database.db,
-    );
-    final probeRepository = StatusMonitorProbeRepository(
       databaseProvider: () => database.db,
     );
     final floatingSettingsRepository = SqliteStatusFloatingSettingsRepository(
@@ -64,16 +70,37 @@ class StatusMonitorServiceRegistrar {
     );
     final cache = StatusMonitorRuntimeCache();
     final targetResolver = StatusMonitorTargetResolver(
-      targetRegistry: context.services.get<NightscoutSyncTargetRegistry>(),
+      targetRegistry: context.services.get<GlucoseSyncTargetRegistry>(),
       settingsProvider: context.services.get<AppSettings Function()>(),
     );
+    final checkRegistry = StatusCheckComponentRegistry(
+      definitions: const [
+        CgmSensorCheckDefinition(),
+        JugglucoCheckDefinition(),
+        XdripCheckDefinition(),
+        NightscoutCheckDefinition(),
+        AapsCheckDefinition(),
+        WatchCheckDefinition(),
+      ],
+    );
+    final checkRunner = StatusCheckSessionRunner(registry: checkRegistry);
+    final probe = const StatusMonitorProbeRegistrar().install(context);
     final service = StatusMonitorService(
       database: database,
       activeSubjectService: context.services.get<ActiveSubjectService>(),
       settingsProvider: context.services.get<AppSettings Function()>(),
       targetResolver: targetResolver,
+      runner: checkRunner,
       historyRecorder: historyRecorder,
-      probeRepository: probeRepository,
+      probeScenarioEngine: probe.scenarioEngine,
+    );
+    final checkService = StatusMonitorCheckService(
+      database: database,
+      activeSubjectService: context.services.get<ActiveSubjectService>(),
+      targetResolver: targetResolver,
+      runner: checkRunner,
+      historyRecorder: historyRecorder,
+      probeScenarioEngine: probe.scenarioEngine,
     );
     final refreshCoordinator = StatusMonitorRefreshCoordinator(
       service: service,
@@ -93,13 +120,13 @@ class StatusMonitorServiceRegistrar {
     );
     final runtime = StatusMonitorRuntime(
       refreshCoordinator: refreshCoordinator,
+      checkService: checkService,
       cache: cache,
       textTemplateInstaller: textTemplateInstaller,
       pollingBinding: pollingBinding,
     );
     final bundle = StatusMonitorServiceBundle(
       repository: repository,
-      probeRepository: probeRepository,
       floatingSettingsRepository: floatingSettingsRepository,
       templateRepository: templateRepository,
       textTemplateInstaller: textTemplateInstaller,
@@ -112,9 +139,13 @@ class StatusMonitorServiceRegistrar {
       targetResolver: targetResolver,
       cache: cache,
       service: service,
+      checkRegistry: checkRegistry,
+      checkRunner: checkRunner,
+      checkService: checkService,
       refreshCoordinator: refreshCoordinator,
       pollingBinding: pollingBinding,
       runtime: runtime,
+      probe: probe,
     );
     _register(context, bundle);
     return bundle;
@@ -125,9 +156,6 @@ class StatusMonitorServiceRegistrar {
     StatusMonitorServiceBundle bundle,
   ) {
     context.services.register<StatusMonitorRepository>(bundle.repository);
-    context.services.register<StatusMonitorProbeRepository>(
-      bundle.probeRepository,
-    );
     context.services.register<SqliteStatusFloatingSettingsRepository>(
       bundle.floatingSettingsRepository,
     );
@@ -150,6 +178,11 @@ class StatusMonitorServiceRegistrar {
     );
     context.services.register<StatusMonitorRuntimeCache>(bundle.cache);
     context.services.register<StatusMonitorService>(bundle.service);
+    context.services.register<StatusCheckComponentRegistry>(
+      bundle.checkRegistry,
+    );
+    context.services.register<StatusCheckSessionRunner>(bundle.checkRunner);
+    context.services.register<StatusMonitorCheckService>(bundle.checkService);
     context.services.register<StatusMonitorRefreshCoordinator>(
       bundle.refreshCoordinator,
     );

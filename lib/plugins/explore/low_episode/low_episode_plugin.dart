@@ -13,7 +13,7 @@ import '../../../plugin_platform/contracts/smart_feature_plugin.dart';
 import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../episode_detail/install/episode_detail_runtime_installer.dart';
 import '../episode_detail/reports/presentation/low/low_episode_report_preview_page.dart';
-import 'pages/low_episode_page.dart';
+import 'pages/low_episode_page.dart';
 import 'application/i18n/low_episode_entry_localizer.dart';
 import 'application/i18n/low_episode_l10n_resolver.dart';
 
@@ -40,7 +40,7 @@ class LowEpisodePlugin extends SmartFeaturePlugin {
   @override
   Set<PluginDataRequirement> get dataRequirements => const {
         PluginDataRequirement.glucoseReadings,
-        PluginDataRequirement.glucoseEvents,
+        PluginDataRequirement.episodeEvents,
         PluginDataRequirement.appSettings,
       };
   @override

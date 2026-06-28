@@ -93,15 +93,6 @@ class _ExplorePageState extends State<ExplorePage> {
                         )
                       else ...[
                         ExploreFeaturedSection(
-                          statusMonitorEntry:
-                              controller.statusMonitorFeatured == null
-                                  ? null
-                                  : entryLocalizers.localizeExplore(
-                                      controller.statusMonitorFeatured!.entry,
-                                      locale,
-                                    ),
-                          statusMonitorState:
-                              controller.statusMonitorFeatured?.state,
                           reportEntry: controller.reportFeatured == null
                               ? null
                               : entryLocalizers.localizeExplore(

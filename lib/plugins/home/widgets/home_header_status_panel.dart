@@ -15,7 +15,7 @@ class HomeHeaderStatusPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!viewModel.display) return const SizedBox.shrink();
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 190),
+      constraints: const BoxConstraints(maxWidth: 150),
       child: SyncStatusCompactPanel(viewModel: viewModel),
     );
   }

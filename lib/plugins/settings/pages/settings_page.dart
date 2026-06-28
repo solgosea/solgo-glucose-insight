@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_xdrip/application/i18n/app_locale_controller.dart';
 import 'package:smart_xdrip/application/i18n/app_locale_option.dart';
 import 'package:smart_xdrip/application/i18n/app_localization_context.dart';
+import 'package:smart_xdrip/application/sync_window/sync_window_backfill_coordinator.dart';
 import 'package:smart_xdrip/foundation/theme/app_colors.dart';
 import 'package:smart_xdrip/plugin_platform/runtime/manager/plugin_runtime_manager.dart';
 import 'package:smart_xdrip/plugin_platform/services/plugin_service_registry.dart';
@@ -13,7 +14,6 @@ import 'package:provider/provider.dart';
 import '../application/settings_actions.dart';
 import '../application/settings_export_actions.dart';
 import '../application/settings_host_services.dart';
-import '../application/settings_sync_window_options.dart';
 import '../application/i18n/settings_l10n.dart';
 import '../application/settings_storage_actions.dart';
 import '../controllers/settings_controller.dart';
@@ -21,6 +21,8 @@ import '../mappers/settings_view_model_mapper.dart';
 import '../runtime/settings_plugin_runtime.dart';
 import '../runtime/settings_runtime_cache.dart';
 import '../widgets/settings_body.dart';
+import '../widgets/sync_window/settings_sync_window_selection.dart';
+import '../widgets/sync_window/settings_sync_window_sheet.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -52,6 +54,8 @@ class _SettingsPageState extends State<SettingsPage> {
       exportActions: services.get<SettingsExportActions>(),
       runtimeCache: services.get<SettingsRuntimeCache>(),
       runtime: services.get<SettingsPluginRuntime>(),
+      syncWindowBackfillCoordinator:
+          services.maybe<SyncWindowBackfillCoordinator>(),
       mapper: SettingsViewModelMapper(l10n: settingsL10n),
     );
     unawaited(_controller.load());
@@ -235,66 +239,24 @@ class _SettingsPageState extends State<SettingsPage> {
     SettingsController controller,
   ) async {
     final l10n = context.settingsL10n;
-    final selected = await showModalBottomSheet<int>(
+    final selected = await showModalBottomSheet<SettingsSyncWindowSelection>(
       context: context,
       backgroundColor: AppColors.bgCard,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (ctx) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 14, 20, 6),
-                child: Text(
-                  l10n.settingsInitialSyncWindowLabel,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
-                  ),
-                ),
-              ),
-              for (final option in SettingsSyncWindowOptions.values)
-                ListTile(
-                  onTap: () => Navigator.pop(ctx, option),
-                  title: Text(
-                    '$option ${l10n.settingsDaysSuffix}',
-                    style: const TextStyle(
-                      fontFamily: 'JetBrainsMono',
-                      fontSize: 14,
-                      color: AppColors.text,
-                    ),
-                  ),
-                  subtitle: option == SettingsSyncWindowOptions.recommended
-                      ? Text(
-                          l10n.settingsRecommendedBalance,
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 12,
-                            color: AppColors.textSoft,
-                          ),
-                        )
-                      : null,
-                  trailing: option == controller.settings.initialSyncDays
-                      ? const Icon(
-                          Icons.check_rounded,
-                          color: AppColors.green,
-                          size: 18,
-                        )
-                      : null,
-                ),
-              const SizedBox(height: 8),
-            ],
-          ),
-        );
-      },
+      builder: (ctx) => SettingsSyncWindowSheet(
+        initialDays: controller.settings.initialSyncDays,
+        initialIntervalMinutes: controller.settings.syncIntervalMinutes,
+        l10n: l10n,
+      ),
     );
-    if (selected != null && selected != controller.settings.initialSyncDays) {
-      await controller.setInitialSyncDays(selected);
+    if (selected != null) {
+      await controller.setSyncWindow(
+        days: selected.days,
+        intervalMinutes: selected.intervalMinutes,
+      );
     }
   }
 

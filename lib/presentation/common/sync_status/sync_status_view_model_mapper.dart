@@ -32,20 +32,34 @@ class SyncStatusViewModelMapper {
       SyncStatusLevel.inactive => AppColors.textDim,
     };
     final label = effectiveFormatter.compactText(snapshot);
+    final statusLabel = effectiveFormatter.statusText(snapshot);
+    final timeLabel = effectiveFormatter.activityText(snapshot);
     final schedule = snapshot.schedule;
-    final countdownLabel = effectiveFormatter.scheduleText(schedule);
+    final scheduleLabel = effectiveFormatter.scheduleText(schedule);
     return SyncStatusViewModel(
       label: label,
+      statusLabel: statusLabel,
+      timeLabel: timeLabel,
+      scheduleLabel: scheduleLabel,
       title: _title(snapshot, strings),
-      detail: _detail(snapshot, label, countdownLabel, strings),
-      semanticLabel:
-          '$label. ${_syncCountLabel(snapshot, strings)}. $countdownLabel',
+      detail: _detail(snapshot, timeLabel, scheduleLabel, strings),
+      semanticLabel: [
+        statusLabel,
+        if (timeLabel.isNotEmpty) timeLabel,
+        if (_syncCountLabel(snapshot, strings).isNotEmpty)
+          _syncCountLabel(snapshot, strings),
+        if (scheduleLabel.isNotEmpty) scheduleLabel,
+      ].join('. '),
       color: color,
       pulsing: snapshot.level == SyncStatusLevel.fresh ||
           snapshot.level == SyncStatusLevel.waitingFirstSync,
       icon: _icon(snapshot.level),
       nextSyncAt: schedule?.nextSyncAt,
-      countdownLabel: countdownLabel,
+      countdownLabel: scheduleLabel,
+      countdownFormatter: schedule == null
+          ? null
+          : (remaining) =>
+              effectiveFormatter.scheduleCountdownText(schedule, remaining),
       syncCountLabel: _syncCountLabel(snapshot, strings),
       scheduleEstimated: schedule?.estimated ?? false,
       scheduleActive: schedule?.active ?? false,
@@ -116,18 +130,18 @@ class SyncStatusViewModelMapper {
 
   String _detail(
     SyncStatusSnapshot snapshot,
-    String fallback,
-    String countdownLabel,
+    String timeLabel,
+    String scheduleLabel,
     AppLocalizations? l10n,
   ) {
-    final suffix = countdownLabel.isEmpty ? '' : '\n$countdownLabel';
+    final suffix = scheduleLabel.isEmpty ? '' : '\n$scheduleLabel';
     return switch (snapshot.level) {
-      SyncStatusLevel.fresh => '$fallback$suffix',
+      SyncStatusLevel.fresh => '$timeLabel$suffix',
       SyncStatusLevel.waitingFirstSync =>
         '${l10n?.syncDetailCollectingFirstSamples ?? 'Collecting the first glucose samples for this source.'}$suffix',
-      SyncStatusLevel.stale => '$fallback$suffix',
-      SyncStatusLevel.failed => '${snapshot.lastError ?? fallback}$suffix',
-      SyncStatusLevel.inactive => '$fallback$suffix',
+      SyncStatusLevel.stale => '$timeLabel$suffix',
+      SyncStatusLevel.failed => '${snapshot.lastError ?? timeLabel}$suffix',
+      SyncStatusLevel.inactive => '$timeLabel$suffix',
     };
   }
 

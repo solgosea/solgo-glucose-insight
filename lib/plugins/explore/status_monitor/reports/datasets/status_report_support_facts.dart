@@ -77,6 +77,11 @@ class StatusReportSupportFactsBuilder {
       _metric(xdrip, const ['local_service']),
       strings,
     );
+    final xdripBroadcast = _row(
+      'xDrip+ local broadcast',
+      _metric(xdrip, const ['local_broadcast']),
+      strings,
+    );
     final serverResponse = _row(
       strings.reportNightscoutResponse,
       _metric(nightscout, const ['response_time', 'api_reachable']),
@@ -95,6 +100,7 @@ class StatusReportSupportFactsBuilder {
     final aapsEvidence = _row(
       strings.reportAapsEvidence,
       _metric(aaps, const [
+        'aaps_xdrip_bg_source',
         'loop_context',
         'sync_freshness',
         'iob_cob_context',
@@ -111,6 +117,7 @@ class StatusReportSupportFactsBuilder {
       localFreshness: localFreshness,
       serverFreshness: serverFreshness,
       localResponse: localResponse,
+      xdripBroadcast: xdripBroadcast,
       serverResponse: serverResponse,
       strings: strings,
     );
@@ -229,6 +236,7 @@ class StatusReportSupportFactsBuilder {
     required StatusMonitorProbeRowPayload localFreshness,
     required StatusMonitorProbeRowPayload serverFreshness,
     required StatusMonitorProbeRowPayload localResponse,
+    required StatusMonitorProbeRowPayload xdripBroadcast,
     required StatusMonitorProbeRowPayload serverResponse,
     required StatusMonitorLocalizations strings,
   }) {
@@ -241,7 +249,9 @@ class StatusReportSupportFactsBuilder {
       );
     }
 
-    final localOk = localFreshness.tone == 'ok' || localResponse.tone == 'ok';
+    final localOk = localFreshness.tone == 'ok' ||
+        xdripBroadcast.tone == 'ok' ||
+        localResponse.tone == 'ok';
     final cloudDelayed =
         serverFreshness.tone == 'watch' || serverFreshness.tone == 'issue';
     final cloudReachable =

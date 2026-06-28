@@ -105,9 +105,11 @@ class StatusComponentHistoryCard extends StatelessWidget {
   IconData _iconFor(StatusComponentKind kind) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => Icons.radio_button_checked_rounded,
+      StatusComponentKind.juggluco => Icons.sensors_rounded,
       StatusComponentKind.xdrip => Icons.phone_android_rounded,
       StatusComponentKind.nightscout => Icons.cloud_rounded,
       StatusComponentKind.aapsLoop => Icons.loop_rounded,
+      StatusComponentKind.watchDisplay => Icons.watch_rounded,
     };
   }
 
@@ -117,9 +119,11 @@ class StatusComponentHistoryCard extends StatelessWidget {
   ) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => l10n.pageComponentCgmSensor,
+      StatusComponentKind.juggluco => 'Juggluco',
       StatusComponentKind.xdrip => l10n.pageComponentXdrip,
       StatusComponentKind.nightscout => l10n.pageComponentNightscout,
       StatusComponentKind.aapsLoop => l10n.pageComponentAapsLoop,
+      StatusComponentKind.watchDisplay => 'Watch display',
     };
   }
 }

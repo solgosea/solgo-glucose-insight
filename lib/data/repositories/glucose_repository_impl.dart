@@ -11,7 +11,6 @@ import '../../domain/entities/app_settings.dart';
 import '../../domain/repositories/i_glucose_repository.dart';
 import '../../engine/statistics/tir_calculator.dart';
 import '../../engine/detection/episode_detector.dart';
-import '../../engine/patterns/glucotype_classifier.dart';
 import '../local/glucose_database.dart';
 
 /// Coordinates between data sources (xDrip+ HTTP/Nightscout), the local
@@ -75,6 +74,20 @@ class GlucoseRepositoryImpl implements IGlucoseRepository {
     final result = await _syncOrchestrator.syncConfiguredSources(
       settings: _settings,
     );
+    _publishLatestFrom(result);
+    return result;
+  }
+
+  Future<GlucoseSourceSyncResult> syncTargetWithResult(String targetId) async {
+    final result = await _syncOrchestrator.syncTarget(
+      settings: _settings,
+      targetId: targetId,
+    );
+    _publishLatestFrom(result);
+    return result;
+  }
+
+  void _publishLatestFrom(GlucoseSourceSyncResult result) {
     final latest = result.sourceResults
         .expand((sourceResult) => sourceResult.readings)
         .fold<GlucoseReading?>(null, (current, reading) {
@@ -86,18 +99,11 @@ class GlucoseRepositoryImpl implements IGlucoseRepository {
     if (latest != null) {
       _latestController.add(latest);
     }
-    return result;
   }
 
   @override
   Future<List<GlucoseEvent>> eventsFor(List<GlucoseReading> readings) async {
     return EpisodeDetector.detect(readings);
-  }
-
-  @override
-  Future<GlucotypeResult> glucotype() async {
-    final readings = await lastDays(14);
-    return GlucotypeClassifier.classify(readings);
   }
 
   @override

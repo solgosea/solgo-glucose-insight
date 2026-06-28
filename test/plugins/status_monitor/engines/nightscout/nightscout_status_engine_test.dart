@@ -40,7 +40,7 @@ void main() {
                 readings: readings,
                 endpointProbes: [
                   StatusEndpointProbe(
-                    endpoint: '/api/v1/entries/sgv.json',
+                    endpoint: '/api/v1/entries.json',
                     label: 'entries',
                     level: StatusLevel.healthy,
                     reachable: true,

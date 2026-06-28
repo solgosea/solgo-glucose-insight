@@ -25,15 +25,14 @@ void main() {
       _result('xdrip.uploader_battery', StatusLevel.unknown, available: false),
     ]);
 
-    expect(score.value, 46);
+    expect(score.value, 42);
     expect(score.label, 'Weak data link');
     expect(score.availableSignals, 2);
     expect(score.totalSignals, 3);
-    expect(score.confidence, closeTo(.55, .001));
+    expect(score.confidence, closeTo(.45, .001));
   });
 
-  test('caps score when local service is reachable but readings are missing',
-      () {
+  test('does not treat local service alone as the primary xDrip path', () {
     const calculator = XdripHealthScoreCalculator();
 
     final result = calculator.calculateWithBreakdown(
@@ -61,11 +60,11 @@ void main() {
       readingSourceLabel: 'No live readings',
     );
 
-    expect(result.score.value, 25);
+    expect(result.score.value, 0);
     expect(result.score.label, 'Service reachable, no readings');
-    expect(result.breakdown.rawScore, 25);
-    expect(result.breakdown.finalScore, 25);
-    expect(result.score.confidence, closeTo(.25, .001));
+    expect(result.breakdown.rawScore, 0);
+    expect(result.breakdown.finalScore, 0);
+    expect(result.score.confidence, closeTo(0, .001));
   });
 }
 

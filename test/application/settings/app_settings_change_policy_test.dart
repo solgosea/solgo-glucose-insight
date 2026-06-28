@@ -53,5 +53,20 @@ void main() {
       expect(impact.updateForegroundPolling, isTrue);
       expect(impact.updateRuntime, isTrue);
     });
+
+    test('updates foreground polling when sync interval changes', () {
+      final impact = policy.evaluate(
+        const AppSettingsChange(
+          previous: AppSettings(syncIntervalMinutes: 1),
+          next: AppSettings(syncIntervalMinutes: 5),
+        ),
+      );
+
+      expect(impact.persist, isTrue);
+      expect(impact.applyRepositorySettings, isTrue);
+      expect(impact.syncBackgroundService, isTrue);
+      expect(impact.updateForegroundPolling, isTrue);
+      expect(impact.updateRuntime, isFalse);
+    });
   });
 }

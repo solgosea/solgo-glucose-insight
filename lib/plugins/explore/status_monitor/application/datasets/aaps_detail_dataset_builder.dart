@@ -6,6 +6,8 @@ import '../../domain/analysis/status_analysis_context.dart';
 import '../../domain/detail/status_signal_summary.dart';
 import '../../domain/status_level.dart';
 import '../../domain/status_metric.dart';
+import '../../domain/xdrip/xdrip_broadcast_readiness.dart';
+import '../../domain/xdrip/xdrip_broadcast_state.dart';
 import '../engines/aaps/aaps_metric_ids.dart';
 import 'status_dataset_builder.dart';
 
@@ -34,6 +36,7 @@ class AapsDetailDatasetBuilder implements StatusDatasetBuilder<AapsDetailData> {
       signals: _signals(byId),
       timeline: _timeline(context),
       evidenceMatrix: _matrix(context),
+      xdripBgSource: _xdripBgSource(context),
       loopContext: _card(
         label: 'Loop context',
         metric: byId[AapsMetricIds.loopContext],
@@ -77,6 +80,7 @@ class AapsDetailDatasetBuilder implements StatusDatasetBuilder<AapsDetailData> {
   List<StatusSignalSummary> _signals(Map<String, StatusMetric> byId) {
     final ids = [
       AapsMetricIds.nightscoutDependency,
+      AapsMetricIds.xdripBgSource,
       AapsMetricIds.syncFreshness,
       AapsMetricIds.loopContext,
       AapsMetricIds.pumpContext,
@@ -85,6 +89,7 @@ class AapsDetailDatasetBuilder implements StatusDatasetBuilder<AapsDetailData> {
     ];
     final labels = {
       AapsMetricIds.nightscoutDependency: 'Nightscout',
+      AapsMetricIds.xdripBgSource: 'xDrip+ BG source',
       AapsMetricIds.syncFreshness: 'AAPS sync',
       AapsMetricIds.loopContext: 'Loop context',
       AapsMetricIds.pumpContext: 'Pump',
@@ -106,6 +111,13 @@ class AapsDetailDatasetBuilder implements StatusDatasetBuilder<AapsDetailData> {
   List<AapsEvidenceMatrixRow> _matrix(StatusAnalysisContext context) {
     final evidence = context.evidence.aapsEvidence;
     return [
+      AapsEvidenceMatrixRow(
+        title: 'xDrip+ BG source',
+        copy:
+            'AAPS with xDrip+ depends on the local broadcast path, not xDrip+ Web Server.',
+        badge: context.evidence.xdripBroadcastEvidence.state(context.now).label,
+        level: _xdripBroadcastLevel(context),
+      ),
       AapsEvidenceMatrixRow(
         title: 'Nightscout API',
         copy: evidence.nightscoutReachable
@@ -154,6 +166,36 @@ class AapsDetailDatasetBuilder implements StatusDatasetBuilder<AapsDetailData> {
             : StatusLevel.unknown,
       ),
     ];
+  }
+
+  XdripBroadcastReadiness _xdripBgSource(StatusAnalysisContext context) {
+    final evidence = context.evidence.xdripBroadcastEvidence;
+    final state = evidence.state(context.now);
+    final level = _xdripBroadcastLevel(context);
+    return XdripBroadcastReadiness(
+      state: state,
+      level: level,
+      stateLabel: state.label,
+      latestLabel: evidence.latestAgeLabel(context.now),
+      payloadLabel: evidence.payload.glucose == null
+          ? 'No glucose payload'
+          : '${evidence.payload.glucose} ${evidence.payload.unit ?? 'mg/dL'}',
+      receiverPackage: 'info.nightscout.androidaps',
+      guidance: state == XdripBroadcastState.fresh
+          ? 'xDrip+ local broadcast is fresh for AAPS BG source flow.'
+          : 'Check xDrip+ Inter-app settings: Broadcast locally, Send displayed glucose value, Compatible Broadcast, and Identify receiver.',
+    );
+  }
+
+  StatusLevel _xdripBroadcastLevel(StatusAnalysisContext context) {
+    return switch (context.evidence.xdripBroadcastEvidence.state(context.now)) {
+      XdripBroadcastState.fresh => StatusLevel.healthy,
+      XdripBroadcastState.stale ||
+      XdripBroadcastState.missing ||
+      XdripBroadcastState.invalid =>
+        StatusLevel.issue,
+      XdripBroadcastState.unknown => StatusLevel.unknown,
+    };
   }
 
   List<AapsLoopTimelineBucket> _timeline(StatusAnalysisContext context) {

@@ -14,6 +14,7 @@ import '../rules/xdrip/completeness_24h_rule.dart';
 import '../rules/xdrip/reading_freshness_rule.dart';
 import '../rules/xdrip/upload_latency_rule.dart';
 import '../rules/xdrip/uploader_battery_rule.dart';
+import '../rules/xdrip/xdrip_local_broadcast_rule.dart';
 import '../rules/xdrip/xdrip_local_service_rule.dart';
 import '../rules/xdrip/xdrip_sensor_collector_context_rule.dart';
 
@@ -26,7 +27,7 @@ class XdripRuleCatalog {
         definition: _definition(
           ruleId: 'xdrip.local_service',
           metricId: XdripMetricIds.localService,
-          weight: 25,
+          weight: 0,
           inputs: const [StatusRuleInputRequirement.endpointProbe],
           textTemplateKey: 'status.xdrip.rule.local_service.v1',
         ),
@@ -34,9 +35,19 @@ class XdripRuleCatalog {
       ),
       StatusRuleEvaluator(
         definition: _definition(
+          ruleId: 'xdrip.local_broadcast',
+          metricId: XdripMetricIds.localBroadcast,
+          weight: 35,
+          inputs: const [StatusRuleInputRequirement.localBroadcast],
+          textTemplateKey: 'status.xdrip.rule.local_broadcast.v1',
+        ),
+        rule: const XdripLocalBroadcastRule(),
+      ),
+      StatusRuleEvaluator(
+        definition: _definition(
           ruleId: 'xdrip.reading_freshness',
           metricId: XdripMetricIds.freshness,
-          weight: 30,
+          weight: 35,
           inputs: const [
             StatusRuleInputRequirement.currentSource,
             StatusRuleInputRequirement.readings,
@@ -49,7 +60,7 @@ class XdripRuleCatalog {
         definition: _definition(
           ruleId: 'xdrip.completeness_24h',
           metricId: XdripMetricIds.completeness24h,
-          weight: 25,
+          weight: 10,
           inputs: const [StatusRuleInputRequirement.readings],
           textTemplateKey: 'status.xdrip.rule.completeness.v1',
         ),

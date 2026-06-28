@@ -12,6 +12,7 @@ class PollingContext {
   final double? latestRatePerMin;
   final int consecutiveFailures;
   final bool hasActiveAlert;
+  final Duration normalSyncInterval;
 
   const PollingContext({
     required this.sourceKind,
@@ -24,5 +25,6 @@ class PollingContext {
     this.latestRatePerMin,
     this.consecutiveFailures = 0,
     this.hasActiveAlert = false,
+    this.normalSyncInterval = const Duration(minutes: 1),
   });
 }

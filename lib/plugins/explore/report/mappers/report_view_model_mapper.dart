@@ -69,15 +69,13 @@ class ReportViewModelMapper {
       settings.highThreshold,
       settings.unit,
     );
-    final end = section.readings.isNotEmpty
-        ? section.readings.last.timestamp
-        : section.generatedAt;
-    final start = end.subtract(Duration(days: section.period.days - 1));
+    final displayDays = section.end.difference(section.start).inDays + 1;
     final readingCount = _decimal(section.readings.length, l10n.localeName);
     return ReportHeaderViewModel(
       periodTitle: l10n.headerPeriod,
-      periodLabel:
-          '${_dateFull(start, l10n.localeName)} - ${_dateFull(end, l10n.localeName)} - ${l10n.unitDays(section.period.days)}',
+      periodLabel: '${_dateFull(section.start, l10n.localeName)} - '
+          '${_dateFull(section.end, l10n.localeName)} - '
+          '${l10n.unitDays(displayDays)}',
       readingsLabel: l10n.unitReadings(readingCount),
       coverageLabel: l10n.unitWearActive(
           section.quality.wearPercent.toStringAsFixed(0),
@@ -173,9 +171,9 @@ class ReportViewModelMapper {
         thresholdLabel: thresholdLabel,
         levelLabel: levelLabel,
         percent: section.quality.percentFor(band),
-        minutesPerDay: section.period.days <= 0
+        minutesPerDay: section.periodDays <= 0
             ? 0
-            : (minutes / section.period.days).round(),
+            : (minutes / section.periodDays).round(),
         tone: tone,
       );
     }

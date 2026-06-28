@@ -16,7 +16,7 @@
     "settingsStorageTitle": "Data Storage",
     "settingsAboutSubtitle": "App information and support links",
     "settingsStorageDescription": "Local glucose data storage summary.",
-    "settingsSyncDescription": "Initial sync window and source sync preferences.",
+    "settingsSyncDescription": "Sync window and source sync preferences.",
     "pluginUnavailable": "Unavailable",
     "pluginReportTitle": "Settings Report",
     "@@locale": "en",
@@ -33,6 +33,53 @@
     "settingsRetentionPeriodLabel": "Retention period",
     "settingsDaysSuffix": "days",
     "settingsInitialSyncWindowLabel": "Initial sync window",
+    "settingsSyncWindowLabel": "Sync window",
+    "settingsSyncWindowSubtitle": "History range and sync interval",
+    "settingsSyncWindowValue": "{days} days · every {minutes} min",
+    "@settingsSyncWindowValue": {
+        "placeholders": {
+            "days": {"type": "int"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSyncWindowSheetTitle": "Sync window",
+    "settingsSyncWindowSheetSubtitle": "Choose how much history to load, then how often SolgoInsight checks for new readings.",
+    "settingsSyncPlanLabel": "SYNC PLAN",
+    "settingsHistoryRangeLabel": "History range",
+    "settingsHistoryRangeValue": "{days} days",
+    "@settingsHistoryRangeValue": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "settingsSyncIntervalLabel": "Sync interval",
+    "settingsSyncIntervalValue": "Every {minutes} min",
+    "@settingsSyncIntervalValue": {
+        "placeholders": {
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsDaysShort": "{days}d",
+    "@settingsDaysShort": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "settingsMinutesShort": "{minutes}m",
+    "@settingsMinutesShort": {
+        "placeholders": {
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSyncPreviewTitle": "What happens next",
+    "settingsSyncPreviewBody": "Initial sync loads up to {days} days. After that, new readings are checked about every {minutes} minute(s) when sync is active.",
+    "@settingsSyncPreviewBody": {
+        "placeholders": {
+            "days": {"type": "int"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSaveSyncWindow": "Save",
     "settingsRetentionSummarySuffix": "No data leaves this device",
     "settingsClearAllDataDialogTitle": "Clear all data?",
     "settingsDaysMax": "days max",

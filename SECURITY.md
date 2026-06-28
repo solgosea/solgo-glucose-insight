@@ -1,22 +1,30 @@
 # Security Policy
 
-## Reporting a vulnerability
+## Reporting A Vulnerability
 
-Please **do not** open a public GitHub issue for security vulnerabilities.
+Please do not open a public GitHub issue for security vulnerabilities.
 
-Report privately via GitHub Security Advisories:  
-**Repository → Security → Advisories → Report a vulnerability**
+Report privately via GitHub Security Advisories:
 
-Or by email to the maintainer listed in the repository's About section.
+**Repository -> Security -> Advisories -> Report a vulnerability**
 
-We aim to acknowledge reports within 72 hours and provide a fix timeline within 14 days depending on severity.
+Or contact the maintainer through the repository About section.
 
 ## Scope
 
-In scope: authentication bypass, data leakage, insecure storage of API secrets, any issue that could expose a user's glucose data to a third party.
+In scope:
 
-Out of scope: theoretical issues with no practical impact, issues in dependencies already tracked by their own projects.
+- data leakage
+- insecure storage of API secrets
+- issues that could expose a user's glucose data to a third party
+- vulnerabilities in configured data-source handling
 
-## Data handling note
+Out of scope:
 
-Solgo Insight stores all glucose data locally on-device and transmits it only to the URLs the user explicitly configures. It has no backend and no telemetry.
+- theoretical issues with no practical impact
+- issues in dependencies already tracked by their own projects
+- medical interpretation disagreements
+
+## Data Handling Note
+
+Solgo Insight stores glucose data locally on-device and transmits it only to URLs the user explicitly configures. The community preview has no account system and no telemetry.

@@ -22,6 +22,7 @@ class StatusReportChainBuilder {
     final strings = l10n ?? StatusMonitorL10nResolver.fallback;
     const order = [
       StatusComponentKind.cgmSensor,
+      StatusComponentKind.juggluco,
       StatusComponentKind.xdrip,
       StatusComponentKind.nightscout,
       StatusComponentKind.aapsLoop,

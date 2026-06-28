@@ -124,6 +124,13 @@ class StatusMonitorRepository {
   Future<List<StatusComponentHistorySample>> queryHistorySamples(
     StatusHistoryQuery query,
   ) async {
+    return queryComponentHistorySamples(query);
+  }
+
+  Future<List<StatusComponentHistorySample>> queryComponentHistorySamples(
+    StatusHistoryQuery query, {
+    StatusComponentKind? component,
+  }) async {
     final database = await _database;
     final where = StringBuffer('subject_id = ? AND at_ms >= ? AND at_ms <= ?');
     final args = <Object?>[
@@ -137,6 +144,10 @@ class StatusMonitorRepository {
     } else {
       where.write(' AND source_target_id = ?');
       args.add(target);
+    }
+    if (component != null) {
+      where.write(' AND component = ?');
+      args.add(component.name);
     }
     final rows = await database.query(
       StatusMonitorTables.history,

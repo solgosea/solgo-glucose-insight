@@ -12,7 +12,8 @@ class BackgroundLocalizationsEn extends BackgroundLocalizations {
   String get glucoseSyncSubtitle => 'Sync active glucose source';
 
   @override
-  String get sourceHealthSubtitle => 'Validate active data source availability.';
+  String get sourceHealthSubtitle =>
+      'Validate active data source availability.';
 
   @override
   String get sourceHealthTitle => 'Source Health Check';
@@ -21,10 +22,12 @@ class BackgroundLocalizationsEn extends BackgroundLocalizations {
   String get glucoseSyncTitle => 'Glucose Sync';
 
   @override
-  String get glucoseSyncDescription => 'Synchronizes glucose readings from active source.';
+  String get glucoseSyncDescription =>
+      'Synchronizes glucose readings from active source.';
 
   @override
-  String get sourceHealthDescription => 'Checks the active xDrip or Nightscout source reachability.';
+  String get sourceHealthDescription =>
+      'Checks the active xDrip or Nightscout source reachability.';
 
   @override
   String get pluginUnavailable => 'Unavailable';
@@ -33,13 +36,15 @@ class BackgroundLocalizationsEn extends BackgroundLocalizations {
   String get pluginReportTitle => 'Background Report';
 
   @override
-  String get pluginSubtitle => 'Background glucose sync and source health tasks.';
+  String get pluginSubtitle =>
+      'Background glucose sync and source health tasks.';
 
   @override
   String get pluginTitle => 'Background Tasks';
 
   @override
-  String get pluginDescription => 'Background glucose sync and source health tasks.';
+  String get pluginDescription =>
+      'Background glucose sync and source health tasks.';
 
   @override
   String get pluginNoData => 'No data available yet.';

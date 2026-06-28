@@ -1,6 +1,8 @@
 import '../status_source_capabilities.dart';
+import '../xdrip/xdrip_broadcast_evidence.dart';
 import 'aaps_evidence.dart';
 import 'cgm_reading_evidence.dart';
+import 'juggluco_broadcast_evidence.dart';
 import 'nightscout_evidence.dart';
 import 'status_cached_reading_evidence.dart';
 import 'status_evidence_selection.dart';
@@ -11,16 +13,20 @@ import 'xdrip_local_evidence.dart';
 class StatusEvidenceBundle {
   final String subjectId;
   final XdripLocalEvidence xdripLocalEvidence;
+  final XdripBroadcastEvidence xdripBroadcastEvidence;
   final NightscoutEvidence nightscoutEvidence;
   final AapsEvidence aapsEvidence;
+  final JugglucoBroadcastEvidence jugglucoEvidence;
   final CgmReadingEvidence cachedReadingEvidence;
   final StatusEvidenceSelection selection;
 
   const StatusEvidenceBundle({
     required this.subjectId,
     required this.xdripLocalEvidence,
+    required this.xdripBroadcastEvidence,
     required this.nightscoutEvidence,
     required this.aapsEvidence,
+    required this.jugglucoEvidence,
     required this.cachedReadingEvidence,
     required this.selection,
   });
@@ -64,12 +70,17 @@ class StatusEvidenceBundle {
   StatusEvidenceBundle copyWith({
     NightscoutEvidence? nightscoutEvidence,
     AapsEvidence? aapsEvidence,
+    JugglucoBroadcastEvidence? jugglucoEvidence,
+    XdripBroadcastEvidence? xdripBroadcastEvidence,
   }) {
     return StatusEvidenceBundle(
       subjectId: subjectId,
       xdripLocalEvidence: xdripLocalEvidence,
+      xdripBroadcastEvidence:
+          xdripBroadcastEvidence ?? this.xdripBroadcastEvidence,
       nightscoutEvidence: nightscoutEvidence ?? this.nightscoutEvidence,
       aapsEvidence: aapsEvidence ?? this.aapsEvidence,
+      jugglucoEvidence: jugglucoEvidence ?? this.jugglucoEvidence,
       cachedReadingEvidence: cachedReadingEvidence,
       selection: selection,
     );

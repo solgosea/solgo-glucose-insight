@@ -154,6 +154,72 @@ abstract class StatisticsLocalizations {
   /// **'Export ->'**
   String get exportAction;
 
+  /// No description provided for @dateFilterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get dateFilterTooltip;
+
+  /// No description provided for @dateFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis period'**
+  String get dateFilterTitle;
+
+  /// No description provided for @dateFilterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a preset or drag across dates to analyze a range.'**
+  String get dateFilterSubtitle;
+
+  /// No description provided for @dateFilterApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply filter'**
+  String get dateFilterApply;
+
+  /// No description provided for @dateFilterReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateFilterReset;
+
+  /// No description provided for @dateFilterCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dateFilterCancel;
+
+  /// No description provided for @dateFilterSelectedDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected period'**
+  String get dateFilterSelectedDates;
+
+  /// No description provided for @dateFilterDay.
+  ///
+  /// In en, this message translates to:
+  /// **'day'**
+  String get dateFilterDay;
+
+  /// No description provided for @dateFilterDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get dateFilterDays;
+
+  /// No description provided for @dateFilterReadings.
+  ///
+  /// In en, this message translates to:
+  /// **'readings'**
+  String get dateFilterReadings;
+
+  /// No description provided for @dateFilterDragHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use presets for common windows, or drag across dates for a custom analysis period.'**
+  String get dateFilterDragHint;
+
   /// No description provided for @tirBreakdownTitle.
   ///
   /// In en, this message translates to:

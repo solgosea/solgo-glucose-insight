@@ -62,15 +62,18 @@ import 'history_localizations_zh.dart';
 /// be consistent with the languages listed in the HistoryLocalizations.supportedLocales
 /// property.
 abstract class HistoryLocalizations {
-  HistoryLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  HistoryLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static HistoryLocalizations of(BuildContext context) {
-    return Localizations.of<HistoryLocalizations>(context, HistoryLocalizations)!;
+    return Localizations.of<HistoryLocalizations>(
+        context, HistoryLocalizations)!;
   }
 
-  static const LocalizationsDelegate<HistoryLocalizations> delegate = _HistoryLocalizationsDelegate();
+  static const LocalizationsDelegate<HistoryLocalizations> delegate =
+      _HistoryLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class HistoryLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -149,6 +153,108 @@ abstract class HistoryLocalizations {
   /// In en, this message translates to:
   /// **'TODAY'**
   String get today;
+
+  /// No description provided for @dateFilterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get dateFilterTooltip;
+
+  /// No description provided for @dateFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get dateFilterTitle;
+
+  /// No description provided for @dateFilterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a day or drag across dates to filter history.'**
+  String get dateFilterSubtitle;
+
+  /// No description provided for @dateFilterRangeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE RANGE'**
+  String get dateFilterRangeSubtitle;
+
+  /// No description provided for @dateFilterApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get dateFilterApply;
+
+  /// No description provided for @dateFilterReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateFilterReset;
+
+  /// No description provided for @dateFilterCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dateFilterCancel;
+
+  /// No description provided for @dateFilterSelectedDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected dates'**
+  String get dateFilterSelectedDates;
+
+  /// No description provided for @dateFilterDay.
+  ///
+  /// In en, this message translates to:
+  /// **'day'**
+  String get dateFilterDay;
+
+  /// No description provided for @dateFilterDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get dateFilterDays;
+
+  /// No description provided for @dateFilterReadings.
+  ///
+  /// In en, this message translates to:
+  /// **'readings'**
+  String get dateFilterReadings;
+
+  /// No description provided for @dateFilterDragHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a day for a single day, or drag across dates to select a range.'**
+  String get dateFilterDragHint;
+
+  /// No description provided for @dateFilterToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateFilterToday;
+
+  /// No description provided for @dateFilterYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dateFilterYesterday;
+
+  /// No description provided for @dateFilterLast7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get dateFilterLast7Days;
+
+  /// No description provided for @dateFilterLast14Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 14 days'**
+  String get dateFilterLast14Days;
+
+  /// No description provided for @dateFilterThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get dateFilterThisMonth;
 
   /// No description provided for @summaryTir.
   ///
@@ -252,6 +358,66 @@ abstract class HistoryLocalizations {
   /// **'View episode analysis ->'**
   String get episodeAction;
 
+  /// No description provided for @episodesPanelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EPISODES'**
+  String get episodesPanelTitle;
+
+  /// No description provided for @episodesFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get episodesFilterAll;
+
+  /// No description provided for @episodesFilterHighs.
+  ///
+  /// In en, this message translates to:
+  /// **'Highs'**
+  String get episodesFilterHighs;
+
+  /// No description provided for @episodesFilterLows.
+  ///
+  /// In en, this message translates to:
+  /// **'Lows'**
+  String get episodesFilterLows;
+
+  /// No description provided for @episodesShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all {count} episodes'**
+  String episodesShowAll(int count);
+
+  /// No description provided for @episodesShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get episodesShowLess;
+
+  /// No description provided for @episodeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get episodeMinutes;
+
+  /// No description provided for @episodeAboveThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'above {threshold}'**
+  String episodeAboveThreshold(String threshold);
+
+  /// No description provided for @episodeBelowThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'below {threshold}'**
+  String episodeBelowThreshold(String threshold);
+
+  /// No description provided for @episodeNocturnal.
+  ///
+  /// In en, this message translates to:
+  /// **'nocturnal'**
+  String get episodeNocturnal;
+
   /// No description provided for @eventRiseDetected.
   ///
   /// In en, this message translates to:
@@ -343,43 +509,48 @@ abstract class HistoryLocalizations {
   String eventRatePrefix(String rate);
 }
 
-class _HistoryLocalizationsDelegate extends LocalizationsDelegate<HistoryLocalizations> {
+class _HistoryLocalizationsDelegate
+    extends LocalizationsDelegate<HistoryLocalizations> {
   const _HistoryLocalizationsDelegate();
 
   @override
   Future<HistoryLocalizations> load(Locale locale) {
-    return SynchronousFuture<HistoryLocalizations>(lookupHistoryLocalizations(locale));
+    return SynchronousFuture<HistoryLocalizations>(
+        lookupHistoryLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_HistoryLocalizationsDelegate old) => false;
 }
 
 HistoryLocalizations lookupHistoryLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh': {
-  switch (locale.scriptCode) {
-    case 'Hant': return HistoryLocalizationsZhHant();
-   }
-  break;
-   }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return HistoryLocalizationsZhHant();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return HistoryLocalizationsEn();
-    case 'zh': return HistoryLocalizationsZh();
+    case 'en':
+      return HistoryLocalizationsEn();
+    case 'zh':
+      return HistoryLocalizationsZh();
   }
 
   throw FlutterError(
-    'HistoryLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'HistoryLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

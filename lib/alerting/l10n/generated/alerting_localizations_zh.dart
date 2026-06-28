@@ -114,7 +114,8 @@ class AlertingLocalizationsZh extends AlertingLocalizations {
   String get alertRuntimeTitle => '告警运行状态';
 
   @override
-  String get runtimeAndroidHelperAlerts => 'Android 告警可以通过前台服务运行，但 SolgoInsight 仍会把它们作为辅助提醒处理。';
+  String get runtimeAndroidHelperAlerts =>
+      'Android 告警可以通过前台服务运行，但 SolgoInsight 仍会把它们作为辅助提醒处理。';
 
   @override
   String get runtimeIosBestEffort => 'iOS 可在系统允许时通过尽力而为的后台刷新评估辅助告警，但不是实时告警。';

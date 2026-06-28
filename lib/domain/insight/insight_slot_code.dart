@@ -8,18 +8,9 @@ enum InsightSlotCode {
   periodSummary('period_summary'),
   periodPattern('period_pattern'),
   periodEmptyState('period_empty_state'),
-  weeklyPatternSummary('weekly_pattern_summary'),
-  weeklyPatternEmptyState('weekly_pattern_empty_state'),
   agpObservation('agp_observation'),
   agpSummary('agp_summary'),
   agpEmptyState('agp_empty_state'),
-  glucotypeHero('glucotype_hero'),
-  glucotypeTrend('glucotype_trend'),
-  glucotypeFactorNote('glucotype_factor_note'),
-  glucotypeEmptyState('glucotype_empty_state'),
-  glucoseEventsCountSummary('glucose_events_count_summary'),
-  glucoseEventsShortcutEmpty('glucose_events_shortcut_empty'),
-  glucoseEventsEmptyState('glucose_events_empty_state'),
   glucoseEventRow('glucose_event_row'),
   emptyState('empty_state');
 

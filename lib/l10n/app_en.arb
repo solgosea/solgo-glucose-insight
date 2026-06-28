@@ -16,7 +16,7 @@
   "settingsSubtitle": "Display, sync window, storage, and export preferences.",
   "settingsLanguageTitle": "Language",
   "settingsLanguageDescription": "App display language",
-  "settingsLanguageSystem": "Follow system",
+  "settingsLanguageSystem": "Use system",
   "settingsLanguageEnglish": "English",
   "settingsLanguageSimplifiedChinese": "Simplified Chinese",
   "settingsLanguageTraditionalChinese": "Traditional Chinese",
@@ -131,18 +131,28 @@
     }
   },
   "syncFailed": "failed",
+  "syncStatusWaiting": "Waiting",
+  "syncStatusSynced": "Synced",
+  "syncStatusNeedsSync": "Needs sync",
+  "syncStatusFailed": "Failed",
   "syncLastFailed": "Last sync failed",
+  "syncLastAttempt": "Last attempt {relative}",
+  "@syncLastAttempt": {
+    "placeholders": {
+      "relative": {}
+    }
+  },
   "syncSchedulePending": "Schedule pending",
   "syncPaused": "Sync paused",
   "syncWaitingSchedule": "Waiting for schedule",
   "syncDue": "Sync due",
-  "syncNext": "Next {duration}",
+  "syncNext": "Next in {duration}",
   "@syncNext": {
     "placeholders": {
       "duration": {}
     }
   },
-  "syncEstimatedNext": "Est. next {duration}",
+  "syncEstimatedNext": "Est. next in {duration}",
   "@syncEstimatedNext": {
     "placeholders": {
       "duration": {}

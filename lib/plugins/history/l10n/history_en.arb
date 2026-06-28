@@ -9,6 +9,23 @@
     "pluginUnavailable":  "Unavailable",
     "dayView": "DAY VIEW",
     "today": "TODAY",
+    "dateFilterTooltip": "Choose dates",
+    "dateFilterTitle": "Choose dates",
+    "dateFilterSubtitle": "Tap a day or drag across dates to filter history.",
+    "dateFilterRangeSubtitle": "DATE RANGE",
+    "dateFilterApply": "Apply",
+    "dateFilterReset": "Today",
+    "dateFilterCancel": "Cancel",
+    "dateFilterSelectedDates": "Selected dates",
+    "dateFilterDay": "day",
+    "dateFilterDays": "days",
+    "dateFilterReadings": "readings",
+    "dateFilterDragHint": "Tap a day for a single day, or drag across dates to select a range.",
+    "dateFilterToday": "Today",
+    "dateFilterYesterday": "Yesterday",
+    "dateFilterLast7Days": "Last 7 days",
+    "dateFilterLast14Days": "Last 14 days",
+    "dateFilterThisMonth": "This month",
     "summaryTir": "TIR",
     "summaryPeak": "Peak",
     "summaryCv": "CV",
@@ -33,6 +50,37 @@
     "episodeHigh": "High episode",
     "episodeLow": "Low episode",
     "episodeAction": "View episode analysis ->",
+    "episodesPanelTitle": "EPISODES",
+    "episodesFilterAll": "All",
+    "episodesFilterHighs": "Highs",
+    "episodesFilterLows": "Lows",
+    "episodesShowAll": "Show all {count} episodes",
+    "@episodesShowAll": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "episodesShowLess": "Show less",
+    "episodeMinutes": "min",
+    "episodeAboveThreshold": "above {threshold}",
+    "@episodeAboveThreshold": {
+        "placeholders": {
+            "threshold": {
+                "type": "String"
+            }
+        }
+    },
+    "episodeBelowThreshold": "below {threshold}",
+    "@episodeBelowThreshold": {
+        "placeholders": {
+            "threshold": {
+                "type": "String"
+            }
+        }
+    },
+    "episodeNocturnal": "nocturnal",
     "eventRiseDetected": "Rise detected",
     "eventLowEpisode": "Low episode",
     "eventRecoveryToRange": "Recovery to range",

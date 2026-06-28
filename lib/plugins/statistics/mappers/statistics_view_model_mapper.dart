@@ -31,8 +31,11 @@ class StatisticsViewModelMapper {
     final textContext = PluginTextRenderContext(locale: strings.localeName);
     final period = output.periodSection;
     final windowLabel = _windowShortLabel(period.selectedWindow.id, strings);
+    final displayWindow = period.rangeLabel ??
+        _windowHeaderLabel(period.selectedWindow.id, strings);
     return StatisticsViewModel(
       selectedWindowId: period.selectedWindow.id,
+      dateFilterLabel: period.rangeLabel ?? windowLabel,
       periodOptions: period.options
           .map(
             (option) => StatisticsPeriodOptionViewModel(
@@ -43,7 +46,7 @@ class StatisticsViewModelMapper {
           )
           .toList(growable: false),
       metricsHeader: metricsMapper.header(
-        _windowHeaderLabel(period.selectedWindow.id, strings),
+        displayWindow,
         context: textContext,
       ),
       metrics: metricsMapper.map(

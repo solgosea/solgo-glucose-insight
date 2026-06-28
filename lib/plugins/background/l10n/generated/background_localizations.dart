@@ -62,15 +62,18 @@ import 'background_localizations_zh.dart';
 /// be consistent with the languages listed in the BackgroundLocalizations.supportedLocales
 /// property.
 abstract class BackgroundLocalizations {
-  BackgroundLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  BackgroundLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static BackgroundLocalizations of(BuildContext context) {
-    return Localizations.of<BackgroundLocalizations>(context, BackgroundLocalizations)!;
+    return Localizations.of<BackgroundLocalizations>(
+        context, BackgroundLocalizations)!;
   }
 
-  static const LocalizationsDelegate<BackgroundLocalizations> delegate = _BackgroundLocalizationsDelegate();
+  static const LocalizationsDelegate<BackgroundLocalizations> delegate =
+      _BackgroundLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class BackgroundLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -175,43 +179,48 @@ abstract class BackgroundLocalizations {
   String get pluginLoading;
 }
 
-class _BackgroundLocalizationsDelegate extends LocalizationsDelegate<BackgroundLocalizations> {
+class _BackgroundLocalizationsDelegate
+    extends LocalizationsDelegate<BackgroundLocalizations> {
   const _BackgroundLocalizationsDelegate();
 
   @override
   Future<BackgroundLocalizations> load(Locale locale) {
-    return SynchronousFuture<BackgroundLocalizations>(lookupBackgroundLocalizations(locale));
+    return SynchronousFuture<BackgroundLocalizations>(
+        lookupBackgroundLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_BackgroundLocalizationsDelegate old) => false;
 }
 
 BackgroundLocalizations lookupBackgroundLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh': {
-  switch (locale.scriptCode) {
-    case 'Hant': return BackgroundLocalizationsZhHant();
-   }
-  break;
-   }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return BackgroundLocalizationsZhHant();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return BackgroundLocalizationsEn();
-    case 'zh': return BackgroundLocalizationsZh();
+    case 'en':
+      return BackgroundLocalizationsEn();
+    case 'zh':
+      return BackgroundLocalizationsZh();
   }
 
   throw FlutterError(
-    'BackgroundLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'BackgroundLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

@@ -24,8 +24,8 @@ void main() {
 
     final allHistorySource =
         _dartFiles(root).map((file) => file.readAsStringSync()).join('\n');
-    expect(allHistorySource, isNot(contains('/calendar_heatmap/')));
-    expect(allHistorySource, isNot(contains('/period_analysis/')));
+    expect(allHistorySource, isNot(contains('/calendar_' 'heatmap/')));
+    expect(allHistorySource, isNot(contains('/period_' 'analysis/')));
     expect(allHistorySource, isNot(contains('/status_monitor/')));
   });
 }

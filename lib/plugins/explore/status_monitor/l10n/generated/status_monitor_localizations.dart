@@ -1690,7 +1690,7 @@ abstract class StatusMonitorLocalizations {
   /// No description provided for @pageSevenDayHistorySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Each row is one day - 24 cells per row, one per hour - Unknown means not enough recorded status samples to judge'**
+  /// **'See when each component changed state.'**
   String get pageSevenDayHistorySubtitle;
 
   /// No description provided for @pageToday.
@@ -2467,6 +2467,24 @@ abstract class StatusMonitorLocalizations {
   /// **'History is scoped to the current subject and data source. It records component snapshots from Status Monitor refreshes; Unknown means there was not enough recorded sample data for that hour.'**
   String get pageHistoryScopeNote;
 
+  /// No description provided for @pageHistoryLoadingComponent.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading history for this component...'**
+  String get pageHistoryLoadingComponent;
+
+  /// No description provided for @pageHistoryNoComponentData.
+  ///
+  /// In en, this message translates to:
+  /// **'No recorded history for this component yet.'**
+  String get pageHistoryNoComponentData;
+
+  /// No description provided for @pageHistoryComponentFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load this component history.'**
+  String get pageHistoryComponentFailed;
+
   /// No description provided for @pageHistoryReasonRecordedSample.
   ///
   /// In en, this message translates to:
@@ -2490,6 +2508,24 @@ abstract class StatusMonitorLocalizations {
   /// In en, this message translates to:
   /// **'Future hour'**
   String get pageHistoryReasonFuture;
+
+  /// No description provided for @pageDashboardNavDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get pageDashboardNavDashboard;
+
+  /// No description provided for @pageDashboardNavHub.
+  ///
+  /// In en, this message translates to:
+  /// **'Hub'**
+  String get pageDashboardNavHub;
+
+  /// No description provided for @pageDashboardNavChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get pageDashboardNavChecklist;
 }
 
 class _StatusMonitorLocalizationsDelegate

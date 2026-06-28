@@ -28,8 +28,11 @@ void main() {
       ),
     );
 
-    expect(viewModel.label, contains('3m'));
+    expect(viewModel.label, 'Nightscout API - Synced');
+    expect(viewModel.statusLabel, 'Synced');
+    expect(viewModel.timeLabel, contains('3 min ago'));
     expect(viewModel.countdownLabel, contains('Est. next'));
+    expect(viewModel.scheduleLabel, contains('Est. next'));
     expect(viewModel.nextSyncAt, isNotNull);
     expect(viewModel.scheduleEstimated, isTrue);
     expect(viewModel.scheduleActive, isTrue);

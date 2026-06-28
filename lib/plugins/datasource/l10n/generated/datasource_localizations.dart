@@ -62,15 +62,18 @@ import 'datasource_localizations_zh.dart';
 /// be consistent with the languages listed in the DatasourceLocalizations.supportedLocales
 /// property.
 abstract class DatasourceLocalizations {
-  DatasourceLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  DatasourceLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static DatasourceLocalizations of(BuildContext context) {
-    return Localizations.of<DatasourceLocalizations>(context, DatasourceLocalizations)!;
+    return Localizations.of<DatasourceLocalizations>(
+        context, DatasourceLocalizations)!;
   }
 
-  static const LocalizationsDelegate<DatasourceLocalizations> delegate = _DatasourceLocalizationsDelegate();
+  static const LocalizationsDelegate<DatasourceLocalizations> delegate =
+      _DatasourceLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class DatasourceLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -217,43 +221,48 @@ abstract class DatasourceLocalizations {
   String get nightscoutConnectedSyncing;
 }
 
-class _DatasourceLocalizationsDelegate extends LocalizationsDelegate<DatasourceLocalizations> {
+class _DatasourceLocalizationsDelegate
+    extends LocalizationsDelegate<DatasourceLocalizations> {
   const _DatasourceLocalizationsDelegate();
 
   @override
   Future<DatasourceLocalizations> load(Locale locale) {
-    return SynchronousFuture<DatasourceLocalizations>(lookupDatasourceLocalizations(locale));
+    return SynchronousFuture<DatasourceLocalizations>(
+        lookupDatasourceLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_DatasourceLocalizationsDelegate old) => false;
 }
 
 DatasourceLocalizations lookupDatasourceLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh': {
-  switch (locale.scriptCode) {
-    case 'Hant': return DatasourceLocalizationsZhHant();
-   }
-  break;
-   }
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return DatasourceLocalizationsZhHant();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return DatasourceLocalizationsEn();
-    case 'zh': return DatasourceLocalizationsZh();
+    case 'en':
+      return DatasourceLocalizationsEn();
+    case 'zh':
+      return DatasourceLocalizationsZh();
   }
 
   throw FlutterError(
-    'DatasourceLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'DatasourceLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

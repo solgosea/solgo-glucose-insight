@@ -9,18 +9,27 @@ import '../../domain/scoring/status_component_score.dart';
 import '../../domain/status_component_kind.dart';
 import '../models/status_view_models.dart';
 import '../styles/status_monitor_theme.dart';
+import 'dashboard/status_component_check_indicator.dart';
 import 'status_level_pill.dart';
 
 class StatusComponentCard extends StatelessWidget {
   final StatusDashboardComponentViewModel viewModel;
+  final EdgeInsetsGeometry margin;
+  final bool showSummary;
 
-  const StatusComponentCard({super.key, required this.viewModel});
+  const StatusComponentCard({
+    super.key,
+    required this.viewModel,
+    this.margin = const EdgeInsets.fromLTRB(20, 0, 20, 10),
+    this.showSummary = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     final component = viewModel.component;
     final color = StatusMonitorTheme.colorFor(component.level);
     final score = component.score;
+    final checkPhase = viewModel.checkPhase;
     return LayoutBuilder(
       builder: (context, constraints) {
         final compact = constraints.maxWidth < 340;
@@ -30,8 +39,8 @@ class StatusComponentCard extends StatelessWidget {
             '/explore/status/component?kind=${component.kind.queryValue}',
           ),
           child: Container(
-            margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-            padding: EdgeInsets.all(compact ? 13 : 15),
+            margin: margin,
+            padding: EdgeInsets.all(showSummary ? (compact ? 13 : 15) : 11),
             decoration:
                 StatusMonitorTheme.cardDecoration(level: component.level),
             child: Row(
@@ -81,14 +90,16 @@ class StatusComponentCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          StatusLevelPill(
-                            level: component.level,
-                            compact: compact,
-                          ),
+                          if (showSummary) ...[
+                            const SizedBox(width: 8),
+                            StatusLevelPill(
+                              level: component.level,
+                              compact: compact,
+                            ),
+                          ],
                         ],
                       ),
-                      const SizedBox(height: 7),
+                      SizedBox(height: showSummary ? 7 : 5),
                       if (score == null) ...[
                         Text(
                           component.takeaway,
@@ -102,16 +113,19 @@ class StatusComponentCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                       ],
-                      Text(
-                        component.summary,
-                        maxLines: compact ? 2 : null,
-                        overflow: compact ? TextOverflow.ellipsis : null,
-                        style: StatusMonitorTheme.inter.copyWith(
-                          color: StatusMonitorTheme.soft,
-                          fontSize: 12,
+                      if (showSummary) ...[
+                        Text(
+                          component.summary,
+                          maxLines: compact ? 2 : null,
+                          overflow: compact ? TextOverflow.ellipsis : null,
+                          style: StatusMonitorTheme.inter.copyWith(
+                            color: StatusMonitorTheme.soft,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
+                        const SizedBox(height: 8),
+                      ] else
+                        const SizedBox(height: 4),
                       Row(
                         children: [
                           Icon(
@@ -139,8 +153,22 @@ class StatusComponentCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: compact ? 7 : 10),
-                if (score != null)
-                  _HealthDial(score: score, color: color, compact: compact)
+                if (checkPhase != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1),
+                    child: StatusComponentCheckIndicator(
+                      phase: checkPhase,
+                      color: color,
+                      compact: compact,
+                    ),
+                  )
+                else if (score != null)
+                  _HealthDial(
+                    score: score,
+                    color: color,
+                    compact: compact,
+                    showSignalDots: showSummary,
+                  )
                 else
                   const Padding(
                     padding: EdgeInsets.only(top: 2),
@@ -160,9 +188,11 @@ class StatusComponentCard extends StatelessWidget {
   IconData _icon(StatusComponentKind kind) {
     return switch (kind) {
       StatusComponentKind.cgmSensor => Icons.sensors_rounded,
+      StatusComponentKind.juggluco => Icons.sensors_rounded,
       StatusComponentKind.xdrip => Icons.phone_android_rounded,
       StatusComponentKind.nightscout => Icons.cloud_rounded,
       StatusComponentKind.aapsLoop => Icons.loop_rounded,
+      StatusComponentKind.watchDisplay => Icons.watch_rounded,
     };
   }
 }
@@ -173,11 +203,13 @@ class _HealthDial extends StatelessWidget {
   final StatusComponentScore score;
   final Color color;
   final bool compact;
+  final bool showSignalDots;
 
   const _HealthDial({
     required this.score,
     required this.color,
     required this.compact,
+    required this.showSignalDots,
   });
 
   @override
@@ -228,7 +260,7 @@ class _HealthDial extends StatelessWidget {
             ),
           ),
         ),
-        if (score.totalSignals > 0) ...[
+        if (showSignalDots && score.totalSignals > 0) ...[
           const SizedBox(height: 5),
           _SignalDots(
             available: score.availableSignals,

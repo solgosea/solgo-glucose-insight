@@ -6,7 +6,9 @@ class PluginSlotKey {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PluginSlotKey && runtimeType == other.runtimeType && value == other.value;
+      other is PluginSlotKey &&
+          runtimeType == other.runtimeType &&
+          value == other.value;
 
   @override
   int get hashCode => value.hashCode;

@@ -33,9 +33,6 @@ class ExploreController extends ChangeNotifier {
   ResolvedExplorePluginEntry? get reportFeatured =>
       _featuredByRoute('/explore/report');
 
-  ResolvedExplorePluginEntry? get statusMonitorFeatured =>
-      _featuredByRoute('/explore/status');
-
   bool get loading => _snapshot == null;
 
   DateTime? get refreshedAt => _snapshot?.refreshedAt;
@@ -43,8 +40,7 @@ class ExploreController extends ChangeNotifier {
   String? get refreshReason => _snapshot?.reason;
 
   bool _isFeatured(ResolvedExplorePluginEntry resolved) {
-    return resolved.entry.route == '/explore/report' ||
-        resolved.entry.route == '/explore/status';
+    return resolved.entry.route == '/explore/report';
   }
 
   ResolvedExplorePluginEntry? _featuredByRoute(String route) {

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../domain/component_health.dart';
 import '../../../domain/xdrip/xdrip_detail_data.dart';
 import '../../styles/status_monitor_theme.dart';
+import 'broadcast/xdrip_broadcast_primary_card.dart';
+import 'broadcast/xdrip_broadcast_setup_guide_card.dart';
 import 'completeness/xdrip_completeness_heat_card.dart';
-import 'context/xdrip_context_panel.dart';
 import 'freshness/xdrip_freshness_timeline_card.dart';
-import 'markers/xdrip_nightscout_markers_card.dart';
 import 'service/xdrip_service_battery_card.dart';
 import 'xdrip_signal_grid.dart';
 
@@ -29,14 +29,16 @@ class XdripDetailBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              XdripBroadcastPrimaryCard(
+                readiness: data.broadcastReadiness,
+              ),
               XdripFreshnessTimelineCard(data: data),
               XdripCompletenessHeatCard(data: data),
             ],
           ),
         ),
         XdripServiceBatteryCard(data: data),
-        XdripContextPanel(data: data),
-        XdripNightscoutMarkersCard(data: data),
+        const XdripBroadcastSetupGuideCard(),
         const _NoticeCard(),
       ],
     );

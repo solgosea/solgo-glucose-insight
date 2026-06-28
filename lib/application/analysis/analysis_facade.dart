@@ -229,27 +229,6 @@ class AnalysisFacade {
     };
   }
 
-  GlucotypeResult? glucotypeFromDaily({int days = 14, DateTime? now}) {
-    final rows = _dailyForLastDays(days, now: now);
-    if (rows.isEmpty) return null;
-    final dailyPeakAvg =
-        rows.map((d) => d.maxValue).reduce((a, b) => a + b) / rows.length;
-    final cv = rows.map((d) => d.cv).reduce((a, b) => a + b) / rows.length;
-
-    final level = dailyPeakAvg < 8.5 && cv < 25
-        ? GlucotypeLevel.low
-        : dailyPeakAvg > 10.5 || cv > 36
-            ? GlucotypeLevel.severe
-            : GlucotypeLevel.moderate;
-
-    return GlucotypeResult(
-      level: level,
-      dailyPeakAvg: dailyPeakAvg,
-      cv: cv,
-      basedOn: '$days days',
-    );
-  }
-
   PersonalBaseline? baselineFromDaily({int days = 60, DateTime? now}) {
     final rows = _dailyForLastDays(days, now: now);
     if (rows.length < 5) return null;

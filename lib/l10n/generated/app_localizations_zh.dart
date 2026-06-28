@@ -195,7 +195,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get syncFailed => '失败';
 
   @override
+  String get syncStatusWaiting => '等待同步';
+
+  @override
+  String get syncStatusSynced => '已同步';
+
+  @override
+  String get syncStatusNeedsSync => '需要同步';
+
+  @override
+  String get syncStatusFailed => '同步失败';
+
+  @override
   String get syncLastFailed => '上次同步失败';
+
+  @override
+  String syncLastAttempt(Object relative) {
+    return '上次尝试 $relative';
+  }
 
   @override
   String get syncSchedulePending => '同步计划待定';
@@ -211,12 +228,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String syncNext(Object duration) {
-    return '下次 $duration';
+    return '$duration 后同步';
   }
 
   @override
   String syncEstimatedNext(Object duration) {
-    return '预计下次 $duration';
+    return '预计 $duration 后同步';
   }
 
   @override
@@ -250,7 +267,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class AppLocalizationsZhHant extends AppLocalizationsZh {
-  AppLocalizationsZhHant(): super('zh_Hant');
+  AppLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get appName => 'SolgoInsight';
@@ -439,7 +456,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get syncFailed => '失敗';
 
   @override
+  String get syncStatusWaiting => '等待同步';
+
+  @override
+  String get syncStatusSynced => '已同步';
+
+  @override
+  String get syncStatusNeedsSync => '需要同步';
+
+  @override
+  String get syncStatusFailed => '同步失敗';
+
+  @override
   String get syncLastFailed => '上次同步失敗';
+
+  @override
+  String syncLastAttempt(Object relative) {
+    return '上次嘗試 $relative';
+  }
 
   @override
   String get syncSchedulePending => '同步排程待定';
@@ -455,12 +489,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String syncNext(Object duration) {
-    return '下次 $duration';
+    return '$duration 後同步';
   }
 
   @override
   String syncEstimatedNext(Object duration) {
-    return '預計下次 $duration';
+    return '預計 $duration 後同步';
   }
 
   @override

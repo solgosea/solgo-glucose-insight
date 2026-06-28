@@ -12,10 +12,12 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get pluginTitle => 'Episode Detail';
 
   @override
-  String get pluginSubtitle => 'High and low episode interpretation and reports.';
+  String get pluginSubtitle =>
+      'High and low episode interpretation and reports.';
 
   @override
-  String get pluginDescription => 'High and low episode interpretation and reports.';
+  String get pluginDescription =>
+      'High and low episode interpretation and reports.';
 
   @override
   String get pluginReportTitle => 'Episode Detail Report';
@@ -129,7 +131,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get returnLabel => 'Return';
 
   @override
-  String get lowReportContextBody => 'This report cannot determine compression lows, meals, insulin, activity, calibration, or sensor-specific context unless notes are available.';
+  String get lowReportContextBody =>
+      'This report cannot determine compression lows, meals, insulin, activity, calibration, or sensor-specific context unless notes are available.';
 
   @override
   String get printSave => 'Print / Save';
@@ -153,7 +156,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get representativeEpisodeCurve => 'Representative episode curve';
 
   @override
-  String get highDriverSlowRecovery => 'Slow recovery is the main burden driver.';
+  String get highDriverSlowRecovery =>
+      'Slow recovery is the main burden driver.';
 
   @override
   String get highExposureSummary => 'High exposure summary';
@@ -165,7 +169,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get lowExposureSummary => 'Low exposure summary';
 
   @override
-  String get highReportNoCauseBody => 'Review alongside meals, insulin, activity, site changes, stress, and sensor context if available.';
+  String get highReportNoCauseBody =>
+      'Review alongside meals, insulin, activity, site changes, stress, and sensor context if available.';
 
   @override
   String get episodeLifecycle => 'Episode lifecycle';
@@ -192,7 +197,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get detectedEvents => 'detected events';
 
   @override
-  String get highReportDisclaimer => 'Local report. Generated on device and shared only when you choose. This report observes high episodes only; it is not medical advice and does not replace CGM alerts, xDrip+, Nightscout, or care-team guidance.';
+  String get highReportDisclaimer =>
+      'Local report. Generated on device and shared only when you choose. This report observes high episodes only; it is not medical advice and does not replace CGM alerts, xDrip+, Nightscout, or care-team guidance.';
 
   @override
   String get betweenReadings => 'between readings';
@@ -216,13 +222,15 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get share => 'Share';
 
   @override
-  String get lowDriverNocturnal => 'Nocturnal timing is the main review signal.';
+  String get lowDriverNocturnal =>
+      'Nocturnal timing is the main review signal.';
 
   @override
   String get highestPeak => 'Highest peak';
 
   @override
-  String get lowReportDisclaimer => 'Local report. Generated on device and shared only when you choose. This report observes low episodes only; it is not medical advice and does not replace CGM alerts, xDrip+, Nightscout, or care-team guidance.';
+  String get lowReportDisclaimer =>
+      'Local report. Generated on device and shared only when you choose. This report observes low episodes only; it is not medical advice and does not replace CGM alerts, xDrip+, Nightscout, or care-team guidance.';
 
   @override
   String get highDriverFastRise => 'Fast rise is the main burden driver.';
@@ -256,7 +264,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   }
 
   @override
-  String get repeatTimingInsufficientData => 'There was not enough repeat-pattern data for a strong timing note.';
+  String get repeatTimingInsufficientData =>
+      'There was not enough repeat-pattern data for a strong timing note.';
 
   @override
   String get readings => 'Readings';
@@ -268,7 +277,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get duration => 'Duration';
 
   @override
-  String get lowDriverSlowRecovery => 'Slow recovery is the main review signal.';
+  String get lowDriverSlowRecovery =>
+      'Slow recovery is the main review signal.';
 
   @override
   String get exporting => 'Exporting...';
@@ -286,7 +296,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get highEpisodes => 'High episodes';
 
   @override
-  String get lowDriverFastDescent => 'Fast descent is the main low-burden driver.';
+  String get lowDriverFastDescent =>
+      'Fast descent is the main low-burden driver.';
 
   @override
   String get medianReturn => 'Median return';
@@ -328,10 +339,12 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get episodeReview => 'episode review';
 
   @override
-  String get selectedLowUnavailable => 'The selected low episode may no longer be available.';
+  String get selectedLowUnavailable =>
+      'The selected low episode may no longer be available.';
 
   @override
-  String get selectedHighUnavailable => 'The selected high episode may no longer be available.';
+  String get selectedHighUnavailable =>
+      'The selected high episode may no longer be available.';
 
   @override
   String get couldNotBuildReport => 'Could not build this report';
@@ -575,7 +588,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   }
 
   @override
-  String get similarEmptyPast30 => 'No similar episodes were found in the past 30 days.';
+  String get similarEmptyPast30 =>
+      'No similar episodes were found in the past 30 days.';
 
   @override
   String similarChartNote(Object metric) {
@@ -648,10 +662,12 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   String get timeVsPeak => 'time vs peak';
 
   @override
-  String get highReportHeroSummary => 'A focused hyperglycemia exposure report with event curve, peak, duration, return-to-range, repeat timing, similar episodes, and data quality.';
+  String get highReportHeroSummary =>
+      'A focused hyperglycemia exposure report with event curve, peak, duration, return-to-range, repeat timing, similar episodes, and data quality.';
 
   @override
-  String get lowReportHeroSummary => 'A focused hypoglycemia exposure report with event curve, nadir, duration, descent, recovery, repeat timing, and data quality.';
+  String get lowReportHeroSummary =>
+      'A focused hypoglycemia exposure report with event curve, nadir, duration, descent, recovery, repeat timing, and data quality.';
 
   @override
   String highThresholds(Object high, Object veryHigh) {
@@ -664,7 +680,8 @@ class EpisodeDetailLocalizationsEn extends EpisodeDetailLocalizations {
   }
 
   @override
-  String get repeatLimitedPast30 => 'Repeat pattern was limited in the past 30 days.';
+  String get repeatLimitedPast30 =>
+      'Repeat pattern was limited in the past 30 days.';
 
   @override
   String get start => 'start';

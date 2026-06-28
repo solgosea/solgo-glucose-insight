@@ -9,6 +9,23 @@
     "pluginUnavailable":  "不可用",
     "dayView": "日视图",
     "today": "今天",
+    "dateFilterTooltip": "选择日期",
+    "dateFilterTitle": "选择日期",
+    "dateFilterSubtitle": "点击某一天，或拖动选择连续日期来筛选历史。",
+    "dateFilterRangeSubtitle": "日期范围",
+    "dateFilterApply": "应用",
+    "dateFilterReset": "今天",
+    "dateFilterCancel": "取消",
+    "dateFilterSelectedDates": "已选择日期",
+    "dateFilterDay": "天",
+    "dateFilterDays": "天",
+    "dateFilterReadings": "条读数",
+    "dateFilterDragHint": "点击日期选择单日，或按住拖动选择连续日期范围。",
+    "dateFilterToday": "今天",
+    "dateFilterYesterday": "昨天",
+    "dateFilterLast7Days": "近 7 天",
+    "dateFilterLast14Days": "近 14 天",
+    "dateFilterThisMonth": "本月",
     "summaryTir": "TIR",
     "summaryPeak": "峰值",
     "summaryCv": "CV",
@@ -33,6 +50,37 @@
     "episodeHigh": "高血糖片段",
     "episodeLow": "低血糖片段",
     "episodeAction": "查看片段分析 ->",
+    "episodesPanelTitle": "事件片段",
+    "episodesFilterAll": "全部",
+    "episodesFilterHighs": "偏高",
+    "episodesFilterLows": "偏低",
+    "episodesShowAll": "显示全部 {count} 个片段",
+    "@episodesShowAll": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "episodesShowLess": "收起",
+    "episodeMinutes": "分钟",
+    "episodeAboveThreshold": "高于 {threshold}",
+    "@episodeAboveThreshold": {
+        "placeholders": {
+            "threshold": {
+                "type": "String"
+            }
+        }
+    },
+    "episodeBelowThreshold": "低于 {threshold}",
+    "@episodeBelowThreshold": {
+        "placeholders": {
+            "threshold": {
+                "type": "String"
+            }
+        }
+    },
+    "episodeNocturnal": "夜间",
     "eventRiseDetected": "检测到上升",
     "eventLowEpisode": "低血糖片段",
     "eventRecoveryToRange": "回到目标范围",

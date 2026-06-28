@@ -8,7 +8,12 @@ class ReportRangesSectionBuilder {
   ReportRangesSection build({
     required ReportDataQuality quality,
     required ReportPeriod period,
+    required int periodDays,
   }) {
-    return ReportRangesSection(quality: quality, period: period);
+    return ReportRangesSection(
+      quality: quality,
+      period: period,
+      periodDays: periodDays,
+    );
   }
 }

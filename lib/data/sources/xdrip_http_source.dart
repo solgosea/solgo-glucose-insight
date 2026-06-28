@@ -125,7 +125,7 @@ class XdripHttpSource implements IGlucoseSource {
       queryParameters: {
         'find[date][\$gte]': from.millisecondsSinceEpoch,
         'find[date][\$lte]': to.millisecondsSinceEpoch,
-        'count': 100000,
+        'count': _countForWindow(from, to),
       },
     );
     return _parse(r.data);
@@ -151,5 +151,11 @@ class XdripHttpSource implements IGlucoseSource {
       );
     }
     return const GlucoseTrendEnrichmentService().enrichSamples(samples);
+  }
+
+  int _countForWindow(DateTime from, DateTime to) {
+    final minutes = to.difference(from).inMinutes.abs();
+    final expectedFiveMinuteReadings = (minutes / 5).ceil();
+    return expectedFiveMinuteReadings.clamp(24, 2000);
   }
 }

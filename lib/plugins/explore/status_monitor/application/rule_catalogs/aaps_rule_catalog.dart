@@ -16,6 +16,7 @@ import '../rules/aaps/aaps_nightscout_dependency_rule.dart';
 import '../rules/aaps/aaps_profile_context_rule.dart';
 import '../rules/aaps/aaps_pump_context_rule.dart';
 import '../rules/aaps/aaps_sync_freshness_rule.dart';
+import '../rules/aaps/aaps_xdrip_bg_source_rule.dart';
 
 class AapsRuleCatalog {
   const AapsRuleCatalog();
@@ -24,9 +25,21 @@ class AapsRuleCatalog {
     final evaluators = [
       StatusRuleEvaluator(
         definition: _definition(
+          ruleId: 'aaps.xdrip_bg_source',
+          metricId: AapsMetricIds.xdripBgSource,
+          weight: 45,
+          textTemplateKey: 'status.aaps.rule.xdrip_bg_source.available.v1',
+          inputRequirements: const [
+            StatusRuleInputRequirement.localBroadcast,
+          ],
+        ),
+        rule: const AapsXdripBgSourceRule(),
+      ),
+      StatusRuleEvaluator(
+        definition: _definition(
           ruleId: 'aaps.sync_freshness',
           metricId: AapsMetricIds.syncFreshness,
-          weight: 30,
+          weight: 15,
           textTemplateKey: 'status.aaps.rule.sync_freshness.available.v1',
         ),
         rule: const AapsSyncFreshnessRule(),
@@ -35,7 +48,7 @@ class AapsRuleCatalog {
         definition: _definition(
           ruleId: 'aaps.loop_context',
           metricId: AapsMetricIds.loopContext,
-          weight: 25,
+          weight: 20,
           textTemplateKey: 'status.aaps.rule.loop_context.available.v1',
         ),
         rule: const AapsLoopContextRule(),
@@ -44,7 +57,7 @@ class AapsRuleCatalog {
         definition: _definition(
           ruleId: 'aaps.pump_context',
           metricId: AapsMetricIds.pumpContext,
-          weight: 20,
+          weight: 8,
           textTemplateKey: 'status.aaps.rule.pump_context.available.v1',
         ),
         rule: const AapsPumpContextRule(),
@@ -53,7 +66,7 @@ class AapsRuleCatalog {
         definition: _definition(
           ruleId: 'aaps.iob_cob_context',
           metricId: AapsMetricIds.iobCobContext,
-          weight: 10,
+          weight: 4,
           textTemplateKey: 'status.aaps.rule.iob_cob_context.available.v1',
         ),
         rule: const AapsIobCobContextRule(),
@@ -62,7 +75,7 @@ class AapsRuleCatalog {
         definition: _definition(
           ruleId: 'aaps.profile_context',
           metricId: AapsMetricIds.profileContext,
-          weight: 10,
+          weight: 3,
           textTemplateKey: 'status.aaps.rule.profile_context.available.v1',
         ),
         rule: const AapsProfileContextRule(),
@@ -92,12 +105,15 @@ class AapsRuleCatalog {
     required String metricId,
     required double weight,
     required String textTemplateKey,
+    List<StatusRuleInputRequirement> inputRequirements = const [
+      StatusRuleInputRequirement.deviceStatus,
+    ],
   }) {
     return StatusRuleDefinition(
       ruleId: StatusRuleId(ruleId),
       componentKind: StatusComponentKind.aapsLoop,
       metricId: metricId,
-      inputRequirements: const [StatusRuleInputRequirement.deviceStatus],
+      inputRequirements: inputRequirements,
       thresholdBands: const [
         StatusRuleThresholdBand(level: StatusLevel.healthy, label: 'Healthy'),
         StatusRuleThresholdBand(level: StatusLevel.watch, label: 'Watch'),

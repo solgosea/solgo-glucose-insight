@@ -914,7 +914,7 @@ class StatusMonitorLocalizationsEn extends StatusMonitorLocalizations {
 
   @override
   String get pageSevenDayHistorySubtitle =>
-      'Each row is one day - 24 cells per row, one per hour - Unknown means not enough recorded status samples to judge';
+      'See when each component changed state.';
 
   @override
   String get pageToday => 'Today';
@@ -1361,6 +1361,18 @@ class StatusMonitorLocalizationsEn extends StatusMonitorLocalizations {
       'History is scoped to the current subject and data source. It records component snapshots from Status Monitor refreshes; Unknown means there was not enough recorded sample data for that hour.';
 
   @override
+  String get pageHistoryLoadingComponent =>
+      'Loading history for this component...';
+
+  @override
+  String get pageHistoryNoComponentData =>
+      'No recorded history for this component yet.';
+
+  @override
+  String get pageHistoryComponentFailed =>
+      'Could not load this component history.';
+
+  @override
   String get pageHistoryReasonRecordedSample => 'Recorded sample';
 
   @override
@@ -1371,4 +1383,13 @@ class StatusMonitorLocalizationsEn extends StatusMonitorLocalizations {
 
   @override
   String get pageHistoryReasonFuture => 'Future hour';
+
+  @override
+  String get pageDashboardNavDashboard => 'Dashboard';
+
+  @override
+  String get pageDashboardNavHub => 'Hub';
+
+  @override
+  String get pageDashboardNavChecklist => 'Checklist';
 }

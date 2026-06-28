@@ -1,6 +1,7 @@
 class GlucoseSyncTargetKind {
   static const selfXdripLocal = GlucoseSyncTargetKind('self.xdrip_local');
   static const selfNightscout = GlucoseSyncTargetKind('self.nightscout');
+  static const remoteNightscout = GlucoseSyncTargetKind('remote.nightscout');
 
   final String code;
 

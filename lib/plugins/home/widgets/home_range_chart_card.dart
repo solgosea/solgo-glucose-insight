@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smart_xdrip/foundation/theme/app_colors.dart';
+import 'package:smart_xdrip/presentation/common/glucose_chart/models/glucose_chart_window_option.dart';
+import 'package:smart_xdrip/presentation/common/glucose_chart/widgets/glucose_interactive_chart_card.dart';
 import '../application/i18n/home_l10n.dart';
 import '../application/i18n/home_range_l10n.dart';
 import '../models/home_chart_range.dart';
 import '../models/home_view_model.dart';
-import 'home_range_selector.dart';
-import 'home_realtime_glucose_chart.dart';
 
 class HomeRangeChartCard extends StatelessWidget {
   final HomeViewModel viewModel;
@@ -22,42 +21,31 @@ class HomeRangeChartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.homeL10n;
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.bgCard,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
-      padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.rangeTitle(viewModel.selectedRange),
-                style: const TextStyle(
-                  fontFamily: 'JetBrainsMono',
-                  fontSize: 10,
-                  letterSpacing: 1.4,
-                  color: AppColors.textDim,
-                ),
-              ),
-              HomeRangeSelector(
-                ranges: viewModel.availableRanges,
-                selectedRange: viewModel.selectedRange,
-                onChanged: onRangeChanged,
-              ),
-            ],
+    return GlucoseInteractiveChartCard(
+      title: l10n.rangeTitle(viewModel.selectedRange),
+      windows: [
+        for (final range in viewModel.availableRanges)
+          GlucoseChartWindowOption(
+            id: range.name,
+            label: l10n.rangeLabel(range),
+            selected: range == viewModel.selectedRange,
           ),
-          const SizedBox(height: 8),
-          HomeRealtimeGlucoseChart(
-            viewModel: viewModel,
-            onInspectionChanged: onInspectionChanged,
-          ),
-        ],
-      ),
+      ],
+      onWindowChanged: (id) {
+        final range = viewModel.availableRanges.firstWhere(
+          (candidate) => candidate.name == id,
+          orElse: () => viewModel.selectedRange,
+        );
+        onRangeChanged(range);
+      },
+      readings: viewModel.chartReadings,
+      unit: viewModel.unit,
+      lowThreshold: viewModel.lowThreshold,
+      highThreshold: viewModel.highThreshold,
+      chartHeight: 160,
+      metrics: const [],
+      showCurrentDot: true,
+      onInspectionChanged: onInspectionChanged,
     );
   }
 }

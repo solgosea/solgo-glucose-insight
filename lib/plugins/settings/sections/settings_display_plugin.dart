@@ -10,7 +10,7 @@ import '../../../plugin_platform/install/plugin_install_context.dart';
 import '../../../plugin_platform/rendering/plugin_renderable.dart';
 import '../composition/settings_slots.dart';
 import '../widgets/settings_display_group.dart';
-import '../widgets/settings_render_scope.dart';
+import '../widgets/settings_render_scope.dart';
 import '../application/i18n/settings_l10n_resolver.dart';
 import '../application/i18n/settings_entry_localizer.dart';
 

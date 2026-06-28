@@ -6,12 +6,16 @@ class ReportEngineInput {
   final List<GlucoseReading> readings;
   final AppSettings settings;
   final ReportPeriod period;
+  final DateTime start;
+  final DateTime end;
   final DateTime generatedAt;
 
   const ReportEngineInput({
     required this.readings,
     required this.settings,
     required this.period,
+    required this.start,
+    required this.end,
     required this.generatedAt,
   });
 }

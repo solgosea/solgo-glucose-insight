@@ -9,12 +9,14 @@ class SyncStatusMetaLine extends StatefulWidget {
   final SyncStatusViewModel viewModel;
   final bool muted;
   final MainAxisAlignment alignment;
+  final VoidCallback? onCountdownDue;
 
   const SyncStatusMetaLine({
     super.key,
     required this.viewModel,
     this.muted = false,
     this.alignment = MainAxisAlignment.start,
+    this.onCountdownDue,
   });
 
   @override
@@ -108,22 +110,19 @@ class _SyncStatusMetaLineState extends State<SyncStatusMetaLine> {
 
   String _computeCountdown() {
     final nextSyncAt = widget.viewModel.nextSyncAt;
-    if (nextSyncAt == null) return widget.viewModel.countdownLabel;
-    final remaining = nextSyncAt.difference(DateTime.now());
-    if (remaining <= Duration.zero) return 'next due';
-    final prefix = widget.viewModel.scheduleEstimated ? 'est. next ' : 'next ';
-    return '$prefix${_format(remaining)}';
-  }
-
-  String _format(Duration duration) {
-    final seconds = duration.inSeconds;
-    if (seconds < 60) return '${seconds}s';
-    final minutes = duration.inMinutes;
-    final remainderSeconds = seconds % 60;
-    if (minutes < 60) {
-      return '$minutes:${remainderSeconds.toString().padLeft(2, '0')}';
+    if (nextSyncAt == null) {
+      return widget.viewModel.scheduleLabel.isNotEmpty
+          ? widget.viewModel.scheduleLabel
+          : widget.viewModel.countdownLabel;
     }
-    return '${duration.inHours}h';
+    final remaining = nextSyncAt.difference(DateTime.now());
+    if (remaining <= Duration.zero) {
+      widget.onCountdownDue?.call();
+      return widget.viewModel.countdownFormatter?.call(remaining) ??
+          widget.viewModel.scheduleLabel;
+    }
+    return widget.viewModel.countdownFormatter?.call(remaining) ??
+        widget.viewModel.scheduleLabel;
   }
 }
 

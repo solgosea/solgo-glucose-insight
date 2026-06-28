@@ -1,6 +1,7 @@
 import '../detail/status_component_detail_data.dart';
 import '../detail/status_signal_summary.dart';
 import '../status_level.dart';
+import '../xdrip/xdrip_broadcast_readiness.dart';
 import 'aaps_evidence_matrix_row.dart';
 import 'aaps_health_score_breakdown.dart';
 import 'aaps_loop_timeline_bucket.dart';
@@ -35,6 +36,7 @@ class AapsDetailData extends StatusComponentDetailData {
   final List<StatusSignalSummary> signals;
   final List<AapsLoopTimelineBucket> timeline;
   final List<AapsEvidenceMatrixRow> evidenceMatrix;
+  final XdripBroadcastReadiness xdripBgSource;
   final AapsContextCardData loopContext;
   final AapsContextCardData pumpContext;
   final AapsContextCardData iobContext;
@@ -47,6 +49,7 @@ class AapsDetailData extends StatusComponentDetailData {
     required this.signals,
     required this.timeline,
     required this.evidenceMatrix,
+    required this.xdripBgSource,
     required this.loopContext,
     required this.pumpContext,
     required this.iobContext,
@@ -65,6 +68,7 @@ class AapsDetailData extends StatusComponentDetailData {
         'signals': signals.map((signal) => signal.toJson()).toList(),
         'timeline': timeline.map((bucket) => bucket.toJson()).toList(),
         'evidenceMatrix': evidenceMatrix.map((row) => row.toJson()).toList(),
+        'xdripBgSource': xdripBgSource.toJson(),
         'loopContext': loopContext.toJson(),
         'pumpContext': pumpContext.toJson(),
         'iobContext': iobContext.toJson(),

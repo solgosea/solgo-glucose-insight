@@ -17,10 +17,12 @@ class StatisticsPeriodSection {
   final StatisticsAnalysisWindow selectedWindow;
   final List<StatisticsPeriodOption> options;
   final String metricsHeader;
+  final String? rangeLabel;
 
   const StatisticsPeriodSection({
     required this.selectedWindow,
     required this.options,
     required this.metricsHeader,
+    this.rangeLabel,
   });
 }

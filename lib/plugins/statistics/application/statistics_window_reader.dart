@@ -31,6 +31,38 @@ class StatisticsWindowReader {
     );
   }
 
+  List<GlucoseReading> readingsForSelection(
+    AnalysisFacade facade, {
+    required DateTime start,
+    required DateTime end,
+  }) {
+    final exclusiveEnd = end.add(const Duration(days: 1));
+    return facade.readings
+        .where(
+          (reading) =>
+              !reading.timestamp.isBefore(start) &&
+              reading.timestamp.isBefore(exclusiveEnd),
+        )
+        .toList();
+  }
+
+  List<GlucoseReading> previousReadingsForSelection(
+    AnalysisFacade facade, {
+    required DateTime start,
+    required DateTime end,
+  }) {
+    final dayCount = end.difference(start).inDays + 1;
+    final previousEnd = start;
+    final previousStart = start.subtract(Duration(days: dayCount));
+    return facade.readings
+        .where(
+          (reading) =>
+              !reading.timestamp.isBefore(previousStart) &&
+              reading.timestamp.isBefore(previousEnd),
+        )
+        .toList();
+  }
+
   List<GlucoseReading> _readingsForDuration(
     AnalysisFacade facade, {
     required Duration duration,

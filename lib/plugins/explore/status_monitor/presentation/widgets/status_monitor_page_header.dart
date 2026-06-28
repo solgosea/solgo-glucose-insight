@@ -8,6 +8,7 @@ class StatusMonitorPageHeader extends StatelessWidget {
   final String? eyebrow;
   final VoidCallback onBack;
   final Widget? trailing;
+  final bool compact;
 
   const StatusMonitorPageHeader({
     super.key,
@@ -16,6 +17,7 @@ class StatusMonitorPageHeader extends StatelessWidget {
     this.eyebrow,
     required this.onBack,
     this.trailing,
+    this.compact = false,
   });
 
   @override
@@ -52,25 +54,27 @@ class StatusMonitorPageHeader extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                   ],
-                  Text(
-                    title,
-                    style: StatusMonitorTheme.inter.copyWith(
-                      color: StatusMonitorTheme.text,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      height: 1.12,
-                    ),
-                  ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 5),
+                  if (!compact) ...[
                     Text(
-                      subtitle!,
+                      title,
                       style: StatusMonitorTheme.inter.copyWith(
-                        color: StatusMonitorTheme.soft,
-                        fontSize: 13,
-                        height: 1.35,
+                        color: StatusMonitorTheme.text,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w900,
+                        height: 1.12,
                       ),
                     ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 5),
+                      Text(
+                        subtitle!,
+                        style: StatusMonitorTheme.inter.copyWith(
+                          color: StatusMonitorTheme.soft,
+                          fontSize: 13,
+                          height: 1.35,
+                        ),
+                      ),
+                    ],
                   ],
                 ],
               ),

@@ -58,9 +58,7 @@ class PollingPolicyEngine {
 
     return PollingDecision(
       sourceKind: context.sourceKind,
-      nextInterval: context.mode == PollingMode.foreground
-          ? profile.foregroundNormal
-          : profile.backgroundNormal,
+      nextInterval: context.normalSyncInterval,
       riskLevel: PollingRiskLevel.normal,
       reason: context.mode == PollingMode.foreground
           ? 'Foreground normal polling'

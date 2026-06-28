@@ -48,7 +48,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTitle => 'Settings';
 
   @override
-  String get settingsSubtitle => 'Display, sync window, storage, and export preferences.';
+  String get settingsSubtitle =>
+      'Display, sync window, storage, and export preferences.';
 
   @override
   String get settingsLanguageTitle => 'Language';
@@ -57,7 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageDescription => 'App display language';
 
   @override
-  String get settingsLanguageSystem => 'Follow system';
+  String get settingsLanguageSystem => 'Use system';
 
   @override
   String get settingsLanguageEnglish => 'English';
@@ -195,7 +196,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get syncFailed => 'failed';
 
   @override
+  String get syncStatusWaiting => 'Waiting';
+
+  @override
+  String get syncStatusSynced => 'Synced';
+
+  @override
+  String get syncStatusNeedsSync => 'Needs sync';
+
+  @override
+  String get syncStatusFailed => 'Failed';
+
+  @override
   String get syncLastFailed => 'Last sync failed';
+
+  @override
+  String syncLastAttempt(Object relative) {
+    return 'Last attempt $relative';
+  }
 
   @override
   String get syncSchedulePending => 'Schedule pending';
@@ -211,12 +229,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String syncNext(Object duration) {
-    return 'Next $duration';
+    return 'Next in $duration';
   }
 
   @override
   String syncEstimatedNext(Object duration) {
-    return 'Est. next $duration';
+    return 'Est. next in $duration';
   }
 
   @override
@@ -245,5 +263,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get syncTitleDisabled => 'Sync disabled';
 
   @override
-  String get syncDetailCollectingFirstSamples => 'Collecting the first glucose samples for this source.';
+  String get syncDetailCollectingFirstSamples =>
+      'Collecting the first glucose samples for this source.';
 }

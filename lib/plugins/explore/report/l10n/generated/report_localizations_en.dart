@@ -35,6 +35,50 @@ class ReportLocalizationsEn extends ReportLocalizations {
   String get pageSubtitle => 'AGP-standard - local - export to PDF or share';
 
   @override
+  String get dateFilterTooltip => 'Choose report dates';
+
+  @override
+  String get dateFilterTitle => 'Report period';
+
+  @override
+  String get dateFilterSubtitle =>
+      'Choose a standard doctor-ready window, or drag across dates for a custom report range.';
+
+  @override
+  String get dateFilterApply => 'Apply period';
+
+  @override
+  String get dateFilterReset => 'Today';
+
+  @override
+  String get dateFilterCancel => 'Cancel';
+
+  @override
+  String get dateFilterSelectedDates => 'Selected period';
+
+  @override
+  String get dateFilterDay => 'day';
+
+  @override
+  String get dateFilterDays => 'days';
+
+  @override
+  String get dateFilterReadings => 'readings';
+
+  @override
+  String get dateFilterDragHint =>
+      'Glucose Report works best with 14-90 days. Custom ranges are exported exactly as selected.';
+
+  @override
+  String get windowShortLast14Days => '14d';
+
+  @override
+  String get windowShortLast30Days => '30d';
+
+  @override
+  String get windowShortLast90Days => '90d';
+
+  @override
   String get sectionKeyMetrics => 'Key Metrics';
 
   @override

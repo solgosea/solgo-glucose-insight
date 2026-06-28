@@ -10,7 +10,6 @@ import 'package:smart_xdrip/plugin_platform/runtime/events/plugin_runtime_event.
 import 'package:smart_xdrip/plugin_platform/runtime/events/plugin_runtime_event_type.dart';
 
 import '../alert_source/local_glucose_alert_source.dart';
-import '../application/datasource_nightscout_target_publisher.dart';
 
 class DatasourcePluginRuntime implements PluginRuntime {
   static const id = PluginId('datasource.core');
@@ -18,14 +17,12 @@ class DatasourcePluginRuntime implements PluginRuntime {
   final DataSourceRuntimeCoordinator coordinator;
   final AppSettings Function() settingsProvider;
   final LocalGlucoseAlertSource? alertSource;
-  final DatasourceNightscoutTargetPublisher? nightscoutTargetPublisher;
   StreamSubscription<PluginRuntimeEvent>? _subscription;
 
   DatasourcePluginRuntime({
     required this.coordinator,
     required this.settingsProvider,
     this.alertSource,
-    this.nightscoutTargetPublisher,
   });
 
   @override
@@ -38,15 +35,11 @@ class DatasourcePluginRuntime implements PluginRuntime {
   Future<void> start(PluginRuntimeContext context) async {
     final settings = settingsProvider();
     await coordinator.start(settings);
-    nightscoutTargetPublisher?.publishFromSettings(settings);
     _subscription ??= context.eventBus.events.listen((event) {
       if (event.type == PluginRuntimeEventType.subjectDataChanged) {
         unawaited(alertSource?.evaluateCurrentSubject(
           trigger: event.payload['trigger']?.toString() ?? 'subjectDataChanged',
         ));
-      } else if (event.type == PluginRuntimeEventType.datasourceChanged ||
-          event.type == PluginRuntimeEventType.settingsChanged) {
-        nightscoutTargetPublisher?.publishFromSettings(settingsProvider());
       }
     });
     await alertSource?.evaluateCurrentSubject(trigger: 'runtimeStart');
@@ -57,7 +50,6 @@ class DatasourcePluginRuntime implements PluginRuntime {
   Future<void> resume(PluginRuntimeContext context) async {
     final settings = settingsProvider();
     await coordinator.updateSettings(settings);
-    nightscoutTargetPublisher?.publishFromSettings(settings);
     await alertSource?.evaluateCurrentSubject(trigger: 'runtimeResume');
     _publishSnapshot(context);
   }

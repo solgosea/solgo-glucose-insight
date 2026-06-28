@@ -16,7 +16,7 @@
     "settingsStorageTitle": "資料儲存",
     "settingsAboutSubtitle": "應用程式資訊和支援連結",
     "settingsStorageDescription": "本機血糖資料儲存摘要。",
-    "settingsSyncDescription": "初始同步視窗和資料來源同步偏好。",
+    "settingsSyncDescription": "同步視窗和資料來源同步偏好。",
     "pluginUnavailable": "不可用",
     "pluginReportTitle": "設定報告",
     "@@locale": "zh_Hant",
@@ -33,6 +33,53 @@
     "settingsRetentionPeriodLabel": "保留週期",
     "settingsDaysSuffix": "天",
     "settingsInitialSyncWindowLabel": "初始同步視窗",
+    "settingsSyncWindowLabel": "同步視窗",
+    "settingsSyncWindowSubtitle": "歷史範圍和同步間隔",
+    "settingsSyncWindowValue": "{days} 天 · 每 {minutes} 分鐘",
+    "@settingsSyncWindowValue": {
+        "placeholders": {
+            "days": {"type": "int"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSyncWindowSheetTitle": "同步視窗",
+    "settingsSyncWindowSheetSubtitle": "選擇要載入的歷史範圍，以及 SolgoInsight 檢查新讀數的頻率。",
+    "settingsSyncPlanLabel": "同步計畫",
+    "settingsHistoryRangeLabel": "歷史範圍",
+    "settingsHistoryRangeValue": "{days} 天",
+    "@settingsHistoryRangeValue": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "settingsSyncIntervalLabel": "同步間隔",
+    "settingsSyncIntervalValue": "每 {minutes} 分鐘",
+    "@settingsSyncIntervalValue": {
+        "placeholders": {
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsDaysShort": "{days}天",
+    "@settingsDaysShort": {
+        "placeholders": {
+            "days": {"type": "int"}
+        }
+    },
+    "settingsMinutesShort": "{minutes}分",
+    "@settingsMinutesShort": {
+        "placeholders": {
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSyncPreviewTitle": "儲存後會怎樣",
+    "settingsSyncPreviewBody": "初始同步最多載入 {days} 天歷史資料。之後在同步執行時，大約每 {minutes} 分鐘檢查一次新讀數。",
+    "@settingsSyncPreviewBody": {
+        "placeholders": {
+            "days": {"type": "int"},
+            "minutes": {"type": "int"}
+        }
+    },
+    "settingsSaveSyncWindow": "儲存",
     "settingsRetentionSummarySuffix": "不會有資料離開此裝置",
     "settingsClearAllDataDialogTitle": "清除所有資料？",
     "settingsDaysMax": "天上限",

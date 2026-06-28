@@ -29,6 +29,7 @@ class AppSettingsChange {
 
   bool get syncPolicyChanged =>
       previous.initialSyncDays != next.initialSyncDays ||
+      previous.syncIntervalMinutes != next.syncIntervalMinutes ||
       previous.retentionDays != next.retentionDays;
 
   bool get insightPreferenceChanged =>

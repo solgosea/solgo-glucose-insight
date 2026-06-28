@@ -36,6 +36,57 @@ class HistoryLocalizationsZh extends HistoryLocalizations {
   String get today => '今天';
 
   @override
+  String get dateFilterTooltip => '选择日期';
+
+  @override
+  String get dateFilterTitle => '选择日期';
+
+  @override
+  String get dateFilterSubtitle => '点击某一天，或拖动选择连续日期来筛选历史。';
+
+  @override
+  String get dateFilterRangeSubtitle => '日期范围';
+
+  @override
+  String get dateFilterApply => '应用';
+
+  @override
+  String get dateFilterReset => '今天';
+
+  @override
+  String get dateFilterCancel => '取消';
+
+  @override
+  String get dateFilterSelectedDates => '已选择日期';
+
+  @override
+  String get dateFilterDay => '天';
+
+  @override
+  String get dateFilterDays => '天';
+
+  @override
+  String get dateFilterReadings => '条读数';
+
+  @override
+  String get dateFilterDragHint => '点击日期选择单日，或按住拖动选择连续日期范围。';
+
+  @override
+  String get dateFilterToday => '今天';
+
+  @override
+  String get dateFilterYesterday => '昨天';
+
+  @override
+  String get dateFilterLast7Days => '近 7 天';
+
+  @override
+  String get dateFilterLast14Days => '近 14 天';
+
+  @override
+  String get dateFilterThisMonth => '本月';
+
+  @override
   String get summaryTir => 'TIR';
 
   @override
@@ -89,6 +140,42 @@ class HistoryLocalizationsZh extends HistoryLocalizations {
   String get episodeAction => '查看片段分析 ->';
 
   @override
+  String get episodesPanelTitle => '事件片段';
+
+  @override
+  String get episodesFilterAll => '全部';
+
+  @override
+  String get episodesFilterHighs => '偏高';
+
+  @override
+  String get episodesFilterLows => '偏低';
+
+  @override
+  String episodesShowAll(int count) {
+    return '显示全部 $count 个片段';
+  }
+
+  @override
+  String get episodesShowLess => '收起';
+
+  @override
+  String get episodeMinutes => '分钟';
+
+  @override
+  String episodeAboveThreshold(String threshold) {
+    return '高于 $threshold';
+  }
+
+  @override
+  String episodeBelowThreshold(String threshold) {
+    return '低于 $threshold';
+  }
+
+  @override
+  String get episodeNocturnal => '夜间';
+
+  @override
   String get eventRiseDetected => '检测到上升';
 
   @override
@@ -138,7 +225,7 @@ class HistoryLocalizationsZh extends HistoryLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class HistoryLocalizationsZhHant extends HistoryLocalizationsZh {
-  HistoryLocalizationsZhHant(): super('zh_Hant');
+  HistoryLocalizationsZhHant() : super('zh_Hant');
 
   @override
   String get pluginTitle => '歷史';
@@ -166,6 +253,57 @@ class HistoryLocalizationsZhHant extends HistoryLocalizationsZh {
 
   @override
   String get today => '今天';
+
+  @override
+  String get dateFilterTooltip => '選擇日期';
+
+  @override
+  String get dateFilterTitle => '選擇日期';
+
+  @override
+  String get dateFilterSubtitle => '點擊某一天，或拖動選擇連續日期來篩選歷史。';
+
+  @override
+  String get dateFilterRangeSubtitle => '日期範圍';
+
+  @override
+  String get dateFilterApply => '套用';
+
+  @override
+  String get dateFilterReset => '今天';
+
+  @override
+  String get dateFilterCancel => '取消';
+
+  @override
+  String get dateFilterSelectedDates => '已選擇日期';
+
+  @override
+  String get dateFilterDay => '天';
+
+  @override
+  String get dateFilterDays => '天';
+
+  @override
+  String get dateFilterReadings => '筆讀數';
+
+  @override
+  String get dateFilterDragHint => '點擊日期選擇單日，或按住拖動選擇連續日期範圍。';
+
+  @override
+  String get dateFilterToday => '今天';
+
+  @override
+  String get dateFilterYesterday => '昨天';
+
+  @override
+  String get dateFilterLast7Days => '近 7 天';
+
+  @override
+  String get dateFilterLast14Days => '近 14 天';
+
+  @override
+  String get dateFilterThisMonth => '本月';
 
   @override
   String get summaryTir => 'TIR';
@@ -219,6 +357,42 @@ class HistoryLocalizationsZhHant extends HistoryLocalizationsZh {
 
   @override
   String get episodeAction => '查看片段分析 ->';
+
+  @override
+  String get episodesPanelTitle => '事件片段';
+
+  @override
+  String get episodesFilterAll => '全部';
+
+  @override
+  String get episodesFilterHighs => '偏高';
+
+  @override
+  String get episodesFilterLows => '偏低';
+
+  @override
+  String episodesShowAll(int count) {
+    return '顯示全部 $count 個片段';
+  }
+
+  @override
+  String get episodesShowLess => '收起';
+
+  @override
+  String get episodeMinutes => '分鐘';
+
+  @override
+  String episodeAboveThreshold(String threshold) {
+    return '高於 $threshold';
+  }
+
+  @override
+  String episodeBelowThreshold(String threshold) {
+    return '低於 $threshold';
+  }
+
+  @override
+  String get episodeNocturnal => '夜間';
 
   @override
   String get eventRiseDetected => '偵測到上升';

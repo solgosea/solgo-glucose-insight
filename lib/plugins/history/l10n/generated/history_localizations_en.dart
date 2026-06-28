@@ -12,10 +12,12 @@ class HistoryLocalizationsEn extends HistoryLocalizations {
   String get pluginTitle => 'History';
 
   @override
-  String get pluginSubtitle => 'Daily glucose curve, events, and episode review.';
+  String get pluginSubtitle =>
+      'Daily glucose curve, events, and episode review.';
 
   @override
-  String get pluginDescription => 'Daily glucose curve, events, and episode review.';
+  String get pluginDescription =>
+      'Daily glucose curve, events, and episode review.';
 
   @override
   String get pluginReportTitle => 'History Report';
@@ -34,6 +36,59 @@ class HistoryLocalizationsEn extends HistoryLocalizations {
 
   @override
   String get today => 'TODAY';
+
+  @override
+  String get dateFilterTooltip => 'Choose dates';
+
+  @override
+  String get dateFilterTitle => 'Choose dates';
+
+  @override
+  String get dateFilterSubtitle =>
+      'Tap a day or drag across dates to filter history.';
+
+  @override
+  String get dateFilterRangeSubtitle => 'DATE RANGE';
+
+  @override
+  String get dateFilterApply => 'Apply';
+
+  @override
+  String get dateFilterReset => 'Today';
+
+  @override
+  String get dateFilterCancel => 'Cancel';
+
+  @override
+  String get dateFilterSelectedDates => 'Selected dates';
+
+  @override
+  String get dateFilterDay => 'day';
+
+  @override
+  String get dateFilterDays => 'days';
+
+  @override
+  String get dateFilterReadings => 'readings';
+
+  @override
+  String get dateFilterDragHint =>
+      'Tap a day for a single day, or drag across dates to select a range.';
+
+  @override
+  String get dateFilterToday => 'Today';
+
+  @override
+  String get dateFilterYesterday => 'Yesterday';
+
+  @override
+  String get dateFilterLast7Days => 'Last 7 days';
+
+  @override
+  String get dateFilterLast14Days => 'Last 14 days';
+
+  @override
+  String get dateFilterThisMonth => 'This month';
 
   @override
   String get summaryTir => 'TIR';
@@ -87,6 +142,42 @@ class HistoryLocalizationsEn extends HistoryLocalizations {
 
   @override
   String get episodeAction => 'View episode analysis ->';
+
+  @override
+  String get episodesPanelTitle => 'EPISODES';
+
+  @override
+  String get episodesFilterAll => 'All';
+
+  @override
+  String get episodesFilterHighs => 'Highs';
+
+  @override
+  String get episodesFilterLows => 'Lows';
+
+  @override
+  String episodesShowAll(int count) {
+    return 'Show all $count episodes';
+  }
+
+  @override
+  String get episodesShowLess => 'Show less';
+
+  @override
+  String get episodeMinutes => 'min';
+
+  @override
+  String episodeAboveThreshold(String threshold) {
+    return 'above $threshold';
+  }
+
+  @override
+  String episodeBelowThreshold(String threshold) {
+    return 'below $threshold';
+  }
+
+  @override
+  String get episodeNocturnal => 'nocturnal';
 
   @override
   String get eventRiseDetected => 'Rise detected';
