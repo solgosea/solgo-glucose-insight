@@ -8,7 +8,7 @@ Solgo Insight is built as a companion around the glucose data people already col
 
 Latest community preview:
 
-**Android APK:** https://github.com/solgosea/solgo-glucose-insight/releases/download/v0.6.0/solgo-insight-community-preview-v0.6.0-android.apk
+**Android APK:** https://github.com/solgosea/solgo-glucose-insight/releases/download/v0.6.0-community-preview/solgo-insight-community-preview-v0.6.0-android.apk
 
 If Android blocks the APK, uninstalling an older preview build may be required before installing the new one. Local app settings may be removed by uninstalling, but glucose history can be synced again from the configured source.
 
